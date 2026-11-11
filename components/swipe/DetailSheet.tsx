@@ -1,0 +1,142 @@
+'use client';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink } from 'lucide-react';
+import { Restaurant } from '../../data/mockRestaurants';
+import { Sticker } from '../ui/Sticker';
+import { FoodImage } from '../ui/FoodImage';
+import { stickerFor } from '../../lib/stickers';
+
+interface DetailSheetProps {
+  rest: Restaurant | null;
+  onClose: () => void;
+}
+
+const SectionTitle = ({ icon, children }: { icon?: React.ReactNode; children: React.ReactNode }) => (
+  <div className='flex items-center gap-3 mb-4'>
+    {icon && (
+      <div className='w-9 h-9 bg-fooder-secondary border-2 border-plum rounded-xl flex items-center justify-center shadow-[2px_2px_0_#2B0F3A]'>
+        {icon}
+      </div>
+    )}
+    <h3 className='text-xl text-plum'>{children}</h3>
+  </div>
+);
+
+export function DetailSheet({ rest, onClose }: DetailSheetProps) {
+  return (
+    <AnimatePresence>
+      {rest && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ type: 'spring', damping: 26, stiffness: 260 }}
+          className='fixed inset-0 z-50 bg-cream overflow-y-auto max-w-md mx-auto'
+        >
+          <div className='relative h-80 w-full border-b-[3px] border-plum'>
+            <FoodImage src={rest.image} alt={rest.name} cuisine={rest.cuisine} className='w-full h-full object-cover' />
+            <div className='absolute inset-0 bg-gradient-to-b from-plum/40 via-transparent to-transparent' />
+            <button
+              onClick={onClose}
+              aria-label='Fermer'
+              className='absolute top-6 right-5 w-11 h-11 bg-white border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 transition-transform'
+            >
+              <X className='w-5 h-5 text-plum' strokeWidth={3} />
+            </button>
+
+            <div className='absolute -bottom-12 left-4 right-4 bg-white p-5 rounded-[26px] panel'>
+              <div className='flex justify-between items-start gap-3 mb-2'>
+                <h1 className='text-[26px] leading-[1.05] text-plum'>{rest.name}</h1>
+                <div className='chip bg-fooder-primary text-white text-sm shrink-0'>
+                  <Star className='w-4 h-4 fill-white' /> {rest.rating}
+                </div>
+              </div>
+              <div className='flex items-center gap-2 text-slate-500 font-semibold text-xs'>
+                <span>{rest.cuisine}</span>
+                <span className='w-1 h-1 bg-slate-300 rounded-full' />
+                <MapPin className='w-3 h-3' />
+                <span className='line-clamp-1'>{rest.address}</span>
+              </div>
+              <div className='mt-2 flex items-center gap-2 text-slate-400 text-[11px] font-bold'>
+                <span>{rest.reviews ? `${rest.reviews.toLocaleString('fr-FR')} avis` : ''}</span>
+                {rest.sponsored && (
+                  <span className='flex items-center gap-1 text-fooder-orange'>
+                    <Zap className='w-3 h-3 fill-fooder-orange' />
+                    {rest.sponsorLabel}
+                  </span>
+                )}
+              </div>
+              <div className='absolute -top-9 right-4'>
+                <Sticker name={stickerFor(rest.cuisine, rest.id, rest.name)} size={72} rotate={8} />
+              </div>
+            </div>
+          </div>
+
+          <div className='px-5 pt-24 pb-8 space-y-9'>
+            <section>
+              <SectionTitle icon={<Quote className='w-4 h-4 text-plum' />}>L&apos;expérience</SectionTitle>
+              <p className='text-slate-700 font-medium leading-relaxed border-l-4 border-fooder-primary pl-4 text-base'>
+                {rest.description || 'Découvrez ce restaurant et laissez-vous surprendre par sa cuisine et son ambiance.'}
+              </p>
+              {rest.website && (
+                <a
+                  href={rest.website}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='mt-4 flex items-center justify-center gap-2 py-3.5 bg-white border-[3px] border-plum text-plum font-bold text-sm rounded-full shadow-hard active:translate-y-0.5 transition-transform'
+                >
+                  <ExternalLink className='w-4 h-4' /> Site officiel
+                </a>
+              )}
+            </section>
+
+            {rest.extraImages && rest.extraImages.length > 0 && (
+              <section>
+                <SectionTitle>Photos des plats</SectionTitle>
+                <div className='flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5'>
+                  {rest.extraImages.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      className='w-52 h-52 rounded-[26px] object-cover flex-shrink-0 border-[3px] border-plum shadow-hard'
+                      alt='plat'
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {rest.menu && (
+              <section>
+                <SectionTitle icon={<BookOpen className='w-4 h-4 text-plum' />}>À la carte</SectionTitle>
+                <div className='space-y-5 bg-white p-6 rounded-[26px] panel'>
+                  {rest.menu.map((item, i) => (
+                    <div key={i} className='flex justify-between items-start border-b-2 border-dashed border-plum/15 pb-5 last:border-0 last:pb-0'>
+                      <div className='space-y-1'>
+                        <p className='font-bold text-plum text-base'>{item.name}</p>
+                        {item.description && <p className='text-sm text-slate-500 font-medium leading-snug'>{item.description}</p>}
+                      </div>
+                      <span className='chip bg-fooder-secondary text-plum ml-4 shrink-0'>{item.price}€</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+          </div>
+          <div className='sticky bottom-0 z-20 px-5 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] bg-cream border-t-[3px] border-plum'>
+            <button
+              onClick={() => {
+                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rest.name + ' ' + rest.address)}`, '_blank');
+              }}
+              className='w-full duo-button bg-fooder-primary text-white py-4 text-lg flex items-center justify-center gap-3'
+            >
+              <MapPin className='w-6 h-6' />
+              Y aller tout de suite
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
