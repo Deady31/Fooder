@@ -23,11 +23,12 @@ export interface ComposeResult {
 interface ComposeSheetProps {
   isOpen: boolean;
   liked: LikedRestaurant[];
+  preset?: LikedRestaurant | null;
   onClose: () => void;
   onPublish: (result: ComposeResult) => boolean;
 }
 
-export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheetProps) {
+export function ComposeSheet({ isOpen, liked, preset, onClose, onPublish }: ComposeSheetProps) {
   const [picked, setPicked] = useState<LikedRestaurant | null>(null);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<LikedRestaurant[]>([]);
@@ -40,7 +41,7 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
 
   useEffect(() => {
     if (isOpen) {
-      setPicked(liked[0] ?? null);
+      setPicked(preset ?? liked[0] ?? null);
       setQuery('');
       setResults([]);
       setCaption('');
@@ -48,7 +49,7 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
       setPhoto(undefined);
       setError(null);
     }
-  }, [isOpen, liked]);
+  }, [isOpen, liked, preset]);
 
   useEffect(() => {
     const q = query.trim();

@@ -1,5 +1,5 @@
 'use client';
-import { Star, MapPin, Zap } from 'lucide-react';
+import { Star, MapPin, Zap, Camera } from 'lucide-react';
 import { motion, MotionValue, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
@@ -62,6 +62,13 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
               {status.open ? 'Ouvert' : 'Fermé'}
             </div>
           )
+        )}
+
+        {rest.photoSource !== 'community' && (
+          <div className='absolute bottom-2 left-3 z-10 chip !text-[10px] !px-2 !py-0.5 bg-white/90 text-plum'>
+            <Camera className='w-3 h-3' strokeWidth={2.5} />
+            Illustration · vraie photo à venir
+          </div>
         )}
 
         {rest.image && (

@@ -26,6 +26,18 @@ export default function FeedPage() {
   const { level } = useGamification();
   const [composeOpen, setComposeOpen] = useState(false);
   const [likedRestaurants, setLikedRestaurants] = useState<LikedRestaurant[]>([]);
+  const [preset, setPreset] = useState<LikedRestaurant | null>(null);
+
+  // Arrivée depuis une fiche (« Propose la vraie photo ») : on ouvre le formulaire sur ce resto.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const id = q.get('photo');
+    const name = q.get('n');
+    if (!id || !name) return;
+    setPreset({ id, name, cuisine: q.get('c') ?? '' });
+    setComposeOpen(true);
+    window.history.replaceState(null, '', '/feed');
+  }, []);
 
   useEffect(() => {
     setLikedRestaurants(readLiked());
@@ -73,7 +85,8 @@ export default function FeedPage() {
         </AnimatePresence>
         <p className='text-center text-[11px] font-bold text-plum/50 pb-2'>Exemples de démo · le vrai fil arrive avec les comptes</p>
       </div>
-      <ComposeSheet isOpen={composeOpen} liked={likedRestaurants} onClose={() => setComposeOpen(false)} onPublish={publish} />
+      <ComposeSheet isOpen={composeOpen} liked={likedRestaurants}
+        preset={preset} onClose={() => { setComposeOpen(false); setPreset(null); }} onPublish={publish} />
     </div>
   );
 }

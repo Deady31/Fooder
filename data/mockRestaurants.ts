@@ -26,6 +26,8 @@ export interface Restaurant {
   phone?: string;
   hours?: WeekHours;
   dataSource?: 'mock' | 'google-places' | 'osm';
+  /** 'community' = vraie photo postée par un foodie ; sinon l'image est une illustration. */
+  photoSource?: 'community';
   updatedAt?: string;
   sponsored?: boolean;
   sponsorLabel?: string;

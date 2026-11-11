@@ -63,7 +63,7 @@ export default function SwipePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-    const { canSwipe, remaining, showPremiumModal, setShowPremiumModal, trySwipe, loaded, isPremium, activatePremium, deactivatePremium } = useFreemium();
+    const { canSwipe, showPremiumModal, setShowPremiumModal, trySwipe, loaded, isPremium, activatePremium, deactivatePremium } = useFreemium();
     const [showPremiumInfo, setShowPremiumInfo] = useState(false);
 
     const [budget, setBudget] = useState<number>(50);
@@ -188,9 +188,8 @@ export default function SwipePage() {
             const unseen = candidates.filter(r => !seen.has(r.id));
             const merged = unseen.length > 0 ? unseen : candidates;
             const withCommunity = merged.map(r => {
-                if (r.image) return r;
                 const photos = communityPhotosFor(r.id);
-                return photos.length > 0 ? { ...r, image: photos[0], extraImages: photos.slice(1) } : r;
+                return photos.length > 0 ? { ...r, image: photos[0], extraImages: photos.slice(1), photoSource: 'community' as const } : r;
             });
             const sorted = sortWithSponsored(withCommunity);
             allRestaurantsRef.current = sorted;
@@ -288,17 +287,6 @@ export default function SwipePage() {
     };
 
     const cuisines = ['All', ...Array.from(new Set(restaurants.map(r => r.cuisine)))];
-    useEffect(() => {
-        if (!loaded || isPremium || remaining > 5) return;
-        const day = new Date().toISOString().slice(0, 10);
-        pushNotification({
-            id: `swipes-${day}-${remaining}`,
-            kind: 'system',
-            title: remaining === 0 ? "Plus de swipes aujourd'hui" : `Plus que ${remaining} swipe${remaining > 1 ? 's' : ''}`,
-            body: 'Reviens demain, ou passe Premium pour swiper sans limite.',
-        });
-    }, [loaded, isPremium, remaining]);
-
     const deckCards = restaurants.slice(0, currentIndex + 1);
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
 

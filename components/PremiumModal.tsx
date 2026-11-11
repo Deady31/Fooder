@@ -1,7 +1,6 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { DAILY_SWIPE_LIMIT } from '../hooks/useFreemium';
 import { Sticker } from './ui/Sticker';
 import { StickerName } from '../lib/stickers';
 
@@ -38,9 +37,9 @@ export function PremiumModal({ isOpen, onClose, onActivate }: PremiumModalProps)
             <div className="p-6 pb-7 space-y-5">
               <div className="flex justify-between items-start gap-3">
                 <div className="space-y-1.5">
-                  <h2 className="text-[clamp(24px,8vw,32px)] text-plum leading-none">Limite atteinte !</h2>
+                  <h2 className="text-[clamp(24px,8vw,32px)] text-plum leading-none">Fooder Premium</h2>
                   <p className="text-slate-600 font-medium text-sm">
-                    Tu as utilisé tes {DAILY_SWIPE_LIMIT} swipes gratuits du jour.
+                    Va plus loin dans ta découverte.
                   </p>
                 </div>
                 <button
@@ -73,9 +72,6 @@ export function PremiumModal({ isOpen, onClose, onActivate }: PremiumModalProps)
                 </button>
                 <p className="text-center text-slate-500 text-xs font-semibold">
                   Sans engagement · Annulation à tout moment
-                </p>
-                <p className="text-center text-slate-400 text-xs">
-                  Ou reviens demain pour {DAILY_SWIPE_LIMIT} nouveaux swipes gratuits
                 </p>
               </div>
             </div>

@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 
-export const DAILY_SWIPE_LIMIT = 20;
 const STORAGE_KEY = 'fooder_daily_swipes';
 const PREMIUM_KEY = 'fooder_premium';
 
@@ -41,27 +40,16 @@ export function useFreemium() {
   }, []);
 
   const trySwipe = useCallback((): boolean => {
-    if (!isPremium && swipeCount >= DAILY_SWIPE_LIMIT) {
-      setShowPremiumModal(true);
-      return false;
-    }
-    if (!isPremium) {
-      const newCount = swipeCount + 1;
-      const today = new Date().toISOString().split('T')[0];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ count: newCount, date: today }));
-      setSwipeCount(newCount);
-      if (newCount >= DAILY_SWIPE_LIMIT) {
-        setShowPremiumModal(true);
-      }
-    }
+    const newCount = swipeCount + 1;
+    const today = new Date().toISOString().split('T')[0];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ count: newCount, date: today }));
+    setSwipeCount(newCount);
     return true;
-  }, [swipeCount, isPremium]);
+  }, [swipeCount]);
 
   return {
     swipeCount,
-    canSwipe: isPremium || swipeCount < DAILY_SWIPE_LIMIT,
-    remaining: isPremium ? Infinity : Math.max(0, DAILY_SWIPE_LIMIT - swipeCount),
-    DAILY_SWIPE_LIMIT,
+    canSwipe: true,
     isPremium,
     activatePremium,
     deactivatePremium,

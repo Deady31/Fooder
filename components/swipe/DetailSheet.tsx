@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone } from 'lucide-react';
+import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Camera } from 'lucide-react';
+import Link from 'next/link';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
@@ -159,6 +160,21 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
             </section>
 
             <HoursSection hours={rest.hours} />
+
+            {rest.photoSource !== 'community' && (
+              <Link
+                href={`/feed?photo=${encodeURIComponent(rest.id)}&n=${encodeURIComponent(rest.name)}&c=${encodeURIComponent(rest.cuisine)}`}
+                className='flex items-center gap-3 p-3 pr-4 bg-white border-[3px] border-dashed border-plum rounded-2xl active:translate-y-0.5 transition-transform'
+              >
+                <span className='w-11 h-11 shrink-0 rounded-full bg-bubblegum border-[3px] border-plum flex items-center justify-center'>
+                  <Camera className='w-5 h-5 text-plum' strokeWidth={2.5} />
+                </span>
+                <span className='min-w-0'>
+                  <span className='block font-bold text-plum text-sm leading-tight'>Cette image est une illustration</span>
+                  <span className='block text-xs font-medium text-slate-500 leading-snug'>Tu connais l&apos;endroit ? Propose la vraie photo.</span>
+                </span>
+              </Link>
+            )}
 
             {gallery.length > 0 && (
               <section>
