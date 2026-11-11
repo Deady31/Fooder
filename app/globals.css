@@ -14,12 +14,43 @@
   --foreground: var(--plum);
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
   background-color: var(--cream);
   background-image: radial-gradient(rgba(43, 15, 58, 0.07) 1.3px, transparent 1.5px);
   background-size: 18px 18px;
   color: var(--foreground);
-  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+  font-size: 16px;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+/* scrollable panels keep their scroll to themselves */
+.scroll-y {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 h1, h2, h3 {
@@ -45,8 +76,8 @@ h1, h2, h3 {
 
   .btn-round {
     @apply flex items-center justify-center rounded-full transition-all;
-    width: 76px;
-    height: 76px;
+    width: clamp(58px, 9.5dvh, 76px);
+    height: clamp(58px, 9.5dvh, 76px);
     border: 3px solid var(--plum);
     box-shadow: 0 6px 0 var(--plum);
   }
@@ -69,17 +100,6 @@ h1, h2, h3 {
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* === WORDMARK === */
-.wordmark {
-  font-family: var(--font-display), system-ui, sans-serif;
-  color: var(--bubblegum);
-  -webkit-text-stroke: 6px var(--plum);
-  paint-order: stroke fill;
-  text-shadow: 3px 4px 0 var(--plum);
-  letter-spacing: 0.02em;
-  line-height: 1;
-}
 
 /* === SWIPE STAMPS === */
 .stamp {
@@ -155,8 +175,6 @@ h1, h2, h3 {
   background-image: radial-gradient(rgba(43, 15, 58, 0.08) 1.3px, transparent 1.5px);
   background-size: 18px 18px;
 }
-
-.wordmark-premium { color: var(--lemon); }
 
 .premium-navbar { background: rgba(255, 238, 168, 0.95) !important; }
 
@@ -243,3 +261,10 @@ h1, h2, h3 {
 @keyframes stripes-move {
   to { background-position: 20px 0; }
 }
+
+/* === RESPONSIVE RESTAURANT CARD (container queries) === */
+.rcard { container-type: size; }
+.rcard-name { font-size: clamp(20px, 7cqw, 27px); }
+@container (min-height: 540px) { .rcard-photo { height: 50% !important; } .rcard-desc { -webkit-line-clamp: 5 !important; } }
+@container (max-height: 430px) { .rcard-desc { display: none; } }
+@container (max-height: 360px) { .rcard-photo { height: 38% !important; } .rcard-chips { margin-top: 0.4rem; } }

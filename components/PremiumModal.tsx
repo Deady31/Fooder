@@ -33,12 +33,12 @@ export function PremiumModal({ isOpen, onClose, onActivate }: PremiumModalProps)
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 80, opacity: 0, scale: 0.93 }}
             transition={{ type: 'spring', damping: 22, stiffness: 260 }}
-            className="w-full max-w-md bg-cream rounded-[32px] overflow-hidden panel"
+            className="w-full max-w-md max-h-[calc(100dvh-2rem)] scroll-y bg-cream rounded-[32px] panel"
           >
             <div className="p-6 pb-7 space-y-5">
               <div className="flex justify-between items-start gap-3">
                 <div className="space-y-1.5">
-                  <h2 className="text-3xl text-plum leading-none">Limite atteinte !</h2>
+                  <h2 className="text-[clamp(24px,8vw,32px)] text-plum leading-none">Limite atteinte !</h2>
                   <p className="text-slate-600 font-medium text-sm">
                     Tu as utilisé tes {DAILY_SWIPE_LIMIT} swipes gratuits du jour.
                   </p>

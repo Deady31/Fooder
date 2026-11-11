@@ -164,7 +164,7 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
   const visible = cards.slice(-VISIBLE_DEPTH);
 
   return (
-    <div className='relative w-[92%] h-[62vh] max-h-[560px]'>
+    <div className='relative w-[92%] self-stretch mb-9 max-h-[640px]'>
       <AnimatePresence custom={exitDir}>
         {visible.map((rest, i) => {
           const depth = visible.length - 1 - i;

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronRight, X, Heart, Star, Pointer } from 'lucide-react';
 import { Sticker } from '../../components/ui/Sticker';
+import { Logo } from '../../components/ui/Logo';
 import { StepProgress } from '../../components/onboarding/StepProgress';
 import { StickerName } from '../../lib/stickers';
 
@@ -41,7 +42,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                     initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.1 }}
                 >
-                    <h1 className='wordmark text-[88px]'>fooder</h1>
+                    <h1><Logo className='w-[min(78vw,320px)]' /></h1>
                 </motion.div>
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className='space-y-3'>
                     <p className='font-display text-4xl text-plum leading-tight'>Swipe.<br />Mange.<br />Répète.</p>

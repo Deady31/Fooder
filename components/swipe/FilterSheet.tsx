@@ -23,10 +23,10 @@ export function FilterSheet({ isOpen, budget, cuisine, cuisines, onBudget, onCui
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 26, stiffness: 260 }}
-            className='w-full max-w-md bg-cream rounded-[32px] p-7 space-y-7 panel'
+            className='w-full max-w-md max-h-[calc(100dvh-2rem)] scroll-y bg-cream rounded-[32px] p-[clamp(16px,5.5vw,28px)] space-y-[clamp(14px,5vw,28px)] panel'
           >
             <div className='flex justify-between items-center'>
-              <h2 className='text-3xl text-plum'>Filtres</h2>
+              <h2 className='text-[clamp(24px,8vw,32px)] text-plum'>Filtres</h2>
               <button
                 onClick={onClose}
                 aria-label='Fermer'

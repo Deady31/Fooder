@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown, Infinity } from 'lucide-react';
 import Link from 'next/link';
 import { mockRestaurants, Restaurant } from '../../../data/mockRestaurants';
 import { initGooglePlaces, fetchRestaurants, getPlaceDetails } from '../../../lib/googlePlaces';
@@ -19,6 +19,8 @@ import { StickerBurst } from '../../../components/swipe/StickerBurst';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet } from '../../../components/swipe/FilterSheet';
 import { Sticker } from '../../../components/ui/Sticker';
+import { Logo } from '../../../components/ui/Logo';
+import { weekFromGooglePeriods } from '../../../lib/hours';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -67,7 +69,7 @@ export default function SwipePage() {
     const [budget, setBudget] = useState<number>(50);
     const [cuisine, setCuisine] = useState<string>('All');
 
-    const { streak, newAchievement, clearNewAchievement, gainXP, unlock } = useGamification();
+    const { newAchievement, clearNewAchievement, gainXP, unlock } = useGamification();
     const { picks: dailyPicks } = useDailyPicks(restaurants);
     const { progress: missionProgress } = useMissions();
     const [showMoodSheet, setShowMoodSheet] = useState(false);
@@ -259,6 +261,7 @@ export default function SwipePage() {
                         address: details.formatted_address || prev.address,
                         reviews: details.user_ratings_total || prev.reviews,
                         website: (details as any).website ?? prev.website,
+                        hours: weekFromGooglePeriods((details as any).opening_hours?.periods) ?? prev.hours,
                         dataSource: 'google-places',
                         updatedAt: new Date().toISOString()
                     };
@@ -283,7 +286,7 @@ export default function SwipePage() {
     };
 
     const cuisines = ['All', ...Array.from(new Set(restaurants.map(r => r.cuisine)))];
-    const showLowSwipesWarning = loaded && remaining <= 5 && remaining > 0;
+    const lowSwipes = loaded && !isPremium && remaining <= 5;
     const deckCards = restaurants.slice(0, currentIndex + 1);
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
 
@@ -292,7 +295,7 @@ export default function SwipePage() {
             <div ref={mapRef} style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }} />
 
             {/* Top bar */}
-            <header className={`shrink-0 flex items-center justify-between px-4 pt-5 pb-3 backdrop-blur-md border-b-[3px] border-plum z-20 ${isPremium ? 'premium-navbar' : 'bg-cream/90'}`}>
+            <header className={`shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 ${isPremium ? 'premium-navbar' : 'bg-cream/90'}`}>
                 <button
                     onClick={() => setShowFilters(true)}
                     aria-label='Filtres'
@@ -301,14 +304,14 @@ export default function SwipePage() {
                     <SlidersHorizontal className='w-5 h-5 text-plum' strokeWidth={2.5} />
                 </button>
 
-                <div className='flex flex-col items-center gap-2'>
-                    {isPremium ? (
-                        <button onClick={() => setShowPremiumInfo(true)} aria-label='Compte Premium' className='active:scale-95 transition-transform'>
-                            <span className='wordmark wordmark-premium text-[34px]'>fooder</span>
-                        </button>
-                    ) : (
-                        <span className='wordmark text-[34px]'>fooder</span>
-                    )}
+                <div className='flex flex-col items-center gap-1.5 min-w-0'>
+                    <button
+                        onClick={() => isPremium && setShowPremiumInfo(true)}
+                        aria-label={isPremium ? 'fooder, compte Premium' : 'fooder'}
+                        className='active:scale-95 transition-transform'
+                    >
+                        <Logo variant={isPremium ? 'gold' : 'pink'} className='w-[clamp(130px,40vw,176px)]' />
+                    </button>
                     <button
                         onClick={() => setShowMoodSheet(true)}
                         className='chip bg-fooder-secondary text-plum active:translate-y-0.5 transition-transform'
@@ -318,26 +321,24 @@ export default function SwipePage() {
                     </button>
                 </div>
 
-                <Link
-                    href='/profile'
-                    aria-label={`Streak de ${streak} jour${streak > 1 ? 's' : ''}, ouvrir le profil`}
-                    className='w-11 h-11 bg-fooder-orange border-[3px] border-plum rounded-full flex flex-col items-center justify-center leading-none shadow-hard active:translate-y-0.5 active:shadow-none transition-all'
+                <button
+                    onClick={() => !isPremium && setShowPremiumModal(true)}
+                    aria-label={isPremium ? 'Swipes illimités' : `${remaining} swipes restants aujourd'hui`}
+                    className={`min-w-11 h-11 px-2 border-[3px] border-plum rounded-full flex flex-col items-center justify-center leading-none shadow-hard active:translate-y-0.5 active:shadow-none transition-all ${
+                        isPremium ? 'bg-fooder-secondary text-plum' : lowSwipes ? 'bg-fooder-red text-white' : 'bg-fooder-orange text-plum'
+                    }`}
                 >
-                    <span className='font-display text-lg text-plum'>{streak}</span>
-                    <span className='text-[8px] font-black text-plum/80 -mt-0.5'>{streak > 1 ? 'jours' : 'jour'}</span>
-                </Link>
+                    {isPremium ? (
+                        <Infinity className='w-5 h-5' strokeWidth={3} />
+                    ) : (
+                        <span className='font-display text-lg'>{loaded ? remaining : '·'}</span>
+                    )}
+                    <span className='text-[8px] font-black -mt-0.5 opacity-80'>swipes</span>
+                </button>
             </header>
 
-            {showLowSwipesWarning && (
-                <div className='shrink-0 flex justify-center pt-2'>
-                    <span className='chip bg-fooder-red text-white animate-pulse'>
-                        {remaining} swipe{remaining > 1 ? 's' : ''} restant{remaining > 1 ? 's' : ''}
-                    </span>
-                </div>
-            )}
-
             {/* Deck */}
-            <main className='flex-1 relative flex items-center justify-center py-4 min-h-0'>
+            <main className='flex-1 relative flex items-center justify-center min-h-0 pt-3 pb-1'>
                 {isLoading ? (
                     <div className='flex flex-col items-center gap-5'>
                         <div className='flex items-end gap-2'>

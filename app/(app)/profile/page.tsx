@@ -103,7 +103,7 @@ export default function ProfilePage() {
   const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0 } };
 
   return (
-    <div className="flex flex-col h-full bg-cream overflow-hidden">
+    <div className="h-full bg-cream scroll-y">
       <PageHeader
         title="Profil"
         subtitle={`Niveau ${level} · ${xp} XP`}
@@ -148,7 +148,7 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <nav className="flex px-3 pt-3 gap-2" aria-label="Sections du profil">
+      <nav className="sticky top-0 z-20 flex px-3 py-2.5 gap-2 bg-cream border-b-[3px] border-plum" aria-label="Sections du profil">
         {TABS.map(({ id, label }) => (
           <button
             key={id}
@@ -162,7 +162,7 @@ export default function ProfilePage() {
         ))}
       </nav>
 
-      <div className="flex-1 overflow-y-auto">
+      <div>
         <AnimatePresence mode="wait">
           {activeTab === 'dna' && (
             <motion.div key="dna" {...fade} className="p-4 space-y-4">
@@ -183,7 +183,7 @@ export default function ProfilePage() {
                     <div className="absolute -right-1 -top-1 opacity-90">
                       <Sticker name={s.sticker} size={44} rotate={10} />
                     </div>
-                    <p className="font-display text-2xl text-plum mt-5 truncate">{s.value}</p>
+                    <p className="font-display text-[clamp(18px,6vw,24px)] leading-tight text-plum mt-5 break-words line-clamp-2">{s.value}</p>
                     <p className="text-slate-500 text-[11px] font-bold">{s.label}</p>
                   </div>
                 ))}
@@ -326,7 +326,7 @@ export default function ProfilePage() {
         </AnimatePresence>
       </div>
 
-      <footer className="px-4 pb-5 pt-3 border-t-[3px] border-plum">
+      <footer className="px-4 pb-6 pt-1">
         <button
           onClick={handleMatch}
           className="w-full duo-button bg-white text-plum py-3.5 text-sm flex items-center justify-center gap-2"

@@ -19,6 +19,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#FFF6E5',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-content',
 };
 
 export default function RootLayout({
@@ -29,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang='fr' className={`${display.variable} ${body.variable}`}>
       <body className='font-body'>
-        <div className='min-h-screen bg-cream text-plum selection:bg-fooder-primary selection:text-white'>
+        <div className='h-[100dvh] overflow-hidden bg-cream text-plum selection:bg-fooder-primary selection:text-white'>
           <Providers>{children}</Providers>
         </div>
       </body>

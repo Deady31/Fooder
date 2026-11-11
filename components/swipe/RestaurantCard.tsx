@@ -36,8 +36,8 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
   const sticker = stickerFor(rest.cuisine, rest.id, rest.name);
 
   return (
-    <div className='relative w-full h-full bg-white rounded-[28px] overflow-hidden border-[3px] border-plum shadow-hard-lg flex flex-col'>
-      <div className='relative w-full h-[56%] shrink-0 border-b-[3px] border-plum'>
+    <div className='rcard relative w-full h-full bg-white rounded-[28px] overflow-hidden border-[3px] border-plum shadow-hard-lg flex flex-col'>
+      <div className='rcard-photo relative w-full h-[44%] shrink-0 border-b-[3px] border-plum'>
         <FoodImage src={rest.image} alt={rest.name} cuisine={rest.cuisine} className='w-full h-full object-cover' />
         <div className='absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-plum/50 to-transparent' />
 
@@ -59,9 +59,9 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
       </div>
 
       <div className='flex-1 min-h-0 flex flex-col px-5 pt-4 pb-3.5'>
-        <h2 className='text-[26px] leading-[1.05] text-plum pr-16 line-clamp-2'>{rest.name}</h2>
+        <h2 className='rcard-name leading-[1.05] text-plum pr-16 line-clamp-2'>{rest.name}</h2>
 
-        <div className='flex flex-wrap gap-2 mt-2.5'>
+        <div className='rcard-chips flex flex-wrap gap-2 mt-2.5'>
           <span className='chip bg-fooder-secondary text-plum'>{rest.price}€</span>
           <span className='chip bg-fooder-mint text-plum'>
             <MapPin className='w-3 h-3' />
@@ -70,7 +70,7 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
           <span className='chip bg-fooder-primary text-white'>{rest.cuisine}</span>
         </div>
 
-        <p className='text-slate-600 text-sm font-medium line-clamp-2 leading-snug mt-2.5'>
+        <p className='rcard-desc text-slate-600 text-sm font-medium line-clamp-3 leading-snug mt-2.5'>
           {rest.description || "Un établissement d'exception vous attend à Toulouse pour une dégustation mémorable."}
         </p>
 
