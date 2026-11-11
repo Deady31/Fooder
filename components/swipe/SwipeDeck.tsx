@@ -24,7 +24,7 @@ const COMMIT_OFFSET = 110;
 const COMMIT_VELOCITY = 600;
 const PEEK_OFFSET = 36; // à partir de là, la carte du dessous commence à avancer
 const VISIBLE_DEPTH = 3;
-const HOLD_MS = 1000;
+const HOLD_MS = 500;
 const MOVE_TOLERANCE = 14;
 
 const STACK_SPRING = { type: 'spring' as const, stiffness: 290, damping: 28, mass: 0.9 };
