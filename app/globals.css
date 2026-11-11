@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #FFF6E5;
+  --plum: #2B0F3A;
+  --violet: #6C2BFF;
+  --bubblegum: #FF7EC8;
+  --lemon: #FFD83D;
+  --orange: #FF8A1F;
+  --mint: #3DDC97;
+  --background: var(--cream);
+  --foreground: var(--plum);
+}
+
+body {
+  background-color: var(--cream);
+  background-image: radial-gradient(rgba(43, 15, 58, 0.07) 1.3px, transparent 1.5px);
+  background-size: 18px 18px;
+  color: var(--foreground);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-style: normal;
+}
+
+@layer components {
+  /* Legacy compatibility: every old .duo-button becomes a chunky outlined bubble button */
+  .duo-button {
+    @apply relative font-bold px-6 py-3 rounded-full transition-all;
+    border: 3px solid var(--plum) !important;
+    box-shadow: 0 5px 0 var(--plum);
+    letter-spacing: 0.02em;
+  }
+  .duo-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 var(--plum);
+  }
+
+  .btn-round {
+    @apply flex items-center justify-center rounded-full transition-all;
+    width: 76px;
+    height: 76px;
+    border: 3px solid var(--plum);
+    box-shadow: 0 6px 0 var(--plum);
+  }
+  .btn-round:active {
+    transform: translateY(5px);
+    box-shadow: 0 1px 0 var(--plum);
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full font-bold text-[11px] px-3 py-1.5;
+    border: 2px solid var(--plum);
+    box-shadow: 2px 2px 0 var(--plum);
+  }
+
+  .panel {
+    border: 3px solid var(--plum);
+    box-shadow: 6px 6px 0 var(--plum);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* === WORDMARK === */
+.wordmark {
+  font-family: var(--font-display), system-ui, sans-serif;
+  color: var(--bubblegum);
+  -webkit-text-stroke: 6px var(--plum);
+  paint-order: stroke fill;
+  text-shadow: 3px 4px 0 var(--plum);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* === SWIPE STAMPS === */
+.stamp {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  padding: 0.25rem 1rem;
+  border: 5px solid currentColor;
+  border-radius: 1rem;
+  background: rgba(255, 246, 229, 0.92);
+  box-shadow: 4px 4px 0 var(--plum);
+  letter-spacing: 0.04em;
+}
+
+/* === ANIMATIONS === */
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-6px) rotate(calc(var(--r, 0deg) + 3deg)); }
+}
+.bob { animation: bob 3.2s ease-in-out infinite; }
+
+@keyframes pop-in {
+  0% { transform: scale(0.4) rotate(-12deg); opacity: 0; }
+  60% { transform: scale(1.12) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.pop-in { animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@keyframes float-a {
+  0%, 100% { transform: translateY(0px) rotate(-4deg); }
+  35% { transform: translateY(-20px) rotate(7deg); }
+  65% { transform: translateY(-9px) rotate(-2deg); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translateY(-2px) rotate(5deg); }
+  40% { transform: translateY(-24px) rotate(-9deg); }
+  70% { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes float-c {
+  0%, 100% { transform: translateY(-5px) rotate(1deg); }
+  50% { transform: translateY(-22px) rotate(11deg); }
+}
+.float-a { animation: float-a 4s ease-in-out infinite; }
+.float-b { animation: float-b 5s ease-in-out infinite; }
+.float-c { animation: float-c 3.5s ease-in-out infinite; }
+
+@keyframes card-wobble {
+  0%, 100% { transform: rotate(-2deg) translateX(-8px); }
+  50% { transform: rotate(2deg) translateX(8px); }
+}
+.card-wobble { animation: card-wobble 2.5s ease-in-out infinite; }
+
+@keyframes tap-ripple {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.tap-ripple { animation: tap-ripple 1.8s ease-out infinite; }
+
+/* === PREMIUM: flat butter-yellow skin, no gradients, no filters === */
+.premium-button {
+  background: var(--lemon);
+  color: var(--plum);
+  font-weight: 900;
+  border: 3px solid var(--plum);
+  box-shadow: 0 6px 0 var(--plum);
+  letter-spacing: 0.02em;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.premium-button:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--plum); }
+
+.premium-bg {
+  background-color: #FFEEA8;
+  background-image: radial-gradient(rgba(43, 15, 58, 0.08) 1.3px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+.wordmark-premium { color: var(--lemon); }
+
+.premium-navbar { background: rgba(255, 238, 168, 0.95) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === MAP PINS === */
+.fooder-pin {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  animation: pin-drop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.fooder-pin-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid var(--plum);
+  box-shadow: 3px 3px 0 var(--plum);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+}
+.fooder-pin-body img { width: 38px; height: 38px; object-fit: contain; pointer-events: none; }
+.fooder-pin-tail {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-right: 3px solid var(--plum);
+  border-bottom: 3px solid var(--plum);
+  transform: translateX(-50%) rotate(45deg);
+  transition: background-color 0.2s;
+}
+.fooder-pin.is-liked .fooder-pin-body,
+.fooder-pin.is-liked .fooder-pin-tail { background: var(--bubblegum); }
+.fooder-pin.is-selected { z-index: 5; }
+.fooder-pin.is-selected .fooder-pin-body { background: var(--lemon); transform: scale(1.2) translateY(-4px); }
+.fooder-pin.is-selected .fooder-pin-tail { background: var(--lemon); }
+@keyframes pin-drop {
+  0% { transform: translateY(-46px) scale(0.4); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+.fooder-me {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--violet);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px var(--plum);
+}
+.fooder-me::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 3px solid var(--violet);
+  animation: tap-ripple 1.8s ease-out infinite;
+}
+
+/* map attribution: keep it compact and on-brand */
+.maplibregl-ctrl-attrib { font-family: var(--font-body), system-ui, sans-serif; border-radius: 9999px !important; }

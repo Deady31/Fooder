@@ -1,0 +1,16 @@
+{
+  "name": "Fooder",
+  "short_name": "Fooder",
+  "description": "Swipe tes restaurants à Toulouse",
+  "lang": "fr",
+  "start_url": "/onboarding",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF6E5",
+  "theme_color": "#FFF6E5",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
