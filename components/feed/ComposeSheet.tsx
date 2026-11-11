@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Camera, X } from 'lucide-react';
+import Link from 'next/link';
+import { Camera, Search, X } from 'lucide-react';
 import { MAX_CAPTION, VERDICTS, Verdict, compressImage } from '../../lib/feed';
 import { stickerFor } from '../../lib/stickers';
 import { Sticker } from '../ui/Sticker';
@@ -27,7 +28,10 @@ interface ComposeSheetProps {
 }
 
 export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheetProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [picked, setPicked] = useState<LikedRestaurant | null>(null);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<LikedRestaurant[]>([]);
+  const [searching, setSearching] = useState(false);
   const [caption, setCaption] = useState('');
   const [verdict, setVerdict] = useState<Verdict>('miam');
   const [photo, setPhoto] = useState<string | undefined>();
@@ -36,13 +40,40 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
 
   useEffect(() => {
     if (isOpen) {
-      setSelectedId(liked[0]?.id ?? null);
+      setPicked(liked[0] ?? null);
+      setQuery('');
+      setResults([]);
       setCaption('');
       setVerdict('miam');
       setPhoto(undefined);
       setError(null);
     }
   }, [isOpen, liked]);
+
+  useEffect(() => {
+    const q = query.trim();
+    if (q.length < 2) {
+      setResults([]);
+      return;
+    }
+    const ctrl = new AbortController();
+    const t = setTimeout(async () => {
+      setSearching(true);
+      try {
+        const res = await fetch(`/api/restaurants/search?q=${encodeURIComponent(q)}`, { signal: ctrl.signal });
+        const json = await res.json();
+        setResults(json.success ? (json.data as LikedRestaurant[]) : []);
+      } catch {
+        /* requête annulée ou réseau coupé : on garde l'ancien état */
+      } finally {
+        setSearching(false);
+      }
+    }, 250);
+    return () => {
+      clearTimeout(t);
+      ctrl.abort();
+    };
+  }, [query]);
 
   const onFile = async (file?: File) => {
     if (!file) return;
@@ -55,9 +86,8 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
   };
 
   const publish = () => {
-    const restaurant = liked.find(r => r.id === selectedId);
-    if (!restaurant) return;
-    const ok = onPublish({ restaurant, caption: caption.trim(), verdict, photo });
+    if (!picked) return;
+    const ok = onPublish({ restaurant: picked, caption: caption.trim(), verdict, photo });
     if (ok) onClose();
     else setError('Stockage plein : retire une ancienne photo.');
   };
@@ -89,25 +119,72 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
                 </button>
               </div>
 
-              {liked.length === 0 ? (
-                <p className='text-sm font-bold text-plum/70 text-center py-6'>Like d&apos;abord un resto dans Découvrir, tu pourras le partager ici.</p>
-              ) : (
-                <>
-                  <div className='flex gap-2 overflow-x-auto no-scrollbar -mx-1 px-1 py-1' role='radiogroup' aria-label='Restaurant à partager'>
-                    {liked.map(r => (
-                      <button
-                        key={r.id}
-                        role='radio'
-                        aria-checked={selectedId === r.id}
-                        onClick={() => setSelectedId(r.id)}
-                        className={`shrink-0 flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-2xl border-[3px] border-plum text-xs font-bold text-plum max-w-[180px] ${selectedId === r.id ? 'bg-bubblegum shadow-hard' : 'bg-white'}`}
-                      >
-                        <Sticker name={stickerFor(r.cuisine, r.id, r.name)} size={30} className='shrink-0' />
-                        <span className='truncate'>{r.name}</span>
-                      </button>
-                    ))}
+              <div className='space-y-3'>
+                {picked ? (
+                  <div className='flex items-center gap-3 bg-white rounded-2xl border-[3px] border-plum shadow-hard p-2.5'>
+                    <Sticker name={stickerFor(picked.cuisine, picked.id, picked.name)} size={44} className='shrink-0' />
+                    <div className='min-w-0 flex-1'>
+                      <p className='font-bold text-sm text-plum truncate'>{picked.name}</p>
+                      <p className='text-[11px] font-semibold text-plum/60 truncate'>{picked.cuisine}</p>
+                    </div>
+                    <button onClick={() => setPicked(null)} className='text-xs font-bold text-plum underline min-h-[44px] px-2'>
+                      Changer
+                    </button>
                   </div>
+                ) : (
+                  <>
+                    <label className='flex items-center gap-2 rounded-full border-[3px] border-plum bg-white px-4 py-2.5 focus-within:shadow-hard'>
+                      <Search className='w-4 h-4 text-plum/60 shrink-0' strokeWidth={3} />
+                      <input
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        placeholder='Quel restaurant ?'
+                        aria-label='Chercher un restaurant'
+                        autoComplete='off'
+                        className='flex-1 min-w-0 bg-transparent text-base font-medium text-plum outline-none'
+                      />
+                    </label>
+                    {query.trim().length >= 2 && (
+                      <ul className='rounded-2xl border-[3px] border-plum bg-white divide-y-2 divide-dashed divide-plum/15 overflow-hidden'>
+                        {results.map(r => (
+                          <li key={r.id}>
+                            <button onClick={() => setPicked(r)} className='w-full flex items-center gap-2 px-3 py-2 text-left active:bg-cream'>
+                              <Sticker name={stickerFor(r.cuisine, r.id, r.name)} size={32} className='shrink-0' />
+                              <span className='min-w-0'>
+                                <span className='block text-sm font-bold text-plum truncate'>{r.name}</span>
+                                <span className='block text-[11px] font-semibold text-plum/60 truncate'>{r.cuisine}</span>
+                              </span>
+                            </button>
+                          </li>
+                        ))}
+                        {!searching && results.length === 0 && (
+                          <li className='px-3 py-3 text-xs font-bold text-plum/60'>Aucun résultat. Essaie un autre nom.</li>
+                        )}
+                      </ul>
+                    )}
+                    {query.trim().length < 2 && liked.length > 0 && (
+                      <div>
+                        <p className='text-[11px] font-bold text-plum/50 mb-1.5'>Tes likes</p>
+                        <div className='flex gap-2 overflow-x-auto no-scrollbar -mx-1 px-1 py-1'>
+                          {liked.map(r => (
+                            <button
+                              key={r.id}
+                              onClick={() => setPicked(r)}
+                              className='shrink-0 flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-2xl border-[3px] border-plum bg-white text-xs font-bold text-plum max-w-[180px]'
+                            >
+                              <Sticker name={stickerFor(r.cuisine, r.id, r.name)} size={30} className='shrink-0' />
+                              <span className='truncate'>{r.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
 
+              {(
+                <>
                   <div role='radiogroup' aria-label='Ton verdict' className='grid grid-cols-3 gap-2'>
                     {VERDICTS.map(v => (
                       <button
@@ -133,7 +210,7 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
                     ) : (
                       <>
                         <Camera className='w-7 h-7' strokeWidth={2.5} />
-                        <span className='text-xs font-bold'>Ajouter une photo (facultatif)</span>
+                        <span className='text-xs font-bold'>Ajouter une photo du plat ou du lieu</span>
                       </>
                     )}
                   </button>
@@ -152,10 +229,13 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
                   </div>
 
                   {error && <p role='alert' className='text-xs font-bold text-fooder-red'>{error}</p>}
-                  <button onClick={publish} disabled={!selectedId} className='duo-button w-full bg-bubblegum text-plum disabled:opacity-50'>
+                  <button onClick={publish} disabled={!picked} className='duo-button w-full bg-bubblegum text-plum disabled:opacity-50'>
                     Publier
                   </button>
-                  <p className='text-[11px] font-semibold text-plum/50 text-center'>Pour l&apos;instant ton post reste sur ce téléphone. Le partage entre amis arrive avec les comptes.</p>
+                  <p className='text-[11px] font-semibold text-plum/50 text-center leading-snug'>
+                    En publiant, tu confirmes être l&apos;auteur de la photo et qu&apos;elle respecte les{' '}
+                    <Link href='/legal/community' className='underline'>règles de la communauté</Link>. Elle pourra illustrer la fiche du restaurant. Pour l&apos;instant, elle reste sur ce téléphone.
+                  </p>
                 </>
               )}
             </div>

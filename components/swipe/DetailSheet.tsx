@@ -6,6 +6,7 @@ import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
 import { stickerFor } from '../../lib/stickers';
+import { communityPhotosFor } from '../../lib/communityPhotos';
 import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../lib/hours';
 
 interface DetailSheetProps {
@@ -73,6 +74,11 @@ function HoursSection({ hours }: { hours?: WeekHours }) {
 }
 
 export function DetailSheet({ rest, onClose }: DetailSheetProps) {
+  const [community, setCommunity] = useState<string[]>([]);
+  useEffect(() => {
+    setCommunity(rest ? communityPhotosFor(rest.id) : []);
+  }, [rest]);
+  const gallery = rest ? Array.from(new Set([...community, ...(rest.extraImages ?? [])])) : [];
   return (
     <AnimatePresence>
       {rest && (
@@ -146,11 +152,12 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
             <HoursSection hours={rest.hours} />
 
-            {rest.extraImages && rest.extraImages.length > 0 && (
+            {gallery.length > 0 && (
               <section>
-                <SectionTitle>Photos des plats</SectionTitle>
+                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : 'Photos des plats'}</SectionTitle>
                 <div className='flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5'>
-                  {rest.extraImages.map((img, i) => (
+                  {gallery.map((img, i) => (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       key={i}
                       src={img}

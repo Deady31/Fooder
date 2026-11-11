@@ -10,7 +10,7 @@ export function Logo({ variant = 'pink', className = '' }: LogoProps) {
       src={`/logo/fooder-${variant}.webp`}
       alt='fooder'
       width={760}
-      height={254}
+      height={346}
       draggable={false}
       className={`select-none h-auto ${className}`}
     />

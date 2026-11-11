@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
 import { Share2, ChevronRight, Pencil } from 'lucide-react';
 import { useFoodDNA } from '../../../hooks/useFoodDNA';
 import { useGamification, ALL_ACHIEVEMENTS } from '../../../hooks/useGamification';
@@ -11,6 +10,7 @@ import { AnimatedNumber } from '../../../components/ui/AnimatedNumber';
 import { StickerName, badgeFor } from '../../../lib/stickers';
 import { Avatar } from '../../../components/profile/Avatar';
 import { AvatarPicker } from '../../../components/profile/AvatarPicker';
+import { LegalCenter } from '../../../components/legal/LegalCenter';
 import { InstallCard } from '../../../components/pwa/InstallCard';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useFreemium } from '../../../hooks/useFreemium';
@@ -348,11 +348,7 @@ export default function ProfilePage() {
           Matcher avec un(e) ami(e)
           <ChevronRight className="w-4 h-4" />
         </button>
-        <nav aria-label="Informations légales" className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4 text-[11px] font-bold text-plum/60">
-          <Link href="/legal/privacy" className="underline">Confidentialité</Link>
-          <Link href="/legal/terms" className="underline">Conditions</Link>
-          <Link href="/legal/mentions" className="underline">Mentions légales</Link>
-        </nav>
+        <LegalCenter />
       </footer>
 
       <AvatarPicker

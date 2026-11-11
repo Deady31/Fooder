@@ -5,6 +5,7 @@ import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { mockRestaurants, Restaurant } from '../../../data/mockRestaurants';
 import { track } from '../../../lib/analytics';
+import { communityPhotosFor } from '../../../lib/communityPhotos';
 import { useFreemium } from '../../../hooks/useFreemium';
 import { useGamification } from '../../../hooks/useGamification';
 import { useDailyPicks } from '../../../hooks/useDailyPicks';
@@ -132,7 +133,12 @@ export default function SwipePage() {
             // Les fiches soignées (photos, menus) passent devant ; l'API complète avec tout Toulouse.
             const known = new Set(mockRestaurants.map(r => r.name.toLowerCase()));
             const merged = [...mockRestaurants, ...fromApi.filter(r => !known.has(r.name.toLowerCase()))];
-            const sorted = sortWithSponsored(merged);
+            const withCommunity = merged.map(r => {
+                if (r.image) return r;
+                const photos = communityPhotosFor(r.id);
+                return photos.length > 0 ? { ...r, image: photos[0], extraImages: photos.slice(1) } : r;
+            });
+            const sorted = sortWithSponsored(withCommunity);
             allRestaurantsRef.current = sorted;
             const pool = poolForSavedMood(sorted);
             setRestaurants([...pool].reverse());

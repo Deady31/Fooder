@@ -45,3 +45,14 @@
 - [ ] Sauvegardes Supabase quotidiennes
 - [ ] 20 restos fondateurs signés avant l'ouverture publique
 - [ ] Procédure de modération et de signalement testée
+
+## Choix du backend (décision à prendre avant les comptes)
+
+| Option | Pour | Contre |
+|---|---|---|
+| **Supabase** (Postgres + Auth + Storage + RLS) | Tout-en-un, le plus rapide à mettre en place, région UE, PostGIS, open source, SQL standard donc portable | Les règles RLS demandent de la rigueur ; dépendance à la plateforme pour Auth/Storage |
+| **Neon + Better Auth + Cloudflare R2 + Drizzle** | Plus « propre » et modulaire, intégration Vercel native, aucune dépendance forte, coûts de stockage d'images très bas | 4 briques à assembler et à maintenir soi-même (comptes, e-mails de connexion, upload signé) |
+| Firebase | Temps réel, très répandu | Base NoSQL (mauvaise pour les requêtes géographiques et relationnelles), verrouillage fournisseur, hébergement hors UE par défaut |
+| PocketBase / Appwrite (auto-hébergé) | Contrôle total, pas de facture | Il faut administrer un serveur, les sauvegardes et la sécurité |
+
+Le schéma `supabase/schema.sql` est du PostgreSQL standard : il fonctionne tel quel sur Neon. Seules les lignes `auth.users` et les politiques RLS sont spécifiques à Supabase.
