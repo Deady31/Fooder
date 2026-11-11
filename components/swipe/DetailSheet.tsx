@@ -97,9 +97,11 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
             <div className='absolute -bottom-12 left-4 right-4 bg-white p-5 rounded-[26px] panel'>
               <div className='flex justify-between items-start gap-3 mb-2'>
                 <h1 className='text-[26px] leading-[1.05] text-plum'>{rest.name}</h1>
-                <div className='chip bg-fooder-primary text-white text-sm shrink-0'>
-                  <Star className='w-4 h-4 fill-white' /> {rest.rating}
-                </div>
+                {rest.rating > 0 && (
+                  <div className='chip bg-fooder-primary text-white text-sm shrink-0'>
+                    <Star className='w-4 h-4 fill-white' /> {rest.rating}
+                  </div>
+                )}
               </div>
               <div className='flex items-center gap-2 text-slate-500 font-semibold text-xs'>
                 <span>{rest.cuisine}</span>

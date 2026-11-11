@@ -24,7 +24,7 @@ export interface Restaurant {
   reviews?: number;
   website?: string;
   hours?: WeekHours;
-  dataSource?: 'mock' | 'google-places';
+  dataSource?: 'mock' | 'google-places' | 'osm';
   updatedAt?: string;
   sponsored?: boolean;
   sponsorLabel?: string;

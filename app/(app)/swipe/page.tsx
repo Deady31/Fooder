@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SlidersHorizontal, ChevronDown, Infinity } from 'lucide-react';
 import Link from 'next/link';
 import { mockRestaurants, Restaurant } from '../../../data/mockRestaurants';
-import { initGooglePlaces, fetchRestaurants, getPlaceDetails } from '../../../lib/googlePlaces';
+import { track } from '../../../lib/analytics';
 import { useFreemium } from '../../../hooks/useFreemium';
 import { useGamification } from '../../../hooks/useGamification';
 import { useDailyPicks } from '../../../hooks/useDailyPicks';
@@ -20,7 +20,6 @@ import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet } from '../../../components/swipe/FilterSheet';
 import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
-import { weekFromGooglePeriods } from '../../../lib/hours';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -59,9 +58,7 @@ export default function SwipePage() {
     const [selectedRest, setSelectedRest] = useState<Restaurant | null>(null);
     const [showFilters, setShowFilters] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [isGoogleReady, setIsGoogleReady] = useState(false);
     const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
-    const mapRef = useRef<HTMLDivElement>(null);
 
     const { canSwipe, remaining, showPremiumModal, setShowPremiumModal, trySwipe, loaded, isPremium, activatePremium, deactivatePremium } = useFreemium();
     const [showPremiumInfo, setShowPremiumInfo] = useState(false);
@@ -101,81 +98,44 @@ export default function SwipePage() {
     };
 
     useEffect(() => {
+        const getCoords = () =>
+            new Promise<{ lat: number; lng: number } | null>(resolve => {
+                if (!navigator.geolocation) return resolve(null);
+                navigator.geolocation.getCurrentPosition(
+                    pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+                    () => resolve(null),
+                    { timeout: 5000, maximumAge: 300000 }
+                );
+            });
+
         const loadAppData = async () => {
             setIsLoading(true);
+            const coords = await getCoords();
+            if (coords) setUserCoords(coords);
 
-            if (mapRef.current) {
-                try {
-                    const g = await initGooglePlaces(mapRef.current);
-                    if (g) {
-                        setIsGoogleReady(true);
-                    } else {
-                        useFallback();
-                        setIsLoading(false);
-                        return;
-                    }
-
-                    navigator.geolocation.getCurrentPosition(
-                        async (pos) => {
-                            const userLat = pos.coords.latitude;
-                            const userLng = pos.coords.longitude;
-                            setUserCoords({ lat: userLat, lng: userLng });
-                            try {
-                                const results = await fetchRestaurants(userLat, userLng);
-                                const mapped: Restaurant[] = results.map((r, i) => {
-                                    const distM = r.geometry?.location
-                                        ? Math.round(haversineDistance(userLat, userLng, r.geometry.location.lat(), r.geometry.location.lng()) / 10) * 10
-                                        : undefined;
-                                    return {
-                                        id: r.place_id || String(i),
-                                        name: r.name || 'Restaurant',
-                                        rating: r.rating || 4.0,
-                                        price: (r.price_level || 2) * 15,
-                                        distance: distM !== undefined ? formatDistance(distM) : 'Proche',
-                                        distanceMeters: distM,
-                                        cuisine: r.types?.[0] || 'Restaurant',
-                                        image: r.photos?.[0]?.getUrl({ maxWidth: 800 }) || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4',
-                                        address: r.vicinity || '',
-                                        description: '',
-                                        reviews: r.user_ratings_total || 0,
-                                        dataSource: 'google-places',
-                                        updatedAt: new Date().toISOString()
-                                    };
-                                });
-                                const sorted = sortWithSponsored(mapped);
-                                allRestaurantsRef.current = sorted;
-                                const pool = poolForSavedMood(sorted);
-                                setRestaurants([...pool].reverse());
-                                setCurrentIndex(pool.length - 1);
-                            } catch {
-                                useFallback();
-                            } finally {
-                                setIsLoading(false);
-                            }
-                        },
-                        (err) => {
-                            console.warn("Geolocation failed or denied:", err.message);
-                            useFallback();
-                            setIsLoading(false);
-                        },
-                        { timeout: 5000 }
-                    );
-                } catch {
-                    useFallback();
-                    setIsLoading(false);
+            let fromApi: Restaurant[] = [];
+            try {
+                const qs = new URLSearchParams({ limit: '50', radius: '3000' });
+                if (coords) {
+                    qs.set('lat', String(coords.lat));
+                    qs.set('lng', String(coords.lng));
                 }
-            } else {
-                useFallback();
-                setIsLoading(false);
+                const res = await fetch(`/api/restaurants?${qs.toString()}`);
+                const json = await res.json();
+                if (json.success) fromApi = json.data as Restaurant[];
+            } catch {
+                fromApi = [];
             }
-        };
 
-        const useFallback = () => {
-            const sorted = sortWithSponsored([...mockRestaurants]);
+            // Les fiches soignées (photos, menus) passent devant ; l'API complète avec tout Toulouse.
+            const known = new Set(mockRestaurants.map(r => r.name.toLowerCase()));
+            const merged = [...mockRestaurants, ...fromApi.filter(r => !known.has(r.name.toLowerCase()))];
+            const sorted = sortWithSponsored(merged);
             allRestaurantsRef.current = sorted;
             const pool = poolForSavedMood(sorted);
             setRestaurants([...pool].reverse());
             setCurrentIndex(pool.length - 1);
+            setIsLoading(false);
         };
 
         loadAppData();
@@ -200,6 +160,7 @@ export default function SwipePage() {
 
     const swiped = (direction: SwipeDir, restaurant: Restaurant, index: number) => {
         trySwipe();
+        track('swipe', { direction });
         setCurrentIndex(index - 1);
 
         gainXP(5);
@@ -248,28 +209,6 @@ export default function SwipePage() {
     const openDetails = async (restaurant: Restaurant) => {
         setSelectedRest(restaurant);
         missionProgress('open_detail');
-
-        if (isGoogleReady && restaurant.id.length > 5) {
-            try {
-                const details = await getPlaceDetails(restaurant.id);
-                setSelectedRest(prev => {
-                    if (!prev || prev.id !== restaurant.id) return prev;
-                    return {
-                        ...prev,
-                        description: (details as any).editorial_summary?.overview || prev.description || '',
-                        extraImages: details.photos?.slice(1, 4).map(p => p.getUrl({ maxWidth: 600 })) || prev.extraImages,
-                        address: details.formatted_address || prev.address,
-                        reviews: details.user_ratings_total || prev.reviews,
-                        website: (details as any).website ?? prev.website,
-                        hours: weekFromGooglePeriods((details as any).opening_hours?.periods) ?? prev.hours,
-                        dataSource: 'google-places',
-                        updatedAt: new Date().toISOString()
-                    };
-                });
-            } catch {
-                // Keep current data
-            }
-        }
     };
 
     const handleMoodSelect = (moodId: string, label: string) => {
@@ -292,7 +231,6 @@ export default function SwipePage() {
 
     return (
         <div className={`flex flex-col h-full overflow-hidden relative transition-colors duration-700 ${isPremium ? 'premium-bg' : 'bg-cream'}`}>
-            <div ref={mapRef} style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }} />
 
             {/* Top bar */}
             <header className={`shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 ${isPremium ? 'premium-navbar' : 'bg-cream/90'}`}>

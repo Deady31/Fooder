@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Layers, Map, Heart, User } from 'lucide-react';
+import { Layers, Map, Heart, User, Users } from 'lucide-react';
 
 const TABS = [
   { href: '/swipe', label: 'Découvrir', Icon: Layers },
   { href: '/map', label: 'Carte', Icon: Map },
+  { href: '/feed', label: 'Fil', Icon: Users },
   { href: '/wishlist', label: 'Favoris', Icon: Heart },
   { href: '/profile', label: 'Profil', Icon: User },
 ] as const;

@@ -1,13 +1,18 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { Share2, ChevronRight, Pencil } from 'lucide-react';
 import { useFoodDNA } from '../../../hooks/useFoodDNA';
 import { useGamification, ALL_ACHIEVEMENTS } from '../../../hooks/useGamification';
 import { Sticker } from '../../../components/ui/Sticker';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { AnimatedNumber } from '../../../components/ui/AnimatedNumber';
 import { StickerName, badgeFor } from '../../../lib/stickers';
+import { Avatar } from '../../../components/profile/Avatar';
+import { AvatarPicker } from '../../../components/profile/AvatarPicker';
+import { useAvatar } from '../../../hooks/useAvatar';
+import { useFreemium } from '../../../hooks/useFreemium';
 
 const TOULOUSE_QUARTIERS: { name: string; sticker: StickerName }[] = [
   { name: 'Capitole', sticker: 'plate' },
@@ -54,6 +59,10 @@ export default function ProfilePage() {
   const { streak, xp, level, xpProgress, achievements, unlockedIds } = useGamification();
   const [activeTab, setActiveTab] = useState<TabId>('dna');
   const [stats, setStats] = useState<StoredStats>({ likes: [], totalSwipes: 0 });
+  const { avatar, setAvatar } = useAvatar();
+  const { isPremium } = useFreemium();
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [lockedHint, setLockedHint] = useState<string | null>(null);
 
   useEffect(() => { setStats(readStats()); }, []);
 
@@ -120,9 +129,12 @@ export default function ProfilePage() {
 
       <section className="px-5 py-4 border-b-[3px] border-plum space-y-3">
         <div className="flex items-center gap-4">
-          <div className={`w-16 h-16 rounded-2xl ${dna.tint} border-[3px] border-plum shadow-hard flex items-center justify-center`}>
-            <Sticker name={dna.archetypeSticker} size={46} rotate={-6} />
-          </div>
+          <button onClick={() => setPickerOpen(true)} aria-label="Changer de mascotte" className="relative shrink-0 active:scale-95 transition-transform">
+            <Avatar avatar={avatar} size={64} />
+            <span className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-white border-[2.5px] border-plum flex items-center justify-center">
+              <Pencil className="w-3 h-3 text-plum" strokeWidth={3} />
+            </span>
+          </button>
           <div className="flex-1 min-w-0">
             <p className="font-display text-2xl text-plum leading-tight">Foodie niveau {level}</p>
             <p className="text-slate-600 text-xs font-semibold">{xp} XP · {dna.totalLikes} likes</p>
@@ -334,7 +346,37 @@ export default function ProfilePage() {
           Matcher avec un(e) ami(e)
           <ChevronRight className="w-4 h-4" />
         </button>
+        <nav aria-label="Informations légales" className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4 text-[11px] font-bold text-plum/60">
+          <Link href="/legal/privacy" className="underline">Confidentialité</Link>
+          <Link href="/legal/terms" className="underline">Conditions</Link>
+          <Link href="/legal/mentions" className="underline">Mentions légales</Link>
+        </nav>
       </footer>
+
+      <AvatarPicker
+        isOpen={pickerOpen}
+        current={avatar}
+        level={level}
+        isPremium={isPremium}
+        onClose={() => { setPickerOpen(false); setLockedHint(null); }}
+        onSave={setAvatar}
+        onLockedTap={reason => setLockedHint(reason)}
+      />
+      <AnimatePresence>
+        {lockedHint && pickerOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            onAnimationComplete={() => setTimeout(() => setLockedHint(null), 1600)}
+            className="fixed bottom-24 inset-x-0 z-[160] flex justify-center pointer-events-none"
+          >
+            <span className="chip bg-lemon text-plum text-xs !px-4 !py-2">
+              {lockedHint === 'Premium' ? 'Mascotte réservée aux membres Premium' : `Se débloque au ${lockedHint.toLowerCase()}`}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

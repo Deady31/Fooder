@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "predev": "node scripts/copy-maplibre-worker.mjs",
-    "prebuild": "node scripts/copy-maplibre-worker.mjs"
+    "prebuild": "node scripts/copy-maplibre-worker.mjs",
+    "test": "vitest run",
+    "import:osm": "node scripts/import-osm.mjs"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
@@ -35,6 +37,7 @@
     "playwright": "^1.59.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "vitest": "^2.1.9"
   }
 }

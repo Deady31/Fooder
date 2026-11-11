@@ -55,3 +55,11 @@ Les 31 stickers (plats, badges de trophées) ont été générés en local avec 
 - Icônes d'interface : [Lucide](https://lucide.dev)
 
 Tous droits réservés sur le code et les assets, sauf mention contraire.
+
+## Données restaurants
+
+Les restaurants de Toulouse viennent d'OpenStreetMap (ODbL). Rafraîchir : `npm run import:osm`. L'API `/api/restaurants?lat=&lng=&radius=&limit=&offset=` renvoie les lieux triés par distance.
+
+## Tests et production
+
+`npm test` lance les tests unitaires. La feuille de route de mise en production est dans [docs/PRODUCTION.md](docs/PRODUCTION.md), l'étude de marché dans [docs/MARKET.md](docs/MARKET.md), le schéma de base dans [supabase/schema.sql](supabase/schema.sql).

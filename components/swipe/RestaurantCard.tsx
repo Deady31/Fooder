@@ -48,10 +48,12 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
           </div>
         )}
 
-        <div className='chip absolute top-3 right-3 bg-white text-plum text-xs'>
-          <Star className='w-3.5 h-3.5 text-fooder-orange fill-fooder-orange' />
-          {rest.rating}
-        </div>
+        {rest.rating > 0 && (
+          <div className='chip absolute top-3 right-3 bg-white text-plum text-xs'>
+            <Star className='w-3.5 h-3.5 text-fooder-orange fill-fooder-orange' />
+            {rest.rating}
+          </div>
+        )}
 
         <div className='absolute -bottom-7 right-3 z-10 bob' style={{ ['--r' as string]: '-8deg' }}>
           <Sticker name={sticker} size={84} rotate={-8} />
@@ -62,7 +64,7 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
         <h2 className='rcard-name leading-[1.05] text-plum pr-16 line-clamp-2'>{rest.name}</h2>
 
         <div className='rcard-chips flex flex-wrap gap-2 mt-2.5'>
-          <span className='chip bg-fooder-secondary text-plum'>{rest.price}€</span>
+          {rest.price > 0 && <span className='chip bg-fooder-secondary text-plum'>{rest.price}€</span>}
           <span className='chip bg-fooder-mint text-plum'>
             <MapPin className='w-3 h-3' />
             {rest.distance}
@@ -71,7 +73,7 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
         </div>
 
         <p className='rcard-desc text-slate-600 text-sm font-medium line-clamp-3 leading-snug mt-2.5'>
-          {rest.description || "Un établissement d'exception vous attend à Toulouse pour une dégustation mémorable."}
+          {rest.description || `${rest.cuisine} · ${rest.address}. Maintiens appuyé pour les horaires et l'itinéraire.`}
         </p>
 
         <HoldHint hold={hold} nudge={nudge} />
