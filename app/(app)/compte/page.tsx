@@ -119,7 +119,7 @@ export default function AccountPage() {
               <Sticker name='b_star' size={56} rotate={-8} />
               <div>
                 <h2 className='text-2xl text-plum leading-none'>Crée ton compte</h2>
-                <p className='text-xs font-medium text-slate-600 mt-1'>Sans mot de passe : on t’envoie un code par e-mail.</p>
+                <p className='text-xs font-medium text-slate-600 mt-1'>Sans mot de passe : on t’envoie un lien de connexion par e-mail.</p>
               </div>
             </div>
 
@@ -144,7 +144,7 @@ export default function AccountPage() {
                   className='w-full rounded-xl border-[3px] border-plum px-3 py-2.5 font-bold text-plum'
                 />
                 <button type='submit' disabled={busy} className='w-full duo-button bg-bubblegum text-plum py-3.5 text-base flex items-center justify-center gap-2 disabled:opacity-60'>
-                  <Mail className='w-4 h-4' strokeWidth={2.5} /> {busy ? 'Envoi…' : 'Recevoir mon code'}
+                  <Mail className='w-4 h-4' strokeWidth={2.5} /> {busy ? 'Envoi…' : 'Recevoir mon lien'}
                 </button>
               </form>
             ) : (
@@ -155,9 +155,13 @@ export default function AccountPage() {
                 }}
                 className='space-y-3'
               >
-                <p className='text-sm font-medium text-slate-600'>
-                  Code envoyé à <b className='text-plum'>{email}</b>. Tu peux aussi toucher le lien de l’e-mail.
-                </p>
+                <div className='rounded-2xl bg-fooder-mint/40 border-[3px] border-plum p-3 space-y-1'>
+                  <p className='text-sm font-bold text-plum'>E-mail envoyé à {email}</p>
+                  <p className='text-xs font-medium text-slate-600'>
+                    Ouvre-le et touche « Sign in » <b>depuis ce même navigateur</b> : tu reviendras ici, connecté. Pense à regarder les spams.
+                  </p>
+                </div>
+                <p className='text-[11px] font-bold text-plum/60'>Ton e-mail contient un code à la place ? Saisis-le ici :</p>
                 <input
                   type='text'
                   inputMode='numeric'
