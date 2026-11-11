@@ -23,6 +23,7 @@ export interface Restaurant {
   menu?: MenuItem[];
   reviews?: number;
   website?: string;
+  phone?: string;
   hours?: WeekHours;
   dataSource?: 'mock' | 'google-places' | 'osm';
   updatedAt?: string;

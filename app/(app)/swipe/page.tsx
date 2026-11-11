@@ -100,6 +100,63 @@ export default function SwipePage() {
         return matched.length > 0 ? matched : list;
     };
 
+    const pageRef = useRef<{ offset: number; total: number; loading: boolean; coords: { lat: number; lng: number } | null }>({
+        offset: 0,
+        total: Infinity,
+        loading: false,
+        coords: null,
+    });
+
+    const seenIds = (): Set<string> => {
+        const ids = new Set<string>();
+        for (const key of ['fooder_likes', 'fooder_dislikes']) {
+            try {
+                (JSON.parse(localStorage.getItem(key) || '[]') as { id: string }[]).forEach(r => ids.add(r.id));
+            } catch {
+                /* liste illisible : on ignore */
+            }
+        }
+        return ids;
+    };
+
+    const fetchPage = async (): Promise<Restaurant[]> => {
+        const pg = pageRef.current;
+        const qs = new URLSearchParams({ limit: '50', radius: '3000', offset: String(pg.offset) });
+        if (pg.coords) {
+            qs.set('lat', String(pg.coords.lat));
+            qs.set('lng', String(pg.coords.lng));
+        }
+        const res = await fetch(`/api/restaurants?${qs.toString()}`);
+        const json = await res.json();
+        if (!json.success) return [];
+        pg.offset += (json.data as Restaurant[]).length;
+        pg.total = json.meta.total;
+        return json.data as Restaurant[];
+    };
+
+    /** Ajoute une page de restos au bas du deck quand il reste peu de cartes. */
+    const loadMore = async (): Promise<void> => {
+        const pg = pageRef.current;
+        if (pg.loading || pg.offset >= pg.total) return;
+        pg.loading = true;
+        try {
+            const have = new Set(allRestaurantsRef.current.map(r => r.id));
+            const seen = seenIds();
+            const fresh = (await fetchPage()).filter(r => !have.has(r.id) && !seen.has(r.id));
+            if (fresh.length === 0) return;
+            allRestaurantsRef.current = [...allRestaurantsRef.current, ...fresh];
+            const add = fresh.filter(r => matchesMood(r, currentMoodId));
+            if (add.length > 0) {
+                setRestaurants(prev => [...[...add].reverse(), ...prev]);
+                setCurrentIndex(i => i + add.length);
+            }
+        } catch {
+            /* réseau coupé : on réessaiera au prochain swipe */
+        } finally {
+            pg.loading = false;
+        }
+    };
+
     useEffect(() => {
         const getCoords = () =>
             new Promise<{ lat: number; lng: number } | null>(resolve => {
@@ -116,23 +173,20 @@ export default function SwipePage() {
             const coords = await getCoords();
             if (coords) setUserCoords(coords);
 
+            pageRef.current.coords = coords;
             let fromApi: Restaurant[] = [];
             try {
-                const qs = new URLSearchParams({ limit: '50', radius: '3000' });
-                if (coords) {
-                    qs.set('lat', String(coords.lat));
-                    qs.set('lng', String(coords.lng));
-                }
-                const res = await fetch(`/api/restaurants?${qs.toString()}`);
-                const json = await res.json();
-                if (json.success) fromApi = json.data as Restaurant[];
+                fromApi = await fetchPage();
             } catch {
                 fromApi = [];
             }
 
             // Les fiches soignées (photos, menus) passent devant ; l'API complète avec tout Toulouse.
             const known = new Set(mockRestaurants.map(r => r.name.toLowerCase()));
-            const merged = [...mockRestaurants, ...fromApi.filter(r => !known.has(r.name.toLowerCase()))];
+            const seen = seenIds();
+            const candidates = [...mockRestaurants, ...fromApi.filter(r => !known.has(r.name.toLowerCase()))];
+            const unseen = candidates.filter(r => !seen.has(r.id));
+            const merged = unseen.length > 0 ? unseen : candidates;
             const withCommunity = merged.map(r => {
                 if (r.image) return r;
                 const photos = communityPhotosFor(r.id);
@@ -170,6 +224,7 @@ export default function SwipePage() {
         trySwipe();
         track('swipe', { direction });
         setCurrentIndex(index - 1);
+        if (index - 1 < 6) void loadMore();
 
         gainXP(5);
         unlock('first_swipe');

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink } from 'lucide-react';
+import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone } from 'lucide-react';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
@@ -138,6 +138,14 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
               <p className='text-slate-700 font-medium leading-relaxed border-l-4 border-fooder-primary pl-4 text-base'>
                 {rest.description || 'Découvrez ce restaurant et laissez-vous surprendre par sa cuisine et son ambiance.'}
               </p>
+              {rest.phone && (
+                <a
+                  href={`tel:${rest.phone}`}
+                  className='mt-4 flex items-center justify-center gap-2 py-3.5 bg-white border-[3px] border-plum text-plum font-bold text-sm rounded-full shadow-hard active:translate-y-0.5 transition-transform'
+                >
+                  <Phone className='w-4 h-4' /> Appeler pour réserver
+                </a>
+              )}
               {rest.website && (
                 <a
                   href={rest.website}

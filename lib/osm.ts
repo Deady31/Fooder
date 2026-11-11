@@ -16,7 +16,9 @@ export interface OsmRecord {
   a: string; // adresse
   h: string; // opening_hours
   w: string; // site web
+  t?: string; // téléphone
   d: 0 | 1; // végétarien
+  s?: 'o' | 'v' | 'b'; // source : OpenStreetMap, Overture, les deux
 }
 
 const CUISINE_FR: Record<string, string> = {
@@ -52,17 +54,38 @@ export function cuisineLabel(rec: Pick<OsmRecord, 'c' | 'k' | 'd'>): string {
   return AMENITY_FR[rec.k] ?? 'Restaurant';
 }
 
-/**
- * Une fiche OSM est « présentable » si on connaît le type de cuisine ET des horaires lisibles.
- * Les autres restent dans la base mais ne sont jamais proposées dans le deck.
- */
-export function isPresentable(rec: OsmRecord): boolean {
-  return Boolean(rec.c) && parseOsmHours(rec.h) !== undefined;
+const hoursCache = new Map<string, boolean>();
+const hasHours = (rec: OsmRecord): boolean => {
+  if (!rec.h) return false;
+  let ok = hoursCache.get(rec.id);
+  if (ok === undefined) {
+    ok = parseOsmHours(rec.h) !== undefined;
+    hoursCache.set(rec.id, ok);
+  }
+  return ok;
+};
+
+/** Richesse d'une fiche : plus elle est élevée, plus elle passe tôt dans le deck. */
+export function completeness(rec: OsmRecord): number {
+  return (rec.c ? 2 : 0) + (hasHours(rec) ? 3 : 0) + (rec.w ? 2 : 0) + (rec.a ? 1 : 0) + (rec.t ? 1 : 0) + (rec.d ? 1 : 0);
 }
 
-/** Plus la fiche est riche, plus elle passe tôt dans le deck. */
-export function completeness(rec: OsmRecord): number {
-  return (rec.w ? 2 : 0) + (rec.a ? 1 : 0) + (rec.d ? 1 : 0);
+/**
+ * Une fiche est « présentable » quand elle porte assez d'informations utiles
+ * (cuisine, horaires, adresse, site, téléphone) : score d'au moins 4.
+ */
+export function isPresentable(rec: OsmRecord): boolean {
+  return completeness(rec) >= 4;
+}
+
+/** Numéro au format international (+33…), ou undefined si illisible. */
+export function normalizePhone(raw: string | undefined): string | undefined {
+  if (!raw) return undefined;
+  const digits = raw.replace(/[^\d+]/g, '');
+  if (/^\+\d{9,15}$/.test(digits)) return digits;
+  if (/^0\d{9}$/.test(digits)) return `+33${digits.slice(1)}`;
+  if (/^33\d{9}$/.test(digits)) return `+${digits}`;
+  return undefined;
 }
 
 function describe(rec: OsmRecord, cuisine: string, quartier: string | null, distance?: string): string {
@@ -71,6 +94,7 @@ function describe(rec: OsmRecord, cuisine: string, quartier: string | null, dist
   if (rec.d) parts.push('Options végétariennes.');
   if (rec.k === 'fast_food') parts.push('Restauration rapide.');
   if (rec.w) parts.push('Menu et infos sur leur site.');
+  else if (rec.t) parts.push('Réservation par téléphone.');
   return parts.join(' ');
 }
 
@@ -94,6 +118,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     lng: rec.ln,
     description: describe(rec, cuisine, quartier, distance),
     website: rec.w || undefined,
+    phone: normalizePhone(rec.t),
     hours: parseOsmHours(rec.h),
     dataSource: 'osm',
   };

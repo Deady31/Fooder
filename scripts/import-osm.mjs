@@ -1,4 +1,4 @@
-// Importe les restaurants de Toulouse depuis OpenStreetMap (Overpass) vers data/toulouse-osm.json.
+// Importe les restaurants de Toulouse depuis OpenStreetMap (Overpass) vers data/raw/osm.json (puis `npm run build:places`).
 // Usage: node scripts/import-osm.mjs   (données © contributeurs OpenStreetMap, licence ODbL)
 import { writeFile, mkdir } from 'node:fs/promises';
 
@@ -8,8 +8,8 @@ const ENDPOINTS = [
   'https://z.overpass-api.de/api/interpreter',
   'https://overpass.private.coffee/api/interpreter',
 ];
-// Boîte englobante de Toulouse (plus légère pour Overpass qu'une recherche par zone administrative)
-const QUERY = `[out:json][timeout:120][bbox:43.52,1.33,43.69,1.53];
+// Boîte englobante de Toulouse Métropole (plus légère pour Overpass qu'une recherche par zone administrative)
+const QUERY = `[out:json][timeout:120][bbox:43.48,1.28,43.73,1.64];
 nwr["amenity"~"^(restaurant|fast_food|cafe|bar|pub|ice_cream)$"];
 out center tags;`;
 
@@ -49,9 +49,10 @@ for (const el of json.elements) {
     a: [street, t['addr:postcode'], t['addr:city']].filter(Boolean).join(', '),
     h: t.opening_hours ?? '',
     w: t.website ?? t['contact:website'] ?? '',
+    t: t.phone ?? t['contact:phone'] ?? '',
     d: t.diet_vegetarian === 'yes' || t['diet:vegetarian'] === 'yes' ? 1 : 0,
   });
 }
-await mkdir('data', { recursive: true });
-await writeFile('data/toulouse-osm.json', JSON.stringify(out));
+await mkdir('data/raw', { recursive: true });
+await writeFile('data/raw/osm.json', JSON.stringify(out));
 console.log(`${out.length} lieux écrits (sur ${json.elements.length} éléments)`);

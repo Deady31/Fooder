@@ -11,6 +11,9 @@ export default function CreditsPage() {
           Restaurants et horaires : © contributeurs <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>, licence ODbL.
         </li>
         <li>
+          Adresses, sites web et téléphones : <a href='https://overturemaps.org'>Overture Maps Foundation</a>, jeu de données Places, licence CDLA Permissive 2.0.
+        </li>
+        <li>
           Fond de carte : <a href='https://openfreemap.org'>OpenFreeMap</a>, données OpenStreetMap, rendu MapLibre GL.
         </li>
         <li>Photos : fournies par les utilisateurs et, à terme, par les restaurateurs, sous leur responsabilité.</li>

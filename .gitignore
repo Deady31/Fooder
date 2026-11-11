@@ -26,3 +26,6 @@ PROJET_FOODER_RESUME.txt
 # OS / editor
 .DS_Store
 Thumbs.db
+
+# données brutes d'import (reproductibles)
+data/raw/

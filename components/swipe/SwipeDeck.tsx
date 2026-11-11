@@ -20,31 +20,54 @@ interface SwipeDeckProps {
 
 const COMMIT_OFFSET = 110;
 const COMMIT_VELOCITY = 600;
+const PEEK_OFFSET = 36; // à partir de là, la carte du dessous commence à avancer
 const VISIBLE_DEPTH = 3;
-
-const cardVariants = {
-  exit: (dir: SwipeDir) => ({
-    x: dir === 'right' ? 620 : -620,
-    rotate: dir === 'right' ? 26 : -26,
-    opacity: 0,
-    transition: { duration: 0.34, ease: 'easeIn' as const },
-  }),
-};
-
-interface TopCardProps {
-  rest: Restaurant;
-  onCommit: (dir: SwipeDir) => void;
-  onOpen: (rest: Restaurant) => void;
-}
-
 const HOLD_MS = 1000;
 const MOVE_TOLERANCE = 14;
+
+const STACK_SPRING = { type: 'spring' as const, stiffness: 290, damping: 28, mass: 0.9 };
+const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
+
+// La carte qui part continue sur sa lancée (ease-out), puis s'efface : pas de démarrage mou.
+const cardVariants = {
+  exit: (dir: SwipeDir) => ({
+    x: dir === 'right' ? 760 : -760,
+    y: 36,
+    rotate: dir === 'right' ? 22 : -22,
+    opacity: 0,
+    transition: {
+      x: { duration: 0.46, ease: EASE_OUT_EXPO },
+      y: { duration: 0.46, ease: EASE_OUT_EXPO },
+      rotate: { duration: 0.46, ease: EASE_OUT_EXPO },
+      opacity: { duration: 0.26, delay: 0.14, ease: 'easeIn' as const },
+    },
+  }),
+};
 
 function buzz(pattern: number | number[]) {
   if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(pattern);
 }
 
-function TopCard({ rest, onCommit, onOpen }: TopCardProps) {
+/** Position cible d'une carte selon sa profondeur ; « peeking » fait avancer la carte juste derrière. */
+function stackTarget(depth: number, peeking: boolean) {
+  if (depth === 0) return { scale: 1, y: 0, rotate: 0 };
+  const e = peeking && depth === 1 ? 0.55 : depth;
+  return { scale: 1 - e * 0.05, y: e * 16, rotate: (depth % 2 ? 1.5 : -1.5) * Math.min(1, e) };
+}
+
+interface DeckCardProps {
+  rest: Restaurant;
+  depth: number;
+  entering: boolean;
+  peeking: boolean;
+  onCommit: (dir: SwipeDir) => void;
+  onOpen: (rest: Restaurant) => void;
+  onPeek: (peeking: boolean) => void;
+}
+
+function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek }: DeckCardProps) {
+  const isTop = depth === 0;
+
   const x: MotionValue<number> = useMotionValue(0);
   const rotate = useTransform(x, [-220, 0, 220], [-14, 0, 14]);
   const likeOpacity = useTransform(x, [30, 130], [0, 1]);
@@ -72,6 +95,7 @@ function TopCard({ rest, onCommit, onOpen }: TopCardProps) {
   };
 
   const handlePointerDown = () => {
+    if (!isTop) return;
     pressStart.current = Date.now();
     buzz(8);
     animate(dip, 1, { type: 'spring', stiffness: 700, damping: 26 });
@@ -97,20 +121,26 @@ function TopCard({ rest, onCommit, onOpen }: TopCardProps) {
   };
 
   const handleDrag = (_: unknown, info: PanInfo) => {
-    if (pressStart.current !== null && Math.hypot(info.offset.x, info.offset.y) > MOVE_TOLERANCE) release(false);
+    const dist = Math.hypot(info.offset.x, info.offset.y);
+    if (pressStart.current !== null && dist > MOVE_TOLERANCE) release(false);
+    onPeek(Math.abs(info.offset.x) > PEEK_OFFSET);
   };
 
   const handleDragEnd = (_: unknown, info: PanInfo) => {
     release(false);
     if (info.offset.x > COMMIT_OFFSET || info.velocity.x > COMMIT_VELOCITY) onCommit('right');
     else if (info.offset.x < -COMMIT_OFFSET || info.velocity.x < -COMMIT_VELOCITY) onCommit('left');
+    else onPeek(false);
   };
+
+  const target = stackTarget(depth, peeking);
+  const from = stackTarget(depth + 1, false);
 
   return (
     <motion.div
-      className='absolute inset-0 cursor-grab active:cursor-grabbing touch-pan-y select-none'
-      style={{ x, rotate, zIndex: 30, WebkitTouchCallout: 'none' }}
-      drag='x'
+      className={`absolute inset-0 select-none ${isTop ? 'cursor-grab active:cursor-grabbing touch-pan-y' : 'pointer-events-none'}`}
+      style={{ x, rotate, zIndex: 30 - depth, WebkitTouchCallout: 'none' }}
+      drag={isTop ? 'x' : false}
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.9}
       onPointerDown={handlePointerDown}
@@ -122,22 +152,33 @@ function TopCard({ rest, onCommit, onOpen }: TopCardProps) {
       variants={cardVariants}
       exit='exit'
     >
-      <motion.div className='w-full h-full' style={{ scale: pressScale }}>
-        <RestaurantCard rest={rest} hold={hold} nudge={nudge} />
+      <motion.div
+        className='w-full h-full'
+        initial={entering ? { ...from, opacity: 0 } : false}
+        animate={{ ...target, opacity: 1 }}
+        transition={{ ...STACK_SPRING, opacity: { duration: 0.25 } }}
+      >
+        <motion.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
+          <RestaurantCard rest={rest} hold={isTop ? hold : undefined} nudge={isTop ? nudge : undefined} />
+        </motion.div>
       </motion.div>
 
-      <motion.div
-        className='absolute top-8 left-5 z-20 pointer-events-none'
-        style={{ opacity: likeOpacity, scale: likeScale, rotate: -14 }}
-      >
-        <div className='stamp text-[#12B76A]'>MIAM !</div>
-      </motion.div>
-      <motion.div
-        className='absolute top-8 right-5 z-20 pointer-events-none'
-        style={{ opacity: nopeOpacity, scale: nopeScale, rotate: 14 }}
-      >
-        <div className='stamp text-fooder-red'>BOF</div>
-      </motion.div>
+      {isTop && (
+        <>
+          <motion.div
+            className='absolute top-8 left-5 z-20 pointer-events-none'
+            style={{ opacity: likeOpacity, scale: likeScale, rotate: -14 }}
+          >
+            <div className='stamp text-[#12B76A]'>MIAM !</div>
+          </motion.div>
+          <motion.div
+            className='absolute top-8 right-5 z-20 pointer-events-none'
+            style={{ opacity: nopeOpacity, scale: nopeScale, rotate: 14 }}
+          >
+            <div className='stamp text-fooder-red'>BOF</div>
+          </motion.div>
+        </>
+      )}
     </motion.div>
   );
 }
@@ -147,10 +188,13 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
   ref
 ) {
   const [exitDir, setExitDir] = useState<SwipeDir>('right');
+  const [peeking, setPeeking] = useState(false);
+  const seen = useRef<Set<string> | null>(null);
 
   const commit = (dir: SwipeDir) => {
     const top = cards[cards.length - 1];
     if (!top) return;
+    setPeeking(false);
     if (!canSwipe) {
       onBlocked();
       return;
@@ -163,27 +207,29 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
 
   const visible = cards.slice(-VISIBLE_DEPTH);
 
+  // Les cartes présentes dès le premier rendu n'animent pas leur entrée ; les suivantes remontent doucement.
+  const firstRender = seen.current === null;
+  if (seen.current === null) seen.current = new Set();
+  const known = seen.current;
+  const entering = (id: string) => !firstRender && !known.has(id);
+  const flags = visible.map(r => entering(r.id));
+  visible.forEach(r => known.add(r.id));
+
   return (
     <div className='relative w-[92%] self-stretch mb-9 max-h-[640px]'>
       <AnimatePresence custom={exitDir}>
-        {visible.map((rest, i) => {
-          const depth = visible.length - 1 - i;
-          if (depth === 0) {
-            return <TopCard key={rest.id} rest={rest} onCommit={commit} onOpen={onOpen} />;
-          }
-          return (
-            <motion.div
-              key={rest.id}
-              className='absolute inset-0 pointer-events-none'
-              style={{ zIndex: 30 - depth }}
-              initial={false}
-              animate={{ scale: 1 - depth * 0.05, y: depth * 16, rotate: depth % 2 ? 1.5 : -1.5 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-            >
-              <RestaurantCard rest={rest} />
-            </motion.div>
-          );
-        })}
+        {visible.map((rest, i) => (
+          <DeckCard
+            key={rest.id}
+            rest={rest}
+            depth={visible.length - 1 - i}
+            entering={flags[i]}
+            peeking={peeking}
+            onCommit={commit}
+            onOpen={onOpen}
+            onPeek={setPeeking}
+          />
+        ))}
       </AnimatePresence>
     </div>
   );

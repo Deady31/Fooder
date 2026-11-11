@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import records from '../../../../data/toulouse-osm.json';
+import records from '../../../../data/toulouse-places.json';
 import { cuisineLabel, OsmRecord } from '../../../../lib/osm';
 import { quartierFor } from '../../../../lib/quartiers';
 

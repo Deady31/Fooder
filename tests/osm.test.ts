@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseOsmHours } from '../lib/osmHours';
-import { cuisineLabel, formatMeters, haversine, osmToRestaurant, OsmRecord } from '../lib/osm';
+import { completeness, cuisineLabel, formatMeters, haversine, isPresentable, normalizePhone, osmToRestaurant, OsmRecord } from '../lib/osm';
 import { openStatus } from '../lib/hours';
 import { AVATARS, isUnlocked, lockReason } from '../lib/avatars';
 
@@ -64,6 +64,31 @@ describe('osm', () => {
     expect(r.image).toBe('');
     expect(r.dataSource).toBe('osm');
     expect(r.hours).toBeDefined();
+  });
+});
+
+describe('qualité des fiches', () => {
+  const base: OsmRecord = { id: 'x', n: 'N', k: 'restaurant', c: '', la: 43.6, ln: 1.44, a: '', h: '', w: '', d: 0 };
+
+  it('refuse une fiche sans information utile', () => {
+    expect(isPresentable(base)).toBe(false);
+    expect(isPresentable({ ...base, a: '1 rue X' })).toBe(false);
+  });
+
+  it('accepte cuisine + adresse + téléphone, ou horaires + adresse', () => {
+    expect(isPresentable({ ...base, c: 'pizza', a: '1 rue X', t: '+33561000000' })).toBe(true);
+    expect(isPresentable({ ...base, h: 'Mo-Su 12:00-14:00', a: '1 rue X' })).toBe(true);
+  });
+
+  it('classe les fiches riches avant les pauvres', () => {
+    expect(completeness({ ...base, c: 'pizza', w: 'https://x.fr' })).toBeGreaterThan(completeness({ ...base, c: 'pizza' }));
+  });
+
+  it('normalise les numéros français', () => {
+    expect(normalizePhone('05 61 00 00 00')).toBe('+33561000000');
+    expect(normalizePhone('33624655430')).toBe('+33624655430');
+    expect(normalizePhone('+33 5 61 00 00 00')).toBe('+33561000000');
+    expect(normalizePhone('abc')).toBeUndefined();
   });
 });
 

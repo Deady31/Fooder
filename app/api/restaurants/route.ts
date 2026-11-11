@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import records from '../../../data/toulouse-osm.json';
+import records from '../../../data/toulouse-places.json';
 import { completeness, haversine, isPresentable, OsmRecord, osmToRestaurant } from '../../../lib/osm';
 
 export const dynamic = 'force-dynamic';

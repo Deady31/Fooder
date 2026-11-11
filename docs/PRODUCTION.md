@@ -4,7 +4,7 @@
 
 | Chantier | État | Où |
 |---|---|---|
-| Tous les restos de Toulouse | **Fait (socle gratuit)** : 2 398 lieux OSM importés, API paginée par distance | `scripts/import-osm.mjs`, `data/toulouse-osm.json`, `app/api/restaurants/route.ts` |
+| Tous les restos de Toulouse | **Fait** : 5 360 lieux de la métropole (OpenStreetMap + Overture Maps, dédoublonnés), API paginée par distance, 4 300 restos/fast-foods | `scripts/import-osm.mjs`, `scripts/import-overture.py`, `scripts/build-places.mjs`, `data/toulouse-places.json`, `app/api/restaurants` |
 | Horaires OSM → fiche | **Fait** (parseur strict, jamais d'horaires inventés) | `lib/osmHours.ts` |
 | Avatars (12 mascottes + fonds) | **Fait** | `lib/avatars.ts`, `components/profile/` |
 | Fil social | **Prototype local** (photos recompressées sans EXIF, like, suppression, exemples marqués « démo ») | `app/(app)/feed`, `lib/feed.ts` |

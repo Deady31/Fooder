@@ -10,7 +10,9 @@
     "predev": "node scripts/copy-maplibre-worker.mjs",
     "prebuild": "node scripts/copy-maplibre-worker.mjs",
     "test": "vitest run",
-    "import:osm": "node scripts/import-osm.mjs"
+    "import:osm": "node scripts/import-osm.mjs",
+    "import:overture": "python scripts/import-overture.py",
+    "build:places": "node scripts/build-places.mjs"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
