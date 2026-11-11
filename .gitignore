@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# secrets and local config
+.env
+.env.*
+!.env.example
+
+# generated at dev/build time (scripts/copy-maplibre-worker.mjs)
+public/maplibre/
+
+# local tooling and personal notes
+.claude/
+.vercel/
+design/
+portfolio-assets/
+screenshot.mjs
+PROJET_FOODER_RESUME.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
