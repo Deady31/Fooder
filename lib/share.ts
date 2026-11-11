@@ -41,6 +41,13 @@ export async function shareImage(blob: Blob, filename: string, text: string): Pr
   return 'copied';
 }
 
+/** Identifiant de post compatible avec la base (UUID). */
+export function newPostId(): string {
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID();
+  const h = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-a${h.slice(17, 20)}-${h.slice(20)}`;
+}
+
 /** Publie un post local dans le fil (hors du hook useFeed). */
 export function publishPost(post: FeedPost): boolean {
   const mine = readJson<FeedPost[]>(POSTS_KEY, []);

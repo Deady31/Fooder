@@ -20,10 +20,10 @@ export function writeJson(key: string, value: unknown): boolean {
   }
 }
 
-export function randomId(prefix: string): string {
+export function randomId(prefix: string, bytes = 6): string {
   const rand =
     typeof crypto !== 'undefined' && 'getRandomValues' in crypto
-      ? Array.from(crypto.getRandomValues(new Uint8Array(6)), b => b.toString(36).padStart(2, '0')).join('')
-      : Math.random().toString(36).slice(2, 12);
+      ? Array.from(crypto.getRandomValues(new Uint8Array(bytes)), b => b.toString(36).padStart(2, '0')).join('')
+      : Array.from({ length: bytes }, () => Math.floor(Math.random() * 1296).toString(36).padStart(2, '0')).join('');
   return `${prefix}${rand}`;
 }

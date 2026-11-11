@@ -24,6 +24,8 @@ export interface FriendSnapshot {
   streak: number;
   photos: number;
   at: number;
+  /** Code d'ami du compte : permet l'ajout réciproque côté serveur */
+  code?: string;
 }
 
 export const SNAPSHOT_LIMITS = { likes: 30, likesQr: 12, cuisines: 6, quartiers: 18, name: 20, label: 40 };
@@ -89,6 +91,7 @@ export function parseSnapshot(raw: unknown): FriendSnapshot | null {
     streak: int(o.streak, 1000),
     photos: int(o.photos, 100_000),
     at: ts(o.at),
+    code: typeof o.code === 'string' && /^[a-f0-9]{12}$/.test(o.code) ? o.code : undefined,
   };
 }
 

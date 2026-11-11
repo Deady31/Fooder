@@ -1,5 +1,8 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAuth } from '../components/auth/AuthProvider';
+import { currentUserId } from '../lib/cloud/client';
+import { deleteCloudPost, fetchCloudPosts, publishCloudPost } from '../lib/cloud/social';
 import { COMMENTS_KEY, MAX_COMMENT, FeedComment, FeedPost, POSTS_KEY, POST_LIKES_KEY, seedComments, seedPosts } from '../lib/feed';
 
 function readJson<T>(key: string, fallback: T): T {
@@ -26,6 +29,8 @@ export function useFeed() {
   const [seeds, setSeeds] = useState<FeedPost[]>([]);
   const [seedCom, setSeedCom] = useState<FeedComment[]>([]);
   const [myCom, setMyCom] = useState<FeedComment[]>([]);
+  const [remote, setRemote] = useState<FeedPost[]>([]);
+  const { uid, enabled } = useAuth();
 
   useEffect(() => {
     setMine(readJson<FeedPost[]>(POSTS_KEY, []));
@@ -35,19 +40,33 @@ export function useFeed() {
     setMyCom(readJson<FeedComment[]>(COMMENTS_KEY, []));
   }, []);
 
-  const posts = useMemo(() => [...mine, ...seeds].sort((a, b) => b.createdAt - a.createdAt), [mine, seeds]);
+  // Fil de la ville : posts publics du serveur (les exemples de démo restent tant qu'il est vide)
+  useEffect(() => {
+    if (!enabled) return;
+    fetchCloudPosts(uid).then(setRemote).catch(() => setRemote([]));
+  }, [enabled, uid]);
+
+  const posts = useMemo(() => {
+    const ids = new Set(remote.map(p => p.id));
+    const local = mine.filter(p => !ids.has(p.id));
+    const demo = remote.length >= 6 ? [] : seeds;
+    return [...remote, ...local, ...demo].sort((a, b) => b.createdAt - a.createdAt);
+  }, [mine, seeds, remote]);
 
   const addPost = useCallback(
     (post: FeedPost): boolean => {
       const next = [post, ...mine];
       if (!writeJson(POSTS_KEY, next)) return false; // stockage plein : on prévient l'utilisateur
       setMine(next);
+      currentUserId().then(id => (id ? publishCloudPost(post, id) : false)).catch(() => false);
       return true;
     },
     [mine]
   );
 
   const removePost = useCallback((id: string) => {
+    setRemote(prev => prev.filter(p => p.id !== id));
+    void deleteCloudPost(id).catch(() => undefined);
     setMine(prev => {
       const next = prev.filter(p => p.id !== id);
       writeJson(POSTS_KEY, next);

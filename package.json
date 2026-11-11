@@ -17,6 +17,7 @@
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
     "@react-spring/web": "^9.7.5",
+    "@supabase/supabase-js": "2.118.0",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.24",
     "lucide-react": "^0.363.0",

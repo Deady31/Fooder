@@ -41,7 +41,7 @@ export const findGroup = (id: string): GroupSession | undefined => readGroups().
 export function createGroup(title: string, host: { id: string; name: string }, restos: GroupResto[], now: number = Date.now()): GroupSession {
   const session: GroupSession = {
     v: 1,
-    id: randomId('g'),
+    id: randomId('g', 12),
     title: title.trim().slice(0, GROUP_LIMITS.title) || 'On mange où ?',
     host,
     restos: restos.slice(0, GROUP_LIMITS.restos),

@@ -72,6 +72,7 @@ export function buildMySnapshot(now: number = Date.now()): FriendSnapshot {
     streak: weeklyStreak(times, now).current,
     photos,
     at: now,
+    code: me.code,
   };
 }
 

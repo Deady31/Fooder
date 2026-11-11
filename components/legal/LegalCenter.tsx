@@ -87,7 +87,10 @@ export function LegalCenter() {
         </button>
         {confirming ? (
           <div className='rounded-2xl border-[3px] border-fooder-red p-3 space-y-2'>
-            <p className='text-xs font-bold text-plum'>Supprimer likes, niveau, posts et préférences ? C&apos;est définitif.</p>
+            <p className='text-xs font-bold text-plum'>
+              Supprimer likes, niveau, posts et préférences de ce téléphone ? C&apos;est définitif. Pour effacer aussi ton compte en ligne, passe par{' '}
+              <Link href='/compte' className='underline'>Compte</Link>.
+            </p>
             <div className='flex gap-2'>
               <button onClick={() => setConfirming(false)} className='duo-button flex-1 bg-white text-plum text-sm'>Annuler</button>
               <button onClick={wipe} className='duo-button flex-1 bg-fooder-red text-white text-sm'>Supprimer</button>

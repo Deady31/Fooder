@@ -16,6 +16,7 @@ import { InstallCard } from '../../../components/pwa/InstallCard';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useFreemium } from '../../../hooks/useFreemium';
 import { useSocial } from '../../../hooks/useSocial';
+import { useAuth } from '../../../components/auth/AuthProvider';
 import { QUARTIERS } from '../../../lib/quartiers';
 import { visitedQuartiers } from '../../../lib/visits';
 import { PERKS, bestTitle, contributorTitles, monthlyChallenges } from '../../../lib/rituals';
@@ -66,6 +67,7 @@ export default function ProfilePage() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [lockedHint, setLockedHint] = useState<string | null>(null);
   const social = useSocial();
+  const auth = useAuth();
   const [posts, setPosts] = useState<FeedPost[]>([]);
 
   useEffect(() => {
@@ -166,6 +168,25 @@ export default function ProfilePage() {
           </p>
         )}
       </section>
+
+      {auth.enabled && !auth.session && !auth.loading && (
+        <Link href="/compte" className="mx-4 mt-3 flex items-center gap-3 bg-fooder-secondary rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5">
+          <Sticker name="b_star" size={40} rotate={-8} />
+          <span className="flex-1 min-w-0">
+            <span className="block font-display text-lg text-plum leading-tight">Sauvegarde ta progression</span>
+            <span className="block text-xs font-bold text-plum/70">Crée ton compte en 30 s, sans mot de passe</span>
+          </span>
+          <ChevronRight className="w-4 h-4 text-plum shrink-0" strokeWidth={3} />
+        </Link>
+      )}
+      {auth.session && (
+        <Link href="/compte" className="mx-4 mt-3 flex items-center justify-between gap-2 text-xs font-bold text-plum/70">
+          <span className="truncate">Compte · {auth.email}</span>
+          <span className={`chip !px-2 !py-0.5 !text-[10px] ${auth.sync === 'error' ? 'bg-fooder-orange' : 'bg-fooder-mint'} text-plum`}>
+            {auth.sync === 'error' ? 'synchro en échec' : 'sauvegardé'}
+          </span>
+        </Link>
+      )}
 
       <Link href="/amis" className="mx-4 my-3 flex items-center gap-3 bg-bubblegum rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5">
         <span className="w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center">

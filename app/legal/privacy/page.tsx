@@ -14,21 +14,33 @@ export default function PrivacyPage() {
       <p>
         Tes likes, ton niveau, ton avatar, tes préférences, tes publications et commentaires sont enregistrés dans le stockage local de ton navigateur
         (liste détaillée dans <a href='/legal/cookies'>Cookies et stockage</a>). Ils ne sont envoyés à aucun serveur tant que tu n&apos;as pas de compte.
-        Tu peux les exporter ou les effacer depuis ton profil.
+        Tu peux les exporter ou les effacer depuis ton profil. Les liens d&apos;ami, de groupe et de défi que tu partages contiennent les informations
+        affichées (pseudo, mascotte, niveau, restos likés pour la carte d&apos;ami) dans la partie de l&apos;adresse qui n&apos;est pas transmise au serveur.
       </p>
 
       <h2>Données traitées, finalités et bases légales</h2>
       <ul>
         <li><strong>Position approximative</strong> (si tu l&apos;autorises) : trier les restaurants par distance. Base : ton consentement. Envoyée au serveur pour la requête, non conservée.</li>
         <li><strong>Mesure d&apos;audience anonyme</strong> (si tu l&apos;acceptes) : améliorer l&apos;application. Base : ton consentement. Identifiant aléatoire, sans nom ni e-mail. Choix redemandé tous les 6 mois.</li>
-        <li><strong>Compte et fil social</strong> (à venir) : e-mail, pseudo, avatar, publications. Base : exécution du service. Conservés tant que ton compte existe, supprimés avec lui.</li>
+        <li>
+          <strong>Compte</strong> (facultatif) : e-mail (connexion par code, sans mot de passe), pseudo, mascotte, likes, visites, progression et trophées
+          sauvegardés pour les retrouver sur un autre appareil. Base : exécution du service. Conservés tant que ton compte existe, supprimés avec lui.
+        </li>
+        <li>
+          <strong>Amis et groupes</strong> : ta carte (pseudo, mascotte, niveau, cuisines et restos likés, statistiques de visites) est visible de tes amis
+          uniquement ; tes votes de groupe sont visibles des membres de la session. Base : exécution du service.
+        </li>
+        <li>
+          <strong>Publications</strong> : verdict, texte et photo d&apos;un restaurant, visibles de tous avec ton pseudo et ta mascotte. Les photos sont
+          recompressées et leurs métadonnées (dont la position GPS) supprimées avant l&apos;envoi. Base : exécution du service.
+        </li>
         <li><strong>Sécurité et modération</strong> : prévenir les abus. Base : intérêt légitime. Journaux techniques conservés 12 mois au plus.</li>
         <li><strong>Paiement Premium</strong> (à venir) : géré par un prestataire de paiement ; nous ne stockons pas ta carte. Données de facturation conservées 10 ans (obligation légale).</li>
       </ul>
 
       <h2>Destinataires et transferts</h2>
       <p>
-        Hébergement : Vercel (fonctions déployées à Paris). Base de données du compte (à venir) : hébergeur situé dans l&apos;Union européenne. Mesure d&apos;audience :
+        Hébergement : Vercel (fonctions déployées à Paris). Comptes, base de données et photos : Supabase, région Union européenne. Mesure d&apos;audience :
         PostHog, région UE. Lorsqu&apos;un prestataire est établi hors UE, nous nous appuyons sur le cadre de protection des données applicable (clauses contractuelles types ou
         décision d&apos;adéquation). Aucune revente de données, aucune publicité ciblée.
       </p>
@@ -39,7 +51,8 @@ export default function PrivacyPage() {
       <h2>Tes droits</h2>
       <p>
         Accès, rectification, effacement, limitation, opposition, portabilité, retrait du consentement à tout moment, et directives sur le sort de tes
-        données après décès. Pour les données locales, utilise « Exporter mes données » et « Supprimer mes données » dans ton profil. Pour le reste, écris-nous.
+        données après décès. Pour les données locales, utilise « Exporter mes données » et « Supprimer mes données » dans ton profil. Pour ton compte,
+        « Supprimer mon compte » (Profil, Compte) efface immédiatement compte, photos, amitiés et votes. Pour le reste, écris-nous.
         Nous répondons sous un mois. Tu peux saisir la CNIL (<a href='https://www.cnil.fr'>cnil.fr</a>).
       </p>
 

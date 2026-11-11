@@ -12,6 +12,7 @@ import { useToast } from '../../../components/ui/Toast';
 import { useSocial } from '../../../hooks/useSocial';
 import { Friend, removeFriend } from '../../../lib/social/friends';
 import { bestTitle, contributorTitles } from '../../../lib/rituals';
+import { removeFriendCloud } from '../../../lib/cloud/social';
 
 export default function FriendsPage() {
   const { snapshot, friends, visits, defis } = useSocial();
@@ -76,6 +77,7 @@ export default function FriendsPage() {
                   onDefi={setDefiFor}
                   onRemove={id => {
                     removeFriend(id);
+                    void removeFriendCloud(id);
                     toast.show('Ami retiré');
                   }}
                 />

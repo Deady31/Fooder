@@ -8,13 +8,15 @@ import { MAX_CAPTION, Verdict, compressImage } from '../../lib/feed';
 import { VisitInput, addVisit, dismissCheckin, snoozeCheckin, visitedQuartiers } from '../../lib/visits';
 import { weeklyStreak } from '../../lib/streak';
 import { XP, awardXp, unlockAchievement } from '../../lib/rewards';
-import { publishPost } from '../../lib/share';
+import { newPostId, publishPost } from '../../lib/share';
 import { readJson } from '../../lib/store';
 import { getMe } from '../../lib/identity';
 import { computeLevel } from '../../hooks/useGamification';
 import { AvatarChoice, DEFAULT_AVATAR } from '../../lib/avatars';
 import { FeedPost, POSTS_KEY } from '../../lib/feed';
 import { track } from '../../lib/analytics';
+import { currentUserId } from '../../lib/cloud/client';
+import { publishCloudPost } from '../../lib/cloud/social';
 
 export type CheckinMode = 'ask' | 'confirm';
 
@@ -96,7 +98,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
       const avatar = { ...DEFAULT_AVATAR, ...readJson<Partial<AvatarChoice>>('fooder_avatar', {}) };
       const level = computeLevel(readJson<{ total?: number }>('fooder_xp', {}).total ?? 0);
       const post: FeedPost = {
-        id: `mine-${Date.now()}`,
+        id: newPostId(),
         author: { name: me.name, avatar, level },
         restaurantId: target.restId,
         restaurantName: target.name,
@@ -113,6 +115,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
         setError('Stockage plein : retire une ancienne photo du fil.');
         return;
       }
+      currentUserId().then(id => (id ? publishCloudPost(post, id) : false)).catch(() => false);
       if (photo) {
         xp += XP.photo;
         const photos = readJson<FeedPost[]>(POSTS_KEY, []).filter(p => p.photo).length;

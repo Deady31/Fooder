@@ -14,6 +14,8 @@ import { foodMatch } from '../../../../lib/social/match';
 import { outcomeLabel, shareLink } from '../../../../lib/share';
 import { XP, awardXp, unlockAchievement } from '../../../../lib/rewards';
 import { track } from '../../../../lib/analytics';
+import { useAuth } from '../../../../components/auth/AuthProvider';
+import { addFriendByCode } from '../../../../lib/cloud/social';
 
 type Status = 'loading' | 'invalid' | 'preview' | 'update' | 'added' | 'updated' | 'self';
 
@@ -22,6 +24,8 @@ export default function AddFriendPage() {
   const [friend, setFriend] = useState<FriendSnapshot | null>(null);
   const [me, setMe] = useState<FriendSnapshot | null>(null);
   const toast = useToast();
+  const auth = useAuth();
+  const [mutual, setMutual] = useState(false);
 
   useEffect(() => {
     const ingest = async () => {
@@ -45,8 +49,12 @@ export default function AddFriendPage() {
     return () => window.removeEventListener('hashchange', ingest);
   }, []);
 
-  const add = () => {
+  const add = async () => {
     if (!friend) return;
+    if (auth.uid && friend.code) {
+      const fresh = await addFriendByCode(friend.code);
+      if (fresh) setMutual(true);
+    }
     const result = upsertFriend(friend);
     if (result === 'updated' || result === 'same') return setStatus('updated');
     if (result === 'added') {
@@ -135,10 +143,19 @@ export default function AddFriendPage() {
             {status === 'added' ? `${friend.name} est ton ami !` : `Carte de ${friend.name} mise à jour`}
           </p>
           {status === 'added' && <p className='text-center text-sm font-bold text-plum/70'>+{XP.friend} XP</p>}
-          <button onClick={sendBack} className='w-full duo-button bg-fooder-secondary text-plum py-4 text-base flex items-center justify-center gap-2'>
-            <Share2 className='w-5 h-5' strokeWidth={2.5} /> Envoie-lui ta carte en retour
-          </button>
-          <p className='text-center text-xs font-medium text-slate-600'>Sans ça, tu n’apparais pas encore chez {friend.name}.</p>
+          {mutual ? (
+            <p className='text-center text-sm font-bold text-plum'>Vous êtes amis des deux côtés, tu apparais déjà chez {friend.name}.</p>
+          ) : (
+            <>
+              <button onClick={sendBack} className='w-full duo-button bg-fooder-secondary text-plum py-4 text-base flex items-center justify-center gap-2'>
+                <Share2 className='w-5 h-5' strokeWidth={2.5} /> Envoie-lui ta carte en retour
+              </button>
+              <p className='text-center text-xs font-medium text-slate-600'>
+                Sans ça, tu n’apparais pas encore chez {friend.name}.{' '}
+                {auth.enabled && !auth.session && <Link href='/compte' className='underline font-bold'>Avec un compte, c’est automatique.</Link>}
+              </p>
+            </>
+          )}
         </motion.div>
       )}
 

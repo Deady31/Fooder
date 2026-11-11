@@ -4,6 +4,8 @@ export interface Me {
   id: string;
   name: string;
   createdAt: number;
+  /** Code d'ami du compte (présent une fois connecté) */
+  code?: string;
 }
 
 const KEY = 'fooder_me';

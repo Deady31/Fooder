@@ -23,6 +23,7 @@ import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
 import { NotificationBell } from '../../../components/notifications/NotificationBell';
 import { queueCheckin } from '../../../lib/visits';
+import { fetchRestaurantPhotos } from '../../../lib/cloud/social';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -187,8 +188,9 @@ export default function SwipePage() {
             const candidates = [...mockRestaurants, ...fromApi.filter(r => !known.has(r.name.toLowerCase()))];
             const unseen = candidates.filter(r => !seen.has(r.id));
             const merged = unseen.length > 0 ? unseen : candidates;
+            const cloudPhotos = await fetchRestaurantPhotos(merged.map(r => r.id)).catch(() => new Map<string, string[]>());
             const withCommunity = merged.map(r => {
-                const photos = communityPhotosFor(r.id);
+                const photos = [...communityPhotosFor(r.id), ...(cloudPhotos.get(r.id) ?? [])];
                 return photos.length > 0 ? { ...r, image: photos[0], extraImages: photos.slice(1), photoSource: 'community' as const } : r;
             });
             const sorted = sortWithSponsored(withCommunity);

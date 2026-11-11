@@ -15,6 +15,8 @@ import { outcomeLabel, shareLink } from '../../../lib/share';
 import { XP, awardXp, unlockAchievement } from '../../../lib/rewards';
 import { timeAgo } from '../../../lib/feed';
 import { track } from '../../../lib/analytics';
+import { useAuth } from '../../../components/auth/AuthProvider';
+import { pullGroupVotes, syncGroup, watchGroup } from '../../../lib/cloud/social';
 
 type View = { kind: 'list' } | { kind: 'create' } | { kind: 'play'; id: string } | { kind: 'results'; id: string };
 
@@ -24,6 +26,7 @@ export default function GroupPage() {
   const [myId, setMyId] = useState('');
   const [notice, setNotice] = useState<string | null>(null);
   const toast = useToast();
+  const auth = useAuth();
 
   const reload = () => setGroups(readGroups());
 
@@ -58,6 +61,20 @@ export default function GroupPage() {
   }, []);
 
   const current = view.kind === 'play' || view.kind === 'results' ? groups.find(g => g.id === view.id) : undefined;
+  const currentId = current?.id;
+
+  // Connecté : on rejoint la session côté serveur et on suit les votes en direct.
+  useEffect(() => {
+    if (!auth.uid || !currentId) return;
+    const session = findGroup(currentId);
+    if (!session) return;
+    syncGroup(session, auth.uid).then(reload).catch(() => undefined);
+    return watchGroup(currentId, () => {
+      const s = findGroup(currentId);
+      if (s) pullGroupVotes(s).then(reload).catch(() => undefined);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.uid, currentId]);
 
   const create = (title: string, restos: GroupResto[]) => {
     const me = getMe();
@@ -71,8 +88,10 @@ export default function GroupPage() {
   const vote = (session: GroupSession, likes: string[]) => {
     const me = getMe();
     const first = !session.votes.some(v => v.voterId === me.id);
-    const next = withVote(session, { voterId: me.id, name: me.name, likes, at: Date.now() });
+    const myVote = { voterId: me.id, name: me.name, likes, at: Date.now() };
+    const next = withVote(session, myVote);
     saveGroup(next);
+    if (auth.uid) syncGroup(next, auth.uid, myVote).then(reload).catch(() => toast.show('Vote enregistré ici, synchro plus tard'));
     if (first) {
       if (session.host.id !== me.id) awardXp(XP.groupVote);
       unlockAchievement('group_1');

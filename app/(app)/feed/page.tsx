@@ -11,6 +11,7 @@ import { useAvatar } from '../../../hooks/useAvatar';
 import { useGamification } from '../../../hooks/useGamification';
 import { stickerFor } from '../../../lib/stickers';
 import { track } from '../../../lib/analytics';
+import { newPostId } from '../../../lib/share';
 
 function readLiked(): LikedRestaurant[] {
   try {
@@ -46,7 +47,7 @@ export default function FeedPage() {
 
   const publish = ({ restaurant, caption, verdict, photo }: ComposeResult): boolean => {
     const ok = addPost({
-      id: `mine-${Date.now()}`,
+      id: newPostId(),
       author: { name: 'Toi', avatar, level },
       restaurantId: restaurant.id,
       restaurantName: restaurant.name,
