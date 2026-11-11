@@ -1,4 +1,4 @@
-import { FOOD_STICKERS, FoodSticker, stickerFor, stickerSrc } from '../../lib/stickers';
+import { FoodSticker, stickerFor, stickerSrc } from '../../lib/stickers';
 
 const TINTS: Partial<Record<FoodSticker, string>> = {
   pizza: '#FFC857', burger: '#FFA75E', ramen: '#FFD83D', sushi: '#FF9AA2', taco: '#B8F2A0', kebab: '#FFB86B',
@@ -14,12 +14,6 @@ const SATELLITES = [
   { right: '12%', bottom: '8%', rotate: -10 },
 ] as const;
 
-const hash = (s: string): number => {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return h;
-};
-
 interface CoverArtProps {
   name: string;
   cuisine: string;
@@ -29,8 +23,6 @@ interface CoverArtProps {
 /** Couverture illustrée pour les restaurants sans photo : une vraie composition, pas un placeholder. */
 export function CoverArt({ name, cuisine, className = '' }: CoverArtProps) {
   const main = stickerFor(cuisine, name, name);
-  const seed = hash(name);
-  const companions = FOOD_STICKERS.filter(s => s !== main);
 
   return (
     <div
@@ -44,16 +36,15 @@ export function CoverArt({ name, cuisine, className = '' }: CoverArtProps) {
       }}
     >
       {SATELLITES.map((pos, i) => {
-        const s = companions[(seed + i * 5) % companions.length];
         const { rotate, ...place } = pos;
         return (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={i}
-            src={stickerSrc(s)}
+            src={stickerSrc('sparkle')}
             alt=''
             draggable={false}
-            className='absolute h-[26%] aspect-square object-contain opacity-90 pointer-events-none'
+            className={`absolute aspect-square object-contain opacity-90 pointer-events-none ${i % 2 ? 'h-[14%]' : 'h-[20%]'}`}
             style={{ ...place, transform: `rotate(${rotate}deg)` }}
           />
         );

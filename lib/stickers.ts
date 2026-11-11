@@ -71,11 +71,12 @@ function hash(s: string): number {
   return h;
 }
 
-export function stickerFor(cuisine: string, id: string, name = ''): FoodSticker {
+export function stickerFor(cuisine: string, _id: string, name = ''): FoodSticker {
   const text = `${name} ${cuisine}`;
   const hit = FOOD_RULES.find(([re]) => re.test(text));
   if (hit) return hit[1];
-  return FOOD_STICKERS[hash(id) % FOOD_STICKERS.length];
+  // Cuisine inconnue : une assiette neutre, jamais une icône au hasard (un donut sur un libanais est faux).
+  return 'plate';
 }
 
 export function badgeFor(achievementId: string): BadgeSticker {
