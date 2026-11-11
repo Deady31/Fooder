@@ -53,6 +53,16 @@ const BADGE_BY_ACHIEVEMENT: Record<string, BadgeSticker> = {
   swipes_100: 'b_bolt',
   premium: 'b_star',
   casino_win: 'b_dice',
+  friend_1: 'b_heart',
+  friends_5: 'b_medal',
+  group_1: 'b_dice',
+  visit_1: 'b_star',
+  visits_10: 'b_trophy',
+  week_streak_4: 'b_flame',
+  quartiers_5: 'b_medal',
+  photo_1: 'b_bolt',
+  photos_5: 'b_trophy',
+  defi_1: 'b_coin',
 };
 
 function hash(s: string): number {

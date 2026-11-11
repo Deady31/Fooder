@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, ChevronRight, Pencil } from 'lucide-react';
+import Link from 'next/link';
+import { Share2, ChevronRight, Pencil, Flame, Users } from 'lucide-react';
 import { useFoodDNA } from '../../../hooks/useFoodDNA';
 import { useGamification, ALL_ACHIEVEMENTS } from '../../../hooks/useGamification';
 import { Sticker } from '../../../components/ui/Sticker';
@@ -14,18 +15,18 @@ import { LegalCenter } from '../../../components/legal/LegalCenter';
 import { InstallCard } from '../../../components/pwa/InstallCard';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useFreemium } from '../../../hooks/useFreemium';
+import { useSocial } from '../../../hooks/useSocial';
+import { QUARTIERS } from '../../../lib/quartiers';
+import { visitedQuartiers } from '../../../lib/visits';
+import { PERKS, bestTitle, contributorTitles, monthlyChallenges } from '../../../lib/rituals';
+import { FeedPost, POSTS_KEY } from '../../../lib/feed';
+import { readJson } from '../../../lib/store';
 
-const TOULOUSE_QUARTIERS: { name: string; sticker: StickerName }[] = [
-  { name: 'Capitole', sticker: 'plate' },
-  { name: 'Carmes', sticker: 'wine' },
-  { name: 'Saint-Étienne', sticker: 'croissant' },
-  { name: 'Wilson', sticker: 'croque' },
-  { name: 'Compans', sticker: 'cupcake' },
-  { name: 'Minimes', sticker: 'burger' },
-  { name: 'Arnaud Bernard', sticker: 'kebab' },
-  { name: 'Saint-Aubin', sticker: 'salad' },
-  { name: "Patte d'Oie", sticker: 'taco' },
+const QUARTIER_STICKERS: StickerName[] = [
+  'plate', 'wine', 'croissant', 'pasta', 'coffee', 'croque', 'cupcake', 'kebab', 'burger',
+  'salad', 'brunch', 'boba', 'taco', 'curry', 'donut', 'ramen', 'fries', 'dumpling',
 ];
+const TOULOUSE_QUARTIERS = QUARTIERS.map((q, i) => ({ name: q.name, sticker: QUARTIER_STICKERS[i % QUARTIER_STICKERS.length] }));
 
 const TABS = [
   { id: 'dna', label: 'Food DNA' },
@@ -64,21 +65,24 @@ export default function ProfilePage() {
   const { isPremium } = useFreemium();
   const [pickerOpen, setPickerOpen] = useState(false);
   const [lockedHint, setLockedHint] = useState<string | null>(null);
+  const social = useSocial();
+  const [posts, setPosts] = useState<FeedPost[]>([]);
 
-  useEffect(() => { setStats(readStats()); }, []);
+  useEffect(() => {
+    setStats(readStats());
+    setPosts(readJson<FeedPost[]>(POSTS_KEY, []));
+  }, []);
 
-  const unlockedQuartiers = new Set<string>();
-  stats.likes.forEach(r => {
-    TOULOUSE_QUARTIERS.forEach(q => {
-      if (r.address?.toLowerCase().includes(q.name.toLowerCase())) unlockedQuartiers.add(q.name);
-    });
-  });
-  if (stats.likes.length > 0) unlockedQuartiers.add('Capitole');
-  if (stats.likes.length >= 3) unlockedQuartiers.add('Carmes');
+  const unlockedQuartiers = visitedQuartiers(social.visits);
   const explorationPct = Math.round((unlockedQuartiers.size / TOULOUSE_QUARTIERS.length) * 100);
+  const photos = posts.filter(p => p.photo).length;
+  const titles = contributorTitles(social.visits, photos);
+  const title = bestTitle(titles);
+  const challenges = monthlyChallenges(social.visits, posts);
+  const weekly = social.streak;
 
   const handleShare = async () => {
-    const text = `Mon profil Fooder : ${dna.archetype}\nStreak : ${streak} jours\n${dna.totalLikes} restos likés\n#Fooder`;
+    const text = `Mon profil Fooder : ${dna.archetype}\nSérie : ${weekly.current} semaine(s)\n${social.visits.length} restos testés\n#Fooder`;
     if (navigator.share) {
       await navigator.share({ title: 'Mon Fooder Wrapped', text });
     } else {
@@ -86,20 +90,10 @@ export default function ProfilePage() {
     }
   };
 
-  const handleMatch = () => {
-    const code = `FOODER-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    if (navigator.share) {
-      navigator.share({ title: 'Fooder Match !', text: `Swipe les mêmes restos que moi.\nCode : ${code}\nTélécharge Fooder !` });
-    } else {
-      navigator.clipboard?.writeText(code);
-      alert(`Ton code de match : ${code}`);
-    }
-  };
-
   const wrappedStats = [
     { label: 'Swipes totaux', value: stats.totalSwipes, suffix: '' },
-    { label: 'Likes', value: dna.totalLikes, suffix: '' },
-    { label: 'Streak', value: streak, suffix: 'j' },
+    { label: 'Restos testés', value: social.visits.length, suffix: '' },
+    { label: 'Semaines de série', value: weekly.current, suffix: '' },
     { label: 'XP gagnés', value: xp, suffix: '' },
   ];
 
@@ -137,12 +131,18 @@ export default function ProfilePage() {
             </span>
           </button>
           <div className="flex-1 min-w-0">
-            <p className="font-display text-2xl text-plum leading-tight">Foodie niveau {level}</p>
-            <p className="text-slate-600 text-xs font-semibold">{xp} XP · {dna.totalLikes} likes</p>
+            <p className="font-display text-2xl text-plum leading-tight truncate">{social.me?.name ?? 'Foodie'}</p>
+            <p className="text-slate-600 text-xs font-semibold truncate">{title} · niv. {level} · {social.visits.length} testés</p>
           </div>
-          <div className="chip bg-fooder-orange text-plum flex-col !gap-0 !px-3 !py-1.5">
-            <span className="font-display text-xl leading-none">{streak}</span>
-            <span className="text-[10px] font-bold">{streak > 1 ? "jours" : "jour"}</span>
+          <div
+            className={`chip flex-col !gap-0 !px-3 !py-1.5 text-plum ${weekly.thisWeekDone ? 'bg-fooder-orange' : 'bg-white'}`}
+            title={weekly.thisWeekDone ? 'Semaine validée' : 'Teste un resto cette semaine pour garder ta série'}
+          >
+            <span className="font-display text-xl leading-none flex items-center gap-0.5">
+              <Flame className="w-4 h-4" strokeWidth={2.5} />
+              {weekly.current}
+            </span>
+            <span className="text-[10px] font-bold">{weekly.current > 1 ? 'semaines' : 'semaine'}</span>
           </div>
         </div>
         <div className="space-y-1">
@@ -159,7 +159,31 @@ export default function ProfilePage() {
             />
           </div>
         </div>
+        {!weekly.thisWeekDone && (
+          <p className="text-[11px] font-bold text-plum/70">
+            {weekly.current > 0 ? `Teste un resto avant dimanche pour garder ta série de ${weekly.current} semaine${weekly.current > 1 ? 's' : ''}.` : 'Teste un resto cette semaine pour lancer ta série.'}
+            {weekly.jokersLeft > 0 && weekly.current > 0 ? ' Joker dispo.' : ''}
+          </p>
+        )}
       </section>
+
+      <Link href="/amis" className="mx-4 my-3 flex items-center gap-3 bg-bubblegum rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5">
+        <span className="w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center">
+          <Users className="w-5 h-5 text-plum" strokeWidth={2.5} />
+        </span>
+        <span className="flex-1 min-w-0">
+          <span className="block font-display text-lg text-plum leading-tight">Amis et Food Match</span>
+          <span className="block text-xs font-bold text-plum/70 truncate">
+            {social.friends.length > 0 ? `${social.friends.length} ami${social.friends.length > 1 ? 's' : ''} · classement, défis, groupes` : 'Ton QR code, tes défis, « On mange où ? »'}
+          </span>
+        </span>
+        <div className="flex -space-x-3 shrink-0">
+          {social.friends.slice(0, 3).map(f => (
+            <Avatar key={f.snapshot.id} avatar={f.snapshot.avatar} size={30} />
+          ))}
+        </div>
+        <ChevronRight className="w-4 h-4 text-plum shrink-0" strokeWidth={3} />
+      </Link>
 
       <nav className="sticky top-0 z-20 flex px-3 py-2.5 gap-2 bg-cream border-b-[3px] border-plum" aria-label="Sections du profil">
         {TABS.map(({ id, label }) => (
@@ -232,7 +256,49 @@ export default function ProfilePage() {
 
           {activeTab === 'achievements' && (
             <motion.div key="ach" {...fade} className="p-4 space-y-3">
-              <Label>{achievements.length}/{ALL_ACHIEVEMENTS.length} débloqués</Label>
+              <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-3">
+                <Label>Défis du mois</Label>
+                {challenges.map(c => (
+                  <div key={c.id} className="flex items-center gap-3">
+                    <Sticker name={c.sticker} size={40} rotate={-6} />
+                    <div className="flex-1 min-w-0 space-y-1">
+                      <div className="flex justify-between gap-2">
+                        <p className="text-sm font-bold text-plum truncate">{c.title}</p>
+                        <span className="text-xs font-black text-plum shrink-0">{c.progress}/{c.goal}</span>
+                      </div>
+                      <div className="h-2.5 bg-cream border-2 border-plum rounded-full overflow-hidden">
+                        <div className={`h-full ${c.progress >= c.goal ? 'bg-fooder-mint' : 'bg-bubblegum'}`} style={{ width: `${(c.progress / c.goal) * 100}%` }} />
+                      </div>
+                      <p className="text-[11px] font-medium text-slate-500">{c.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-2">
+                <Label>Titres de contributeur</Label>
+                <div className="flex flex-wrap gap-2">
+                  {titles.map(t => (
+                    <span key={t.id} title={t.desc} className={`chip text-xs ${t.unlocked ? 'bg-fooder-secondary text-plum' : 'bg-cream text-plum/40'}`}>
+                      {t.label}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-[11px] font-medium text-slate-500">Confirme tes visites et publie les vraies photos pour les débloquer.</p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-2.5">
+                <Label>Avantages par niveau · exemples, en attente de restaurants partenaires</Label>
+                {PERKS.map(pk => (
+                  <div key={pk.level} className={`flex items-center gap-3 ${level >= pk.level ? '' : 'opacity-45'}`}>
+                    <Sticker name={pk.sticker} size={34} rotate={-6} />
+                    <p className="flex-1 text-sm font-bold text-plum leading-tight">{pk.label}</p>
+                    <span className={`chip !px-2 text-[10px] ${level >= pk.level ? 'bg-fooder-mint text-plum' : 'bg-cream text-plum'}`}>niv. {pk.level}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Label>{achievements.length}/{ALL_ACHIEVEMENTS.length} trophées débloqués</Label>
               <div className="grid grid-cols-1 gap-3">
                 {ALL_ACHIEVEMENTS.map(ach => {
                   const unlocked = unlockedIds.includes(ach.id);
@@ -296,7 +362,7 @@ export default function ProfilePage() {
             <motion.div key="map" {...fade} className="p-4 space-y-4">
               <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-2">
                 <div className="flex justify-between items-center">
-                  <p className="font-display text-xl text-plum">Toulouse Explorer</p>
+                  <p className="font-display text-xl text-plum">Ma Toulouse</p>
                   <span className="chip bg-fooder-mint text-plum">{explorationPct}% découvert</span>
                 </div>
                 <div className="h-4 bg-cream border-[3px] border-plum rounded-full overflow-hidden">
@@ -332,7 +398,7 @@ export default function ProfilePage() {
               </div>
 
               <div className="bg-white/60 rounded-2xl p-4 border-[3px] border-dashed border-plum/40 text-center space-y-1">
-                <p className="text-slate-600 text-sm font-bold">Like des restos pour découvrir Toulouse</p>
+                <p className="text-slate-600 text-sm font-bold">Chaque visite confirmée colore son quartier. 5 quartiers = titre de Cartographe.</p>
               </div>
             </motion.div>
           )}
@@ -341,13 +407,6 @@ export default function ProfilePage() {
 
       <footer className="px-4 pb-6 pt-1">
         <InstallCard />
-        <button
-          onClick={handleMatch}
-          className="w-full duo-button bg-white text-plum py-3.5 text-sm flex items-center justify-center gap-2"
-        >
-          Matcher avec un(e) ami(e)
-          <ChevronRight className="w-4 h-4" />
-        </button>
         <LegalCenter />
       </footer>
 

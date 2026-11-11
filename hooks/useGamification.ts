@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { pushNotification } from '../lib/notifications';
+import { STORE_EVENT } from '../lib/store';
 
 const STREAK_KEY = 'fooder_streak';
-const XP_KEY = 'fooder_xp';
-const ACH_KEY = 'fooder_achievements';
+export const XP_KEY = 'fooder_xp';
+export const ACH_KEY = 'fooder_achievements';
 
-const LEVEL_THRESHOLDS = [0, 50, 150, 300, 500, 800, 1200, 1800, 2600, 3600, 5000];
+export const LEVEL_THRESHOLDS = [0, 50, 150, 300, 500, 800, 1200, 1800, 2600, 3600, 5000];
 
 export interface Achievement {
   id: string;
@@ -30,9 +31,19 @@ export const ALL_ACHIEVEMENTS: Achievement[] = [
   { id: 'swipes_100', title: 'Machine à swiper', emoji: '💪', description: '100 swipes au total' },
   { id: 'premium', title: 'Club Premium', emoji: '✨', description: 'Membre Premium Fooder' },
   { id: 'casino_win', title: 'Lucky Foodie', emoji: '🎰', description: 'Décroché un jackpot !' },
+  { id: 'visit_1', title: 'Premier verdict', emoji: '📍', description: 'Première visite confirmée' },
+  { id: 'visits_10', title: 'Critique en herbe', emoji: '📝', description: '10 visites confirmées' },
+  { id: 'week_streak_4', title: 'Un mois de découvertes', emoji: '🔥', description: '4 semaines de série' },
+  { id: 'quartiers_5', title: 'Cartographe', emoji: '🗺️', description: '5 quartiers explorés' },
+  { id: 'photo_1', title: 'Éclaireur', emoji: '📸', description: 'Première vraie photo publiée' },
+  { id: 'photos_5', title: 'Reporter', emoji: '🎞️', description: '5 vraies photos publiées' },
+  { id: 'friend_1', title: 'Premier ami', emoji: '🤝', description: 'Un ami ajouté' },
+  { id: 'friends_5', title: 'La bande', emoji: '👯', description: '5 amis ajoutés' },
+  { id: 'group_1', title: 'Chef de tablée', emoji: '🍽️', description: 'Une décision à plusieurs' },
+  { id: 'defi_1', title: 'Défi relevé', emoji: '🎯', description: 'Un défi à l’aveugle relevé' },
 ];
 
-function computeLevel(totalXp: number): number {
+export function computeLevel(totalXp: number): number {
   for (let i = LEVEL_THRESHOLDS.length - 1; i >= 0; i--) {
     if (totalXp >= LEVEL_THRESHOLDS[i]) return Math.min(i + 1, 10);
   }
@@ -77,6 +88,18 @@ export function useGamification() {
     const rawAch = localStorage.getItem(ACH_KEY);
     setUnlockedIds(rawAch ? JSON.parse(rawAch) : []);
     setLoaded(true);
+
+    // Récompenses données ailleurs (visites, amis, groupes) : on se resynchronise.
+    const sync = (e: Event) => {
+      const key = (e as CustomEvent<string>).detail;
+      if (key !== XP_KEY && key !== ACH_KEY) return;
+      const total = JSON.parse(localStorage.getItem(XP_KEY) || '{}').total ?? 0;
+      setXp(total);
+      setLevel(computeLevel(total));
+      setUnlockedIds(JSON.parse(localStorage.getItem(ACH_KEY) || '[]'));
+    };
+    window.addEventListener(STORE_EVENT, sync);
+    return () => window.removeEventListener(STORE_EVENT, sync);
   }, []);
 
   const gainXP = useCallback((amount: number) => {
@@ -102,6 +125,16 @@ export function useGamification() {
       return newIds;
     });
   }, []);
+
+  // Succès de niveau et de régularité (jamais débloqués jusqu'ici).
+  useEffect(() => {
+    if (!loaded) return;
+    if (level >= 5) unlock('level_5');
+    if (level >= 10) unlock('level_10');
+    if (streak >= 3) unlock('streak_3');
+    if (streak >= 7) unlock('streak_7');
+    if (streak >= 30) unlock('streak_30');
+  }, [loaded, level, streak, unlock]);
 
   const xpStart = LEVEL_THRESHOLDS[Math.min(level - 1, LEVEL_THRESHOLDS.length - 1)];
   const xpEnd = LEVEL_THRESHOLDS[Math.min(level, LEVEL_THRESHOLDS.length - 1)];

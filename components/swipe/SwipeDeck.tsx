@@ -16,6 +16,8 @@ interface SwipeDeckProps {
   onSwipe: (dir: SwipeDir, rest: Restaurant, index: number) => void;
   onOpen: (rest: Restaurant) => void;
   onBlocked: () => void;
+  /** false : pas d'ouverture de fiche par appui long (deck de groupe) */
+  holdToOpen?: boolean;
 }
 
 const COMMIT_OFFSET = 110;
@@ -63,9 +65,10 @@ interface DeckCardProps {
   onCommit: (dir: SwipeDir) => void;
   onOpen: (rest: Restaurant) => void;
   onPeek: (peeking: boolean) => void;
+  holdToOpen: boolean;
 }
 
-function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek }: DeckCardProps) {
+function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, holdToOpen }: DeckCardProps) {
   const isTop = depth === 0;
 
   const x: MotionValue<number> = useMotionValue(0);
@@ -95,7 +98,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek }: 
   };
 
   const handlePointerDown = () => {
-    if (!isTop) return;
+    if (!isTop || !holdToOpen) return;
     pressStart.current = Date.now();
     buzz(8);
     animate(dip, 1, { type: 'spring', stiffness: 700, damping: 26 });
@@ -159,7 +162,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek }: 
         transition={{ ...STACK_SPRING, opacity: { duration: 0.25 } }}
       >
         <motion.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
-          <RestaurantCard rest={rest} hold={isTop ? hold : undefined} nudge={isTop ? nudge : undefined} />
+          <RestaurantCard rest={rest} hold={isTop ? hold : undefined} nudge={isTop ? nudge : undefined} hideHint={!holdToOpen} />
         </motion.div>
       </motion.div>
 
@@ -184,7 +187,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek }: 
 }
 
 export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function SwipeDeck(
-  { cards, canSwipe, onSwipe, onOpen, onBlocked },
+  { cards, canSwipe, onSwipe, onOpen, onBlocked, holdToOpen = true },
   ref
 ) {
   const [exitDir, setExitDir] = useState<SwipeDir>('right');
@@ -228,6 +231,7 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
             onCommit={commit}
             onOpen={onOpen}
             onPeek={setPeeking}
+            holdToOpen={holdToOpen}
           />
         ))}
       </AnimatePresence>

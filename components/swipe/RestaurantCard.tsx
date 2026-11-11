@@ -11,6 +11,8 @@ interface RestaurantCardProps {
   rest: Restaurant;
   hold?: MotionValue<number>;
   nudge?: number;
+  /** Masque l'invitation « Maintiens appuyé » (deck de groupe sans fiche) */
+  hideHint?: boolean;
 }
 
 function HoldHint({ hold, nudge = 0 }: { hold?: MotionValue<number>; nudge?: number }) {
@@ -33,7 +35,7 @@ function HoldHint({ hold, nudge = 0 }: { hold?: MotionValue<number>; nudge?: num
   );
 }
 
-export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
+export function RestaurantCard({ rest, hold, nudge, hideHint }: RestaurantCardProps) {
   const sticker = stickerFor(rest.cuisine, rest.id, rest.name);
   const status = rest.hours ? openStatus(rest.hours) : null;
 
@@ -95,7 +97,7 @@ export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
           {rest.description}
         </p>
 
-        <HoldHint hold={hold} nudge={nudge} />
+        {!hideHint && <HoldHint hold={hold} nudge={nudge} />}
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ import { FilterSheet } from '../../../components/swipe/FilterSheet';
 import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
 import { NotificationBell } from '../../../components/notifications/NotificationBell';
-import { pushNotification } from '../../../lib/notifications';
+import { queueCheckin } from '../../../lib/visits';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -233,6 +233,7 @@ export default function SwipePage() {
 
         if (direction === 'right') {
             persistChoice('fooder_likes', restaurant);
+            queueCheckin(restaurant);
             const wishlist = JSON.parse(localStorage.getItem('fooder_wishlist') || '[]');
             if (!wishlist.find((r: Restaurant) => r.id === restaurant.id)) {
                 localStorage.setItem('fooder_wishlist', JSON.stringify([...wishlist, restaurant]));

@@ -77,7 +77,7 @@ function readList(key: string): Restaurant[] {
   }
 }
 
-function computeDNA(): FoodDNA {
+export function computeDNA(): FoodDNA {
   const likes = readList('fooder_likes');
   const dislikes = readList('fooder_dislikes');
   const totalLikes = likes.length;
@@ -91,7 +91,8 @@ function computeDNA(): FoodDNA {
     .slice(0, 3)
     .map(([cuisine, count]) => ({ cuisine, count }));
 
-  const avgBudget = totalLikes > 0 ? Math.round(likes.reduce((s, r) => s + r.price, 0) / totalLikes) : 0;
+  const priced = likes.filter(r => r.price > 0);
+  const avgBudget = priced.length > 0 ? Math.round(priced.reduce((s, r) => s + r.price, 0) / priced.length) : 0;
   const arch = ARCHETYPES.find(a => a.match(likes)) || ARCHETYPES[ARCHETYPES.length - 1];
 
   return {

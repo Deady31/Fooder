@@ -7,7 +7,7 @@ interface Quartier {
 }
 
 // Centres approximatifs des quartiers toulousains (rayon d'attribution : 1,3 km).
-const QUARTIERS: Quartier[] = [
+export const QUARTIERS: Quartier[] = [
   { name: 'Capitole', lat: 43.6045, lng: 1.4442 },
   { name: 'Carmes', lat: 43.5995, lng: 1.4455 },
   { name: 'Saint-Étienne', lat: 43.6, lng: 1.451 },

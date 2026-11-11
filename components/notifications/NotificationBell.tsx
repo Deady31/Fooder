@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bell, X } from 'lucide-react';
+import { Bell, ChevronRight, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useNotifications } from '../../hooks/useNotifications';
 import { AppNotification } from '../../lib/notifications';
 import { timeAgo } from '../../lib/feed';
@@ -12,6 +13,7 @@ import { StickerName, badgeFor } from '../../lib/stickers';
 function stickerOf(n: AppNotification): StickerName {
   if (n.kind === 'achievement') return badgeFor(n.ref ?? '');
   if (n.kind === 'feed') return 'b_heart';
+  if (n.kind === 'social') return 'b_dice';
   return 'sparkle';
 }
 
@@ -19,6 +21,7 @@ export function NotificationBell() {
   const { items, unread, readAll, clear } = useNotifications();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => setMounted(true), []);
 
@@ -93,7 +96,15 @@ export function NotificationBell() {
                   <li className='px-5 py-8 text-center text-sm font-bold text-plum/60'>Rien de neuf pour l&apos;instant.</li>
                 )}
                 {items.map(n => (
-                  <li key={n.id} className={`flex items-center gap-3 px-5 py-3 ${n.read ? '' : 'bg-white'}`}>
+                  <li
+                    key={n.id}
+                    className={`flex items-center gap-3 px-5 py-3 ${n.read ? '' : 'bg-white'} ${n.href ? 'cursor-pointer active:bg-cream' : ''}`}
+                    onClick={() => {
+                      if (!n.href) return;
+                      close();
+                      router.push(n.href);
+                    }}
+                  >
                     <Sticker name={stickerOf(n)} size={44} rotate={-6} className='shrink-0' />
                     <div className='min-w-0 flex-1'>
                       <p className='text-sm font-bold text-plum leading-tight'>{n.title}</p>
@@ -101,6 +112,7 @@ export function NotificationBell() {
                       <p className='text-[10px] font-bold text-plum/40 mt-0.5'>{timeAgo(n.createdAt)}</p>
                     </div>
                     {!n.read && <span className='w-2.5 h-2.5 rounded-full bg-bubblegum border-2 border-plum shrink-0' aria-label='Non lue' />}
+                    {n.href && <ChevronRight className='w-4 h-4 text-plum/50 shrink-0' strokeWidth={3} />}
                   </li>
                 ))}
               </ul>

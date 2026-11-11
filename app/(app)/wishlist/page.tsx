@@ -2,13 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Navigation, Share2, Star, Trash2 } from 'lucide-react';
+import { Check, Navigation, Share2, Star, Trash2, Users } from 'lucide-react';
 import Link from 'next/link';
 import { Restaurant } from '../../../data/mockRestaurants';
 import { Sticker } from '../../../components/ui/Sticker';
 import { FoodImage } from '../../../components/ui/FoodImage';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
+import { CheckinSheet, CheckinMode } from '../../../components/checkin/CheckinSheet';
+import { useSocial } from '../../../hooks/useSocial';
+import { VisitInput } from '../../../lib/visits';
+import { isWeekendWindow, weekendPicks } from '../../../lib/rituals';
 
 type ListId = 'likes' | 'dislikes';
 
@@ -30,12 +34,30 @@ export default function WishlistPage() {
     const [dislikes, setDislikes] = useState<Restaurant[]>([]);
     const [activeTab, setActiveTab] = useState<ListId>('likes');
     const [selectedRest, setSelectedRest] = useState<Restaurant | null>(null);
+    const [checkin, setCheckin] = useState<{ target: VisitInput; mode: CheckinMode } | null>(null);
+    const [weekend, setWeekend] = useState(false);
+    const { visits, checkins } = useSocial();
+    const visitedIds = new Set(visits.map(v => v.restId));
 
     useEffect(() => {
         const savedLikes = readList('fooder_likes');
         setLikes(savedLikes.length > 0 ? savedLikes : readList('fooder_wishlist'));
         setDislikes(readList('fooder_dislikes'));
+        setWeekend(isWeekendWindow());
     }, []);
+
+    // Arrivée depuis la notification « Alors, ce resto ? »
+    useEffect(() => {
+        const id = new URLSearchParams(window.location.search).get('checkin');
+        if (!id) return;
+        const c = checkins.find(x => x.restId === id);
+        if (!c) return;
+        window.history.replaceState(null, '', '/wishlist');
+        setCheckin({ target: { restId: c.restId, name: c.name, cuisine: c.cuisine, lat: c.lat, lng: c.lng }, mode: 'ask' });
+    }, [checkins]);
+
+    const toVisit = (r: Restaurant): VisitInput => ({ restId: r.id, name: r.name, cuisine: r.cuisine, lat: r.lat, lng: r.lng });
+    const picks = weekend ? weekendPicks(likes, visits) : [];
 
     const removeFromList = (id: string, list: ListId) => {
         if (list === 'likes') {
@@ -55,7 +77,7 @@ export default function WishlistPage() {
     };
 
     const handleShare = async (rest: Restaurant) => {
-        const text = `${rest.name} · ${rest.cuisine} · ${rest.price}€\n${rest.address}`;
+        const text = [rest.name, rest.cuisine, rest.price > 0 ? `${rest.price}€` : null].filter(Boolean).join(' · ') + `\n${rest.address}`;
         if (navigator.share) {
             await navigator.share({ title: `Fooder — ${rest.name}`, text });
         } else {
@@ -93,6 +115,39 @@ export default function WishlistPage() {
                     ))}
                 </div>
 
+                {activeTab === 'likes' && (
+                    <div className='space-y-3 mb-4'>
+                        <Link
+                            href='/groupe?new=1'
+                            className='flex items-center gap-3 bg-fooder-secondary rounded-3xl border-[3px] border-plum shadow-hard p-3.5 active:translate-y-0.5'
+                        >
+                            <span className='w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center'>
+                                <Users className='w-5 h-5 text-plum' strokeWidth={2.5} />
+                            </span>
+                            <span className='min-w-0'>
+                                <span className='block font-display text-lg text-plum leading-tight'>On mange où ?</span>
+                                <span className='block text-xs font-bold text-plum/70'>Envoie tes favoris au groupe, chacun swipe</span>
+                            </span>
+                        </Link>
+                        {picks.length > 0 && (
+                            <div className='bg-bubblegum rounded-3xl border-[3px] border-plum shadow-hard p-3.5 space-y-2'>
+                                <p className='font-display text-lg text-plum leading-tight'>Ton vendredi Fooder</p>
+                                <p className='text-xs font-bold text-plum/80'>Tes coups de cœur à tester ce week-end, ouverts samedi soir en priorité.</p>
+                                <ol className='space-y-1'>
+                                    {picks.map((p, i) => (
+                                        <li key={p.id}>
+                                            <button onClick={() => setSelectedRest(p)} className='w-full flex items-center gap-2 bg-white rounded-xl border-2 border-plum px-2.5 py-1.5 text-left'>
+                                                <span className='font-display text-plum'>{i + 1}</span>
+                                                <span className='text-sm font-bold text-plum truncate'>{p.name}</span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 <AnimatePresence mode='popLayout' initial={false}>
                     {activeList.map((rest, index) => (
                         <motion.div
@@ -124,10 +179,19 @@ export default function WishlistPage() {
                                         </button>
                                     </div>
                                     <div className='flex items-center gap-1.5 text-xs font-bold mt-1 text-slate-600'>
-                                        <Star className='w-3 h-3 fill-fooder-orange text-fooder-orange' />
-                                        <span>{rest.rating}</span>
-                                        <span className='text-slate-300'>•</span>
+                                        {rest.rating > 0 && (
+                                            <>
+                                                <Star className='w-3 h-3 fill-fooder-orange text-fooder-orange' />
+                                                <span>{rest.rating}</span>
+                                                <span className='text-slate-300'>•</span>
+                                            </>
+                                        )}
                                         <span className='truncate'>{rest.cuisine}</span>
+                                        {visitedIds.has(rest.id) && (
+                                            <span className='chip !px-1.5 !py-0 !text-[10px] bg-fooder-mint text-plum shrink-0'>
+                                                <Check className='w-2.5 h-2.5' strokeWidth={3.5} /> Testé
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
 
@@ -138,12 +202,21 @@ export default function WishlistPage() {
                                     >
                                         <Navigation className='w-3 h-3' /> Y aller
                                     </button>
-                                    <button
-                                        onClick={() => setSelectedRest(rest)}
-                                        className='chip justify-center !px-2.5 bg-white text-plum active:translate-y-0.5 transition-transform'
-                                    >
-                                        Détail
-                                    </button>
+                                    {activeTab === 'likes' && !visitedIds.has(rest.id) ? (
+                                        <button
+                                            onClick={() => setCheckin({ target: toVisit(rest), mode: 'confirm' })}
+                                            className='chip justify-center !px-2.5 bg-fooder-mint text-plum active:translate-y-0.5 transition-transform whitespace-nowrap'
+                                        >
+                                            J&apos;y suis allé
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => setSelectedRest(rest)}
+                                            className='chip justify-center !px-2.5 bg-white text-plum active:translate-y-0.5 transition-transform'
+                                        >
+                                            Détail
+                                        </button>
+                                    )}
                                     <button
                                         onClick={() => handleShare(rest)}
                                         aria-label='Partager'
@@ -176,6 +249,7 @@ export default function WishlistPage() {
             </div>
 
             <DetailSheet rest={selectedRest} onClose={() => setSelectedRest(null)} />
+            <CheckinSheet target={checkin?.target ?? null} mode={checkin?.mode ?? 'confirm'} onClose={() => setCheckin(null)} />
         </div>
     );
 }

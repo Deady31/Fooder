@@ -1,4 +1,4 @@
-export type NotificationKind = 'achievement' | 'feed' | 'system';
+export type NotificationKind = 'achievement' | 'feed' | 'system' | 'social';
 
 export interface AppNotification {
   id: string;
@@ -7,6 +7,8 @@ export interface AppNotification {
   body: string;
   /** Identifiant de succès (pour l'icône) quand kind === 'achievement' */
   ref?: string;
+  /** Écran à ouvrir quand on touche la notification */
+  href?: string;
   createdAt: number;
   read: boolean;
 }

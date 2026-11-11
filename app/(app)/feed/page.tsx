@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Plus } from 'lucide-react';
+import Link from 'next/link';
+import { Plus, Users } from 'lucide-react';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { PostCard } from '../../../components/feed/PostCard';
 import { ComposeSheet, ComposeResult, LikedRestaurant } from '../../../components/feed/ComposeSheet';
@@ -68,6 +69,14 @@ export default function FeedPage() {
         title='Le fil'
         subtitle='Les verdicts des foodies de Toulouse'
         right={
+          <div className='flex gap-2 shrink-0'>
+          <Link
+            href='/amis'
+            aria-label='Mes amis'
+            className='w-11 h-11 bg-white border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 active:shadow-none transition-all shrink-0'
+          >
+            <Users className='w-5 h-5 text-plum' strokeWidth={2.5} />
+          </Link>
           <button
             onClick={() => setComposeOpen(true)}
             aria-label='Partager un resto'
@@ -75,6 +84,7 @@ export default function FeedPage() {
           >
             <Plus className='w-5 h-5 text-plum' strokeWidth={3.5} />
           </button>
+          </div>
         }
       />
       <div className='flex-1 min-h-0 scroll-y px-4 py-4 space-y-4'>
