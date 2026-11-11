@@ -21,7 +21,6 @@ import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet } from '../../../components/swipe/FilterSheet';
 import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
-import { BackdropArt } from '../../../components/ui/BackdropArt';
 import { NotificationBell } from '../../../components/notifications/NotificationBell';
 import { pushNotification } from '../../../lib/notifications';
 
@@ -304,9 +303,7 @@ export default function SwipePage() {
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
 
     return (
-        <div className={`flex flex-col h-full overflow-hidden relative transition-colors duration-700 ${isPremium ? 'premium-bg' : 'bg-cream'}`}>
-
-            <BackdropArt premium={isPremium} />
+        <div className={`flex flex-col h-full overflow-hidden relative transition-colors duration-700 ${isPremium ? 'premium-bg' : 'bg-cream'} doodle-bg`}>
 
             {/* Top bar */}
             <header className={`shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 ${isPremium ? 'premium-navbar' : 'bg-cream/90'}`}>
@@ -339,7 +336,7 @@ export default function SwipePage() {
             </header>
 
             {/* Deck */}
-            <main className='flex-1 relative z-10 flex items-center justify-center min-h-0 pt-3 pb-1'>
+            <main className='flex-1 relative flex items-center justify-center min-h-0 pt-3 pb-1'>
                 {isLoading ? (
                     <div className='flex flex-col items-center gap-5'>
                         <div className='flex items-end gap-2'>

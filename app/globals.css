@@ -176,6 +176,13 @@ h1, h2, h3 {
   background-size: 18px 18px;
 }
 
+.doodle-bg {
+  background-image: url('/bg/doodle-cream.webp');
+  background-size: cover;
+  background-position: center top;
+}
+.doodle-bg.premium-bg { background-image: url('/bg/doodle-gold.webp'); }
+
 .premium-navbar { background: rgba(255, 238, 168, 0.95) !important; }
 
 @media (prefers-reduced-motion: reduce) {
