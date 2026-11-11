@@ -8,11 +8,14 @@ export const BADGE_STICKERS = [
   'b_trophy', 'b_flame', 'b_heart', 'b_star', 'b_bolt', 'b_coin', 'b_dice', 'b_medal',
 ] as const;
 
-export const STICKERS = [...FOOD_STICKERS, ...BADGE_STICKERS] as const;
+export const UI_STICKERS = ['sparkle'] as const;
+
+export const STICKERS = [...FOOD_STICKERS, ...BADGE_STICKERS, ...UI_STICKERS] as const;
 
 export type FoodSticker = (typeof FOOD_STICKERS)[number];
 export type BadgeSticker = (typeof BADGE_STICKERS)[number];
-export type StickerName = FoodSticker | BadgeSticker;
+export type UiSticker = (typeof UI_STICKERS)[number];
+export type StickerName = FoodSticker | BadgeSticker | UiSticker;
 
 const FOOD_RULES: [RegExp, FoodSticker][] = [
   [/pizz/i, 'pizza'],

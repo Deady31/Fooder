@@ -233,3 +233,13 @@ h1, h2, h3 {
 
 /* map attribution: keep it compact and on-brand */
 .maplibregl-ctrl-attrib { font-family: var(--font-body), system-ui, sans-serif; border-radius: 9999px !important; }
+
+/* === PROGRESS STRIPES (onboarding) === */
+.stripes {
+  background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0 7px, transparent 7px 14px);
+  background-size: 20px 20px;
+  animation: stripes-move 0.9s linear infinite;
+}
+@keyframes stripes-move {
+  to { background-position: 20px 0; }
+}

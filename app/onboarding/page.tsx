@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ChevronRight, X, Heart, Star, MapPin, BookOpen, Pointer } from 'lucide-react';
+import { ArrowLeft, ChevronRight, X, Heart, Star, Pointer } from 'lucide-react';
 import { Sticker } from '../../components/ui/Sticker';
+import { StepProgress } from '../../components/onboarding/StepProgress';
 import { StickerName } from '../../lib/stickers';
 
 type StepId = 'welcome' | 'swipe' | 'tap' | 'budget' | 'cuisine';
@@ -78,7 +79,6 @@ function SwipeStep({ onNext }: { onNext: () => void }) {
                             <X className='w-7 h-7 text-fooder-red' strokeWidth={4} />
                         </div>
                         <span className='text-xs font-black text-fooder-red uppercase tracking-wider'>Bof</span>
-                        <span className='text-slate-500 text-[10px] font-bold'>← gauche</span>
                     </div>
                     <div className='card-wobble w-52 bg-white rounded-[26px] panel overflow-hidden mx-auto'>
                         <div className='h-32 bg-fooder-secondary border-b-[3px] border-plum flex items-center justify-center'>
@@ -97,7 +97,6 @@ function SwipeStep({ onNext }: { onNext: () => void }) {
                             <Heart className='w-7 h-7 text-plum fill-white' strokeWidth={3.5} />
                         </div>
                         <span className='text-xs font-black text-fooder-primary uppercase tracking-wider'>Miam !</span>
-                        <span className='text-slate-500 text-[10px] font-bold'>droite →</span>
                     </div>
                 </div>
                 <p className='text-center text-slate-500 font-medium max-w-xs leading-relaxed'>
@@ -118,39 +117,42 @@ function TapStep({ onNext }: { onNext: () => void }) {
             <div className='flex-1 flex flex-col items-center justify-center gap-8'>
                 <div className='text-center space-y-2'>
                     <p className='text-xs font-black text-fooder-primary uppercase tracking-[0.2em]'>Explore en détail</p>
-                    <h2 className='text-3xl font-black text-slate-900 tracking-tight leading-tight'>Appuie pour<br />tout voir</h2>
+                    <h2 className='text-3xl font-black text-slate-900 tracking-tight leading-tight'>Maintiens pour<br />tout voir</h2>
                 </div>
                 <div className='relative flex items-center justify-center'>
-                    <div className='w-52 bg-white rounded-[26px] panel overflow-hidden'>
+                    <motion.div
+                        className='w-52 bg-white rounded-[26px] panel overflow-hidden'
+                        animate={{ scale: [1, 0.96, 0.96, 1] }}
+                        transition={{ duration: 2.6, times: [0, 0.46, 0.62, 0.7], repeat: Infinity, ease: 'easeInOut' }}
+                    >
                         <div className='h-28 bg-bubblegum border-b-[3px] border-plum flex items-center justify-center relative'>
                             <Sticker name='burger' size={96} rotate={-6} />
-                            <div className='absolute right-5 bottom-3'>
-                                <div className='relative w-10 h-10'>
-                                    <div className='absolute inset-0 rounded-full bg-white/70 tap-ripple' />
-                                    <div className='absolute inset-0 rounded-full bg-white/50 tap-ripple' style={{ animationDelay: '0.6s' }} />
-                                    <Pointer className='relative z-10 w-7 h-7 text-plum m-1.5' strokeWidth={2.5} />
-                                </div>
-                            </div>
                         </div>
                         <div className='p-4 space-y-2.5'>
                             <p className='font-display text-xl text-plum'>Burger Capitole</p>
-                            {[
-                                { Icon: Star, text: '4.7 · 2 340 avis' },
-                                { Icon: MapPin, text: 'Place du Capitole' },
-                                { Icon: BookOpen, text: 'Voir le menu complet' },
-                            ].map((item, i) => (
-                                <motion.div key={i}
-                                    initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.3 + i * 0.2, repeat: Infinity, repeatDelay: 3, repeatType: 'mirror' }}
-                                    className='flex items-center gap-2 text-xs text-slate-600 font-semibold'>
-                                    <item.Icon className='w-3.5 h-3.5 text-fooder-primary' strokeWidth={2.5} /><span>{item.text}</span>
-                                </motion.div>
-                            ))}
+                            <div className='flex items-center gap-2 text-xs text-slate-600 font-semibold'>
+                                <Star className='w-3.5 h-3.5 text-fooder-primary' strokeWidth={2.5} /><span>4.7 · 2 340 avis</span>
+                            </div>
+                            <div className='relative h-8 rounded-full border-[3px] border-plum bg-cream overflow-hidden flex items-center justify-center'>
+                                <motion.div
+                                    className='absolute inset-y-0 left-0 bg-fooder-secondary'
+                                    animate={{ width: ['0%', '100%', '100%', '0%'] }}
+                                    transition={{ duration: 2.6, times: [0, 0.46, 0.62, 0.7], repeat: Infinity, ease: 'linear' }}
+                                />
+                                <span className='relative text-[10px] font-bold text-plum'>Maintiens appuyé</span>
+                            </div>
                         </div>
-                    </div>
+                    </motion.div>
+                    <motion.div
+                        className='absolute right-2 -bottom-3'
+                        animate={{ scale: [1, 0.85, 0.85, 1], y: [0, 4, 4, 0] }}
+                        transition={{ duration: 2.6, times: [0, 0.2, 0.62, 0.7], repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                        <Pointer className='w-9 h-9 text-plum fill-white' strokeWidth={2.5} />
+                    </motion.div>
                 </div>
                 <p className='text-center text-slate-500 font-medium max-w-xs leading-relaxed'>
-                    Menu complet, photos des plats, adresse et lien Google Maps en un tap.
+                    Garde le doigt appuyé une seconde sur une carte : menu, photos, adresse et lien Google Maps.
                 </p>
             </div>
             <button onClick={onNext} className='w-full duo-button bg-fooder-primary border-fooder-primary text-white text-lg py-5 flex items-center justify-center gap-2'>
@@ -266,10 +268,13 @@ function CuisineStep({ craving, setCraving, onNext }: { craving: string; setCrav
                 </div>
             </div>
 
-            <button onClick={onNext} disabled={!craving}
-                className='w-full duo-button bg-fooder-primary border-fooder-primary text-white text-xl py-5 mt-4 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2'>
-                À table !
-            </button>
+            <motion.button
+                onClick={onNext}
+                whileTap={{ scale: 0.97 }}
+                className={`w-full duo-button text-xl py-5 mt-4 flex items-center justify-center gap-2 transition-colors ${craving ? 'bg-fooder-primary text-white' : 'bg-fooder-secondary text-plum'}`}
+            >
+                {craving ? 'À table !' : 'Surprends-moi !'}
+            </motion.button>
         </div>
     );
 }
@@ -312,8 +317,9 @@ export default function Onboarding() {
                 veggie: 'Veggie', gros: 'All', special: 'Gastronomique',
                 brunch: 'Brunch & Café', surprise: 'Surprends-moi',
             };
-            const label = MOODS.find(m => m.id === craving)?.label || 'Surprends-moi';
-            localStorage.setItem('fooder_preferences', JSON.stringify({ budget, craving, cravingLabel: label, cuisineFilter: moodMap[craving] || craving }));
+            const chosen = craving || 'surprise';
+            const label = MOODS.find(m => m.id === chosen)?.label || 'Surprends-moi';
+            localStorage.setItem('fooder_preferences', JSON.stringify({ budget, craving: chosen, cravingLabel: label, cuisineFilter: moodMap[chosen] || chosen }));
             localStorage.setItem('fooder_onboarding_done', '1');
             router.push('/swipe');
         }
@@ -339,17 +345,7 @@ export default function Onboarding() {
                         <button onClick={prev} className='p-2 rounded-full hover:bg-white transition-colors flex-shrink-0'>
                             <ArrowLeft className='w-5 h-5 text-slate-500' />
                         </button>
-                        <div className='flex-1 flex gap-2'>
-                            {PROGRESS_STEPS.map((s, i) => (
-                                <div key={s} className='flex-1 h-4 rounded-full bg-white border-[3px] border-plum overflow-hidden'>
-                                    {i <= currentProgressIdx && (
-                                        <motion.div className='h-full bg-bubblegum'
-                                            initial={{ width: '0%' }} animate={{ width: '100%' }}
-                                            transition={{ duration: 0.4, ease: 'easeOut' }} />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                        <StepProgress index={currentProgressIdx} total={PROGRESS_STEPS.length} />
                     </motion.div>
                 )}
             </AnimatePresence>
