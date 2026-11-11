@@ -273,5 +273,6 @@ h1, h2, h3 {
 .rcard { container-type: size; }
 .rcard-name { font-size: clamp(20px, 7cqw, 27px); }
 @container (min-height: 540px) { .rcard-photo { height: 50% !important; } .rcard-desc { -webkit-line-clamp: 5 !important; } }
-@container (max-height: 430px) { .rcard-desc { display: none; } }
+@container (max-height: 430px) { .rcard-desc { -webkit-line-clamp: 2 !important; } }
+@container (max-height: 340px) { .rcard-desc { display: none; } }
 @container (max-height: 360px) { .rcard-photo { height: 38% !important; } .rcard-chips { margin-top: 0.4rem; } }

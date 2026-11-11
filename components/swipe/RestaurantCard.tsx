@@ -66,12 +66,17 @@ export function RestaurantCard({ rest, hold, nudge, hideHint }: RestaurantCardPr
           )
         )}
 
-        {rest.photoSource !== 'community' && (
+        {rest.photoSource === 'google' ? (
+          <div className='absolute bottom-2 left-3 z-10 max-w-[70%] chip !text-[10px] !px-2 !py-0.5 bg-white/90 text-plum'>
+            <Camera className='w-3 h-3 shrink-0' strokeWidth={2.5} />
+            <span className='truncate'>Photo Google Maps{rest.photoCredit ? ` · ${rest.photoCredit}` : ''}</span>
+          </div>
+        ) : rest.photoSource !== 'community' ? (
           <div className='absolute bottom-2 left-3 z-10 chip !text-[10px] !px-2 !py-0.5 bg-white/90 text-plum'>
             <Camera className='w-3 h-3' strokeWidth={2.5} />
             Illustration · vraie photo à venir
           </div>
-        )}
+        ) : null}
 
         {rest.image && (
           <div className='absolute -bottom-7 right-3 z-10 bob' style={{ ['--r' as string]: '-8deg' }}>

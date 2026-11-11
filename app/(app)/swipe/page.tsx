@@ -24,6 +24,7 @@ import { Logo } from '../../../components/ui/Logo';
 import { NotificationBell } from '../../../components/notifications/NotificationBell';
 import { queueCheckin } from '../../../lib/visits';
 import { fetchRestaurantPhotos } from '../../../lib/cloud/social';
+import { fetchGooglePhotos } from '../../../lib/placePhotosClient';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -291,6 +292,26 @@ export default function SwipePage() {
 
     const cuisines = ['All', ...Array.from(new Set(restaurants.map(r => r.cuisine)))];
     const deckCards = restaurants.slice(0, currentIndex + 1);
+
+    // Vraies photos Google pour la carte du dessus et les suivantes (jamais pour tout le catalogue : coût et règles de Google).
+    const requestedPhotos = useRef<Set<string>>(new Set());
+    useEffect(() => {
+        if (isLoading) return;
+        const upcoming = restaurants.slice(Math.max(0, currentIndex - 3), currentIndex + 1);
+        for (const r of upcoming) {
+            if (r.photoSource === 'community' || r.photoSource === 'google' || requestedPhotos.current.has(r.id)) continue;
+            requestedPhotos.current.add(r.id);
+            fetchGooglePhotos(r).then(photos => {
+                if (photos.length === 0) return;
+                const apply = (x: Restaurant): Restaurant =>
+                    x.id === r.id
+                        ? { ...x, image: photos[0].url, extraImages: photos.slice(1).map(p => p.url), photoSource: 'google', photoCredit: photos[0].author }
+                        : x;
+                setRestaurants(prev => prev.map(apply));
+                allRestaurantsRef.current = allRestaurantsRef.current.map(apply);
+            });
+        }
+    }, [currentIndex, restaurants.length, isLoading]);
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
 
     return (
