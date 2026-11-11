@@ -1,3 +1,4 @@
+import { dishPhotoFor } from './dishes';
 import type { Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
 import { parseOsmHours } from './osmHours';
@@ -104,6 +105,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
   const cuisine = cuisineLabel(rec);
   const quartier = quartierFor(rec.la, rec.ln);
   const distance = dist !== undefined ? formatMeters(dist) : undefined;
+  const dish = dishPhotoFor(cuisine, rec.n);
   return {
     id: rec.id,
     name: rec.n,
@@ -112,7 +114,8 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     distance: distance ?? 'Toulouse',
     distanceMeters: dist !== undefined ? Math.round(dist) : undefined,
     cuisine,
-    image: '',
+    image: dish?.src ?? '',
+    ...(dish ? { photoSource: 'dish' as const, photoCredit: dish.author, photoLicense: dish.license, photoPage: dish.page } : {}),
     address: rec.a || (quartier ? `Quartier ${quartier}, Toulouse` : 'Toulouse'),
     lat: rec.la,
     lng: rec.ln,

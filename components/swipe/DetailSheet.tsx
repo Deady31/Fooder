@@ -79,7 +79,7 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
   useEffect(() => {
     setCommunity(rest ? communityPhotosFor(rest.id) : []);
   }, [rest]);
-  const gallery = rest ? Array.from(new Set([...community, ...(rest.photoSource === 'google' && rest.image ? [rest.image] : []), ...(rest.extraImages ?? [])])) : [];
+  const gallery = rest ? Array.from(new Set([...community, ...((rest.photoSource === 'google' || rest.photoSource === 'dish') && rest.image ? [rest.image] : []), ...(rest.extraImages ?? [])])) : [];
   return (
     <AnimatePresence>
       {rest && (
@@ -161,7 +161,7 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
             <HoursSection hours={rest.hours} />
 
-            {!rest.photoSource && (
+            {rest.photoSource !== 'community' && rest.photoSource !== 'google' && (
               <Link
                 href={`/feed?photo=${encodeURIComponent(rest.id)}&n=${encodeURIComponent(rest.name)}&c=${encodeURIComponent(rest.cuisine)}`}
                 className='flex items-center gap-3 p-3 pr-4 bg-white border-[3px] border-dashed border-plum rounded-2xl active:translate-y-0.5 transition-transform'
@@ -170,7 +170,9 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                   <Camera className='w-5 h-5 text-plum' strokeWidth={2.5} />
                 </span>
                 <span className='min-w-0'>
-                  <span className='block font-bold text-plum text-sm leading-tight'>Cette image est une illustration</span>
+                  <span className='block font-bold text-plum text-sm leading-tight'>
+                    {rest.photoSource === 'dish' ? 'Photo d’un plat typique, pas de ce resto' : 'Cette image est une illustration'}
+                  </span>
                   <span className='block text-xs font-medium text-slate-500 leading-snug'>Tu connais l&apos;endroit ? Propose la vraie photo.</span>
                 </span>
               </Link>
@@ -178,7 +180,7 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
             {gallery.length > 0 && (
               <section>
-                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : rest.photoSource === 'google' ? 'Photos Google Maps' : 'Photos des plats'}</SectionTitle>
+                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : rest.photoSource === 'google' ? 'Photos Google Maps' : rest.photoSource === 'dish' ? 'Plat typique' : 'Photos des plats'}</SectionTitle>
                 <div className='flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5'>
                   {gallery.map((img, i) => (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -190,6 +192,16 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                     />
                   ))}
                 </div>
+                {rest.photoSource === 'dish' && rest.photoPage && (
+                  <p className='text-[11px] font-medium text-slate-500 -mt-2'>
+                    Photo : {rest.photoCredit}, {rest.photoLicense},{' '}
+                    <a href={rest.photoPage} target='_blank' rel='noopener noreferrer' className='underline'>Wikimedia Commons</a>.
+                    Elle illustre un plat typique, pas ce restaurant.
+                  </p>
+                )}
+                {rest.photoSource === 'google' && (
+                  <p className='text-[11px] font-medium text-slate-500 -mt-2'>Photos : Google Maps{rest.photoCredit ? `, dont ${rest.photoCredit}` : ''}.</p>
+                )}
               </section>
             )}
 

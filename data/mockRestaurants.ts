@@ -27,9 +27,12 @@ export interface Restaurant {
   hours?: WeekHours;
   dataSource?: 'mock' | 'google-places' | 'osm';
   /** 'community' = photo d'un foodie, 'google' = photo Google Maps (auteur crédité) ; sinon l'image est une illustration. */
-  photoSource?: 'community' | 'google';
-  /** Auteur de la photo Google (affiché obligatoirement) */
+  photoSource?: 'community' | 'google' | 'dish';
+  /** Auteur de la photo (affiché obligatoirement pour Google et pour les plats typiques) */
   photoCredit?: string;
+  /** Licence et page source de la photo de plat typique (Wikimedia Commons) */
+  photoLicense?: string;
+  photoPage?: string;
   updatedAt?: string;
   sponsored?: boolean;
   sponsorLabel?: string;

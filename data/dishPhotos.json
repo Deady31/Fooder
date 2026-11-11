@@ -1,0 +1,386 @@
+{
+ "african": {
+  "src": "/dishes/african.webp",
+  "title": "Jollof rice with vegetable.jpg",
+  "author": "Segun Famisa",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Jollof_rice_with_vegetable.jpg"
+ },
+ "argentine": {
+  "src": "/dishes/argentine.webp",
+  "title": "Empanada - Stu Spivack.jpg",
+  "author": "stu_spivack",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Empanada_-_Stu_Spivack.jpg"
+ },
+ "bakery": {
+  "src": "/dishes/bakery.webp",
+  "title": "Pain au chocolat - Milfey Patisserie 2026-09-30.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Pain_au_chocolat_-_Milfey_Patisserie_2026-09-30.jpg"
+ },
+ "bistro": {
+  "src": "/dishes/bistro.webp",
+  "title": "Steak frites at The Bar at MacArthur Place in Sonoma - Sarah Stierch.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Steak_frites_at_The_Bar_at_MacArthur_Place_in_Sonoma_-_Sarah_Stierch.jpg"
+ },
+ "boba": {
+  "src": "/dishes/boba.webp",
+  "title": "Thai Iced Bubble Tea - Sonoma Pho - Stierch - 2019.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Thai_Iced_Bubble_Tea_-_Sonoma_Pho_-_Stierch_-_2019.jpg"
+ },
+ "brazilian": {
+  "src": "/dishes/brazilian.webp",
+  "title": "Feijoada à brasileira 1.jpg",
+  "author": "Melsj",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Feijoada_%C3%A0_brasileira_1.jpg"
+ },
+ "brunch": {
+  "src": "/dishes/brunch.webp",
+  "title": "Eggs Benedict-01-cropped.jpg",
+  "author": "Jon Mountjoy",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Eggs_Benedict-01-cropped.jpg"
+ },
+ "burger": {
+  "src": "/dishes/burger.webp",
+  "title": "Homemade hamburger with french fries in Argentina.jpg",
+  "author": "Horacio Cambeiro",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Homemade_hamburger_with_french_fries_in_Argentina.jpg"
+ },
+ "chicken": {
+  "src": "/dishes/chicken.webp",
+  "title": "Fried Chicken (Unsplash).jpg",
+  "author": "Brian Chan tigerrulezzz",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Fried_Chicken_(Unsplash).jpg"
+ },
+ "chinese": {
+  "src": "/dishes/chinese.webp",
+  "title": "Kung Pao Chicken at Yujiayan Restaurant (20230510123120).jpg",
+  "author": "N509FZ",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kung_Pao_Chicken_at_Yujiayan_Restaurant_(20230510123120).jpg"
+ },
+ "coffee": {
+  "src": "/dishes/coffee.webp",
+  "title": "Latte art at Balzac's.jpg",
+  "author": "Linda N. from Chicago, USA",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Latte_art_at_Balzac%27s.jpg"
+ },
+ "couscous": {
+  "src": "/dishes/couscous.webp",
+  "title": "Le Couscous marocain.JPG",
+  "author": "Moncif Ait Ahmed",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Le_Couscous_marocain.JPG"
+ },
+ "crepe": {
+  "src": "/dishes/crepe.webp",
+  "title": "Galette de sarrasin complète bretonne.jpg",
+  "author": "Arnaud 25",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Galette_de_sarrasin_compl%C3%A8te_bretonne.jpg"
+ },
+ "dessert": {
+  "src": "/dishes/dessert.webp",
+  "title": "Tiramisu - Bistro Don Giovanni - Sarah Stierch 2018 02.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tiramisu_-_Bistro_Don_Giovanni_-_Sarah_Stierch_2018_02.jpg"
+ },
+ "dimsum": {
+  "src": "/dishes/dimsum.webp",
+  "title": "2019-02-22 Xiaolongbao in \"Taste Of Shanghai\" restaurant, Sydney, Australia.jpg",
+  "author": "Maksym Kozlenko",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2019-02-22_Xiaolongbao_in_%22Taste_Of_Shanghai%22_restaurant,_Sydney,_Australia.jpg"
+ },
+ "falafel": {
+  "src": "/dishes/falafel.webp",
+  "title": "Falafel in a pita.jpg",
+  "author": "Israel_photo_gallery",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Falafel_in_a_pita.jpg"
+ },
+ "fondue": {
+  "src": "/dishes/fondue.webp",
+  "title": "Raclette 20040817 140816.jpg",
+  "author": "Ka23 13",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Raclette_20040817_140816.jpg"
+ },
+ "french": {
+  "src": "/dishes/french.webp",
+  "title": "Boeuf Bourguignon Paris Beaubourg.jpg",
+  "author": "Asamboi",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Boeuf_Bourguignon_Paris_Beaubourg.jpg"
+ },
+ "fries": {
+  "src": "/dishes/fries.webp",
+  "title": "Truffle oil french fries (33024792848).jpg",
+  "author": "Tony Webster from Minneapolis, Minnesota, United States",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Truffle_oil_french_fries_(33024792848).jpg"
+ },
+ "gastro": {
+  "src": "/dishes/gastro.webp",
+  "title": "Magret de canard de Haute-Provence et sa verdure.jpg",
+  "author": "stu_spivack",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magret_de_canard_de_Haute-Provence_et_sa_verdure.jpg"
+ },
+ "greek": {
+  "src": "/dishes/greek.webp",
+  "title": "Pita giros.JPG",
+  "author": "Antonio Fajardo i López",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pita_giros.JPG"
+ },
+ "hotdog": {
+  "src": "/dishes/hotdog.webp",
+  "title": "Hot dog 01.jpg",
+  "author": "stu_spivack",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hot_dog_01.jpg"
+ },
+ "icecream": {
+  "src": "/dishes/icecream.webp",
+  "title": "Amorino Gelato Flowers and Macaroons.jpg",
+  "author": "Rebecrs",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Amorino_Gelato_Flowers_and_Macaroons.jpg"
+ },
+ "indian": {
+  "src": "/dishes/indian.webp",
+  "title": "Butter Chicken with Garlic Naan.jpg",
+  "author": "Miscellaneous contributor",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Butter_Chicken_with_Garlic_Naan.jpg"
+ },
+ "kebab": {
+  "src": "/dishes/kebab.webp",
+  "title": "Döner Kebab, Berlin, 2010 (01).jpg",
+  "author": "AleGranholm",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:D%C3%B6ner_Kebab,_Berlin,_2010_(01).jpg"
+ },
+ "korean": {
+  "src": "/dishes/korean.webp",
+  "title": "Korean.food-Bibimbap-02.jpg",
+  "author": "abex (a flickr user)",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Korean.food-Bibimbap-02.jpg"
+ },
+ "lebanese": {
+  "src": "/dishes/lebanese.webp",
+  "title": "Mezze on Thanksgiving, Ehrenbach.jpg",
+  "author": "Gerda Arendt",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mezze_on_Thanksgiving,_Ehrenbach.jpg"
+ },
+ "moroccan": {
+  "src": "/dishes/moroccan.webp",
+  "title": "Tajine marocain.jpg",
+  "author": "Bawdeep2010",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tajine_marocain.jpg"
+ },
+ "nepali": {
+  "src": "/dishes/nepali.webp",
+  "title": "Nepali Veg Momo - Worthing Indian Cafe & Bar 2026-04-27.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Nepali_Veg_Momo_-_Worthing_Indian_Cafe_%26_Bar_2026-04-27.jpg"
+ },
+ "paella": {
+  "src": "/dishes/paella.webp",
+  "title": "Paella de fruit de mer.jpg",
+  "author": "Wilfredor",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Paella_de_fruit_de_mer.jpg"
+ },
+ "pasta": {
+  "src": "/dishes/pasta.webp",
+  "title": "Espaguetis carbonara.jpg",
+  "author": "Javier Somoza",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Espaguetis_carbonara.jpg"
+ },
+ "peruvian": {
+  "src": "/dishes/peruvian.webp",
+  "title": "Ceviche de pescado (La Punta, Callao).jpg",
+  "author": "Jorge G. Mori",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Ceviche_de_pescado_(La_Punta,_Callao).jpg"
+ },
+ "pho": {
+  "src": "/dishes/pho.webp",
+  "title": "Beef Noodle soup from Pho Le.jpg",
+  "author": "Peachyeung316",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Beef_Noodle_soup_from_Pho_Le.jpg"
+ },
+ "pizza": {
+  "src": "/dishes/pizza.webp",
+  "title": "Margherita Originale.JPG",
+  "author": "Mario56",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Margherita_Originale.JPG"
+ },
+ "poke": {
+  "src": "/dishes/poke.webp",
+  "title": "Philadelphia Poke Bowl - Happy Maki 2026-09-08.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Philadelphia_Poke_Bowl_-_Happy_Maki_2026-09-08.jpg"
+ },
+ "ramen": {
+  "src": "/dishes/ramen.webp",
+  "title": "Tonkotsu Ramen - Goemon Ramen Bar 2023-06-06.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tonkotsu_Ramen_-_Goemon_Ramen_Bar_2023-06-06.jpg"
+ },
+ "salad": {
+  "src": "/dishes/salad.webp",
+  "title": "Caesar salad (2).jpg",
+  "author": "Geoff Peters from Vancouver, BC, Canada",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Caesar_salad_(2).jpg"
+ },
+ "sandwich": {
+  "src": "/dishes/sandwich.webp",
+  "title": "Sandwich jambon-beurre.jpg",
+  "author": "Boulanger: Nat / Photographer: Nat",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sandwich_jambon-beurre.jpg"
+ },
+ "seafood": {
+  "src": "/dishes/seafood.webp",
+  "title": "Plateau de fruits de mer 001.jpg",
+  "author": "Arnaud 25",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Plateau_de_fruits_de_mer_001.jpg"
+ },
+ "steak": {
+  "src": "/dishes/steak.webp",
+  "title": "Grilled flank steak.jpg",
+  "author": "Wikiuser100",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Grilled_flank_steak.jpg"
+ },
+ "sushi": {
+  "src": "/dishes/sushi.webp",
+  "title": "Omi sushi combo.jpg",
+  "author": "Loozrboy",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Omi_sushi_combo.jpg"
+ },
+ "tacos": {
+  "src": "/dishes/tacos.webp",
+  "title": "001 Tacos de carnitas, carne asada y al pastor.jpg",
+  "author": "Larry Miller",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg"
+ },
+ "tapas": {
+  "src": "/dishes/tapas.webp",
+  "title": "TapasenBarcelona.JPG",
+  "author": "Elemaki",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:TapasenBarcelona.JPG"
+ },
+ "terroir": {
+  "src": "/dishes/terroir.webp",
+  "title": "Bowl of cassoulet.JPG",
+  "author": "BrokenSphere",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bowl_of_cassoulet.JPG"
+ },
+ "thai": {
+  "src": "/dishes/thai.webp",
+  "title": "Pad Thai with Pork - Unithai.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Pad_Thai_with_Pork_-_Unithai.jpg"
+ },
+ "vegan": {
+  "src": "/dishes/vegan.webp",
+  "title": "Vegan Benedict - North Laine Café 2025-08-05.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Vegan_Benedict_-_North_Laine_Caf%C3%A9_2025-08-05.jpg"
+ },
+ "waffle": {
+  "src": "/dishes/waffle.webp",
+  "title": "Waffle with strawberries and confectioner's sugar.jpg",
+  "author": "Ralph Daily",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Waffle_with_strawberries_and_confectioner%27s_sugar.jpg"
+ },
+ "wok": {
+  "src": "/dishes/wok.webp",
+  "title": "Chow mein 2.jpg",
+  "author": "Gannu03",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chow_mein_2.jpg"
+ }
+}
