@@ -1,4 +1,6 @@
-import { Star, MapPin, Zap, ChevronRight } from 'lucide-react';
+'use client';
+import { Star, MapPin, Zap } from 'lucide-react';
+import { motion, MotionValue, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
@@ -6,9 +8,31 @@ import { stickerFor } from '../../lib/stickers';
 
 interface RestaurantCardProps {
   rest: Restaurant;
+  hold?: MotionValue<number>;
+  nudge?: number;
 }
 
-export function RestaurantCard({ rest }: RestaurantCardProps) {
+function HoldHint({ hold, nudge = 0 }: { hold?: MotionValue<number>; nudge?: number }) {
+  const idle = useMotionValue(0);
+  const progress = hold ?? idle;
+  const width = useTransform(progress, v => `${v * 100}%`);
+
+  return (
+    <div className='relative mt-auto h-9 rounded-full border-[3px] border-plum bg-cream overflow-hidden flex items-center justify-center'>
+      <motion.div className='absolute inset-y-0 left-0 bg-fooder-secondary' style={{ width }} />
+      <motion.span
+        key={nudge}
+        className='relative text-xs font-bold text-plum'
+        animate={nudge > 0 ? { x: [0, -7, 7, -5, 5, 0] } : undefined}
+        transition={{ duration: 0.38 }}
+      >
+        Maintiens appuyé pour voir le menu
+      </motion.span>
+    </div>
+  );
+}
+
+export function RestaurantCard({ rest, hold, nudge }: RestaurantCardProps) {
   const sticker = stickerFor(rest.cuisine, rest.id, rest.name);
 
   return (
@@ -50,10 +74,7 @@ export function RestaurantCard({ rest }: RestaurantCardProps) {
           {rest.description || "Un établissement d'exception vous attend à Toulouse pour une dégustation mémorable."}
         </p>
 
-        <div className='mt-auto pt-2 flex items-center justify-between text-xs font-bold text-plum/70 border-t-2 border-dashed border-plum/15'>
-          <span>Touche pour voir le menu</span>
-          <ChevronRight className='w-4 h-4' strokeWidth={3} />
-        </div>
+        <HoldHint hold={hold} nudge={nudge} />
       </div>
     </div>
   );
