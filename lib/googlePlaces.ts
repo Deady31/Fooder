@@ -67,7 +67,7 @@ export const getPlaceDetails = (placeId: string): Promise<google.maps.places.Pla
   return new Promise((resolve, reject) => {
     if (!placesService) return reject('Places service not initialized');
 
-    placesService.getDetails({ placeId, fields: ['name', 'rating', 'user_ratings_total', 'formatted_address', 'photos', 'reviews', 'price_level', 'types', 'editorial_summary', 'website', 'url'] }, (result, status) => {
+    placesService.getDetails({ placeId, fields: ['name', 'rating', 'user_ratings_total', 'formatted_address', 'photos', 'reviews', 'price_level', 'types', 'editorial_summary', 'website', 'url', 'opening_hours'] }, (result, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && result) {
         resolve(result);
       } else {

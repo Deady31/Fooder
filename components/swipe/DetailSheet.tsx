@@ -1,10 +1,12 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink } from 'lucide-react';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
 import { stickerFor } from '../../lib/stickers';
+import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../lib/hours';
 
 interface DetailSheetProps {
   rest: Restaurant | null;
@@ -21,6 +23,54 @@ const SectionTitle = ({ icon, children }: { icon?: React.ReactNode; children: Re
     <h3 className='text-xl text-plum'>{children}</h3>
   </div>
 );
+
+
+function HoursSection({ hours }: { hours?: WeekHours }) {
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const t = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(t);
+  }, []);
+
+  if (!hours) {
+    return (
+      <section>
+        <SectionTitle>Horaires</SectionTitle>
+        <p className='text-sm font-medium text-slate-500 bg-white rounded-2xl border-[3px] border-dashed border-plum/30 p-4'>
+          Horaires non communiqués pour ce restaurant.
+        </p>
+      </section>
+    );
+  }
+
+  const status = now ? openStatus(hours, now) : null;
+  const today = now ? todayIndex(now) : -1;
+
+  return (
+    <section>
+      <div className='flex items-center justify-between gap-3 mb-4'>
+        <h3 className='text-xl text-plum'>Horaires</h3>
+        {status && (
+          <span className={`chip ${status.open ? 'bg-fooder-mint' : 'bg-fooder-red text-white'} text-plum`}>
+            {status.label}
+          </span>
+        )}
+      </div>
+      <ul className='bg-white rounded-[22px] panel divide-y-2 divide-dashed divide-plum/15 overflow-hidden'>
+        {DAY_LABELS.map((label, i) => (
+          <li
+            key={label}
+            className={`flex items-baseline justify-between gap-3 px-4 py-2.5 text-sm ${i === today ? 'bg-fooder-secondary font-bold text-plum' : 'text-slate-700 font-medium'}`}
+          >
+            <span>{label}</span>
+            <span className='text-right tabular-nums'>{formatDay(hours[i] ?? [])}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 export function DetailSheet({ rest, onClose }: DetailSheetProps) {
   return (
@@ -89,6 +139,8 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                 </a>
               )}
             </section>
+
+            <HoursSection hours={rest.hours} />
 
             {rest.extraImages && rest.extraImages.length > 0 && (
               <section>

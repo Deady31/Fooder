@@ -1,3 +1,5 @@
+import { WeekHours } from '../lib/hours';
+
 export interface MenuItem {
   name: string;
   price: number;
@@ -21,6 +23,7 @@ export interface Restaurant {
   menu?: MenuItem[];
   reviews?: number;
   website?: string;
+  hours?: WeekHours;
   dataSource?: 'mock' | 'google-places';
   updatedAt?: string;
   sponsored?: boolean;
@@ -254,8 +257,28 @@ const baseMockRestaurants: Restaurant[] = [
   },
 ];
 
+const LUNCH_DINNER: WeekHours = [
+  [], [[720, 810], [1170, 1290]], [[720, 810], [1170, 1290]], [[720, 810], [1170, 1290]], [[720, 810], [1170, 1290]], [[720, 810], [1170, 1290]], [],
+];
+const BISTRO: WeekHours = [
+  [], [[720, 840], [1170, 1320]], [[720, 840], [1170, 1320]], [[720, 840], [1170, 1320]], [[720, 840], [1170, 1320]], [[720, 840], [1170, 1320]], [],
+];
+const EVERY_DAY = (ranges: [number, number][]): WeekHours => Array.from({ length: 7 }, () => ranges);
+
+const MOCK_HOURS: Record<string, WeekHours> = {
+  '1': LUNCH_DINNER,
+  '2': BISTRO,
+  '3': BISTRO,
+  '4': EVERY_DAY([[690, 870], [1110, 1380]]),
+  '5': [[[705, 870], [1110, 1350]], [[705, 870], [1110, 1350]], [[705, 870], [1110, 1350]], [[705, 870], [1110, 1350]], [[705, 870], [1110, 1350]], [[705, 870], [1110, 1350]], [[1110, 1350]]],
+  '6': EVERY_DAY([[690, 1350]]),
+  '7': [[[720, 840], [1140, 1350]], [[720, 840], [1140, 1350]], [[720, 840], [1140, 1350]], [[720, 840], [1140, 1350]], [[720, 840], [1140, 1380]], [[720, 840], [1140, 1380]], []],
+  '8': EVERY_DAY([[660, 1470]]),
+};
+
 export const mockRestaurants: Restaurant[] = baseMockRestaurants.map((restaurant) => ({
   ...restaurant,
+  hours: MOCK_HOURS[restaurant.id],
   dataSource: 'mock',
   updatedAt: '2026-05-10T12:00:00.000Z',
 }));
