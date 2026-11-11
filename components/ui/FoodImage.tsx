@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Sticker } from './Sticker';
-import { stickerFor } from '../../lib/stickers';
+import { CoverArt } from './CoverArt';
 
 interface FoodImageProps {
   src?: string;
@@ -18,11 +17,7 @@ export function FoodImage({ src, alt, cuisine = '', className = '' }: FoodImageP
   }, [src]);
 
   if (failed || !src) {
-    return (
-      <div className={`${className} bg-fooder-secondary flex items-center justify-center`} role='img' aria-label={alt}>
-        <Sticker name={stickerFor(cuisine, alt, alt)} size={96} rotate={-6} />
-      </div>
-    );
+    return <CoverArt name={alt} cuisine={cuisine} className={className} />;
   }
 
   return (

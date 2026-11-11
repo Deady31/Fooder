@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import records from '../../../data/toulouse-osm.json';
-import { haversine, OsmRecord, osmToRestaurant } from '../../../lib/osm';
+import { completeness, haversine, isPresentable, OsmRecord, osmToRestaurant } from '../../../lib/osm';
 
 export const dynamic = 'force-dynamic';
 
 const TOULOUSE = { lat: 43.6045, lng: 1.4442 };
 const MAX_LIMIT = 50;
 const MAX_RADIUS = 20000;
-const ALL = records as OsmRecord[];
+// Seules les fiches présentables (cuisine connue + horaires lisibles) sont proposées.
+const ALL = (records as OsmRecord[]).filter(isPresentable);
 
 // Limiteur simple en mémoire (par instance). En prod : Upstash/Redis ou Vercel Firewall.
 const hits = new Map<string, { n: number; t: number }>();
@@ -45,7 +46,7 @@ export function GET(req: NextRequest) {
   const near = ALL.filter(r => kinds.has(r.k))
     .map(r => ({ r, d: haversine(lat, lng, r.la, r.ln) }))
     .filter(x => x.d <= radius)
-    .sort((a, b) => a.d - b.d);
+    .sort((a, b) => a.d - b.d - (completeness(a.r) - completeness(b.r)) * 150);
 
   const page = near.slice(offset, offset + limit).map(x => osmToRestaurant(x.r, { lat, lng }));
 

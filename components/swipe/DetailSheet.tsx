@@ -118,15 +118,17 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                   </span>
                 )}
               </div>
-              <div className='absolute -top-9 right-4'>
-                <Sticker name={stickerFor(rest.cuisine, rest.id, rest.name)} size={72} rotate={8} />
-              </div>
+              {rest.image && (
+                <div className='absolute -top-9 right-4'>
+                  <Sticker name={stickerFor(rest.cuisine, rest.id, rest.name)} size={72} rotate={8} />
+                </div>
+              )}
             </div>
           </div>
 
           <div className='px-5 pt-24 pb-8 space-y-9'>
             <section>
-              <SectionTitle icon={<Quote className='w-4 h-4 text-plum' />}>L&apos;expérience</SectionTitle>
+              <SectionTitle icon={<Quote className='w-4 h-4 text-plum' />}>{rest.dataSource === 'osm' ? 'En bref' : "L'expérience"}</SectionTitle>
               <p className='text-slate-700 font-medium leading-relaxed border-l-4 border-fooder-primary pl-4 text-base'>
                 {rest.description || 'Découvrez ce restaurant et laissez-vous surprendre par sa cuisine et son ambiance.'}
               </p>
@@ -181,12 +183,16 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
           <div className='sticky bottom-0 z-20 px-5 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] bg-cream border-t-[3px] border-plum'>
             <button
               onClick={() => {
-                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rest.name + ' ' + rest.address)}`, '_blank');
+                const url =
+                  rest.lat !== undefined && rest.lng !== undefined
+                    ? `https://www.google.com/maps/dir/?api=1&destination=${rest.lat},${rest.lng}&travelmode=walking`
+                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rest.name + ' ' + rest.address)}`;
+                window.open(url, '_blank', 'noopener,noreferrer');
               }}
               className='w-full duo-button bg-fooder-primary text-white py-4 text-lg flex items-center justify-center gap-3'
             >
               <MapPin className='w-6 h-6' />
-              Y aller tout de suite
+              Y aller
             </button>
           </div>
         </motion.div>
