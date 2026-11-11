@@ -51,7 +51,7 @@ export default function FeedPage() {
   };
 
   return (
-    <div className='h-full flex flex-col bg-cream'>
+    <div className='h-full flex flex-col'>
       <PageHeader
         title='Le fil'
         subtitle='Les verdicts des foodies de Toulouse'

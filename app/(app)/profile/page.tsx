@@ -113,7 +113,7 @@ export default function ProfilePage() {
   const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0 } };
 
   return (
-    <div className="h-full bg-cream scroll-y">
+    <div className="h-full scroll-y">
       <PageHeader
         title="Profil"
         subtitle={`Niveau ${level} · ${xp} XP`}

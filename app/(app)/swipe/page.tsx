@@ -303,7 +303,7 @@ export default function SwipePage() {
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
 
     return (
-        <div className={`flex flex-col h-full overflow-hidden relative transition-colors duration-700 ${isPremium ? 'premium-bg' : 'bg-cream'} doodle-bg`}>
+        <div className={`flex flex-col h-full overflow-hidden relative transition-colors duration-700 ${isPremium ? 'premium-bg doodle-bg' : ''}`}>
 
             {/* Top bar */}
             <header className={`shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 ${isPremium ? 'premium-navbar' : 'bg-cream/90'}`}>
