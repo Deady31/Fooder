@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
+import { pushNotification } from '../lib/notifications';
 
 const STREAK_KEY = 'fooder_streak';
 const XP_KEY = 'fooder_xp';
@@ -97,6 +98,7 @@ export function useGamification() {
       const newIds = [...prev, id];
       localStorage.setItem(ACH_KEY, JSON.stringify(newIds));
       setNewAchievement(achievement);
+      pushNotification({ id: `ach-${id}`, kind: 'achievement', title: achievement.title, body: achievement.description, ref: id });
       return newIds;
     });
   }, []);

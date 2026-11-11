@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SlidersHorizontal, ChevronDown, Infinity } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { mockRestaurants, Restaurant } from '../../../data/mockRestaurants';
 import { track } from '../../../lib/analytics';
@@ -20,6 +20,8 @@ import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet } from '../../../components/swipe/FilterSheet';
 import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
+import { NotificationBell } from '../../../components/notifications/NotificationBell';
+import { pushNotification } from '../../../lib/notifications';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -225,7 +227,17 @@ export default function SwipePage() {
     };
 
     const cuisines = ['All', ...Array.from(new Set(restaurants.map(r => r.cuisine)))];
-    const lowSwipes = loaded && !isPremium && remaining <= 5;
+    useEffect(() => {
+        if (!loaded || isPremium || remaining > 5) return;
+        const day = new Date().toISOString().slice(0, 10);
+        pushNotification({
+            id: `swipes-${day}-${remaining}`,
+            kind: 'system',
+            title: remaining === 0 ? "Plus de swipes aujourd'hui" : `Plus que ${remaining} swipe${remaining > 1 ? 's' : ''}`,
+            body: 'Reviens demain, ou passe Premium pour swiper sans limite.',
+        });
+    }, [loaded, isPremium, remaining]);
+
     const deckCards = restaurants.slice(0, currentIndex + 1);
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
 
@@ -259,20 +271,7 @@ export default function SwipePage() {
                     </button>
                 </div>
 
-                <button
-                    onClick={() => !isPremium && setShowPremiumModal(true)}
-                    aria-label={isPremium ? 'Swipes illimités' : `${remaining} swipes restants aujourd'hui`}
-                    className={`min-w-11 h-11 px-2 border-[3px] border-plum rounded-full flex flex-col items-center justify-center leading-none shadow-hard active:translate-y-0.5 active:shadow-none transition-all ${
-                        isPremium ? 'bg-fooder-secondary text-plum' : lowSwipes ? 'bg-fooder-red text-white' : 'bg-fooder-orange text-plum'
-                    }`}
-                >
-                    {isPremium ? (
-                        <Infinity className='w-5 h-5' strokeWidth={3} />
-                    ) : (
-                        <span className='font-display text-lg'>{loaded ? remaining : '·'}</span>
-                    )}
-                    <span className='text-[8px] font-black -mt-0.5 opacity-80'>swipes</span>
-                </button>
+                <NotificationBell />
             </header>
 
             {/* Deck */}

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Camera, X } from 'lucide-react';
-import { MAX_CAPTION, compressImage } from '../../lib/feed';
+import { MAX_CAPTION, VERDICTS, Verdict, compressImage } from '../../lib/feed';
 import { stickerFor } from '../../lib/stickers';
 import { Sticker } from '../ui/Sticker';
 
@@ -15,6 +15,7 @@ export interface LikedRestaurant {
 export interface ComposeResult {
   restaurant: LikedRestaurant;
   caption: string;
+  verdict: Verdict;
   photo?: string;
 }
 
@@ -28,6 +29,7 @@ interface ComposeSheetProps {
 export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheetProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [caption, setCaption] = useState('');
+  const [verdict, setVerdict] = useState<Verdict>('miam');
   const [photo, setPhoto] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -36,6 +38,7 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
     if (isOpen) {
       setSelectedId(liked[0]?.id ?? null);
       setCaption('');
+      setVerdict('miam');
       setPhoto(undefined);
       setError(null);
     }
@@ -54,7 +57,7 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
   const publish = () => {
     const restaurant = liked.find(r => r.id === selectedId);
     if (!restaurant) return;
-    const ok = onPublish({ restaurant, caption: caption.trim(), photo });
+    const ok = onPublish({ restaurant, caption: caption.trim(), verdict, photo });
     if (ok) onClose();
     else setError('Stockage plein : retire une ancienne photo.');
   };
@@ -101,6 +104,21 @@ export function ComposeSheet({ isOpen, liked, onClose, onPublish }: ComposeSheet
                       >
                         <Sticker name={stickerFor(r.cuisine, r.id, r.name)} size={30} className='shrink-0' />
                         <span className='truncate'>{r.name}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div role='radiogroup' aria-label='Ton verdict' className='grid grid-cols-3 gap-2'>
+                    {VERDICTS.map(v => (
+                      <button
+                        key={v.id}
+                        role='radio'
+                        aria-checked={verdict === v.id}
+                        onClick={() => setVerdict(v.id)}
+                        className={`font-display text-lg leading-none py-2.5 rounded-xl border-[3px] transition-all active:scale-95 ${verdict === v.id ? 'bg-white shadow-hard -rotate-2' : 'bg-cream/60 opacity-70'}`}
+                        style={{ color: v.color, borderColor: v.color }}
+                      >
+                        {v.label}
                       </button>
                     ))}
                   </div>

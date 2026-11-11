@@ -21,7 +21,7 @@ function readLiked(): LikedRestaurant[] {
 }
 
 export default function FeedPage() {
-  const { posts, liked, addPost, removePost, toggleLike } = useFeed();
+  const { posts, liked, addPost, removePost, toggleLike, commentsFor, addComment } = useFeed();
   const { avatar } = useAvatar();
   const { level } = useGamification();
   const [composeOpen, setComposeOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function FeedPage() {
     setLikedRestaurants(readLiked());
   }, [composeOpen]);
 
-  const publish = ({ restaurant, caption, photo }: ComposeResult): boolean => {
+  const publish = ({ restaurant, caption, verdict, photo }: ComposeResult): boolean => {
     const ok = addPost({
       id: `mine-${Date.now()}`,
       author: { name: 'Toi', avatar, level },
@@ -40,6 +40,7 @@ export default function FeedPage() {
       cuisine: restaurant.cuisine,
       sticker: stickerFor(restaurant.cuisine, restaurant.id, restaurant.name),
       caption,
+      verdict,
       photo,
       likes: 0,
       createdAt: Date.now(),
@@ -53,7 +54,7 @@ export default function FeedPage() {
     <div className='h-full flex flex-col bg-cream'>
       <PageHeader
         title='Le fil'
-        subtitle='Ce que les foodies de Toulouse ont aimé'
+        subtitle='Les verdicts des foodies de Toulouse'
         right={
           <button
             onClick={() => setComposeOpen(true)}
@@ -67,7 +68,7 @@ export default function FeedPage() {
       <div className='flex-1 min-h-0 scroll-y px-4 py-4 space-y-4'>
         <AnimatePresence initial={false}>
           {posts.map(post => (
-            <PostCard key={post.id} post={post} liked={liked.includes(post.id)} onLike={toggleLike} onDelete={removePost} />
+            <PostCard key={post.id} post={post} liked={liked.includes(post.id)} comments={commentsFor(post.id)} onLike={toggleLike} onDelete={removePost} onComment={addComment} />
           ))}
         </AnimatePresence>
         <p className='text-center text-[11px] font-bold text-plum/50 pb-2'>Exemples de démo · le vrai fil arrive avec les comptes</p>

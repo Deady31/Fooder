@@ -7,6 +7,26 @@ export interface FeedAuthor {
   level: number;
 }
 
+export type Verdict = 'miam' | 'bof' | 'atester';
+
+export const VERDICTS: { id: Verdict; label: string; color: string }[] = [
+  { id: 'miam', label: 'MIAM', color: '#12B76A' },
+  { id: 'atester', label: 'À TESTER', color: '#6C2BFF' },
+  { id: 'bof', label: 'BOF', color: '#F04438' },
+];
+
+export interface FeedComment {
+  id: string;
+  postId: string;
+  authorName: string;
+  text: string;
+  createdAt: number;
+  mine?: boolean;
+}
+
+export const COMMENTS_KEY = 'fooder_comments';
+export const MAX_COMMENT = 140;
+
 export interface FeedPost {
   id: string;
   author: FeedAuthor;
@@ -15,6 +35,7 @@ export interface FeedPost {
   cuisine: string;
   sticker: StickerName;
   caption: string;
+  verdict: Verdict;
   /** Photo recompressée (data URL) : uniquement pour les posts de l'utilisateur en mode local */
   photo?: string;
   likes: number;
@@ -31,10 +52,10 @@ const HOUR = 3_600_000;
 /** Exemples fictifs affichés tant que les comptes n'existent pas (marqués « démo » dans l'interface). */
 export function seedPosts(now: number = Date.now()): FeedPost[] {
   return [
-    { id: 'seed-1', author: { name: 'lea_mange', avatar: { id: 'donut', bg: 'bubblegum' }, level: 6 }, restaurantId: '1', restaurantName: 'Michel Sarran', cuisine: 'Gastronomique', sticker: 'plate', caption: 'Le menu Capitole du midi, rapport qualité/prix imbattable.', likes: 42, createdAt: now - 1 * HOUR },
-    { id: 'seed-2', author: { name: 'tom.bao', avatar: { id: 'ramen', bg: 'lemon' }, level: 3 }, restaurantId: 'seed-r2', restaurantName: 'Ramen du Capitole', cuisine: 'Japonais', sticker: 'ramen', caption: 'Bouillon parfait pour un jour de pluie.', likes: 18, createdAt: now - 3 * HOUR },
-    { id: 'seed-3', author: { name: 'sarah_swipe', avatar: { id: 'boba', bg: 'mint' }, level: 9 }, restaurantId: 'seed-r3', restaurantName: 'Boba Garden', cuisine: 'Café', sticker: 'boba', caption: 'Spot parfait pour réviser, wifi ok.', likes: 27, createdAt: now - 7 * HOUR },
-    { id: 'seed-4', author: { name: 'yanis31', avatar: { id: 'burger', bg: 'orange' }, level: 4 }, restaurantId: 'seed-r4', restaurantName: 'Burger de Compans', cuisine: 'Burger', sticker: 'burger', caption: 'Frites maison, sauce secrète. Je reviens.', likes: 11, createdAt: now - 20 * HOUR },
+    { id: 'seed-1', verdict: 'miam', author: { name: 'lea_mange', avatar: { id: 'donut', bg: 'bubblegum' }, level: 6 }, restaurantId: '1', restaurantName: 'Michel Sarran', cuisine: 'Gastronomique', sticker: 'plate', caption: 'Le menu Capitole du midi, rapport qualité/prix imbattable.', likes: 42, createdAt: now - 1 * HOUR },
+    { id: 'seed-2', verdict: 'miam', author: { name: 'tom.bao', avatar: { id: 'ramen', bg: 'lemon' }, level: 3 }, restaurantId: 'seed-r2', restaurantName: 'Ramen du Capitole', cuisine: 'Japonais', sticker: 'ramen', caption: 'Bouillon parfait pour un jour de pluie.', likes: 18, createdAt: now - 3 * HOUR },
+    { id: 'seed-3', verdict: 'atester', author: { name: 'sarah_swipe', avatar: { id: 'boba', bg: 'mint' }, level: 9 }, restaurantId: 'seed-r3', restaurantName: 'Boba Garden', cuisine: 'Café', sticker: 'boba', caption: 'Spot parfait pour réviser, wifi ok.', likes: 27, createdAt: now - 7 * HOUR },
+    { id: 'seed-4', verdict: 'miam', author: { name: 'yanis31', avatar: { id: 'burger', bg: 'orange' }, level: 4 }, restaurantId: 'seed-r4', restaurantName: 'Burger de Compans', cuisine: 'Burger', sticker: 'burger', caption: 'Frites maison, sauce secrète. Je reviens.', likes: 11, createdAt: now - 20 * HOUR },
   ];
 }
 
@@ -72,4 +93,12 @@ export function compressImage(file: File, maxSide = 800, quality = 0.72): Promis
     };
     img.src = url;
   });
+}
+
+export function seedComments(now: number = Date.now()): FeedComment[] {
+  return [
+    { id: 'sc-1', postId: 'seed-1', authorName: 'tom.bao', text: "Noté ! Il faut réserver longtemps à l'avance ?", createdAt: now - 40 * 60_000 },
+    { id: 'sc-2', postId: 'seed-1', authorName: 'lea_mange', text: 'Une semaine pour le midi, ça passe.', createdAt: now - 25 * 60_000 },
+    { id: 'sc-3', postId: 'seed-3', authorName: 'yanis31', text: 'Les prises sont où ?', createdAt: now - 5 * HOUR },
+  ];
 }

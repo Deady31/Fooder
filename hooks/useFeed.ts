@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FeedPost, POSTS_KEY, POST_LIKES_KEY, seedPosts } from '../lib/feed';
+import { COMMENTS_KEY, MAX_COMMENT, FeedComment, FeedPost, POSTS_KEY, POST_LIKES_KEY, seedComments, seedPosts } from '../lib/feed';
 
 function readJson<T>(key: string, fallback: T): T {
   try {
@@ -24,11 +24,15 @@ export function useFeed() {
   const [mine, setMine] = useState<FeedPost[]>([]);
   const [liked, setLiked] = useState<string[]>([]);
   const [seeds, setSeeds] = useState<FeedPost[]>([]);
+  const [seedCom, setSeedCom] = useState<FeedComment[]>([]);
+  const [myCom, setMyCom] = useState<FeedComment[]>([]);
 
   useEffect(() => {
     setMine(readJson<FeedPost[]>(POSTS_KEY, []));
     setLiked(readJson<string[]>(POST_LIKES_KEY, []));
     setSeeds(seedPosts());
+    setSeedCom(seedComments());
+    setMyCom(readJson<FeedComment[]>(COMMENTS_KEY, []));
   }, []);
 
   const posts = useMemo(() => [...mine, ...seeds].sort((a, b) => b.createdAt - a.createdAt), [mine, seeds]);
@@ -59,5 +63,23 @@ export function useFeed() {
     });
   }, []);
 
-  return { posts, liked, addPost, removePost, toggleLike };
+  const commentsFor = useCallback(
+    (postId: string): FeedComment[] =>
+      [...seedCom, ...myCom].filter(c => c.postId === postId).sort((a, b) => a.createdAt - b.createdAt),
+    [seedCom, myCom]
+  );
+
+  const addComment = useCallback(
+    (postId: string, text: string): boolean => {
+      const clean = text.trim().slice(0, MAX_COMMENT);
+      if (!clean) return false;
+      const next = [...myCom, { id: `mc-${Date.now()}`, postId, authorName: 'Toi', text: clean, createdAt: Date.now(), mine: true }];
+      if (!writeJson(COMMENTS_KEY, next)) return false;
+      setMyCom(next);
+      return true;
+    },
+    [myCom]
+  );
+
+  return { posts, liked, addPost, removePost, toggleLike, commentsFor, addComment };
 }

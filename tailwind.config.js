@@ -28,6 +28,7 @@ module.exports = {
         '3xl': '24px',
       },
       boxShadow: {
+        'hard-sm': '2px 2px 0 0 #2B0F3A',
         hard: '4px 4px 0 0 #2B0F3A',
         'hard-lg': '6px 6px 0 0 #2B0F3A',
         'hard-violet': '4px 4px 0 0 #6C2BFF',

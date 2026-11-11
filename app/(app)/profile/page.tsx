@@ -11,6 +11,7 @@ import { AnimatedNumber } from '../../../components/ui/AnimatedNumber';
 import { StickerName, badgeFor } from '../../../lib/stickers';
 import { Avatar } from '../../../components/profile/Avatar';
 import { AvatarPicker } from '../../../components/profile/AvatarPicker';
+import { InstallCard } from '../../../components/pwa/InstallCard';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useFreemium } from '../../../hooks/useFreemium';
 
@@ -339,6 +340,7 @@ export default function ProfilePage() {
       </div>
 
       <footer className="px-4 pb-6 pt-1">
+        <InstallCard />
         <button
           onClick={handleMatch}
           className="w-full duo-button bg-white text-plum py-3.5 text-sm flex items-center justify-center gap-2"
