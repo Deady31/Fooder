@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ChevronRight, Download, Trash2 } from 'lucide-react';
 
 const LINKS: { href: string; label: string; hint: string }[] = [
-  { href: '/legal/terms', label: "Conditions d'utilisation", hint: 'CGU, Premium, médiation' },
+  { href: '/legal/terms', label: "Conditions d'utilisation", hint: 'CGU, médiation' },
   { href: '/legal/privacy', label: 'Confidentialité (RGPD)', hint: 'Tes données et tes droits' },
   { href: '/legal/cookies', label: 'Cookies et mesure d’audience', hint: 'Stockage et consentement' },
   { href: '/legal/community', label: 'Règles de la communauté', hint: 'Fil, photos, signalement' },
@@ -81,6 +81,9 @@ export function LegalCenter() {
         <p className='text-sm font-bold text-plum'>Mes données</p>
         <p className='text-xs font-semibold text-slate-600 leading-snug'>
           Tout est enregistré sur ce téléphone. Tu peux le récupérer ou tout effacer.
+        </p>
+        <p className='text-xs font-semibold text-slate-600 leading-snug'>
+          Les mesures d&apos;usage anonymes se désactivent dans <Link href='/compte' className='underline'>Compte</Link>.
         </p>
         <button onClick={exportData} className='duo-button w-full bg-white text-plum text-sm flex items-center justify-center gap-2'>
           <Download className='w-4 h-4' strokeWidth={3} /> Exporter mes données

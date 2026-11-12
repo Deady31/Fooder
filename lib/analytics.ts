@@ -1,3 +1,6 @@
+import { cloud, currentUserId, isCloudEnabled } from './cloud/client';
+import { KeyValueStore, UsageTracker, classifySendError, createUsageTracker, readOptIn, writeOptIn } from './usage';
+
 // Mesure d'audience respectueuse : rien n'est envoyé sans consentement explicite (RGPD / CNIL).
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com';
@@ -46,8 +49,62 @@ export function analyticsEnabled(): boolean {
   return Boolean(KEY);
 }
 
+// ───────── Mesures d'usage anonymes (table Supabase `events`, voir lib/usage.ts) ─────────
+// Indépendantes du consentement PostHog : liste blanche stricte, aucune donnée personnelle, désactivables dans Compte.
+
+function safeStorage(): KeyValueStore | null {
+  try {
+    return typeof window === 'undefined' ? null : window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+let usageTracker: UsageTracker | null = null;
+
+function usage(): UsageTracker {
+  if (usageTracker) return usageTracker;
+  usageTracker = createUsageTracker({
+    cloudEnabled: isCloudEnabled,
+    optedIn: () => readOptIn(safeStorage()),
+    hasSession: async () => (await currentUserId()) !== null,
+    send: async rows => {
+      const sb = cloud();
+      if (!sb) return 'retry';
+      const { error, status } = await sb.from('events').insert(rows);
+      return error ? classifySendError({ status }) : 'ok';
+    },
+    storage: safeStorage(),
+  });
+  // Envoi à la mise en arrière-plan : la file ne reste pas bloquée sur un appareil qu'on ferme
+  document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && void usageTracker?.flush());
+  // Retour en ligne : on relance les envois même après une série d'échecs
+  window.addEventListener('online', () => {
+    usageTracker?.resetFailures();
+    void usageTracker?.flush();
+  });
+  return usageTracker;
+}
+
+export function getUsageEnabled(): boolean {
+  return readOptIn(safeStorage());
+}
+
+export function setUsageEnabled(on: boolean): void {
+  writeOptIn(safeStorage(), on);
+  if (!on && typeof window !== 'undefined') usage().clear();
+}
+
+/** Envoie la file maintenant (appelé quand une session apparaît). No-op si cloud absent ou réglage désactivé. */
+export function flushUsage(): void {
+  if (typeof window === 'undefined' || !isCloudEnabled() || !getUsageEnabled()) return;
+  void usage().flush();
+}
+
 export function track(event: string, properties: Record<string, string | number | boolean> = {}): void {
-  if (!KEY || typeof window === 'undefined' || getConsent() !== 'granted') return;
+  if (typeof window === 'undefined') return;
+  if (isCloudEnabled()) usage().track(event, properties);
+  if (!KEY || getConsent() !== 'granted') return;
   void fetch(`${HOST}/capture/`, {
     method: 'POST',
     keepalive: true,

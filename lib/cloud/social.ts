@@ -44,6 +44,22 @@ export async function addFriendByCode(code: string): Promise<FriendSnapshot | nu
   return snap;
 }
 
+/**
+ * Après passage d'un compte anonyme à un compte existant : les amitiés du compte anonyme restent côté serveur sur l'ancien
+ * identifiant. On recrée celles que l'appareil connaît (amis avec code d'ami) sur le nouveau compte. Retourne le nombre recréé.
+ */
+export async function reattachLocalFriends(max = 50): Promise<number> {
+  const codes = readFriends()
+    .map(f => f.snapshot.code)
+    .filter((c): c is string => typeof c === 'string')
+    .slice(0, max);
+  let done = 0;
+  for (const code of codes) {
+    if (await addFriendByCode(code).catch(() => null)) done += 1;
+  }
+  return done;
+}
+
 /** Récupère les amis du compte et rafraîchit leurs cartes locales. */
 export async function refreshFriends(uid: string): Promise<number> {
   const sb = cloud();

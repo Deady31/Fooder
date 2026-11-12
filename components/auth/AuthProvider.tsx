@@ -3,10 +3,18 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { Session } from '@supabase/supabase-js';
 import { cloud, isCloudEnabled } from '../../lib/cloud/client';
 import { startSync, pushNow } from '../../lib/cloud/sync';
-import { refreshFriends } from '../../lib/cloud/social';
-import { track } from '../../lib/analytics';
+import { refreshFriends, reattachLocalFriends } from '../../lib/cloud/social';
+import { AuthFailure, EnsureResult, FAILURE_MESSAGE, authMessage, classifyAuthError, ensureCloudSession } from '../../lib/cloud/session';
+import { flushUsage, track } from '../../lib/analytics';
 
 export type SyncStatus = 'off' | 'syncing' | 'ok' | 'error';
+
+/** Résultat d'une action de connexion : jamais d'exception, un message lisible en cas d'échec. */
+export interface AuthResult {
+  ok: boolean;
+  reason?: AuthFailure;
+  message?: string;
+}
 
 interface AuthState {
   enabled: boolean;
@@ -14,9 +22,20 @@ interface AuthState {
   session: Session | null;
   uid: string | null;
   email: string | null;
+  /** Compte anonyme (créé sans formulaire) : pas encore sauvegardé par e-mail. */
+  anonymous: boolean;
   sync: SyncStatus;
-  sendCode: (email: string) => Promise<string | null>;
-  verifyCode: (email: string, code: string) => Promise<string | null>;
+  /**
+   * Crée ou réutilise une session cloud (compte anonyme si besoin). À appeler au premier besoin cloud : ami, groupe, photo.
+   * captchaToken : obligatoire dès que le captcha Supabase est activé (Turnstile / hCaptcha).
+   */
+  ensureSession: (opts?: { captchaToken?: string }) => Promise<EnsureResult>;
+  /** Connexion à un compte existant (ou création) : envoie le lien + code par e-mail. captchaToken : idem ensureSession. */
+  sendCode: (email: string, captchaToken?: string) => Promise<AuthResult>;
+  verifyCode: (email: string, code: string) => Promise<AuthResult>;
+  /** « Sauvegarde ton compte » : rattache un e-mail au compte anonyme courant (même identifiant, données conservées). */
+  sendUpgradeCode: (email: string) => Promise<AuthResult>;
+  verifyUpgradeCode: (email: string, code: string) => Promise<AuthResult>;
   signOut: () => Promise<void>;
   syncNow: () => Promise<void>;
 }
@@ -24,13 +43,15 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null);
 
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{2,}$/;
+const NEW_ACCOUNT_WINDOW_MS = 2 * 60_000;
 
-/** Message lisible pour les erreurs d'authentification (sans détail technique). */
-function friendlyError(message: string): string {
-  if (/rate|too many|security purposes/i.test(message)) return 'Trop de tentatives, réessaie dans une minute.';
-  if (/expired|invalid|token/i.test(message)) return 'Code invalide ou expiré. Demande un nouveau code.';
-  if (/signups not allowed/i.test(message)) return 'Les inscriptions sont fermées pour le moment.';
-  return 'Connexion impossible pour le moment. Réessaie.';
+const OK: AuthResult = { ok: true };
+const fail = (reason: AuthFailure, message = FAILURE_MESSAGE[reason]): AuthResult => ({ ok: false, reason, message });
+const cloudOff = (): AuthResult => fail('cloud_off');
+
+function parseCode(code: string): string | null {
+  const token = code.replace(/\D/g, '');
+  return token.length >= 6 && token.length <= 8 ? token : null;
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -42,15 +63,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const sb = cloud();
     if (!sb) return;
-    sb.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
+    let cancelled = false;
+    sb.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!cancelled) setSession(data.session);
+      })
+      .catch(() => {
+        /* lecture de session impossible : on reste déconnecté */
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
     const { data: sub } = sb.auth.onAuthStateChange((_event, s) => setSession(s));
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const uid = session?.user.id ?? null;
+  const anonymous = session?.user.is_anonymous === true;
 
   // Synchronisation automatique tant que la session est ouverte
   useEffect(() => {
@@ -63,32 +96,72 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshFriends(uid)
       .then(() => setSync(s => (s === 'error' ? s : 'ok')))
       .catch(() => setSync('error'));
+    flushUsage();
     return stop;
   }, [uid]);
 
-  const sendCode = useCallback(async (email: string): Promise<string | null> => {
+  const ensureSession = useCallback((opts?: { captchaToken?: string }) => ensureCloudSession(opts), []);
+
+  const sendCode = useCallback(async (email: string, captchaToken?: string): Promise<AuthResult> => {
     const sb = cloud();
-    if (!sb) return 'Comptes indisponibles.';
+    if (!sb) return cloudOff();
     const clean = email.trim().toLowerCase();
-    if (!EMAIL_RE.test(clean)) return 'Adresse e-mail invalide.';
+    if (!EMAIL_RE.test(clean)) return fail('email_invalid');
     const { error } = await sb.auth.signInWithOtp({
       email: clean,
-      options: { shouldCreateUser: true, emailRedirectTo: `${window.location.origin}/compte` },
+      options: { shouldCreateUser: true, emailRedirectTo: `${window.location.origin}/compte`, ...(captchaToken ? { captchaToken } : {}) },
     });
-    if (error) return friendlyError(error.message);
+    if (error) return fail(classifyAuthError(error), authMessage(error));
     track('auth_code_sent');
-    return null;
+    return OK;
   }, []);
 
-  const verifyCode = useCallback(async (email: string, code: string): Promise<string | null> => {
+  const verifyCode = useCallback(
+    async (email: string, code: string): Promise<AuthResult> => {
+      const sb = cloud();
+      if (!sb) return cloudOff();
+      const token = parseCode(code);
+      if (!token) return fail('code_invalid', 'Le code contient 6 chiffres.');
+      const previousUid = uid;
+      const wasAnonymous = anonymous;
+      const { data, error } = await sb.auth.verifyOtp({ email: email.trim().toLowerCase(), token, type: 'email' });
+      if (error) return fail(classifyAuthError(error), authMessage(error));
+      track('auth_signed_in');
+      const user = data.user;
+      if (user && Date.now() - Date.parse(user.created_at) < NEW_ACCOUNT_WINDOW_MS) track('signup', { method: 'otp' });
+      // Compte anonyme → compte existant : les données locales sont fusionnées par la synchro (lib/cloud/merge.ts) ;
+      // on recrée en plus côté serveur les amitiés de l'appareil, restées sur l'ancien compte anonyme.
+      if (wasAnonymous && user && user.id !== previousUid) {
+        reattachLocalFriends()
+          .then(() => refreshFriends(user.id))
+          .catch(() => undefined);
+      }
+      return OK;
+    },
+    [uid, anonymous]
+  );
+
+  const sendUpgradeCode = useCallback(async (email: string): Promise<AuthResult> => {
     const sb = cloud();
-    if (!sb) return 'Comptes indisponibles.';
-    const token = code.replace(/\D/g, '');
-    if (token.length < 6 || token.length > 8) return 'Le code contient 6 chiffres.';
-    const { error } = await sb.auth.verifyOtp({ email: email.trim().toLowerCase(), token, type: 'email' });
-    if (error) return friendlyError(error.message);
-    track('auth_signed_in');
-    return null;
+    if (!sb) return cloudOff();
+    const clean = email.trim().toLowerCase();
+    if (!EMAIL_RE.test(clean)) return fail('email_invalid');
+    const { error } = await sb.auth.updateUser({ email: clean }, { emailRedirectTo: `${window.location.origin}/compte` });
+    if (error) return fail(classifyAuthError(error), authMessage(error));
+    return OK;
+  }, []);
+
+  const verifyUpgradeCode = useCallback(async (email: string, code: string): Promise<AuthResult> => {
+    const sb = cloud();
+    if (!sb) return cloudOff();
+    const token = parseCode(code);
+    if (!token) return fail('code_invalid', 'Le code contient 6 chiffres.');
+    const { error } = await sb.auth.verifyOtp({ email: email.trim().toLowerCase(), token, type: 'email_change' });
+    if (error) return fail(classifyAuthError(error), authMessage(error));
+    // Le jeton doit être renouvelé pour que le claim is_anonymous passe à false
+    await sb.auth.refreshSession().catch(() => undefined);
+    track('signup', { method: 'upgrade' });
+    return OK;
   }, []);
 
   const signOut = useCallback(async () => {
@@ -107,8 +180,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [uid]);
 
   const value = useMemo<AuthState>(
-    () => ({ enabled, loading, session, uid, email: session?.user.email ?? null, sync, sendCode, verifyCode, signOut, syncNow }),
-    [enabled, loading, session, uid, sync, sendCode, verifyCode, signOut, syncNow]
+    () => ({
+      enabled,
+      loading,
+      session,
+      uid,
+      email: session?.user.email ?? null,
+      anonymous,
+      sync,
+      ensureSession,
+      sendCode,
+      verifyCode,
+      sendUpgradeCode,
+      verifyUpgradeCode,
+      signOut,
+      syncNow,
+    }),
+    [enabled, loading, session, uid, anonymous, sync, ensureSession, sendCode, verifyCode, sendUpgradeCode, verifyUpgradeCode, signOut, syncNow]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -120,9 +208,13 @@ const OFF: AuthState = {
   session: null,
   uid: null,
   email: null,
+  anonymous: false,
   sync: 'off',
-  sendCode: async () => 'Comptes indisponibles.',
-  verifyCode: async () => 'Comptes indisponibles.',
+  ensureSession: async () => ({ ok: false, reason: 'cloud_off', message: FAILURE_MESSAGE.cloud_off }),
+  sendCode: async () => cloudOff(),
+  verifyCode: async () => cloudOff(),
+  sendUpgradeCode: async () => cloudOff(),
+  verifyUpgradeCode: async () => cloudOff(),
   signOut: async () => undefined,
   syncNow: async () => undefined,
 };

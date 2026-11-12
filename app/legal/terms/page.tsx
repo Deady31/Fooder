@@ -30,20 +30,14 @@ export default function TermsPage() {
       </ul>
       <h2>4. Propriété intellectuelle</h2>
       <p>La marque, le logo, les illustrations et le code de Fooder sont protégés. Toute reproduction sans autorisation est interdite.</p>
-      <h2>5. Premium</h2>
-      <p>
-        Les avantages, le prix TTC et la durée de l&apos;abonnement sont indiqués avant l&apos;achat. Tu disposes d&apos;un droit de rétractation de 14 jours
-        pour un abonnement, sauf si tu demandes l&apos;exécution immédiate du service et reconnais perdre ce droit pour la part déjà consommée. Tu résilies
-        quand tu veux depuis l&apos;application ; la résiliation prend effet à la fin de la période payée.
-      </p>
-      <h2>6. Responsabilité</h2>
+      <h2>5. Responsabilité</h2>
       <p>
         Le service est fourni « en l&apos;état ». Fooder n&apos;est pas partie aux relations entre utilisateurs et restaurants et ne répond pas des services rendus par
         ces derniers. Rien dans ces conditions n&apos;exclut une responsabilité que la loi ne permet pas d&apos;exclure.
       </p>
-      <h2>7. Données personnelles</h2>
+      <h2>6. Données personnelles</h2>
       <p>Voir la <a href='/legal/privacy'>politique de confidentialité</a>.</p>
-      <h2>8. Litiges et médiation</h2>
+      <h2>7. Litiges et médiation</h2>
       <p>
         Écris-nous d&apos;abord à <strong>[À COMPLÉTER : e-mail]</strong>. Si le désaccord persiste, tu peux saisir gratuitement le médiateur de la consommation :{' '}
         <strong>[À COMPLÉTER : nom et coordonnées du médiateur]</strong>. Droit français applicable ; à défaut d&apos;accord amiable, les tribunaux

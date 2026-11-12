@@ -10,7 +10,6 @@ const KEYS: [string, string][] = [
   ['fooder_avatar', 'Ta mascotte et sa couleur'],
   ['fooder_posts, fooder_comments, fooder_post_likes', 'Tes publications et réactions du fil'],
   ['fooder_notifications', 'Tes notifications'],
-  ['fooder_daily_swipes, fooder_premium', 'Compteur de swipes et statut Premium'],
   ['fooder_consent, fooder_anon_id', 'Ton choix sur la mesure d\'audience (et un identifiant aléatoire si tu acceptes)'],
 ];
 
