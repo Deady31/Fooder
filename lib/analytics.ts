@@ -1,5 +1,6 @@
 import { cloud, currentUserId, isCloudEnabled } from './cloud/client';
-import { KeyValueStore, UsageTracker, classifySendError, createUsageTracker, readOptIn, writeOptIn } from './usage';
+import { KeyValueStore, classifySendError, readOptIn, writeOptIn } from './usage';
+import { Tracker, TrackOptions, TrackProps, createTracker } from './tracking';
 
 // Mesure d'audience respectueuse : rien n'est envoyé sans consentement explicite (RGPD / CNIL).
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
@@ -49,41 +50,74 @@ export function analyticsEnabled(): boolean {
   return Boolean(KEY);
 }
 
-// ───────── Mesures d'usage anonymes (table Supabase `events`, voir lib/usage.ts) ─────────
-// Indépendantes du consentement PostHog : liste blanche stricte, aucune donnée personnelle, désactivables dans Compte.
+// ───────── Mesures d'usage (table Supabase `app_events`, voir lib/tracking.ts) ─────────
+// Identifiant utilisateur stable (session Supabase, anonyme par défaut) pour mesurer rétention et parcours.
+// Désactivables dans Compte (réglage « Aider à améliorer Fooder », activé par défaut).
 
-function safeStorage(): KeyValueStore | null {
+function safeStorage(kind: 'local' | 'session' = 'local'): KeyValueStore | null {
   try {
-    return typeof window === 'undefined' ? null : window.localStorage;
+    if (typeof window === 'undefined') return null;
+    return kind === 'local' ? window.localStorage : window.sessionStorage;
   } catch {
     return null;
   }
 }
 
-let usageTracker: UsageTracker | null = null;
+function newSessionId(): string {
+  try {
+    return crypto.randomUUID();
+  } catch {
+    return `s${Date.now().toString(36)}${Math.random().toString(36).slice(2, 12)}`;
+  }
+}
 
-function usage(): UsageTracker {
-  if (usageTracker) return usageTracker;
-  usageTracker = createUsageTracker({
+function deviceContext(): TrackProps {
+  const standalone = window.matchMedia?.('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
+  let ref = '';
+  try {
+    ref = document.referrer ? new URL(document.referrer).hostname : '';
+  } catch {
+    ref = '';
+  }
+  return {
+    device: window.matchMedia?.('(pointer: coarse)').matches ? 'mobile' : 'desktop',
+    standalone: Boolean(standalone),
+    ...(ref && ref !== window.location.hostname ? { ref } : {}),
+  };
+}
+
+let tracker: Tracker | null = null;
+
+/** Tracker navigateur (null côté serveur ou si le cloud n'est pas configuré). */
+export function getTracker(): Tracker | null {
+  if (typeof window === 'undefined' || !isCloudEnabled()) return null;
+  if (tracker) return tracker;
+  tracker = createTracker({
     cloudEnabled: isCloudEnabled,
     optedIn: () => readOptIn(safeStorage()),
     hasSession: async () => (await currentUserId()) !== null,
     send: async rows => {
       const sb = cloud();
       if (!sb) return 'retry';
-      const { error, status } = await sb.from('events').insert(rows);
+      const { error, status } = await sb.from('app_events').insert(rows);
       return error ? classifySendError({ status }) : 'ok';
     },
-    storage: safeStorage(),
+    storage: safeStorage('local'),
+    sessionStorage: safeStorage('session'),
+    now: () => Date.now(),
+    newId: newSessionId,
+    context: deviceContext,
   });
-  // Envoi à la mise en arrière-plan : la file ne reste pas bloquée sur un appareil qu'on ferme
-  document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && void usageTracker?.flush());
+  // Arrière-plan : on envoie la file (elle reste aussi en localStorage pour la prochaine ouverture)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') void tracker?.flush();
+  });
   // Retour en ligne : on relance les envois même après une série d'échecs
   window.addEventListener('online', () => {
-    usageTracker?.resetFailures();
-    void usageTracker?.flush();
+    tracker?.resetFailures();
+    void tracker?.flush();
   });
-  return usageTracker;
+  return tracker;
 }
 
 export function getUsageEnabled(): boolean {
@@ -92,18 +126,25 @@ export function getUsageEnabled(): boolean {
 
 export function setUsageEnabled(on: boolean): void {
   writeOptIn(safeStorage(), on);
-  if (!on && typeof window !== 'undefined') usage().clear();
+  if (!on) getTracker()?.clear();
 }
 
 /** Envoie la file maintenant (appelé quand une session apparaît). No-op si cloud absent ou réglage désactivé. */
 export function flushUsage(): void {
   if (typeof window === 'undefined' || !isCloudEnabled() || !getUsageEnabled()) return;
-  void usage().flush();
+  const t = getTracker();
+  t?.resetFailures();
+  void t?.flush();
 }
 
-export function track(event: string, properties: Record<string, string | number | boolean> = {}): void {
+/**
+ * Mesure un événement. Nom : minuscules, chiffres et _ (2 à 40 caractères). `rest_id` et `screen` peuvent être passés
+ * dans les propriétés ou dans `opts` : ils deviennent des colonnes. Envoyé vers `app_events` (si réglage actif)
+ * et vers PostHog (si consentement donné).
+ */
+export function track(event: string, properties: Record<string, string | number | boolean> = {}, opts?: TrackOptions): void {
   if (typeof window === 'undefined') return;
-  if (isCloudEnabled()) usage().track(event, properties);
+  getTracker()?.track(event, properties, opts);
   if (!KEY || getConsent() !== 'granted') return;
   void fetch(`${HOST}/capture/`, {
     method: 'POST',

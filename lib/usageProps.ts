@@ -27,16 +27,24 @@ export function distanceKm(meters: unknown): number {
 }
 
 interface SwipeLike {
+  id?: string;
   cuisine: string;
   distanceMeters?: number;
 }
 
-export function swipeProps(r: SwipeLike): { cuisine: string; distance_km: number } {
-  return { cuisine: cuisineSlug(r.cuisine), distance_km: distanceKm(r.distanceMeters) };
+const REST_ID_RE = /^[A-Za-z0-9_.:-]{1,80}$/;
+
+/** Identifiant du resto (pour le top restos du backoffice), seulement s'il est bien formé. Jamais le nom. */
+function restIdProp(id: unknown): { rest_id?: string } {
+  return typeof id === 'string' && REST_ID_RE.test(id) ? { rest_id: id } : {};
 }
 
-export function openCardProps(r: Pick<SwipeLike, 'cuisine'>, from: 'swipe' | 'list' | 'share'): { cuisine: string; from: string } {
-  return { cuisine: cuisineSlug(r.cuisine), from };
+export function swipeProps(r: SwipeLike): { cuisine: string; distance_km: number; rest_id?: string } {
+  return { cuisine: cuisineSlug(r.cuisine), distance_km: distanceKm(r.distanceMeters), ...restIdProp(r.id) };
+}
+
+export function openCardProps(r: Pick<SwipeLike, 'cuisine' | 'id'>, from: 'swipe' | 'list' | 'share'): { cuisine: string; from: string; rest_id?: string } {
+  return { cuisine: cuisineSlug(r.cuisine), from, ...restIdProp(r.id) };
 }
 
 export function verdictSlug(v: unknown): string {
