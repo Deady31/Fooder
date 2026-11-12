@@ -6,10 +6,11 @@ interface QrCodeProps {
   value: string;
   size?: number;
   className?: string;
+  alt?: string;
 }
 
 /** QR code généré dans le navigateur (aucun service tiers). */
-export function QrCode({ value, size = 200, className = '' }: QrCodeProps) {
+export function QrCode({ value, size = 200, className = '', alt = 'QR code de ta carte Fooder' }: QrCodeProps) {
   const [src, setSrc] = useState<string | null>(null);
   const [error, setError] = useState(false);
 
@@ -27,5 +28,5 @@ export function QrCode({ value, size = 200, className = '' }: QrCodeProps) {
   if (error) return <p className='text-xs font-bold text-plum/60 text-center'>QR code indisponible, partage le lien.</p>;
   if (!src) return <div className={`animate-pulse bg-white rounded-xl ${className}`} style={{ width: size, height: size }} />;
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={src} alt='QR code de ta carte Fooder' width={size} height={size} className={`rounded-xl ${className}`} />;
+  return <img src={src} alt={alt} width={size} height={size} className={`rounded-xl ${className}`} />;
 }

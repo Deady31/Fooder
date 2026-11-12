@@ -13,6 +13,7 @@ export const SYNC_KEYS = [
   'fooder_avatar',
   'fooder_preferences',
   'fooder_onboarding_done',
+  'fooder_profile',
   'fooder_defis',
   'fooder_post_likes',
   'fooder_comments',

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, Target, Users } from 'lucide-react';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { MyCard } from '../../../components/social/MyCard';
+import { InviteCard } from '../../../components/social/InviteCard';
 import { FriendRow } from '../../../components/social/FriendRow';
 import { WeeklyBoard } from '../../../components/social/WeeklyBoard';
 import { DefiComposer } from '../../../components/social/DefiComposer';
@@ -36,6 +37,8 @@ export default function FriendsPage() {
       />
 
       <div className='flex-1 min-h-0 scroll-y px-4 py-4 space-y-4'>
+        <InviteCard />
+
         <MyCard snapshot={snapshot} title={title} onToast={toast.show} />
 
         <div className='grid grid-cols-2 gap-3'>

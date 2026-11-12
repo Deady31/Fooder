@@ -8,6 +8,7 @@ import { Restaurant } from '../../../data/mockRestaurants';
 import { Sticker } from '../../../components/ui/Sticker';
 import { FoodImage } from '../../../components/ui/FoodImage';
 import { PageHeader } from '../../../components/nav/PageHeader';
+import { InviteCard } from '../../../components/social/InviteCard';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { CheckinSheet, CheckinMode } from '../../../components/checkin/CheckinSheet';
 import { useSocial } from '../../../hooks/useSocial';
@@ -147,6 +148,8 @@ export default function WishlistPage() {
                         )}
                     </div>
                 )}
+
+                {activeTab === 'likes' && likes.length > 0 && <InviteCard variant='banner' className='mb-4' />}
 
                 <AnimatePresence mode='popLayout' initial={false}>
                     {activeList.map((rest, index) => (

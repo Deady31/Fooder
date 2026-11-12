@@ -1,4 +1,7 @@
 import { randomId, readJson, writeJson } from './store';
+import { validatePseudo } from './pseudo';
+
+const PROFILE_KEY = 'fooder_profile';
 
 export interface Me {
   id: string;
@@ -36,5 +39,13 @@ export function renameMe(name: string): Me {
   if (!clean) return me;
   const next = { ...me, name: clean };
   writeJson(KEY, next);
+  syncProfilePseudo(clean);
   return next;
+}
+
+/** Garde le pseudo du profil d'inscription aligné sur le nom affiché (si le nouveau nom reste un pseudo valide). */
+function syncProfilePseudo(name: string): void {
+  const profile = readJson<Record<string, unknown> | null>(PROFILE_KEY, null);
+  if (!profile || typeof profile !== 'object' || profile.pseudo === name || !validatePseudo(name).ok) return;
+  writeJson(PROFILE_KEY, { ...profile, pseudo: name });
 }

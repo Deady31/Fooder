@@ -12,7 +12,8 @@ import { StickerName, badgeFor } from '../../../lib/stickers';
 import { Avatar } from '../../../components/profile/Avatar';
 import { AvatarPicker } from '../../../components/profile/AvatarPicker';
 import { LegalCenter } from '../../../components/legal/LegalCenter';
-import { InstallCard } from '../../../components/pwa/InstallCard';
+import { InstallPrompt } from '../../../components/pwa/InstallPrompt';
+import { InviteCard } from '../../../components/social/InviteCard';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useSocial } from '../../../hooks/useSocial';
 import { useAuth } from '../../../components/auth/AuthProvider';
@@ -203,6 +204,8 @@ export default function ProfilePage() {
         </div>
         <ChevronRight className="w-4 h-4 text-plum shrink-0" strokeWidth={3} />
       </Link>
+
+      <InviteCard showInstall={false} className="mx-4 mb-3" />
 
       <nav className="sticky top-0 z-20 flex px-3 py-2.5 gap-2 bg-cream border-b-[3px] border-plum" aria-label="Sections du profil">
         {TABS.map(({ id, label }) => (
@@ -425,7 +428,7 @@ export default function ProfilePage() {
       </div>
 
       <footer className="px-4 pb-6 pt-1">
-        <InstallCard />
+        <InstallPrompt className="mb-4" />
         <LegalCenter />
       </footer>
 

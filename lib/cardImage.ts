@@ -2,6 +2,7 @@ import QRCode from 'qrcode';
 import { avatarSrc, bgColor } from './avatars';
 import { FriendSnapshot } from './social/snapshot';
 import { stickerSrc } from './stickers';
+import { formatCode } from './invite';
 
 const W = 1080;
 const H = 1350;
@@ -151,6 +152,71 @@ export async function renderFriendCard(s: FriendSnapshot, link: string, title: s
   ctx.font = `600 28px ${body}`;
   ctx.fillStyle = '#6B5A75';
   ctx.fillText('Scanne le code et compare nos goûts', 130, 1155);
+
+  return new Promise((resolve, reject) => canvas.toBlob(b => (b ? resolve(b) : reject(new Error('Export impossible'))), 'image/png'));
+}
+
+const STORY_H = 1920;
+
+/** Image de story « Rejoins-moi sur Fooder » (1080×1920) avec mon code d'ami et un QR vers le lien d'invitation. */
+export async function renderInviteStory(code: string | undefined, link: string): Promise<Blob> {
+  await document.fonts?.ready;
+  const display = fontOf('font-display');
+  const body = fontOf('font-body') || 'sans-serif';
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = STORY_H;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas indisponible');
+
+  ctx.fillStyle = CREAM;
+  ctx.fillRect(0, 0, W, STORY_H);
+  try {
+    const bg = await loadImage('/bg/doodle-cream.webp');
+    const k = Math.max(W / bg.width, STORY_H / bg.height);
+    ctx.drawImage(bg, (W - bg.width * k) / 2, 0, bg.width * k, bg.height * k);
+  } catch {
+    /* fond uni */
+  }
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = PLUM;
+  ctx.font = `120px ${display}`;
+  ctx.fillText('Fooder', W / 2, 250);
+
+  try {
+    const st = await loadImage(stickerSrc('b_heart'));
+    ctx.drawImage(st, W / 2 - 150, 300, 300, 300);
+  } catch {
+    /* sans sticker */
+  }
+
+  ctx.font = `88px ${display}`;
+  ctx.fillText('Rejoins-moi', W / 2, 720);
+  ctx.fillText('sur Fooder', W / 2, 820);
+  ctx.font = `600 38px ${body}`;
+  ctx.fillStyle = '#6B5A75';
+  ctx.fillText('Swipe les restos de Toulouse, compare nos goûts', W / 2, 890);
+
+  const qr = await QRCode.toDataURL(link, { errorCorrectionLevel: 'L', margin: 1, width: 440, color: { dark: PLUM, light: '#FFFFFF' } });
+  const qrImg = await loadImage(qr);
+  panel(ctx, W / 2 - 245, 960, 490, 490, 40, '#FFFFFF', 12);
+  ctx.drawImage(qrImg, W / 2 - 220, 985, 440, 440);
+
+  const pretty = formatCode(code);
+  if (pretty) {
+    panel(ctx, W / 2 - 330, 1530, 660, 150, 40, '#FFD83D', 10);
+    ctx.fillStyle = PLUM;
+    ctx.font = `700 30px ${body}`;
+    ctx.fillText('Mon code d’ami', W / 2, 1585);
+    ctx.font = `64px ${display}`;
+    ctx.fillText(pretty, W / 2, 1655);
+  }
+
+  ctx.fillStyle = PLUM;
+  ctx.font = `700 34px ${body}`;
+  ctx.fillText('Scanne le code ou ouvre le lien en story', W / 2, 1800);
+  ctx.textAlign = 'start';
 
   return new Promise((resolve, reject) => canvas.toBlob(b => (b ? resolve(b) : reject(new Error('Export impossible'))), 'image/png'));
 }
