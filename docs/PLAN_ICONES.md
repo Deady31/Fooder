@@ -156,3 +156,14 @@ Autour de la couverture, les 4 petites icônes viennent de la même « famille �
 **Impact :** l'inscription n'est plus un mur mais une assurance. Les amis par lien fonctionnent dès la première minute avec ajout réciproque côté serveur.
 
 À préparer côté Supabase : activer « Anonymous sign-ins » (Authentication → Sign In / Providers), puis Google et Apple quand tu veux.
+
+## 7. Suivi
+
+**Lot 1 fait (15 icônes, recette « pizza », 360 px webp) :** french, bistro, cassoulet, mezze (plateau, pas de donut ni de pita seule), thai, african, tagine, couscous, korean, crepe, seafood, tapas, sandwich, vietnam, chinese.
+
+- Moteur : `CUISINE_RULES` / `NAME_RULES` / `STRONG_NAME` branchés sur ces clés, sans hasard. Couverture mesurée sur les fiches réelles : 67 % avant, 86 % après (test à 85 %).
+- Couvertures : les 4 satellites viennent de la famille de cuisine (`satellitesFor`), étincelles en alternance.
+- Rejeté : **poulet** (le modèle dessine un poulet vivant ou un visage sur le pilon, 10 essais). Le poulet reste sur l'icône steak ; à refaire avec un autre prompt/référence.
+- Sources de génération : `D:\fooder-ai\scripts\gen_lot1.py`, `finish_lot1.py`, `export_lot1.py` ; planches dans `D:\fooder-ai\lot1`.
+
+**Reste à faire :** poulet, falafel, poké, izakaya, coréen BBQ, wok, tandoori/naan, momo, turc, éthiopien, israélien, grec, portugais, paella, méditerranéen, fondue/raclette, allemand/belge, moules-frites, gastronomique, tex-mex, french tacos, steakhouse, argentin, péruvien, brésilien, diner, cajun, salon de thé, végé, gaufres, bars (vin, cocktail, pub), food truck, neutre refait ; puis refonte des 22 anciennes icônes (lot 3). 396 fiches « Restaurant » sans cuisine ni mot-clé dans le nom restent sur l'assiette neutre.
