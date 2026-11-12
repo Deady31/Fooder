@@ -235,7 +235,7 @@ export function ComposeSheet({ isOpen, liked, preset, onClose, onPublish }: Comp
                   </button>
                   <p className='text-[11px] font-semibold text-plum/50 text-center leading-snug'>
                     En publiant, tu confirmes être l&apos;auteur de la photo et qu&apos;elle respecte les{' '}
-                    <Link href='/legal/community' className='underline'>règles de la communauté</Link>. Elle pourra illustrer la fiche du restaurant. Pour l&apos;instant, elle reste sur ce téléphone.
+                    <Link href='/legal/community' className='underline'>règles de la communauté</Link>. Elle sera visible des autres utilisateurs et pourra illustrer la fiche du restaurant. Hors ligne ou sans compte, elle reste sur ce téléphone.
                   </p>
                 </>
               )}

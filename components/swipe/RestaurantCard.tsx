@@ -5,17 +5,17 @@ import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
 import { stickerFor } from '../../lib/stickers';
-import { openStatus } from '../../lib/hours';
+import { isOpenAt } from '../../lib/openingHours';
+import { cardSummary } from './cardSummary';
 
 interface RestaurantCardProps {
   rest: Restaurant;
   hold?: MotionValue<number>;
-  nudge?: number;
-  /** Masque l'invitation « Maintiens appuyé » (deck de groupe sans fiche) */
+  /** Masque l'invitation « Touche pour ouvrir » (deck de groupe sans fiche) */
   hideHint?: boolean;
 }
 
-function HoldHint({ hold, nudge = 0 }: { hold?: MotionValue<number>; nudge?: number }) {
+function HoldHint({ hold }: { hold?: MotionValue<number> }) {
   const idle = useMotionValue(0);
   const progress = hold ?? idle;
   const width = useTransform(progress, v => `${v * 100}%`);
@@ -23,21 +23,16 @@ function HoldHint({ hold, nudge = 0 }: { hold?: MotionValue<number>; nudge?: num
   return (
     <div className='relative mt-auto h-9 rounded-full border-[3px] border-plum bg-cream overflow-hidden flex items-center justify-center'>
       <motion.div className='absolute inset-y-0 left-0 bg-fooder-secondary' style={{ width }} />
-      <motion.span
-        key={nudge}
-        className='relative text-xs font-bold text-plum'
-        animate={nudge > 0 ? { x: [0, -7, 7, -5, 5, 0] } : undefined}
-        transition={{ duration: 0.38 }}
-      >
-        Maintiens appuyé pour ouvrir la fiche
-      </motion.span>
+      <span className='relative text-xs font-bold text-plum'>Touche pour ouvrir</span>
     </div>
   );
 }
 
-export function RestaurantCard({ rest, hold, nudge, hideHint }: RestaurantCardProps) {
+export function RestaurantCard({ rest, hold, hideHint }: RestaurantCardProps) {
   const sticker = stickerFor(rest.cuisine, rest.id, rest.name);
-  const status = rest.hours ? openStatus(rest.hours) : null;
+  const now = new Date();
+  const closed = isOpenAt(rest.hours, now) === false;
+  const summary = cardSummary(rest, now);
 
   return (
     <div className='rcard relative w-full h-full bg-white rounded-[28px] overflow-hidden border-[3px] border-plum shadow-hard-lg flex flex-col'>
@@ -52,18 +47,18 @@ export function RestaurantCard({ rest, hold, nudge, hideHint }: RestaurantCardPr
           </div>
         )}
 
-        {rest.rating > 0 ? (
+        {rest.rating > 0 && (
           <div className='chip absolute top-3 right-3 bg-white text-plum text-xs'>
             <Star className='w-3.5 h-3.5 text-fooder-orange fill-fooder-orange' />
             {rest.rating}
           </div>
-        ) : (
-          status && (
-            <div className={`chip absolute top-3 right-3 text-plum text-xs ${status.open ? 'bg-fooder-mint' : 'bg-white'}`}>
-              <span className={`w-2 h-2 rounded-full border-[1.5px] border-plum ${status.open ? 'bg-white' : 'bg-fooder-red'}`} />
-              {status.open ? 'Ouvert' : 'Fermé'}
-            </div>
-          )
+        )}
+
+        {closed && (
+          <div className={`chip absolute left-3 bg-white text-plum text-xs ${rest.sponsored ? 'top-12' : 'top-3'}`}>
+            <span className='w-2 h-2 rounded-full border-[1.5px] border-plum bg-fooder-red' />
+            Fermé
+          </div>
         )}
 
         {rest.photoSource === 'google' ? (
@@ -100,14 +95,15 @@ export function RestaurantCard({ rest, hold, nudge, hideHint }: RestaurantCardPr
             {rest.distance}
           </span>
           <span className='chip bg-fooder-primary text-white'>{rest.cuisine}</span>
-          {status && <span className='chip bg-white text-plum'>{status.label.replace(/^(Ouvert|Fermé) · /, '')}</span>}
         </div>
+
+        {summary && <p className='mt-2 text-[13px] font-bold text-plum leading-snug'>{summary}</p>}
 
         <p className='rcard-desc text-slate-600 text-sm font-medium line-clamp-3 leading-snug mt-2.5'>
           {rest.description}
         </p>
 
-        {!hideHint && <HoldHint hold={hold} nudge={nudge} />}
+        {!hideHint && <HoldHint hold={hold} />}
       </div>
     </div>
   );

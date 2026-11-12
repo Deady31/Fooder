@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { parseOsmHours } from '../lib/osmHours';
+import { parseOpeningHours } from '../lib/openingHours';
 import { completeness, cuisineLabel, formatMeters, haversine, isPresentable, normalizePhone, osmToRestaurant, OsmRecord } from '../lib/osm';
 import { openStatus } from '../lib/hours';
 import { AVATARS, isUnlocked, lockReason } from '../lib/avatars';
 
-describe('parseOsmHours', () => {
+describe('parseOpeningHours', () => {
   it('lit plusieurs plages et un jour fermé', () => {
-    const w = parseOsmHours('Mo-Sa 12:00-14:00,19:00-22:30; Su off');
+    const w = parseOpeningHours('Mo-Sa 12:00-14:00,19:00-22:30; Su off');
     expect(w).toBeDefined();
     expect(w![0]).toEqual([[720, 840], [1140, 1350]]);
     expect(w![5]).toEqual([[720, 840], [1140, 1350]]);
@@ -14,22 +14,22 @@ describe('parseOsmHours', () => {
   });
 
   it('gère la fermeture après minuit', () => {
-    const w = parseOsmHours('Fr 18:00-02:00');
+    const w = parseOpeningHours('Fr 18:00-02:00');
     expect(w![4]).toEqual([[1080, 1560]]);
   });
 
   it('gère 24/7', () => {
-    expect(parseOsmHours('24/7')![3]).toEqual([[0, 1440]]);
+    expect(parseOpeningHours('24/7')![3]).toEqual([[0, 1440]]);
   });
 
   it('refuse les syntaxes inconnues plutôt que d’inventer des horaires', () => {
-    expect(parseOsmHours('sunrise-sunset')).toBeUndefined();
-    expect(parseOsmHours('Mo-Fr 12:00-14:00 "sur rendez-vous"')).toBeUndefined();
-    expect(parseOsmHours('')).toBeUndefined();
+    expect(parseOpeningHours('sunrise-sunset')).toBeUndefined();
+    expect(parseOpeningHours('Mo-Fr 12:00-14:00 "sur rendez-vous"')).toBeUndefined();
+    expect(parseOpeningHours('')).toBeUndefined();
   });
 
   it('alimente openStatus', () => {
-    const w = parseOsmHours('Mo-Fr 12:00-14:00')!;
+    const w = parseOpeningHours('Mo-Fr 12:00-14:00')!;
     const monday1pm = new Date(2026, 10, 9, 13, 0); // lundi 9 nov. 2026
     expect(openStatus(w, monday1pm).open).toBe(true);
     const monday3pm = new Date(2026, 10, 9, 15, 0);
@@ -94,14 +94,15 @@ describe('qualité des fiches', () => {
 });
 
 describe('avatars', () => {
-  it('verrouille selon le niveau et le premium', () => {
+  it('verrouille selon le niveau uniquement', () => {
     const ramen = AVATARS.find(a => a.id === 'ramen')!;
     const hotdog = AVATARS.find(a => a.id === 'hotdog')!;
-    expect(isUnlocked(ramen, 1, false)).toBe(false);
-    expect(lockReason(ramen, 1, false)).toBe('Niv. 3');
-    expect(isUnlocked(ramen, 3, false)).toBe(true);
-    expect(isUnlocked(hotdog, 10, false)).toBe(false);
-    expect(lockReason(hotdog, 10, false)).toBe('Premium');
-    expect(isUnlocked(hotdog, 10, true)).toBe(true);
+    expect(isUnlocked(ramen, 1)).toBe(false);
+    expect(lockReason(ramen, 1)).toBe('Niv. 3');
+    expect(isUnlocked(ramen, 3)).toBe(true);
+    expect(lockReason(ramen, 3)).toBeNull();
+    expect(isUnlocked(hotdog, 9)).toBe(false);
+    expect(lockReason(hotdog, 9)).toBe('Niv. 10');
+    expect(isUnlocked(hotdog, 10)).toBe(true);
   });
 });

@@ -1,14 +1,19 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Camera } from 'lucide-react';
+import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Camera, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
 import { stickerFor } from '../../lib/stickers';
 import { communityPhotosFor } from '../../lib/communityPhotos';
+import { galleryFor } from '../../lib/photoPriority';
+import { outcomeLabel, shareLink } from '../../lib/share';
+import { isSharable, restoUrl, shareText } from '../../lib/restoShare';
+import { safeCommonsPage, safeWebUrl } from '../../lib/safeUrl';
 import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../lib/hours';
+import { track } from '../../lib/analytics';
 
 interface DetailSheetProps {
   rest: Restaurant | null;
@@ -79,7 +84,11 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
   useEffect(() => {
     setCommunity(rest ? communityPhotosFor(rest.id) : []);
   }, [rest]);
-  const gallery = rest ? Array.from(new Set([...community, ...((rest.photoSource === 'google' || rest.photoSource === 'dish') && rest.image ? [rest.image] : []), ...(rest.extraImages ?? [])])) : [];
+  const [shareMsg, setShareMsg] = useState<string | null>(null);
+  useEffect(() => {
+    setShareMsg(null);
+  }, [rest?.id]);
+  const gallery = rest ? galleryFor(rest, community) : [];
   return (
     <AnimatePresence>
       {rest && (
@@ -147,9 +156,9 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                   <Phone className='w-4 h-4' /> Appeler pour réserver
                 </a>
               )}
-              {rest.website && (
+              {safeWebUrl(rest.website) && (
                 <a
-                  href={rest.website}
+                  href={safeWebUrl(rest.website)}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='mt-4 flex items-center justify-center gap-2 py-3.5 bg-white border-[3px] border-plum text-plum font-bold text-sm rounded-full shadow-hard active:translate-y-0.5 transition-transform'
@@ -192,10 +201,10 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                     />
                   ))}
                 </div>
-                {rest.photoSource === 'dish' && rest.photoPage && (
+                {rest.photoSource === 'dish' && safeCommonsPage(rest.photoPage) && (
                   <p className='text-[11px] font-medium text-slate-500 -mt-2'>
                     Photo : {rest.photoCredit}, {rest.photoLicense},{' '}
-                    <a href={rest.photoPage} target='_blank' rel='noopener noreferrer' className='underline'>Wikimedia Commons</a>.
+                    <a href={safeCommonsPage(rest.photoPage)} target='_blank' rel='noopener noreferrer' className='underline'>Wikimedia Commons</a>.
                     Elle illustre un plat typique, pas ce restaurant.
                   </p>
                 )}
@@ -224,6 +233,24 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
           </div>
           <div className='sticky bottom-0 z-20 px-5 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] bg-cream border-t-[3px] border-plum'>
+            {shareMsg && <p role='status' className='text-xs font-bold text-plum text-center mb-2'>{shareMsg}</p>}
+            {isSharable(rest.id) && (
+              <button
+                onClick={async () => {
+                  const out = await shareLink({
+                    title: rest.name,
+                    text: shareText(rest.name, rest.cuisine),
+                    url: restoUrl(window.location.origin, rest.id),
+                  });
+                  if (out === 'shared' || out === 'copied') track('share', { kind: 'resto' });
+                  setShareMsg(outcomeLabel(out));
+                }}
+                className='w-full mb-2.5 duo-button bg-white text-plum py-3 text-sm flex items-center justify-center gap-2'
+              >
+                <Share2 className='w-4 h-4' strokeWidth={2.5} />
+                Partager
+              </button>
+            )}
             <button
               onClick={() => {
                 const url =

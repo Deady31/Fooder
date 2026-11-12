@@ -17,13 +17,12 @@ interface AvatarPickerProps {
   isOpen: boolean;
   current: AvatarChoice;
   level: number;
-  isPremium: boolean;
   onClose: () => void;
   onSave: (next: AvatarChoice) => void;
   onLockedTap: (reason: string) => void;
 }
 
-export function AvatarPicker({ isOpen, current, level, isPremium, onClose, onSave, onLockedTap }: AvatarPickerProps) {
+export function AvatarPicker({ isOpen, current, level, onClose, onSave, onLockedTap }: AvatarPickerProps) {
   const [draft, setDraft] = useState<AvatarChoice>(current);
 
   useEffect(() => {
@@ -93,8 +92,8 @@ export function AvatarPicker({ isOpen, current, level, isPremium, onClose, onSav
 
               <div className='grid grid-cols-4 gap-[clamp(6px,2vw,10px)]'>
                 {AVATARS.map(a => {
-                  const open = isUnlocked(a, level, isPremium);
-                  const reason = lockReason(a, level, isPremium);
+                  const open = isUnlocked(a, level);
+                  const reason = lockReason(a, level);
                   const selected = draft.id === a.id;
                   return (
                     <button

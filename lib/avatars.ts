@@ -3,8 +3,6 @@ export interface AvatarDef {
   label: string;
   /** Niveau minimum pour le débloquer */
   level: number;
-  /** Réservé Premium */
-  premium?: boolean;
 }
 
 export const AVATARS: AvatarDef[] = [
@@ -18,8 +16,8 @@ export const AVATARS: AvatarDef[] = [
   { id: 'croissant', label: 'Crouki', level: 5 },
   { id: 'icecream', label: 'Glaçon', level: 5 },
   { id: 'cupcake', label: 'Cupi', level: 10 },
-  { id: 'hotdog', label: 'Hotty', level: 10, premium: true },
-  { id: 'salad', label: 'Saladou', level: 1, premium: true },
+  { id: 'hotdog', label: 'Hotty', level: 10 },
+  { id: 'salad', label: 'Saladou', level: 1 },
 ];
 
 export const AVATAR_BACKGROUNDS = [
@@ -45,12 +43,11 @@ export function bgColor(bgId: string): string {
   return AVATAR_BACKGROUNDS.find(b => b.id === bgId)?.color ?? AVATAR_BACKGROUNDS[0].color;
 }
 
-export function isUnlocked(a: AvatarDef, level: number, isPremium: boolean): boolean {
-  return level >= a.level && (!a.premium || isPremium);
+export function isUnlocked(a: AvatarDef, level: number): boolean {
+  return level >= a.level;
 }
 
-export function lockReason(a: AvatarDef, level: number, isPremium: boolean): string | null {
-  if (a.premium && !isPremium) return 'Premium';
+export function lockReason(a: AvatarDef, level: number): string | null {
   if (level < a.level) return `Niv. ${a.level}`;
   return null;
 }

@@ -6,11 +6,10 @@ import Link from 'next/link';
 import { mockRestaurants, Restaurant } from '../../../data/mockRestaurants';
 import { track } from '../../../lib/analytics';
 import { communityPhotosFor } from '../../../lib/communityPhotos';
-import { useFreemium } from '../../../hooks/useFreemium';
+import { withBetterPhoto } from '../../../lib/photoPriority';
 import { useGamification } from '../../../hooks/useGamification';
 import { useDailyPicks } from '../../../hooks/useDailyPicks';
 import { useMissions } from '../../../hooks/useMissions';
-import { PremiumModal } from '../../../components/PremiumModal';
 import { MoodSheet } from '../../../components/MoodSheet';
 import { CasinoOverlay } from '../../../components/CasinoOverlay';
 import { AchievementToast } from '../../../components/AchievementToast';
@@ -22,9 +21,19 @@ import { FilterSheet } from '../../../components/swipe/FilterSheet';
 import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
 import { NotificationBell } from '../../../components/notifications/NotificationBell';
-import { queueCheckin } from '../../../lib/visits';
+import { CHECKINS_KEY, queueCheckin, readCheckins } from '../../../lib/visits';
 import { fetchRestaurantPhotos } from '../../../lib/cloud/social';
 import { fetchGooglePhotos } from '../../../lib/placePhotosClient';
+import { openCardProps, swipeProps } from '../../../lib/usageProps';
+import { rankRichFirst } from '../../../lib/ranking';
+import { isOpenAt } from '../../../lib/openingHours';
+import { readJson, writeJson } from '../../../lib/store';
+import { createRewardLedger } from '../../../components/swipe/rewardLedger';
+import { LastSwipe, removeById, removePendingCheckin } from '../../../components/swipe/undo';
+
+const OPEN_NOW_KEY = 'fooder_open_now';
+const MAX_AUTO_LOADS = 3;
+const EXIT_ANIM_MS = 550;
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371000;
@@ -65,9 +74,6 @@ export default function SwipePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-    const { canSwipe, showPremiumModal, setShowPremiumModal, trySwipe, loaded, isPremium, activatePremium, deactivatePremium } = useFreemium();
-    const [showPremiumInfo, setShowPremiumInfo] = useState(false);
-
     const [budget, setBudget] = useState<number>(50);
     const [cuisine, setCuisine] = useState<string>('All');
 
@@ -79,6 +85,20 @@ export default function SwipePage() {
     const [moodLabel, setMoodLabel] = useState<string>('Surprends-moi');
     const [currentMoodId, setCurrentMoodId] = useState<string>('surprise');
     const [burst, setBurst] = useState({ id: 0, active: false });
+    const [openNow, setOpenNow] = useState(false);
+    const [now, setNow] = useState(() => new Date());
+    const [lastSwipe, setLastSwipe] = useState<LastSwipe | null>(null);
+    const ledger = useRef(createRewardLedger());
+    const autoLoads = useRef(0);
+    const [exiting, setExiting] = useState(false);
+    const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    useEffect(() => () => { if (exitTimer.current) clearTimeout(exitTimer.current); }, []);
+
+    useEffect(() => {
+        setOpenNow(readJson<boolean>(OPEN_NOW_KEY, false) === true);
+        const tick = setInterval(() => setNow(new Date()), 60000);
+        return () => clearInterval(tick);
+    }, []);
 
     useEffect(() => {
         const prefs = JSON.parse(localStorage.getItem('fooder_preferences') || '{}');
@@ -147,7 +167,7 @@ export default function SwipePage() {
             const fresh = (await fetchPage()).filter(r => !have.has(r.id) && !seen.has(r.id));
             if (fresh.length === 0) return;
             allRestaurantsRef.current = [...allRestaurantsRef.current, ...fresh];
-            const add = fresh.filter(r => matchesMood(r, currentMoodId));
+            const add = rankRichFirst(fresh.filter(r => matchesMood(r, currentMoodId)));
             if (add.length > 0) {
                 setRestaurants(prev => [...[...add].reverse(), ...prev]);
                 setCurrentIndex(i => i + add.length);
@@ -192,9 +212,9 @@ export default function SwipePage() {
             const cloudPhotos = await fetchRestaurantPhotos(merged.map(r => r.id)).catch(() => new Map<string, string[]>());
             const withCommunity = merged.map(r => {
                 const photos = [...communityPhotosFor(r.id), ...(cloudPhotos.get(r.id) ?? [])];
-                return photos.length > 0 ? { ...r, image: photos[0], extraImages: photos.slice(1), photoSource: 'community' as const } : r;
+                return withBetterPhoto(r, { source: 'community', images: photos });
             });
-            const sorted = sortWithSponsored(withCommunity);
+            const sorted = sortWithSponsored(rankRichFirst(withCommunity));
             allRestaurantsRef.current = sorted;
             const pool = poolForSavedMood(sorted);
             setRestaurants([...pool].reverse());
@@ -212,6 +232,7 @@ export default function SwipePage() {
         }
         setRestaurants(filtered);
         setCurrentIndex(filtered.length - 1);
+        setLastSwipe(null);
         setShowFilters(false);
     };
 
@@ -222,21 +243,42 @@ export default function SwipePage() {
         }
     };
 
-    const swiped = (direction: SwipeDir, restaurant: Restaurant, index: number) => {
-        trySwipe();
+    const swiped = (direction: SwipeDir, restaurant: Restaurant, deckIndex: number) => {
+        // Index réel dans la liste complète (le deck peut être filtré « ouvert maintenant »).
+        const found = restaurants.findIndex(r => r.id === restaurant.id);
+        const index = found >= 0 ? found : deckIndex;
+        // Chaque récompense n'est donnée qu'une fois par resto : annuler puis re-swiper ne rapporte rien de plus.
+        const firstSwipe = ledger.current.claim(`${restaurant.id}:swipe`);
+
+        const choiceKey = direction === 'right' ? 'fooder_likes' : 'fooder_dislikes';
+        setLastSwipe({
+            rest: restaurant,
+            dir: direction,
+            wasInChoiceList: readJson<Restaurant[]>(choiceKey, []).some(r => r.id === restaurant.id),
+            wasInWishlist: readJson<Restaurant[]>('fooder_wishlist', []).some(r => r.id === restaurant.id),
+            hadCheckin: readCheckins().some(c => c.restId === restaurant.id),
+        });
+        setExiting(true);
+        if (exitTimer.current) clearTimeout(exitTimer.current);
+        exitTimer.current = setTimeout(() => setExiting(false), EXIT_ANIM_MS);
+
         track('swipe', { direction });
+        if (firstSwipe) track(direction === 'right' ? 'swipe_like' : 'swipe_pass', swipeProps(restaurant));
         setCurrentIndex(index - 1);
         if (index - 1 < 6) void loadMore();
 
-        gainXP(5);
-        unlock('first_swipe');
-        missionProgress('swipe_5');
-        missionProgress('swipe_10');
-        missionProgress('swipe_20');
+        if (firstSwipe) {
+            gainXP(5);
+            unlock('first_swipe');
+            missionProgress('swipe_5');
+            missionProgress('swipe_10');
+            missionProgress('swipe_20');
+        }
 
         if (direction === 'right') {
+            const firstLike = ledger.current.claim(`${restaurant.id}:like`);
             persistChoice('fooder_likes', restaurant);
-            queueCheckin(restaurant);
+            if (firstLike) queueCheckin(restaurant);
             const wishlist = JSON.parse(localStorage.getItem('fooder_wishlist') || '[]');
             if (!wishlist.find((r: Restaurant) => r.id === restaurant.id)) {
                 localStorage.setItem('fooder_wishlist', JSON.stringify([...wishlist, restaurant]));
@@ -246,11 +288,13 @@ export default function SwipePage() {
             }
             setBurst(b => ({ id: b.id + 1, active: true }));
 
-            gainXP(15);
-            unlock('first_like');
-            missionProgress('like_3');
-            if (restaurant.price < 15) missionProgress('like_cheap');
-            if (restaurant.price > 50) missionProgress('like_premium');
+            if (firstLike) {
+                gainXP(15);
+                unlock('first_like');
+                missionProgress('like_3');
+                if (restaurant.price < 15) missionProgress('like_cheap');
+                if (restaurant.price > 50) missionProgress('like_gastro');
+            }
 
             const likes: Restaurant[] = JSON.parse(localStorage.getItem('fooder_likes') || '[]');
             if (likes.length >= 10) unlock('likes_10');
@@ -258,13 +302,13 @@ export default function SwipePage() {
             if (likes.filter((r: Restaurant) => r.price < 15).length >= 5) unlock('cheap_hunter');
             if (likes.filter((r: Restaurant) => r.price > 80).length >= 3) unlock('gasto_hunter');
 
-            if (Math.random() < 0.1) {
+            if (firstLike && Math.random() < 0.1) {
                 setCasinoRest(restaurant.name);
                 unlock('casino_win');
             }
         } else {
             persistChoice('fooder_dislikes', restaurant);
-            missionProgress('dislike_5');
+            if (ledger.current.claim(`${restaurant.id}:dislike`)) missionProgress('dislike_5');
         }
 
         const allLikes: Restaurant[] = JSON.parse(localStorage.getItem('fooder_likes') || '[]');
@@ -272,8 +316,35 @@ export default function SwipePage() {
         if (allLikes.length + allDislikes.length >= 100) unlock('swipes_100');
     };
 
+    /** Remet la dernière carte swipée au sommet et retire son effet (likes, wishlist, dislikes). XP et missions ne sont pas rejouées au re-swipe. */
+    const undoLast = () => {
+        const last = lastSwipe;
+        if (!last || exiting) return;
+        setLastSwipe(null);
+        const index = restaurants.findIndex(r => r.id === last.rest.id);
+        if (index < 0) return;
+        const id = last.rest.id;
+        const choiceKey = last.dir === 'right' ? 'fooder_likes' : 'fooder_dislikes';
+        if (!last.wasInChoiceList) writeJson(choiceKey, removeById(readJson<Restaurant[]>(choiceKey, []), id));
+        if (last.dir === 'right' && !last.wasInWishlist) {
+            writeJson('fooder_wishlist', removeById(readJson<Restaurant[]>('fooder_wishlist', []), id));
+        }
+        if (last.dir === 'right' && !last.hadCheckin) {
+            writeJson(CHECKINS_KEY, removePendingCheckin(readCheckins(), id));
+        }
+        setCasinoRest(null);
+        setCurrentIndex(index);
+    };
+
+    const toggleOpenNow = () => {
+        const next = !openNow;
+        setOpenNow(next);
+        writeJson(OPEN_NOW_KEY, next);
+    };
+
     const openDetails = async (restaurant: Restaurant) => {
         setSelectedRest(restaurant);
+        track('open_card', openCardProps(restaurant, 'swipe'));
         missionProgress('open_detail');
     };
 
@@ -288,10 +359,23 @@ export default function SwipePage() {
         const pool = matched.length > 0 ? matched : all;
         setRestaurants([...pool].reverse());
         setCurrentIndex(pool.length - 1);
+        setLastSwipe(null);
     };
 
     const cuisines = ['All', ...Array.from(new Set(restaurants.map(r => r.cuisine)))];
-    const deckCards = restaurants.slice(0, currentIndex + 1);
+    const remaining = restaurants.slice(0, currentIndex + 1);
+    // Filtre « ouvert maintenant » : seuls les restos dont l'ouverture est certaine ; horaires inconnus = exclus.
+    const deckCards = openNow ? remaining.filter(r => isOpenAt(r.hours, now) === true) : remaining;
+
+    // Filtre actif et peu de cartes ouvertes : on charge quelques pages de plus (plafonné).
+    useEffect(() => {
+        autoLoads.current = 0;
+    }, [openNow, currentIndex]);
+    useEffect(() => {
+        if (isLoading || !openNow || deckCards.length >= 6 || autoLoads.current >= MAX_AUTO_LOADS) return;
+        autoLoads.current += 1;
+        void loadMore();
+    }, [isLoading, openNow, deckCards.length, restaurants.length]);
 
     // Vraies photos Google pour la carte du dessus et les suivantes (jamais pour tout le catalogue : coût et règles de Google).
     const requestedPhotos = useRef<Set<string>>(new Set());
@@ -305,7 +389,7 @@ export default function SwipePage() {
                 if (photos.length === 0) return;
                 const apply = (x: Restaurant): Restaurant =>
                     x.id === r.id
-                        ? { ...x, image: photos[0].url, extraImages: photos.slice(1).map(p => p.url), photoSource: 'google', photoCredit: photos[0].author }
+                        ? withBetterPhoto(x, { source: 'google', images: photos.map(p => p.url), credit: photos[0].author })
                         : x;
                 setRestaurants(prev => prev.map(apply));
                 allRestaurantsRef.current = allRestaurantsRef.current.map(apply);
@@ -313,12 +397,13 @@ export default function SwipePage() {
         }
     }, [currentIndex, restaurants.length, isLoading]);
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
+    const noneOpen = openNow && !isDeckEmpty && restaurants.length > 0 && deckCards.length === 0;
 
     return (
-        <div className={`flex flex-col h-full overflow-hidden relative transition-colors duration-700 ${isPremium ? 'premium-bg doodle-bg' : ''}`}>
+        <div className='flex flex-col h-full overflow-hidden relative'>
 
             {/* Top bar */}
-            <header className={`shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 ${isPremium ? 'premium-navbar' : 'bg-cream/90'}`}>
+            <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 bg-cream/90'>
                 <button
                     onClick={() => setShowFilters(true)}
                     aria-label='Filtres'
@@ -328,13 +413,7 @@ export default function SwipePage() {
                 </button>
 
                 <div className='flex flex-col items-center gap-1.5 min-w-0'>
-                    <button
-                        onClick={() => isPremium && setShowPremiumInfo(true)}
-                        aria-label={isPremium ? 'fooder, compte Premium' : 'fooder'}
-                        className='active:scale-95 transition-transform'
-                    >
-                        <Logo variant={isPremium ? 'gold' : 'pink'} className='w-[clamp(130px,40vw,176px)]' />
-                    </button>
+                    <Logo className='w-[clamp(130px,40vw,176px)]' />
                     <button
                         onClick={() => setShowMoodSheet(true)}
                         className='chip bg-fooder-secondary text-plum active:translate-y-0.5 transition-transform'
@@ -346,6 +425,24 @@ export default function SwipePage() {
 
                 <NotificationBell />
             </header>
+
+            {!isLoading && restaurants.length > 0 && (
+                <div className='shrink-0 flex items-center justify-center gap-2 px-4 pt-2'>
+                    <button
+                        onClick={toggleOpenNow}
+                        aria-pressed={openNow}
+                        className={`chip min-h-[44px] text-plum active:translate-y-0.5 transition-transform ${openNow ? 'bg-fooder-mint' : 'bg-white'}`}
+                    >
+                        <span className={`w-2 h-2 rounded-full border-[1.5px] border-plum ${openNow ? 'bg-white' : 'bg-fooder-mint'}`} />
+                        Ouvert maintenant
+                    </button>
+                    {openNow && !isDeckEmpty && (
+                        <span className='text-xs font-bold text-plum/70'>
+                            {deckCards.length} {deckCards.length > 1 ? 'restos' : 'resto'} à découvrir
+                        </span>
+                    )}
+                </div>
+            )}
 
             {/* Deck */}
             <main className='flex-1 relative flex items-center justify-center min-h-0 pt-3 pb-1'>
@@ -382,16 +479,39 @@ export default function SwipePage() {
                             <button onClick={() => setShowMoodSheet(true)} className='duo-button bg-white text-plum py-4 text-base'>
                                 Changer d&apos;envie
                             </button>
+                            {lastSwipe && (
+                                <button onClick={undoLast} disabled={exiting} className='duo-button bg-white text-plum py-3 text-sm'>
+                                    Annuler mon dernier swipe
+                                </button>
+                            )}
                         </div>
                     </motion.div>
+                ) : noneOpen ? (
+                    <div className='flex flex-col items-center text-center px-8 gap-5'>
+                        <div className='bob' style={{ ['--r' as string]: '-6deg' }}><Sticker name='ramen' size={96} rotate={-6} /></div>
+                        <div className='space-y-2'>
+                            <h3 className='text-3xl text-plum'>Rien d&apos;ouvert pour le moment</h3>
+                            <p className='text-slate-600 font-medium text-sm leading-relaxed'>
+                                Aucun resto restant n&apos;est ouvert, ou ses horaires sont inconnus.
+                            </p>
+                        </div>
+                        <div className='flex flex-col w-full gap-3'>
+                            <button onClick={toggleOpenNow} className='duo-button bg-bubblegum text-plum py-4 text-base'>
+                                Voir aussi les fermés
+                            </button>
+                            {lastSwipe && (
+                                <button onClick={undoLast} disabled={exiting} className='duo-button bg-white text-plum py-3 text-sm'>
+                                    Annuler mon dernier swipe
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 ) : restaurants.length > 0 ? (
                     <SwipeDeck
                         ref={deckRef}
                         cards={deckCards}
-                        canSwipe={canSwipe}
                         onSwipe={swiped}
                         onOpen={openDetails}
-                        onBlocked={() => setShowPremiumModal(true)}
                     />
                 ) : (
                     <div className='text-center space-y-6 px-8'>
@@ -408,9 +528,11 @@ export default function SwipePage() {
             </main>
 
             <ActionButtons
-                hidden={isLoading || currentIndex < 0}
+                hidden={isLoading || currentIndex < 0 || noneOpen}
                 onNope={() => deckRef.current?.swipe('left')}
                 onLike={() => deckRef.current?.swipe('right')}
+                onUndo={undoLast}
+                canUndo={lastSwipe !== null && !exiting}
             />
 
             {burst.active && <StickerBurst burstId={burst.id} onDone={() => setBurst(b => ({ ...b, active: false }))} />}
@@ -427,46 +549,6 @@ export default function SwipePage() {
                 onApply={applyFilters}
                 onClose={() => setShowFilters(false)}
             />
-
-            <PremiumModal
-                isOpen={showPremiumModal}
-                onClose={() => setShowPremiumModal(false)}
-                onActivate={activatePremium}
-            />
-
-            <AnimatePresence>
-                {showPremiumInfo && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className='fixed inset-0 z-[200] flex items-end justify-center p-4 pb-8 bg-plum/60 backdrop-blur-sm'
-                        onClick={(e) => { if (e.target === e.currentTarget) setShowPremiumInfo(false); }}
-                    >
-                        <motion.div
-                            initial={{ y: 60, opacity: 0, scale: 0.94 }}
-                            animate={{ y: 0, opacity: 1, scale: 1 }}
-                            exit={{ y: 60, opacity: 0 }}
-                            transition={{ type: 'spring', damping: 22, stiffness: 260 }}
-                            className='w-full max-w-md bg-cream rounded-[32px] overflow-hidden panel'
-                        >
-                            <div className='p-7 space-y-5 text-center'>
-                                <div className='flex justify-center'><Sticker name='cupcake' size={88} rotate={-6} /></div>
-                                <div>
-                                    <h2 className='text-3xl text-plum'>Tu es Premium !</h2>
-                                    <p className='text-slate-600 text-sm font-medium mt-1'>Swipes illimités · Accès exclusif · Filtres avancés</p>
-                                </div>
-                                <button
-                                    onClick={() => { deactivatePremium(); setShowPremiumInfo(false); }}
-                                    className='w-full py-3.5 rounded-full bg-white border-[3px] border-plum text-plum/70 font-bold text-xs active:translate-y-0.5 transition-transform'
-                                >
-                                    Désactiver Premium (test)
-                                </button>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
 
             <MoodSheet
                 isOpen={showMoodSheet}

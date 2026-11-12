@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 
+import { migrateMissionIds } from '../lib/missions';
+
 const KEY = 'fooder_missions';
 
 export interface Mission {
@@ -21,7 +23,7 @@ const TEMPLATES: Omit<Mission, 'current' | 'completed'>[] = [
   { id: 'swipe_10', title: 'Explorateur actif', description: 'Swipe 10 restaurants', emoji: '🗺️', target: 10, xpReward: 40 },
   { id: 'like_cheap', title: 'Bon plan trouvé', description: 'Like un resto < 15€', emoji: '💸', target: 1, xpReward: 30 },
   { id: 'dislike_5', title: 'Difficile à séduire', description: 'Passe 5 restaurants', emoji: '😤', target: 5, xpReward: 20 },
-  { id: 'like_premium', title: 'Gastronome', description: 'Like un resto > 50€', emoji: '🍷', target: 1, xpReward: 35 },
+  { id: 'like_gastro', title: 'Gastronome', description: 'Like un resto > 50€', emoji: '🍷', target: 1, xpReward: 35 },
   { id: 'swipe_20', title: 'Swipe addict', description: 'Swipe 20 restaurants', emoji: '🔥', target: 20, xpReward: 60 },
 ];
 
@@ -36,10 +38,18 @@ export function useMissions() {
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
-    const raw = localStorage.getItem(KEY);
-    const stored = raw ? JSON.parse(raw) : null;
+    let stored: { date?: string; missions?: Mission[] } | null = null;
+    try {
+      stored = JSON.parse(localStorage.getItem(KEY) || 'null');
+    } catch {
+      stored = null;
+    }
     if (stored?.date === today) {
-      setMissions(stored.missions);
+      const migrated = migrateMissionIds<Mission>(stored.missions, TEMPLATES);
+      if (JSON.stringify(migrated) !== JSON.stringify(stored.missions)) {
+        localStorage.setItem(KEY, JSON.stringify({ date: today, missions: migrated }));
+      }
+      setMissions(migrated);
     } else {
       const fresh = pickMissions(today);
       localStorage.setItem(KEY, JSON.stringify({ date: today, missions: fresh }));

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { pushNotification } from '../lib/notifications';
 import { STORE_EVENT } from '../lib/store';
 
@@ -29,7 +29,6 @@ export const ALL_ACHIEVEMENTS: Achievement[] = [
   { id: 'cheap_hunter', title: 'Street Foodie', emoji: '🌮', description: '5 restos likés < 15€' },
   { id: 'gasto_hunter', title: 'Gastro Hunter', emoji: '🥂', description: '3 restos likés > 80€' },
   { id: 'swipes_100', title: 'Machine à swiper', emoji: '💪', description: '100 swipes au total' },
-  { id: 'premium', title: 'Club Premium', emoji: '✨', description: 'Membre Premium Fooder' },
   { id: 'casino_win', title: 'Lucky Foodie', emoji: '🎰', description: 'Décroché un jackpot !' },
   { id: 'visit_1', title: 'Premier verdict', emoji: '📍', description: 'Première visite confirmée' },
   { id: 'visits_10', title: 'Critique en herbe', emoji: '📝', description: '10 visites confirmées' },
@@ -57,6 +56,9 @@ export function useGamification() {
   const [unlockedIds, setUnlockedIds] = useState<string[]>([]);
   const [newAchievement, setNewAchievement] = useState<Achievement | null>(null);
   const [loaded, setLoaded] = useState(false);
+  // Valeurs courantes lues hors des updaters setState : aucun effet de bord (stockage, notification) pendant le rendu.
+  const xpRef = useRef(0);
+  const idsRef = useRef<string[]>([]);
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -82,11 +84,13 @@ export function useGamification() {
 
     const rawXp = localStorage.getItem(XP_KEY);
     const totalXp = rawXp ? JSON.parse(rawXp).total ?? 0 : 0;
+    xpRef.current = totalXp;
     setXp(totalXp);
     setLevel(computeLevel(totalXp));
 
     const rawAch = localStorage.getItem(ACH_KEY);
-    setUnlockedIds(rawAch ? JSON.parse(rawAch) : []);
+    idsRef.current = rawAch ? JSON.parse(rawAch) : [];
+    setUnlockedIds(idsRef.current);
     setLoaded(true);
 
     // Récompenses données ailleurs (visites, amis, groupes) : on se resynchronise.
@@ -94,36 +98,36 @@ export function useGamification() {
       const key = (e as CustomEvent<string>).detail;
       if (key !== XP_KEY && key !== ACH_KEY) return;
       const total = JSON.parse(localStorage.getItem(XP_KEY) || '{}').total ?? 0;
+      xpRef.current = total;
       setXp(total);
       setLevel(computeLevel(total));
-      setUnlockedIds(JSON.parse(localStorage.getItem(ACH_KEY) || '[]'));
+      idsRef.current = JSON.parse(localStorage.getItem(ACH_KEY) || '[]');
+      setUnlockedIds(idsRef.current);
     };
     window.addEventListener(STORE_EVENT, sync);
     return () => window.removeEventListener(STORE_EVENT, sync);
   }, []);
 
   const gainXP = useCallback((amount: number) => {
-    setXp(prev => {
-      const newTotal = prev + amount;
-      const rawXp = localStorage.getItem(XP_KEY);
-      const existing = rawXp ? JSON.parse(rawXp) : {};
-      localStorage.setItem(XP_KEY, JSON.stringify({ ...existing, total: newTotal }));
-      setLevel(computeLevel(newTotal));
-      return newTotal;
-    });
+    const newTotal = xpRef.current + amount;
+    xpRef.current = newTotal;
+    const rawXp = localStorage.getItem(XP_KEY);
+    const existing = rawXp ? JSON.parse(rawXp) : {};
+    localStorage.setItem(XP_KEY, JSON.stringify({ ...existing, total: newTotal }));
+    setXp(newTotal);
+    setLevel(computeLevel(newTotal));
   }, []);
 
   const unlock = useCallback((id: string) => {
-    setUnlockedIds(prev => {
-      if (prev.includes(id)) return prev;
-      const achievement = ALL_ACHIEVEMENTS.find(a => a.id === id);
-      if (!achievement) return prev;
-      const newIds = [...prev, id];
-      localStorage.setItem(ACH_KEY, JSON.stringify(newIds));
-      setNewAchievement(achievement);
-      pushNotification({ id: `ach-${id}`, kind: 'achievement', title: achievement.title, body: achievement.description, ref: id });
-      return newIds;
-    });
+    if (idsRef.current.includes(id)) return;
+    const achievement = ALL_ACHIEVEMENTS.find(a => a.id === id);
+    if (!achievement) return;
+    const newIds = [...idsRef.current, id];
+    idsRef.current = newIds;
+    localStorage.setItem(ACH_KEY, JSON.stringify(newIds));
+    setUnlockedIds(newIds);
+    setNewAchievement(achievement);
+    pushNotification({ id: `ach-${id}`, kind: 'achievement', title: achievement.title, body: achievement.description, ref: id });
   }, []);
 
   // Succès de niveau et de régularité (jamais débloqués jusqu'ici).

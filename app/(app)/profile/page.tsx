@@ -14,7 +14,6 @@ import { AvatarPicker } from '../../../components/profile/AvatarPicker';
 import { LegalCenter } from '../../../components/legal/LegalCenter';
 import { InstallCard } from '../../../components/pwa/InstallCard';
 import { useAvatar } from '../../../hooks/useAvatar';
-import { useFreemium } from '../../../hooks/useFreemium';
 import { useSocial } from '../../../hooks/useSocial';
 import { useAuth } from '../../../components/auth/AuthProvider';
 import { QUARTIERS } from '../../../lib/quartiers';
@@ -63,7 +62,6 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<TabId>('dna');
   const [stats, setStats] = useState<StoredStats>({ likes: [], totalSwipes: 0 });
   const { avatar, setAvatar } = useAvatar();
-  const { isPremium } = useFreemium();
   const [pickerOpen, setPickerOpen] = useState(false);
   const [lockedHint, setLockedHint] = useState<string | null>(null);
   const social = useSocial();
@@ -435,7 +433,6 @@ export default function ProfilePage() {
         isOpen={pickerOpen}
         current={avatar}
         level={level}
-        isPremium={isPremium}
         onClose={() => { setPickerOpen(false); setLockedHint(null); }}
         onSave={setAvatar}
         onLockedTap={reason => setLockedHint(reason)}
@@ -450,7 +447,7 @@ export default function ProfilePage() {
             className="fixed bottom-24 inset-x-0 z-[160] flex justify-center pointer-events-none"
           >
             <span className="chip bg-lemon text-plum text-xs !px-4 !py-2">
-              {lockedHint === 'Premium' ? 'Mascotte réservée aux membres Premium' : `Se débloque au ${lockedHint.toLowerCase()}`}
+              {`Se débloque au ${lockedHint.toLowerCase()}`}
             </span>
           </motion.div>
         )}

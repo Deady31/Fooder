@@ -12,6 +12,10 @@ import { useGamification } from '../../../hooks/useGamification';
 import { stickerFor } from '../../../lib/stickers';
 import { track } from '../../../lib/analytics';
 import { newPostId } from '../../../lib/share';
+import type { OsmRecord } from '../../../lib/osm';
+import { isSharable, resolvePhotoPreset } from '../../../lib/restoShare';
+import { verdictSlug } from '../../../lib/usageProps';
+import { useToast } from '../../../components/ui/Toast';
 
 function readLiked(): LikedRestaurant[] {
   try {
@@ -29,16 +33,24 @@ export default function FeedPage() {
   const [composeOpen, setComposeOpen] = useState(false);
   const [likedRestaurants, setLikedRestaurants] = useState<LikedRestaurant[]>([]);
   const [preset, setPreset] = useState<LikedRestaurant | null>(null);
+  const toast = useToast(4000);
 
   // Arrivée depuis une fiche (« Propose la vraie photo ») : on ouvre le formulaire sur ce resto.
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const id = q.get('photo');
-    const name = q.get('n');
-    if (!id || !name) return;
-    setPreset({ id, name, cuisine: q.get('c') ?? '' });
-    setComposeOpen(true);
+    if (!id) return;
     window.history.replaceState(null, '', '/feed');
+    // L'URL n'est pas fiable : seul l'id compte, nom et cuisine viennent du jeu de données (chargé à la demande).
+    if (!isSharable(id)) return;
+    import('../../../data/toulouse-places.json')
+      .then(mod => {
+        const found = resolvePhotoPreset(mod.default as OsmRecord[], id);
+        if (!found) return;
+        setPreset(found);
+        setComposeOpen(true);
+      })
+      .catch(() => undefined);
   }, []);
 
   useEffect(() => {
@@ -59,8 +71,11 @@ export default function FeedPage() {
       likes: 0,
       createdAt: Date.now(),
       mine: true,
-    });
-    if (ok) track('post_published', { has_photo: Boolean(photo) });
+    }, toast.show);
+    if (ok) {
+      track('post_published', { has_photo: Boolean(photo) });
+      if (photo) track('photo_posted', { verdict: verdictSlug(verdict) });
+    }
     return ok;
   };
 
@@ -96,6 +111,7 @@ export default function FeedPage() {
         </AnimatePresence>
         <p className='text-center text-[11px] font-bold text-plum/50 pb-2'>Exemples de démo · le vrai fil arrive avec les comptes</p>
       </div>
+      {toast.node}
       <ComposeSheet isOpen={composeOpen} liked={likedRestaurants}
         preset={preset} onClose={() => { setComposeOpen(false); setPreset(null); }} onPublish={publish} />
     </div>

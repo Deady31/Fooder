@@ -16,6 +16,7 @@ import { XP, awardXp, unlockAchievement } from '../../../../lib/rewards';
 import { track } from '../../../../lib/analytics';
 import { useAuth } from '../../../../components/auth/AuthProvider';
 import { addFriendByCode } from '../../../../lib/cloud/social';
+import { runWithSession } from '../../../../lib/cloud/gate';
 
 type Status = 'loading' | 'invalid' | 'preview' | 'update' | 'added' | 'updated' | 'self';
 
@@ -51,18 +52,29 @@ export default function AddFriendPage() {
 
   const add = async () => {
     if (!friend) return;
-    if (auth.uid && friend.code) {
-      const fresh = await addFriendByCode(friend.code);
-      if (fresh) setMutual(true);
+    // addFriendByCode enregistre aussi l'ami en local : on retient avant s'il était déjà connu.
+    const wasKnown = readFriends().some(f => f.snapshot.id === friend.id);
+    if (friend.code) {
+      // Action explicite (bouton Ajouter) : compte anonyme créé si besoin. Échec : ami ajouté en local uniquement, message clair.
+      const code = friend.code;
+      const online = await runWithSession(() => addFriendByCode(code));
+      if (online.ok && online.value) {
+        // La carte du serveur fait foi (déjà enregistrée par addFriendByCode) : jamais écrasée par celle du lien, qui peut être forgée.
+        setMutual(true);
+        setFriend(online.value);
+      } else {
+        if (!online.silent) toast.show(online.message ?? 'Ajouté sur ce téléphone. Il ne te verra pas encore chez lui.');
+        // Hors ligne : la carte du lien n'est gardée que pour un nouvel ami, jamais par-dessus une carte déjà enregistrée.
+        if (!wasKnown) upsertFriend(friend);
+      }
+    } else {
+      upsertFriend(friend);
     }
-    const result = upsertFriend(friend);
-    if (result === 'updated' || result === 'same') return setStatus('updated');
-    if (result === 'added') {
-      awardXp(XP.friend);
-      unlockAchievement('friend_1');
-      if (readFriends().length >= 5) unlockAchievement('friends_5');
-      track('friend_added');
-    }
+    if (wasKnown) return setStatus('updated');
+    awardXp(XP.friend);
+    unlockAchievement('friend_1');
+    if (readFriends().length >= 5) unlockAchievement('friends_5');
+    track('friend_added', { method: 'link' });
     setStatus('added');
   };
 
@@ -70,6 +82,7 @@ export default function AddFriendPage() {
     if (!me || !friend) return;
     const url = await friendLink(me, 'full');
     const outcome = await shareLink({ title: 'Ma carte Fooder', text: `${friend.name}, voici ma carte Fooder pour qu’on soit amis des deux côtés :`, url });
+    if (outcome === 'shared' || outcome === 'copied') track('share', { kind: 'profile' });
     const msg = outcomeLabel(outcome);
     if (msg) toast.show(msg);
   };
@@ -132,9 +145,14 @@ export default function AddFriendPage() {
       )}
 
       {status === 'preview' && (
-        <button onClick={add} className='w-full duo-button bg-bubblegum text-plum py-4 text-lg flex items-center justify-center gap-2'>
-          <UserPlus className='w-5 h-5' strokeWidth={2.5} /> Ajouter {friend.name}
-        </button>
+        <>
+          <p role='note' className='text-center text-xs font-bold text-plum/70'>
+            Vérifie que c’est bien la bonne personne : ce nom vient du lien, qui peut avoir été modifié. Le vrai profil s’affichera après l’ajout.
+          </p>
+          <button onClick={add} className='w-full duo-button bg-bubblegum text-plum py-4 text-lg flex items-center justify-center gap-2'>
+            <UserPlus className='w-5 h-5' strokeWidth={2.5} /> Ajouter {friend.name}
+          </button>
+        </>
       )}
 
       {(status === 'added' || status === 'updated') && (

@@ -1,8 +1,9 @@
 'use client';
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { AnimatePresence, animate, AnimationPlaybackControls, motion, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { RestaurantCard } from './RestaurantCard';
+import { HOLD_MS, MOVE_TOLERANCE, shouldOpenOnRelease } from './tapIntent';
 
 export type SwipeDir = 'left' | 'right';
 
@@ -12,10 +13,8 @@ export interface SwipeDeckHandle {
 
 interface SwipeDeckProps {
   cards: Restaurant[];
-  canSwipe: boolean;
   onSwipe: (dir: SwipeDir, rest: Restaurant, index: number) => void;
   onOpen: (rest: Restaurant) => void;
-  onBlocked: () => void;
   /** false : pas d'ouverture de fiche par appui long (deck de groupe) */
   holdToOpen?: boolean;
 }
@@ -24,8 +23,6 @@ const COMMIT_OFFSET = 110;
 const COMMIT_VELOCITY = 600;
 const PEEK_OFFSET = 36; // à partir de là, la carte du dessous commence à avancer
 const VISIBLE_DEPTH = 3;
-const HOLD_MS = 500;
-const MOVE_TOLERANCE = 14;
 
 const STACK_SPRING = { type: 'spring' as const, stiffness: 290, damping: 28, mass: 0.9 };
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
@@ -37,6 +34,7 @@ const cardVariants = {
     y: 36,
     rotate: dir === 'right' ? 22 : -22,
     opacity: 0,
+    pointerEvents: 'none' as const,
     transition: {
       x: { duration: 0.46, ease: EASE_OUT_EXPO },
       y: { duration: 0.46, ease: EASE_OUT_EXPO },
@@ -83,22 +81,21 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
   const pressScale = useTransform([hold, dip], ([h, d]: number[]) => 1 - 0.015 * d - 0.035 * h);
   const holdControls = useRef<AnimationPlaybackControls | null>(null);
   const pressStart = useRef<number | null>(null);
-  const [nudge, setNudge] = useState(0);
+  const pressOrigin = useRef<{ x: number; y: number } | null>(null);
+  const committedSwipe = useRef(false);
 
-  const release = (tooQuick: boolean) => {
+  const release = () => {
     holdControls.current?.stop();
     holdControls.current = null;
     pressStart.current = null;
     animate(hold, 0, { duration: 0.2, ease: 'easeOut' });
     animate(dip, 0, { type: 'spring', stiffness: 500, damping: 24 });
-    if (tooQuick) {
-      setNudge(n => n + 1);
-      buzz(12);
-    }
   };
 
-  const handlePointerDown = () => {
+  const handlePointerDown = (e: ReactPointerEvent) => {
     if (!isTop || !holdToOpen) return;
+    committedSwipe.current = false;
+    pressOrigin.current = { x: e.clientX, y: e.clientY };
     pressStart.current = Date.now();
     buzz(8);
     animate(dip, 1, { type: 'spring', stiffness: 700, damping: 26 });
@@ -118,22 +115,37 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
     });
   };
 
-  const handlePointerUp = () => {
-    if (pressStart.current === null) return;
-    release(Date.now() - pressStart.current < HOLD_MS * 0.6);
+  // Appui bref sans glissement : ouvre la fiche tout de suite (le maintien 0,5 s ouvre aussi).
+  const handlePointerUp = (e: ReactPointerEvent) => {
+    const origin = pressOrigin.current;
+    const pressActive = pressStart.current !== null;
+    pressOrigin.current = null;
+    if (!pressActive || !origin) return;
+    const distance = Math.hypot(e.clientX - origin.x, e.clientY - origin.y);
+    release();
+    // Différé : l'événement de fin de glissement de framer-motion part sur window, après celui-ci.
+    setTimeout(() => {
+      if (!shouldOpenOnRelease({ distance, pressActive, committedSwipe: committedSwipe.current, holdToOpen })) return;
+      buzz([25, 30, 45]);
+      onOpen(rest);
+    }, 0);
   };
 
   const handleDrag = (_: unknown, info: PanInfo) => {
     const dist = Math.hypot(info.offset.x, info.offset.y);
-    if (pressStart.current !== null && dist > MOVE_TOLERANCE) release(false);
+    if (pressStart.current !== null && dist > MOVE_TOLERANCE) release();
     onPeek(Math.abs(info.offset.x) > PEEK_OFFSET);
   };
 
   const handleDragEnd = (_: unknown, info: PanInfo) => {
-    release(false);
-    if (info.offset.x > COMMIT_OFFSET || info.velocity.x > COMMIT_VELOCITY) onCommit('right');
-    else if (info.offset.x < -COMMIT_OFFSET || info.velocity.x < -COMMIT_VELOCITY) onCommit('left');
-    else onPeek(false);
+    release();
+    if (info.offset.x > COMMIT_OFFSET || info.velocity.x > COMMIT_VELOCITY) {
+      committedSwipe.current = true;
+      onCommit('right');
+    } else if (info.offset.x < -COMMIT_OFFSET || info.velocity.x < -COMMIT_VELOCITY) {
+      committedSwipe.current = true;
+      onCommit('left');
+    } else onPeek(false);
   };
 
   const target = stackTarget(depth, peeking);
@@ -148,7 +160,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
       dragElastic={0.9}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      onPointerCancel={() => release(false)}
+      onPointerCancel={() => { pressOrigin.current = null; release(); }}
       onContextMenu={e => e.preventDefault()}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
@@ -162,12 +174,21 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
         transition={{ ...STACK_SPRING, opacity: { duration: 0.25 } }}
       >
         <motion.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
-          <RestaurantCard rest={rest} hold={isTop ? hold : undefined} nudge={isTop ? nudge : undefined} hideHint={!holdToOpen} />
+          <RestaurantCard rest={rest} hold={isTop ? hold : undefined} hideHint={!holdToOpen} />
         </motion.div>
       </motion.div>
 
       {isTop && (
         <>
+          <button
+            type='button'
+            onClick={() => onOpen(rest)}
+            onPointerDown={e => e.stopPropagation()}
+            onPointerUp={e => e.stopPropagation()}
+            className='sr-only focus:not-sr-only focus:absolute focus:bottom-3 focus:left-1/2 focus:-translate-x-1/2 focus:z-30 focus:rounded-full focus:border-[3px] focus:border-plum focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-plum'
+          >
+            Voir la fiche de {rest.name}
+          </button>
           <motion.div
             className='absolute top-8 left-5 z-20 pointer-events-none'
             style={{ opacity: likeOpacity, scale: likeScale, rotate: -14 }}
@@ -187,7 +208,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
 }
 
 export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function SwipeDeck(
-  { cards, canSwipe, onSwipe, onOpen, onBlocked, holdToOpen = true },
+  { cards, onSwipe, onOpen, holdToOpen = true },
   ref
 ) {
   const [exitDir, setExitDir] = useState<SwipeDir>('right');
@@ -198,10 +219,6 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
     const top = cards[cards.length - 1];
     if (!top) return;
     setPeeking(false);
-    if (!canSwipe) {
-      onBlocked();
-      return;
-    }
     setExitDir(dir);
     onSwipe(dir, top, cards.length - 1);
   };

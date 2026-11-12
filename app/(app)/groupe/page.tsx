@@ -17,6 +17,7 @@ import { timeAgo } from '../../../lib/feed';
 import { track } from '../../../lib/analytics';
 import { useAuth } from '../../../components/auth/AuthProvider';
 import { pullGroupVotes, syncGroup, watchGroup } from '../../../lib/cloud/social';
+import { runWithSession } from '../../../lib/cloud/gate';
 
 type View = { kind: 'list' } | { kind: 'create' } | { kind: 'play'; id: string } | { kind: 'results'; id: string };
 
@@ -47,6 +48,7 @@ export default function GroupPage() {
           const voted = merged.votes.some(v => v.voterId === me.id);
           setView(voted ? { kind: 'results', id: merged.id } : { kind: 'play', id: merged.id });
           if (local) toast.show('Votes du groupe mis à jour');
+          else if (merged.host.id !== me.id) track('group_joined', { size: merged.votes.length + 1, role: 'guest' });
         }
       } else if (new URLSearchParams(window.location.search).get('new')) {
         setView({ kind: 'create' });
@@ -63,12 +65,12 @@ export default function GroupPage() {
   const current = view.kind === 'play' || view.kind === 'results' ? groups.find(g => g.id === view.id) : undefined;
   const currentId = current?.id;
 
-  // Connecté : on rejoint la session côté serveur et on suit les votes en direct.
+  // Session déjà ouverte : lecture seule des votes en direct. Rien n'est envoyé au cloud avant le vote explicite (vote()).
   useEffect(() => {
     if (!auth.uid || !currentId) return;
     const session = findGroup(currentId);
     if (!session) return;
-    syncGroup(session, auth.uid).then(reload).catch(() => undefined);
+    pullGroupVotes(session).then(reload).catch(() => undefined);
     return watchGroup(currentId, () => {
       const s = findGroup(currentId);
       if (s) pullGroupVotes(s).then(reload).catch(() => undefined);
@@ -81,6 +83,7 @@ export default function GroupPage() {
     const session = createGroup(title, { id: me.id, name: me.name }, restos);
     awardXp(XP.group);
     track('group_created', { restos: restos.length });
+    track('group_joined', { size: 1, role: 'host' });
     reload();
     setView({ kind: 'play', id: session.id });
   };
@@ -91,7 +94,11 @@ export default function GroupPage() {
     const myVote = { voterId: me.id, name: me.name, likes, at: Date.now() };
     const next = withVote(session, myVote);
     saveGroup(next);
-    if (auth.uid) syncGroup(next, auth.uid, myVote).then(reload).catch(() => toast.show('Vote enregistré ici, synchro plus tard'));
+    // Action explicite (Valider mon vote) : compte anonyme créé si besoin. Échec : le vote reste sur ce téléphone, message clair.
+    runWithSession(uid => syncGroup(next, uid, myVote)).then(r => {
+      if (r.ok) reload();
+      else if (!r.silent) toast.show(`Vote enregistré ici. ${r.message ?? 'Synchro plus tard.'}`);
+    });
     if (first) {
       if (session.host.id !== me.id) awardXp(XP.groupVote);
       unlockAchievement('group_1');

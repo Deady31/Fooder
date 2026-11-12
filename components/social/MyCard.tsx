@@ -38,6 +38,7 @@ export function MyCard({ snapshot, title, onToast }: MyCardProps) {
     const url = await friendLink(snapshot, 'full');
     const outcome = await shareLink({ title: 'Ma carte Fooder', text: `Ajoute-moi sur Fooder et compare nos goûts (${snapshot.archetype}) :`, url });
     track('friend_link_shared', { outcome });
+    if (outcome === 'shared' || outcome === 'copied') track('share', { kind: 'profile' });
     const msg = outcomeLabel(outcome);
     if (msg) onToast(msg);
   };
@@ -49,6 +50,7 @@ export function MyCard({ snapshot, title, onToast }: MyCardProps) {
       const blob = await renderFriendCard(snapshot, url, title);
       const outcome = await shareImage(blob, `fooder-${snapshot.name}.png`, 'Ma carte Fooder');
       track('friend_card_shared', { outcome });
+      if (outcome === 'shared' || outcome === 'copied') track('share', { kind: 'profile' });
       if (outcome === 'copied') onToast('Image enregistrée, publie-la en story');
     } catch {
       onToast('Impossible de créer l’image sur cet appareil');

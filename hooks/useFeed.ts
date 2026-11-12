@@ -1,8 +1,8 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../components/auth/AuthProvider';
-import { currentUserId } from '../lib/cloud/client';
-import { deleteCloudPost, fetchCloudPosts, publishCloudPost } from '../lib/cloud/social';
+import { deleteCloudPost, fetchCloudPosts } from '../lib/cloud/social';
+import { publishPostOnline } from '../lib/cloud/publish';
 import { COMMENTS_KEY, MAX_COMMENT, FeedComment, FeedPost, POSTS_KEY, POST_LIKES_KEY, seedComments, seedPosts } from '../lib/feed';
 
 function readJson<T>(key: string, fallback: T): T {
@@ -54,11 +54,16 @@ export function useFeed() {
   }, [mine, seeds, remote]);
 
   const addPost = useCallback(
-    (post: FeedPost): boolean => {
+    (post: FeedPost, onOnline?: (message: string) => void): boolean => {
       const next = [post, ...mine];
       if (!writeJson(POSTS_KEY, next)) return false; // stockage plein : on prévient l'utilisateur
       setMine(next);
-      currentUserId().then(id => (id ? publishCloudPost(post, id) : false)).catch(() => false);
+      // Action explicite (bouton Publier) : on crée un compte anonyme si besoin. Échec : le post reste local, message à l'utilisateur.
+      publishPostOnline(post)
+        .then(r => {
+          if (!r.ok && !r.silent && r.message) onOnline?.(r.message);
+        })
+        .catch(() => undefined);
       return true;
     },
     [mine]

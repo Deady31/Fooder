@@ -2,7 +2,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Camera, Flame, X } from 'lucide-react';
+import Link from 'next/link';
 import { Sticker } from '../ui/Sticker';
+import { communityPhotosFor } from '../../lib/communityPhotos';
+import { shouldInviteRealPhoto } from '../../lib/photoInvite';
 import { stickerFor } from '../../lib/stickers';
 import { MAX_CAPTION, Verdict, compressImage } from '../../lib/feed';
 import { VisitInput, addVisit, dismissCheckin, snoozeCheckin, visitedQuartiers } from '../../lib/visits';
@@ -15,8 +18,9 @@ import { computeLevel } from '../../hooks/useGamification';
 import { AvatarChoice, DEFAULT_AVATAR } from '../../lib/avatars';
 import { FeedPost, POSTS_KEY } from '../../lib/feed';
 import { track } from '../../lib/analytics';
-import { currentUserId } from '../../lib/cloud/client';
-import { publishCloudPost } from '../../lib/cloud/social';
+import { publishPostOnline } from '../../lib/cloud/publish';
+import { verdictSlug } from '../../lib/usageProps';
+import { shouldPublishOnline } from '../../lib/checkinPublish';
 
 export type CheckinMode = 'ask' | 'confirm';
 
@@ -47,6 +51,10 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
   const [caption, setCaption] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<Done | null>(null);
+  const [inviteOpen, setInviteOpen] = useState(false);
+  const [onlineNotice, setOnlineNotice] = useState<string | null>(null);
+  const [publishOnline, setPublishOnline] = useState(false);
+  const [rightsConfirmed, setRightsConfirmed] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -57,6 +65,10 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
     setCaption('');
     setError(null);
     setDone(null);
+    setInviteOpen(false);
+    setOnlineNotice(null);
+    setPublishOnline(false);
+    setRightsConfirmed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target?.restId, mode]);
 
@@ -85,6 +97,10 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
 
   const validate = () => {
     if (step !== 'verdict') return;
+    if (publishOnline && photo && !rightsConfirmed) {
+      setError('Confirme tes droits sur la photo pour la publier, ou décoche « Publier aussi sur le fil ».');
+      return;
+    }
     const beforeList = readJson<{ at: number }[]>('fooder_visits', []);
     const wasDone = weeklyStreak(beforeList.map(v => v.at)).thisWeekDone;
     const visits = addVisit(target, verdict);
@@ -115,7 +131,18 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
         setError('Stockage plein : retire une ancienne photo du fil.');
         return;
       }
-      currentUserId().then(id => (id ? publishCloudPost(post, id) : false)).catch(() => false);
+      // En ligne seulement si l'utilisateur a coché « Publier aussi sur le fil » (et confirmé ses droits pour une photo).
+      if (shouldPublishOnline({ publishOnline, rightsConfirmed, hasPhoto: Boolean(photo), hasCaption: Boolean(caption.trim()) })) {
+        publishPostOnline(post)
+          .then(r => {
+            if (r.ok) {
+              if (post.photo) track('photo_posted', { verdict: verdictSlug(verdict) });
+            } else if (!r.silent && r.message) {
+              setOnlineNotice(r.message);
+            }
+          })
+          .catch(() => undefined);
+      }
       if (photo) {
         xp += XP.photo;
         const photos = readJson<FeedPost[]>(POSTS_KEY, []).filter(p => p.photo).length;
@@ -130,8 +157,16 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
     if (visitedQuartiers(visits).size >= 5) unlockAchievement('quartiers_5');
     if (streak.current >= 4) unlockAchievement('week_streak_4');
     track('visit_confirmed', { has_photo: Boolean(photo), verdict });
+    track('checkin', { verdict: verdictSlug(verdict), photo: Boolean(photo) });
 
     if (isNew) onVisited?.();
+    const invite = shouldInviteRealPhoto({
+      restId: target.restId,
+      communityPhotos: communityPhotosFor(target.restId),
+      myPostPhotoRestIds: readJson<FeedPost[]>(POSTS_KEY, []).filter(p => p.photo).map(p => p.restaurantId),
+      postedInFlow: Boolean(photo),
+    });
+    setInviteOpen(invite);
     setDone({ xp, streak: streak.current, newWeek: !wasDone && streak.thisWeekDone });
     setStep('done');
   };
@@ -204,7 +239,10 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={photo} alt='Ta photo' className='w-full max-h-56 object-cover rounded-2xl border-[3px] border-plum' />
                   <button
-                    onClick={() => setPhoto(undefined)}
+                    onClick={() => {
+                      setPhoto(undefined);
+                      setRightsConfirmed(false);
+                    }}
                     aria-label='Retirer la photo'
                     className='absolute top-2 right-2 w-9 h-9 bg-white border-[3px] border-plum rounded-full flex items-center justify-center'
                   >
@@ -233,6 +271,36 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                 rows={2}
                 className='w-full rounded-2xl border-[3px] border-plum bg-white px-3 py-2 text-sm font-medium text-plum placeholder:text-plum/40 resize-none'
               />
+              <p className='text-[11px] font-semibold text-plum/60 leading-snug'>
+                Ta photo et ton mot restent sur ce téléphone, sauf si tu choisis de les publier.
+              </p>
+              {(photo || caption.trim()) && (
+                <div className='space-y-2 rounded-2xl border-[3px] border-plum/30 bg-white p-3'>
+                  <label className='flex items-start gap-2 text-sm font-bold text-plum'>
+                    <input
+                      type='checkbox'
+                      checked={publishOnline}
+                      onChange={e => setPublishOnline(e.target.checked)}
+                      className='mt-0.5 w-5 h-5 shrink-0 accent-[#2B0F3A]'
+                    />
+                    <span>Publier aussi sur le fil</span>
+                  </label>
+                  {publishOnline && photo && (
+                    <label className='flex items-start gap-2 text-xs font-semibold text-plum/70 leading-snug'>
+                      <input
+                        type='checkbox'
+                        checked={rightsConfirmed}
+                        onChange={e => setRightsConfirmed(e.target.checked)}
+                        className='mt-0.5 w-5 h-5 shrink-0 accent-[#2B0F3A]'
+                      />
+                      <span>
+                        Je confirme avoir pris cette photo moi-même, sans personne reconnaissable sans son accord, et qu’elle respecte les{' '}
+                        <Link href='/legal/community' className='underline'>règles de la communauté</Link>. Elle pourra illustrer la fiche du restaurant.
+                      </span>
+                    </label>
+                  )}
+                </div>
+              )}
               {error && <p className='text-xs font-bold text-fooder-red'>{error}</p>}
               <button onClick={validate} className='w-full duo-button bg-bubblegum text-plum py-4 text-base'>
                 Valider ma visite · +{XP.visit + (photo ? XP.photo : 0)} XP
@@ -247,7 +315,32 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                 <Flame className='w-4 h-4' strokeWidth={2.5} />
                 {done.streak > 0 ? `Série : ${done.streak} semaine${done.streak > 1 ? 's' : ''}` : 'Série lancée !'}
               </div>
+              {onlineNotice && <p role='status' className='text-xs font-bold text-plum/70'>{onlineNotice}</p>}
               {done.newWeek && <p className='text-sm font-bold text-plum'>Semaine validée ! Reviens la semaine prochaine pour garder ta série.</p>}
+              {inviteOpen && (
+                <div className='relative text-left'>
+                  <Link
+                    href={`/feed?photo=${encodeURIComponent(target.restId)}&n=${encodeURIComponent(target.name)}&c=${encodeURIComponent(target.cuisine)}`}
+                    onClick={onClose}
+                    className='flex items-center gap-3 p-3 pr-12 bg-white border-[3px] border-dashed border-plum rounded-2xl active:translate-y-0.5 transition-transform'
+                  >
+                    <span className='w-11 h-11 shrink-0 rounded-full bg-bubblegum border-[3px] border-plum flex items-center justify-center'>
+                      <Camera className='w-5 h-5 text-plum' strokeWidth={2.5} />
+                    </span>
+                    <span className='min-w-0'>
+                      <span className='block font-bold text-plum text-sm leading-tight'>Ajoute la vraie photo du plat</span>
+                      <span className='block text-xs font-medium text-slate-500 leading-snug'>Les prochains foodies la verront en premier.</span>
+                    </span>
+                  </Link>
+                  <button
+                    onClick={() => setInviteOpen(false)}
+                    aria-label='Fermer cette suggestion'
+                    className='absolute top-0 right-0 w-11 h-11 flex items-center justify-center rounded-full text-plum/60'
+                  >
+                    <X className='w-4 h-4' strokeWidth={3} />
+                  </button>
+                </div>
+              )}
               <button onClick={onClose} className='w-full duo-button bg-white text-plum py-3.5 text-sm'>
                 Super !
               </button>

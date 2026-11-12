@@ -158,32 +158,11 @@ h1, h2, h3 {
 }
 .tap-ripple { animation: tap-ripple 1.8s ease-out infinite; }
 
-/* === PREMIUM: flat butter-yellow skin, no gradients, no filters === */
-.premium-button {
-  background: var(--lemon);
-  color: var(--plum);
-  font-weight: 900;
-  border: 3px solid var(--plum);
-  box-shadow: 0 6px 0 var(--plum);
-  letter-spacing: 0.02em;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-.premium-button:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--plum); }
-
-.premium-bg {
-  background-color: #FFEEA8;
-  background-image: radial-gradient(rgba(43, 15, 58, 0.08) 1.3px, transparent 1.5px);
-  background-size: 18px 18px;
-}
-
 .doodle-bg {
   background-image: url('/bg/doodle-cream.webp');
   background-size: cover;
   background-position: center top;
 }
-.doodle-bg.premium-bg { background-image: url('/bg/doodle-gold.webp'); }
-
-.premium-navbar { background: rgba(255, 238, 168, 0.95) !important; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -1,8 +1,10 @@
 import { dishPhotoFor } from './dishes';
 import type { Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
-import { parseOsmHours } from './osmHours';
+import { parseOpeningHours } from './openingHours';
 import { quartierFor } from './quartiers';
+import { withBetterPhoto } from './photoPriority';
+import { safeWebUrl } from './safeUrl';
 
 export { formatMeters, haversine };
 
@@ -60,7 +62,7 @@ const hasHours = (rec: OsmRecord): boolean => {
   if (!rec.h) return false;
   let ok = hoursCache.get(rec.id);
   if (ok === undefined) {
-    ok = parseOsmHours(rec.h) !== undefined;
+    ok = parseOpeningHours(rec.h) !== undefined;
     hoursCache.set(rec.id, ok);
   }
   return ok;
@@ -106,7 +108,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
   const quartier = quartierFor(rec.la, rec.ln);
   const distance = dist !== undefined ? formatMeters(dist) : undefined;
   const dish = dishPhotoFor(cuisine, rec.n);
-  return {
+  const card: Restaurant = {
     id: rec.id,
     name: rec.n,
     rating: 0,
@@ -114,15 +116,16 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     distance: distance ?? 'Toulouse',
     distanceMeters: dist !== undefined ? Math.round(dist) : undefined,
     cuisine,
-    image: dish?.src ?? '',
-    ...(dish ? { photoSource: 'dish' as const, photoCredit: dish.author, photoLicense: dish.license, photoPage: dish.page } : {}),
+    image: '',
     address: rec.a || (quartier ? `Quartier ${quartier}, Toulouse` : 'Toulouse'),
     lat: rec.la,
     lng: rec.ln,
     description: describe(rec, cuisine, quartier, distance),
-    website: rec.w || undefined,
+    website: safeWebUrl(rec.w),
     phone: normalizePhone(rec.t),
-    hours: parseOsmHours(rec.h),
+    hours: parseOpeningHours(rec.h),
     dataSource: 'osm',
   };
+  // Plat typique = niveau le plus bas de la priorité (communauté > Google > plat > illustration).
+  return dish ? withBetterPhoto(card, { source: 'dish', images: [dish.src], credit: dish.author, license: dish.license, page: dish.page }) : card;
 }
