@@ -7,6 +7,7 @@ import { FoodImage } from '../ui/FoodImage';
 import { stickerFor } from '../../lib/stickers';
 import { isOpenAt } from '../../lib/openingHours';
 import { cardSummary } from './cardSummary';
+import { DIET_LABEL, DIET_SHORT_LABEL, DIET_SOURCE_NOTE, badgeDiets } from '../../lib/diets';
 
 interface RestaurantCardProps {
   rest: Restaurant;
@@ -95,6 +96,11 @@ export function RestaurantCard({ rest, hold, hideHint }: RestaurantCardProps) {
             {rest.distance}
           </span>
           <span className='chip bg-fooder-primary text-white'>{rest.cuisine}</span>
+          {badgeDiets(rest).map(d => (
+            <span key={d} className='chip !text-[11px] !px-2 !py-0.5 bg-white text-plum' title={`${DIET_LABEL[d]} (${DIET_SOURCE_NOTE})`}>
+              {DIET_SHORT_LABEL[d]}
+            </span>
+          ))}
         </div>
 
         {summary && <p className='mt-2 text-[13px] font-bold text-plum leading-snug'>{summary}</p>}

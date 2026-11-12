@@ -6,6 +6,9 @@ export interface MenuItem {
   description?: string;
 }
 
+/** Régime déclaré (source : tags OpenStreetMap, jamais déduit). */
+export type Diet = 'vegan' | 'vegetarian' | 'halal' | 'gluten_free';
+
 export interface Restaurant {
   id: string;
   name: string;
@@ -25,6 +28,8 @@ export interface Restaurant {
   website?: string;
   phone?: string;
   hours?: WeekHours;
+  /** Régimes déclarés (vegan, végétarien, halal, sans gluten) */
+  diets?: Diet[];
   dataSource?: 'mock' | 'google-places' | 'osm';
   /** 'community' = photo d'un foodie, 'google' = photo Google Maps (auteur crédité) ; sinon l'image est une illustration. */
   photoSource?: 'community' | 'google' | 'dish';

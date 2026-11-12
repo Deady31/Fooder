@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchPlacePhotos, PlacePhoto } from '../../../lib/google/placePhotos';
+import { fetchPlacePhoto } from '../../../lib/google/placePhotos';
+import { createDailyCounter, parseDailyCap } from '../../../lib/google/dailyCap';
+import { PLACE_ID_RE } from '../../../lib/google/placeIdCache';
 
 export const dynamic = 'force-dynamic';
 
 const KEY = process.env.GOOGLE_PLACES_API_KEY ?? '';
-// Garde-fou de dépense : au-delà, on n'appelle plus Google jusqu'au lendemain (compteur par instance serveur).
-const DAILY_CAP = Number(process.env.GOOGLE_PHOTOS_DAILY_CAP ?? 1500);
+const VERIFY_NAME = process.env.GOOGLE_PHOTOS_VERIFY_NAME === '1';
+// Plafond d'appels payants (média) par jour de Paris. Compteur en mémoire de l'instance : approximatif en serverless
+// multi-instances ; le vrai plafond sûr est le quota journalier de la console Google.
+const counter = createDailyCounter(parseDailyCap(process.env.GOOGLE_PHOTOS_DAILY_CAP));
 // Zone d'activité : Toulouse et alentours seulement
 const BOX = { minLat: 43.3, maxLat: 43.9, minLng: 1.0, maxLng: 1.9 };
 
@@ -21,30 +25,16 @@ function limited(ip: string): boolean {
   return h.n > 40;
 }
 
-let day = '';
-let spent = 0;
-function overBudget(): boolean {
-  const today = new Date().toISOString().slice(0, 10);
-  if (today !== day) {
-    day = today;
-    spent = 0;
-  }
-  return spent >= DAILY_CAP;
-}
-
-// Mémoire courte : évite de repayer Google pour le même resto pendant une session.
-const memo = new Map<string, { at: number; photos: PlacePhoto[] }>();
-const MEMO_MS = 30 * 60_000;
-const MEMO_MAX = 500;
-
 const num = (v: string | null, min: number, max: number): number | null => {
   if (v === null) return null;
   const n = Number(v);
   return Number.isFinite(n) && n >= min && n <= max ? n : null;
 };
 
+const NO_STORE = { 'Cache-Control': 'no-store' };
+
 export async function GET(req: NextRequest) {
-  if (!KEY) return NextResponse.json({ success: true, data: [], reason: 'disabled' });
+  if (!KEY) return NextResponse.json({ success: true, data: [], reason: 'disabled' }, { headers: NO_STORE });
 
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'local';
   if (limited(ip)) return NextResponse.json({ success: false, error: 'Trop de requêtes' }, { status: 429 });
@@ -54,16 +44,22 @@ export async function GET(req: NextRequest) {
   const lat = num(p.get('lat'), BOX.minLat, BOX.maxLat);
   const lng = num(p.get('lng'), BOX.minLng, BOX.maxLng);
   if (!name || lat === null || lng === null) return NextResponse.json({ success: false, error: 'Paramètres invalides' }, { status: 400 });
+  const rawPlaceId = p.get('placeId') ?? '';
+  const placeId = PLACE_ID_RE.test(rawPlaceId) ? rawPlaceId : undefined;
 
-  const memoKey = `${name.toLowerCase()}|${lat.toFixed(4)}|${lng.toFixed(4)}`;
-  const cached = memo.get(memoKey);
-  if (cached && Date.now() - cached.at < MEMO_MS) return NextResponse.json({ success: true, data: cached.photos });
+  // Plafond déjà atteint : on n'appelle même pas Google.
+  if (counter.isExhausted(new Date())) return NextResponse.json({ success: true, data: [], reason: 'budget' }, { headers: NO_STORE });
 
-  if (overBudget()) return NextResponse.json({ success: true, data: [], reason: 'budget' });
-  spent += 1;
+  const out = await fetchPlacePhoto({ name, lat, lng }, KEY, {
+    placeId,
+    verifyName: VERIFY_NAME,
+    allowPaidCall: () => counter.tryConsume(new Date()),
+  });
 
-  const photos = await fetchPlacePhotos({ name, lat, lng }, KEY);
-  if (memo.size >= MEMO_MAX) memo.delete(memo.keys().next().value as string);
-  memo.set(memoKey, { at: Date.now(), photos });
-  return NextResponse.json({ success: true, data: photos }, { headers: { 'Cache-Control': 'private, max-age=900' } });
+  if (out.status === 'ok') {
+    // Cache navigateur privé et court (l'URL de Google est temporaire) ; jamais de stockage partagé.
+    return NextResponse.json({ success: true, data: [out.photo], placeId: out.placeId }, { headers: { 'Cache-Control': 'private, max-age=300' } });
+  }
+  if (out.status === 'budget') return NextResponse.json({ success: true, data: [], reason: 'budget', placeId: out.placeId }, { headers: NO_STORE });
+  return NextResponse.json({ success: true, data: [], reason: 'none', placeId: out.placeId }, { headers: NO_STORE });
 }

@@ -26,12 +26,16 @@ import { fetchRestaurantPhotos } from '../../../lib/cloud/social';
 import { fetchGooglePhotos } from '../../../lib/placePhotosClient';
 import { openCardProps, swipeProps } from '../../../lib/usageProps';
 import { rankRichFirst } from '../../../lib/ranking';
-import { isOpenAt } from '../../../lib/openingHours';
+import { applyFilters as applyDeckFilters, dietsFromProfile, toggleDiet, FILTER_DIETS } from '../../../lib/filters';
+import { DIET_LABEL } from '../../../lib/diets';
+import type { Diet } from '../../../data/mockRestaurants';
 import { readJson, writeJson } from '../../../lib/store';
 import { createRewardLedger } from '../../../components/swipe/rewardLedger';
 import { LastSwipe, removeById, removePendingCheckin } from '../../../components/swipe/undo';
 
 const OPEN_NOW_KEY = 'fooder_open_now';
+const DIET_FILTER_KEY = 'fooder_diet_filter';
+const PROFILE_KEY = 'fooder_profile';
 const MAX_AUTO_LOADS = 3;
 const EXIT_ANIM_MS = 550;
 
@@ -86,6 +90,7 @@ export default function SwipePage() {
     const [currentMoodId, setCurrentMoodId] = useState<string>('surprise');
     const [burst, setBurst] = useState({ id: 0, active: false });
     const [openNow, setOpenNow] = useState(false);
+    const [diets, setDiets] = useState<Diet[]>([]);
     const [now, setNow] = useState(() => new Date());
     const [lastSwipe, setLastSwipe] = useState<LastSwipe | null>(null);
     const ledger = useRef(createRewardLedger());
@@ -96,6 +101,17 @@ export default function SwipePage() {
 
     useEffect(() => {
         setOpenNow(readJson<boolean>(OPEN_NOW_KEY, false) === true);
+        // Régimes : choix mémorisé ; première visite = préactivation depuis le profil (une seule fois).
+        const stored = readJson<unknown>(DIET_FILTER_KEY, null);
+        if (Array.isArray(stored)) {
+            setDiets(stored.filter((d): d is Diet => FILTER_DIETS.includes(d as Diet)));
+        } else {
+            let raw: string | null = null;
+            try { raw = localStorage.getItem(PROFILE_KEY); } catch { /* stockage indisponible */ }
+            const initial = dietsFromProfile(raw);
+            setDiets(initial);
+            writeJson(DIET_FILTER_KEY, initial);
+        }
         const tick = setInterval(() => setNow(new Date()), 60000);
         return () => clearInterval(tick);
     }, []);
@@ -342,6 +358,18 @@ export default function SwipePage() {
         writeJson(OPEN_NOW_KEY, next);
     };
 
+    const toggleDietChip = (diet: Diet) => {
+        const next = toggleDiet(diets, diet);
+        setDiets(next);
+        writeJson(DIET_FILTER_KEY, next);
+    };
+
+    const clearFilters = () => {
+        setDiets([]);
+        writeJson(DIET_FILTER_KEY, []);
+        if (openNow) toggleOpenNow();
+    };
+
     const openDetails = async (restaurant: Restaurant) => {
         setSelectedRest(restaurant);
         track('open_card', openCardProps(restaurant, 'swipe'));
@@ -364,24 +392,25 @@ export default function SwipePage() {
 
     const cuisines = ['All', ...Array.from(new Set(restaurants.map(r => r.cuisine)))];
     const remaining = restaurants.slice(0, currentIndex + 1);
-    // Filtre « ouvert maintenant » : seuls les restos dont l'ouverture est certaine ; horaires inconnus = exclus.
-    const deckCards = openNow ? remaining.filter(r => isOpenAt(r.hours, now) === true) : remaining;
+    // « Ouvert maintenant » (horaires inconnus = exclus) + régimes (fiches sans info exclues).
+    const filterActive = openNow || diets.length > 0;
+    const deckCards = filterActive ? applyDeckFilters(remaining, { openNow, diets, now }) : remaining;
 
-    // Filtre actif et peu de cartes ouvertes : on charge quelques pages de plus (plafonné).
+    // Filtre actif et peu de cartes : on charge quelques pages de plus (plafonné).
     useEffect(() => {
         autoLoads.current = 0;
-    }, [openNow, currentIndex]);
+    }, [openNow, diets, currentIndex]);
     useEffect(() => {
-        if (isLoading || !openNow || deckCards.length >= 6 || autoLoads.current >= MAX_AUTO_LOADS) return;
+        if (isLoading || !filterActive || deckCards.length >= 6 || autoLoads.current >= MAX_AUTO_LOADS) return;
         autoLoads.current += 1;
         void loadMore();
-    }, [isLoading, openNow, deckCards.length, restaurants.length]);
+    }, [isLoading, filterActive, deckCards.length, restaurants.length]);
 
     // Vraies photos Google pour la carte du dessus et les suivantes (jamais pour tout le catalogue : coût et règles de Google).
     const requestedPhotos = useRef<Set<string>>(new Set());
     useEffect(() => {
         if (isLoading) return;
-        const upcoming = restaurants.slice(Math.max(0, currentIndex - 3), currentIndex + 1);
+        const upcoming = restaurants.slice(Math.max(0, currentIndex - 1), currentIndex + 1); // 2 cartes du dessus seulement : l'appel photo est le seul payant
         for (const r of upcoming) {
             if (r.photoSource === 'community' || r.photoSource === 'google' || requestedPhotos.current.has(r.id)) continue;
             requestedPhotos.current.add(r.id);
@@ -397,7 +426,7 @@ export default function SwipePage() {
         }
     }, [currentIndex, restaurants.length, isLoading]);
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
-    const noneOpen = openNow && !isDeckEmpty && restaurants.length > 0 && deckCards.length === 0;
+    const noneOpen = filterActive && !isDeckEmpty && restaurants.length > 0 && deckCards.length === 0;
 
     return (
         <div className='flex flex-col h-full overflow-hidden relative'>
@@ -427,19 +456,35 @@ export default function SwipePage() {
             </header>
 
             {!isLoading && restaurants.length > 0 && (
-                <div className='shrink-0 flex items-center justify-center gap-2 px-4 pt-2'>
-                    <button
-                        onClick={toggleOpenNow}
-                        aria-pressed={openNow}
-                        className={`chip min-h-[44px] text-plum active:translate-y-0.5 transition-transform ${openNow ? 'bg-fooder-mint' : 'bg-white'}`}
-                    >
-                        <span className={`w-2 h-2 rounded-full border-[1.5px] border-plum ${openNow ? 'bg-white' : 'bg-fooder-mint'}`} />
-                        Ouvert maintenant
-                    </button>
-                    {openNow && !isDeckEmpty && (
-                        <span className='text-xs font-bold text-plum/70'>
+                <div className='shrink-0 px-4 pt-2'>
+                    <div className='flex items-center gap-2 overflow-x-auto no-scrollbar py-1 -my-1'>
+                        <button
+                            onClick={toggleOpenNow}
+                            aria-pressed={openNow}
+                            className={`chip shrink-0 min-h-[44px] text-plum active:translate-y-0.5 transition-transform ${openNow ? 'bg-fooder-mint' : 'bg-white'}`}
+                        >
+                            <span className={`w-2 h-2 rounded-full border-[1.5px] border-plum ${openNow ? 'bg-white' : 'bg-fooder-mint'}`} />
+                            Ouvert maintenant
+                        </button>
+                        {FILTER_DIETS.map(d => {
+                            const active = diets.includes(d);
+                            return (
+                                <button
+                                    key={d}
+                                    onClick={() => toggleDietChip(d)}
+                                    aria-pressed={active}
+                                    className={`chip shrink-0 min-h-[44px] min-w-[44px] justify-center text-plum active:translate-y-0.5 transition-transform ${active ? 'bg-fooder-primary !text-white shadow-hard font-extrabold' : 'bg-white'}`}
+                                >
+                                    {active && <span aria-hidden='true'>✓</span>}
+                                    {DIET_LABEL[d]}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    {filterActive && !isDeckEmpty && (
+                        <p className='mt-1 text-center text-xs font-bold text-plum/70' aria-live='polite'>
                             {deckCards.length} {deckCards.length > 1 ? 'restos' : 'resto'} à découvrir
-                        </span>
+                        </p>
                     )}
                 </div>
             )}
@@ -490,14 +535,28 @@ export default function SwipePage() {
                     <div className='flex flex-col items-center text-center px-8 gap-5'>
                         <div className='bob' style={{ ['--r' as string]: '-6deg' }}><Sticker name='ramen' size={96} rotate={-6} /></div>
                         <div className='space-y-2'>
-                            <h3 className='text-3xl text-plum'>Rien d&apos;ouvert pour le moment</h3>
-                            <p className='text-slate-600 font-medium text-sm leading-relaxed'>
-                                Aucun resto restant n&apos;est ouvert, ou ses horaires sont inconnus.
-                            </p>
+                            {diets.length > 0 ? (
+                                <>
+                                    <h3 className='text-3xl text-plum'>Pas encore de résultat</h3>
+                                    <p className='text-slate-600 font-medium text-sm leading-relaxed'>
+                                        Peu de restos renseignés pour ce régime (selon OpenStreetMap).
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <h3 className='text-3xl text-plum'>Rien d&apos;ouvert pour le moment</h3>
+                                    <p className='text-slate-600 font-medium text-sm leading-relaxed'>
+                                        Aucun resto restant n&apos;est ouvert, ou ses horaires sont inconnus.
+                                    </p>
+                                </>
+                            )}
                         </div>
                         <div className='flex flex-col w-full gap-3'>
-                            <button onClick={toggleOpenNow} className='duo-button bg-bubblegum text-plum py-4 text-base'>
-                                Voir aussi les fermés
+                            <button
+                                onClick={diets.length > 0 ? clearFilters : toggleOpenNow}
+                                className='duo-button bg-bubblegum text-plum py-4 text-base'
+                            >
+                                {diets.length > 0 ? 'Voir tout' : 'Voir aussi les fermés'}
                             </button>
                             {lastSwipe && (
                                 <button onClick={undoLast} disabled={exiting} className='duo-button bg-white text-plum py-3 text-sm'>

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Camera, Share2 } from 'lucide-react';
+import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Camera, Share2, Maximize2 } from 'lucide-react';
 import Link from 'next/link';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
@@ -14,6 +14,9 @@ import { isSharable, restoUrl, shareText } from '../../lib/restoShare';
 import { safeCommonsPage, safeWebUrl } from '../../lib/safeUrl';
 import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../lib/hours';
 import { track } from '../../lib/analytics';
+import { Lightbox } from '../ui/Lightbox';
+import { DIETS, DIET_LABEL, DIET_SOURCE_NOTE } from '../../lib/diets';
+import { photoCreditLine } from '../ui/lightboxMath';
 
 interface DetailSheetProps {
   rest: Restaurant | null;
@@ -89,6 +92,15 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
     setShareMsg(null);
   }, [rest?.id]);
   const gallery = rest ? galleryFor(rest, community) : [];
+  const [viewer, setViewer] = useState<number | null>(null);
+  useEffect(() => {
+    setViewer(null);
+  }, [rest?.id]);
+  const viewerImages = rest ? [...(rest.image ? [rest.image] : []), ...gallery.filter((g) => g !== rest.image)] : [];
+  const openViewer = (src: string) => {
+    const i = viewerImages.indexOf(src);
+    if (i >= 0) setViewer(i);
+  };
   return (
     <AnimatePresence>
       {rest && (
@@ -102,6 +114,17 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
           <div className='relative h-80 w-full border-b-[3px] border-plum'>
             <FoodImage src={rest.image} alt={rest.name} cuisine={rest.cuisine} className='w-full h-full object-cover' />
             <div className='absolute inset-0 bg-gradient-to-b from-plum/40 via-transparent to-transparent' />
+            {rest.image && (
+              <button
+                onClick={() => openViewer(rest.image as string)}
+                aria-label='Agrandir la photo'
+                className='absolute inset-0 w-full h-full'
+              >
+                <span className='absolute top-6 left-5 w-9 h-9 bg-white/90 border-2 border-plum rounded-full flex items-center justify-center shadow-[2px_2px_0_#2B0F3A]'>
+                  <Maximize2 className='w-4 h-4 text-plum' strokeWidth={3} />
+                </span>
+              </button>
+            )}
             <button
               onClick={onClose}
               aria-label='Fermer'
@@ -170,6 +193,18 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
             <HoursSection hours={rest.hours} />
 
+            {rest.diets && rest.diets.length > 0 && (
+              <section>
+                <SectionTitle>Régimes</SectionTitle>
+                <div className='flex flex-wrap gap-2'>
+                  {DIETS.filter(d => rest.diets?.includes(d)).map(d => (
+                    <span key={d} className='chip bg-white text-plum'>{DIET_LABEL[d]}</span>
+                  ))}
+                </div>
+                <p className='mt-2 text-xs font-medium text-slate-500'>Info {DIET_SOURCE_NOTE}, à confirmer avec le restaurant.</p>
+              </section>
+            )}
+
             {rest.photoSource !== 'community' && rest.photoSource !== 'google' && (
               <Link
                 href={`/feed?photo=${encodeURIComponent(rest.id)}&n=${encodeURIComponent(rest.name)}&c=${encodeURIComponent(rest.cuisine)}`}
@@ -196,7 +231,8 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                     <img
                       key={i}
                       src={img}
-                      className='w-52 h-52 rounded-[26px] object-cover flex-shrink-0 border-[3px] border-plum shadow-hard'
+                      onClick={() => openViewer(img)}
+                      className='w-52 h-52 rounded-[26px] object-cover flex-shrink-0 border-[3px] border-plum shadow-hard cursor-zoom-in'
                       alt='plat'
                     />
                   ))}
@@ -265,6 +301,16 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
               Y aller
             </button>
           </div>
+          {viewer !== null && viewerImages.length > 0 && (
+            <Lightbox
+              images={viewerImages}
+              index={viewer}
+              alt={rest.name}
+              credit={community.length > 0 ? null : photoCreditLine(rest.photoSource, rest.photoCredit, rest.photoLicense)}
+              onIndexChange={setViewer}
+              onClose={() => setViewer(null)}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>

@@ -1,5 +1,5 @@
 import { dishPhotoFor } from './dishes';
-import type { Restaurant } from '../data/mockRestaurants';
+import type { Diet, Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
 import { parseOpeningHours } from './openingHours';
 import { quartierFor } from './quartiers';
@@ -21,6 +21,7 @@ export interface OsmRecord {
   w: string; // site web
   t?: string; // téléphone
   d: 0 | 1; // végétarien
+  dt?: Diet[]; // régimes déclarés (OSM)
   s?: 'o' | 'v' | 'b'; // source : OpenStreetMap, Overture, les deux
 }
 
@@ -125,6 +126,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     phone: normalizePhone(rec.t),
     hours: parseOpeningHours(rec.h),
     dataSource: 'osm',
+    ...(rec.dt?.length ? { diets: [...rec.dt] } : {}),
   };
   // Plat typique = niveau le plus bas de la priorité (communauté > Google > plat > illustration).
   return dish ? withBetterPhoto(card, { source: 'dish', images: [dish.src], credit: dish.author, license: dish.license, page: dish.page }) : card;

@@ -29,3 +29,6 @@ Thumbs.db
 
 # données brutes d'import (reproductibles)
 data/raw/
+
+# Stratégie et chiffres internes (dépôt public)
+docs/private/
