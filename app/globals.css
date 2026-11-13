@@ -10,6 +10,15 @@
   --lemon: #FFD83D;
   --orange: #FF8A1F;
   --mint: #3DDC97;
+  /* textes accessibles (ratios sur cream / blanc, voir tailwind.config.js) */
+  --plum-muted: #5E4A66; /* 7,39 / 7,93 */
+  --plum-soft: #6B5774; /* 6,04 / 6,48 */
+  --slate-muted: #55657A; /* 5,54 / 5,95 */
+  --success: #0B7A47; /* 5,03 / 5,40 */
+  --danger: #C4105E; /* 5,46 / 5,86 */
+  --orange-ink: #A04A00; /* 5,66 / 6,07 */
+  --radius-card: 28px;
+  --radius-panel: 22px;
   --background: var(--cream);
   --foreground: var(--plum);
 }
@@ -44,6 +53,28 @@ textarea {
 button,
 a {
   touch-action: manipulation;
+}
+
+/* Contenu copiable (adresse, telephone, horaires, descriptions) malgre le user-select:none du body */
+.selectable,
+.selectable * {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Focus clavier coherent avec la marque : anneau violet epais, decale pour ne pas
+   se confondre avec les bordures de 3px. Pas d'anneau au clic/toucher. */
+:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: 3px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+/* sur fond sombre (prune/violet) : anneau clair */
+.focus-on-dark:focus-visible,
+.focus-on-dark :focus-visible {
+  outline-color: var(--lemon);
 }
 
 /* scrollable panels keep their scroll to themselves */
@@ -164,11 +195,40 @@ h1, h2, h3 {
   background-position: center top;
 }
 
+/* Onglet/element masque : pause des animations infinies (pose [data-hidden] sur <html>
+   ou sur un conteneur, ex. via document.visibilitychange). */
+[data-hidden] .bob,
+[data-hidden] .float-a,
+[data-hidden] .float-b,
+[data-hidden] .float-c,
+[data-hidden] .card-wobble,
+[data-hidden] .tap-ripple,
+[data-hidden] .stripes,
+[data-hidden] .fooder-me::after,
+[data-hidden].bob,
+[data-hidden].float-a,
+[data-hidden].float-b,
+[data-hidden].float-c,
+[data-hidden].card-wobble,
+[data-hidden].tap-ripple,
+[data-hidden].stripes {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  /* decoratif pur : pas d'oscillation, pas de ruban anime */
+  .bob, .float-a, .float-b, .float-c, .card-wobble, .tap-ripple, .stripes,
+  .fooder-me::after {
+    animation: none !important;
   }
 }
 

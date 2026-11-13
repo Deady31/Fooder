@@ -1,80 +1,41 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { STORE_EVENT } from '../lib/store';
+import { MISSIONS_KEY, Mission, MissionState, progressMission, readMissionState } from '../lib/missions';
 
-import { migrateMissionIds } from '../lib/missions';
+export type { Mission };
 
-const KEY = 'fooder_missions';
-
-export interface Mission {
-  id: string;
-  title: string;
-  description: string;
-  emoji: string;
-  target: number;
-  current: number;
-  xpReward: number;
-  completed: boolean;
-}
-
-const TEMPLATES: Omit<Mission, 'current' | 'completed'>[] = [
-  { id: 'swipe_5', title: '5 restos explorés', description: 'Swipe 5 restaurants', emoji: '👆', target: 5, xpReward: 25 },
-  { id: 'like_3', title: '3 coups de cœur', description: 'Like 3 restaurants', emoji: '❤️', target: 3, xpReward: 50 },
-  { id: 'open_detail', title: 'Curieux gourmand', description: 'Consulte 1 détail resto', emoji: '📖', target: 1, xpReward: 15 },
-  { id: 'swipe_10', title: 'Explorateur actif', description: 'Swipe 10 restaurants', emoji: '🗺️', target: 10, xpReward: 40 },
-  { id: 'like_cheap', title: 'Bon plan trouvé', description: 'Like un resto < 15€', emoji: '💸', target: 1, xpReward: 30 },
-  { id: 'dislike_5', title: 'Difficile à séduire', description: 'Passe 5 restaurants', emoji: '😤', target: 5, xpReward: 20 },
-  { id: 'like_gastro', title: 'Gastronome', description: 'Like un resto > 50€', emoji: '🍷', target: 1, xpReward: 35 },
-  { id: 'swipe_20', title: 'Swipe addict', description: 'Swipe 20 restaurants', emoji: '🔥', target: 20, xpReward: 60 },
-];
-
-function pickMissions(date: string): Mission[] {
-  const seed = date.split('-').reduce((a, c) => a + parseInt(c), 0);
-  const shuffled = [...TEMPLATES].sort((a, b) => ((seed * a.id.length) % 11) - ((seed * b.id.length) % 11));
-  return shuffled.slice(0, 3).map(t => ({ ...t, current: 0, completed: false }));
-}
-
+/**
+ * Missions du jour. `progress` calcule et écrit HORS de tout updater setState (aucun effet de bord pendant le rendu),
+ * renvoie la mission qui vient d'être terminée, verse son XP une seule fois par jour et émet l'événement `mission`.
+ * Plusieurs instances (page Découvrir, MissionsChip) restent synchronisées via STORE_EVENT.
+ */
 export function useMissions() {
   const [missions, setMissions] = useState<Mission[]>([]);
+  const stateRef = useRef<MissionState | null>(null);
 
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    let stored: { date?: string; missions?: Mission[] } | null = null;
-    try {
-      stored = JSON.parse(localStorage.getItem(KEY) || 'null');
-    } catch {
-      stored = null;
-    }
-    if (stored?.date === today) {
-      const migrated = migrateMissionIds<Mission>(stored.missions, TEMPLATES);
-      if (JSON.stringify(migrated) !== JSON.stringify(stored.missions)) {
-        localStorage.setItem(KEY, JSON.stringify({ date: today, missions: migrated }));
-      }
-      setMissions(migrated);
-    } else {
-      const fresh = pickMissions(today);
-      localStorage.setItem(KEY, JSON.stringify({ date: today, missions: fresh }));
-      setMissions(fresh);
-    }
+    const load = () => {
+      const s = readMissionState(Date.now(), stateRef.current);
+      stateRef.current = s;
+      setMissions(s.missions);
+    };
+    load();
+    const onStore = (e: Event) => {
+      if ((e as CustomEvent<string>).detail === MISSIONS_KEY) load();
+    };
+    window.addEventListener(STORE_EVENT, onStore);
+    return () => window.removeEventListener(STORE_EVENT, onStore);
   }, []);
 
   const progress = useCallback((id: string, amount = 1): Mission | null => {
-    const today = new Date().toISOString().split('T')[0];
-    let completed: Mission | null = null;
-    setMissions(prev => {
-      const next = prev.map(m => {
-        if (m.id !== id || m.completed) return m;
-        const newCurrent = Math.min(m.current + amount, m.target);
-        const done = newCurrent >= m.target;
-        if (done) completed = { ...m, current: newCurrent, completed: true };
-        return { ...m, current: newCurrent, completed: done };
-      });
-      localStorage.setItem(KEY, JSON.stringify({ date: today, missions: next }));
-      return next;
-    });
+    const { state, completed } = progressMission(id, amount, { fallback: stateRef.current });
+    stateRef.current = state;
+    setMissions(state.missions);
     return completed;
   }, []);
 
   const completedCount = missions.filter(m => m.completed).length;
 
-  return { missions, progress, completedCount };
+  return { missions, progress, completedCount, total: missions.length };
 }
