@@ -1,7 +1,7 @@
 'use client';
 import { ReactNode, useEffect, useRef } from 'react';
 import { StepFrame } from './StepFrame';
-import { Choice, ChoiceLayout } from './Choice';
+import { Choice } from './Choice';
 import type { Option } from './options';
 import type { StickerName } from '../../lib/stickers';
 
@@ -12,7 +12,7 @@ interface Copy {
   sticker?: StickerName;
 }
 
-const GRID: Record<number, string> = { 1: 'grid-cols-1', 2: 'grid-cols-2', 3: 'grid-cols-3' };
+const GRID: Record<number, string> = { 1: 'grid-cols-1', 2: 'grid-cols-2' };
 const ADVANCE_DELAY_MS = 260;
 
 interface SingleStepProps<T> extends Copy {
@@ -51,45 +51,26 @@ interface MultiStepProps<T> extends Copy {
   values: T[];
   onChange: (v: T[]) => void;
   onNext: () => void;
-  columns?: 1 | 2 | 3;
-  layout?: ChoiceLayout;
-  /** Nombre maximal de réponses */
-  max?: number;
+  columns?: 1 | 2;
   /** Libellé du bouton quand rien n'est choisi */
   emptyCta: string;
   /** Si défini, ajoute une puce « aucun » qui vide la sélection */
   noneLabel?: string;
-  counter?: boolean;
 }
 
 /** Plusieurs réponses possibles, toutes facultatives. */
 export function MultiStep<T extends string>({
-  options, values, onChange, onNext, columns = 2, layout = 'row', max, emptyCta, noneLabel, counter, ...copy
+  options, values, onChange, onNext, columns = 2, emptyCta, noneLabel, ...copy
 }: MultiStepProps<T>) {
-  const toggle = (v: T) => {
-    if (max === 1) onChange(values.includes(v) ? [] : [v]);
-    else if (values.includes(v)) onChange(values.filter(x => x !== v));
-    else if (max === undefined || values.length < max) onChange([...values, v]);
-  };
-  const full = max !== undefined && max > 1 && values.length >= max;
-  const wrap = layout === 'pill' ? 'flex flex-wrap justify-center gap-2.5' : `grid ${GRID[columns]} gap-3`;
+  const toggle = (v: T) => onChange(values.includes(v) ? values.filter(x => x !== v) : [...values, v]);
 
   return (
-    <StepFrame
-      {...copy}
-      subtitle={counter && max ? `${copy.subtitle ?? ''} (${values.length}/${max})`.trim() : copy.subtitle}
-      cta={values.length === 0 ? emptyCta : 'Continuer'}
-      onCta={onNext}
-    >
-      <div className={`${wrap} pt-2 pb-1`}>
-        {noneLabel && (
-          <Choice label={noneLabel} layout={layout} selected={values.length === 0} index={0}
-            onClick={() => onChange([])} />
-        )}
+    <StepFrame {...copy} cta={values.length === 0 ? emptyCta : 'Continuer'} onCta={onNext}>
+      <div className={`grid ${GRID[columns]} gap-3 pt-2 pb-1`}>
+        {noneLabel && <Choice label={noneLabel} selected={values.length === 0} index={0} onClick={() => onChange([])} />}
         {options.map((o, i) => (
-          <Choice key={o.value} label={o.label} sub={o.sub} sticker={o.sticker} layout={layout} index={i + 1}
-            selected={values.includes(o.value)} disabled={full && !values.includes(o.value)}
-            onClick={() => toggle(o.value)} />
+          <Choice key={o.value} label={o.label} sub={o.sub} sticker={o.sticker} index={i + 1}
+            selected={values.includes(o.value)} onClick={() => toggle(o.value)} />
         ))}
       </div>
     </StepFrame>

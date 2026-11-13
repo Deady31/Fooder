@@ -86,12 +86,12 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
 
   return (
     <>
-      <section className={`relative bg-white panel rounded-3xl p-4 pr-11 ${className}`} aria-label="Installer l’application">
-        <button onClick={dismiss} aria-label='Plus tard' className='absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center text-plum/50'>
+      <section className={`relative bg-white panel rounded-3xl p-4 pr-14 ${className}`} aria-label="Installer l’application">
+        <button onClick={dismiss} aria-label='Plus tard' className='absolute top-1 right-1 w-11 h-11 rounded-full flex items-center justify-center text-plum-muted'>
           <X className='w-4 h-4' strokeWidth={3} />
         </button>
         <p className='font-display text-lg leading-tight text-plum'>Fooder sur ton écran d’accueil</p>
-        <p className='text-xs font-semibold text-slate-600 mt-1'>Plein écran, lancement en un tap, comme une vraie app.</p>
+        <p className='text-xs font-semibold text-plum-muted mt-1'>Plein écran, lancement en un tap, comme une vraie app.</p>
         <button onClick={install} className='duo-button w-full mt-3 bg-bubblegum text-plum text-sm flex items-center justify-center gap-2'>
           <Download className='w-4 h-4' strokeWidth={3} /> Installer Fooder
         </button>
@@ -118,7 +118,7 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
             >
               <div className='flex items-start justify-between gap-3'>
                 <p className='font-display text-2xl text-plum leading-tight'>Installer Fooder</p>
-                <button onClick={() => setSheet(false)} aria-label='Fermer' className='w-9 h-9 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center'>
+                <button onClick={() => setSheet(false)} aria-label='Fermer' className='w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center'>
                   <X className='w-4 h-4' strokeWidth={3} />
                 </button>
               </div>
@@ -140,7 +140,7 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
                   </span>
                 </li>
               </ol>
-              <button onClick={dismiss} className='w-full text-center text-xs font-black text-plum/60 underline underline-offset-2'>
+              <button onClick={dismiss} className='w-full min-h-[44px] text-center text-xs font-black text-plum-muted underline underline-offset-2'>
                 Plus tard
               </button>
             </motion.div>

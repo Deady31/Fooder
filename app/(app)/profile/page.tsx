@@ -55,7 +55,7 @@ function readStats(): StoredStats {
 }
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs font-bold text-plum/60">{children}</p>
+  <p className="text-xs font-bold text-plum-muted">{children}</p>
 );
 
 export default function ProfilePage() {
@@ -125,7 +125,7 @@ export default function ProfilePage() {
         }
       />
 
-      <section className="px-5 py-4 border-b-[3px] border-plum space-y-3">
+      <section className="px-5 py-4 border-b-[3px] border-plum space-y-3 bg-cream">
         <div className="flex items-center gap-4">
           <button onClick={() => setPickerOpen(true)} aria-label="Changer de mascotte" className="relative shrink-0 active:scale-95 transition-transform">
             <Avatar avatar={avatar} size={64} />
@@ -135,7 +135,7 @@ export default function ProfilePage() {
           </button>
           <div className="flex-1 min-w-0">
             <p className="font-display text-2xl text-plum leading-tight truncate">{social.me?.name ?? 'Foodie'}</p>
-            <p className="text-slate-600 text-xs font-semibold truncate">{title} · niv. {level} · {social.visits.length} testés</p>
+            <p className="text-plum-muted text-xs font-semibold truncate">{title} · niv. {level} · {social.visits.length} testés</p>
           </div>
           <div
             className={`chip flex-col !gap-0 !px-3 !py-1.5 text-plum ${weekly.thisWeekDone ? 'bg-fooder-orange' : 'bg-white'}`}
@@ -145,11 +145,11 @@ export default function ProfilePage() {
               <Flame className="w-4 h-4" strokeWidth={2.5} />
               {weekly.current}
             </span>
-            <span className="text-[10px] font-bold">{weekly.current > 1 ? 'semaines' : 'semaine'}</span>
+            <span className="text-xs font-bold">{weekly.current > 1 ? 'semaines' : 'semaine'}</span>
           </div>
         </div>
         <div className="space-y-1">
-          <div className="flex justify-between text-xs font-bold text-plum/60">
+          <div className="flex justify-between text-xs font-bold text-plum-muted">
             <span>Niveau {level}</span>
             <span>{Math.round(xpProgress * 100)}%</span>
           </div>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
           </div>
         </div>
         {!weekly.thisWeekDone && (
-          <p className="text-[11px] font-bold text-plum/70">
+          <p className="text-xs font-bold text-plum-muted">
             {weekly.current > 0 ? `Teste un resto avant dimanche pour garder ta série de ${weekly.current} semaine${weekly.current > 1 ? 's' : ''}.` : 'Teste un resto cette semaine pour lancer ta série.'}
             {weekly.jokersLeft > 0 && weekly.current > 0 ? ' Joker dispo.' : ''}
           </p>
@@ -175,15 +175,15 @@ export default function ProfilePage() {
           <Sticker name="b_star" size={40} rotate={-8} />
           <span className="flex-1 min-w-0">
             <span className="block font-display text-lg text-plum leading-tight">Sauvegarde ta progression</span>
-            <span className="block text-xs font-bold text-plum/70">Crée ton compte en 30 s, sans mot de passe</span>
+            <span className="block text-xs font-bold text-plum-muted">Crée ton compte en 30 s, sans mot de passe</span>
           </span>
           <ChevronRight className="w-4 h-4 text-plum shrink-0" strokeWidth={3} />
         </Link>
       )}
       {auth.session && (
-        <Link href="/compte" className="mx-4 mt-3 flex items-center justify-between gap-2 text-xs font-bold text-plum/70">
+        <Link href="/compte" className="mx-4 mt-3 flex items-center justify-between gap-2 min-h-[44px] bg-white rounded-2xl border-[3px] border-plum px-3 py-2 text-xs font-bold text-plum-muted">
           <span className="truncate">Compte · {auth.email}</span>
-          <span className={`chip !px-2 !py-0.5 !text-[10px] ${auth.sync === 'error' ? 'bg-fooder-orange' : 'bg-fooder-mint'} text-plum`}>
+          <span className={`chip shrink-0 !px-2 !py-0.5 !text-xs ${auth.sync === 'error' ? 'bg-fooder-orange' : 'bg-fooder-mint'} text-plum`}>
             {auth.sync === 'error' ? 'synchro en échec' : 'sauvegardé'}
           </span>
         </Link>
@@ -195,7 +195,7 @@ export default function ProfilePage() {
         </span>
         <span className="flex-1 min-w-0">
           <span className="block font-display text-lg text-plum leading-tight">Classement</span>
-          <span className="block text-xs font-bold text-plum/70 truncate">
+          <span className="block text-xs font-bold text-plum-muted leading-snug">
             {weekRank ? `#${weekRank} cette semaine` : 'Les plus belles photos de plats'}
           </span>
         </span>
@@ -208,7 +208,7 @@ export default function ProfilePage() {
         </span>
         <span className="flex-1 min-w-0">
           <span className="block font-display text-lg text-plum leading-tight">Amis et Food Match</span>
-          <span className="block text-xs font-bold text-plum/70 truncate">
+          <span className="block text-xs font-bold text-plum leading-snug">
             {social.friends.length > 0 ? `${social.friends.length} ami${social.friends.length > 1 ? 's' : ''} · classement, défis, groupes` : 'Ton QR code, tes défis, « On mange où ? »'}
           </span>
         </span>
@@ -227,7 +227,7 @@ export default function ProfilePage() {
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex-1 chip justify-center whitespace-nowrap !px-1 !py-2 text-[11px] transition-all active:translate-y-0.5 ${
+            className={`flex-1 chip justify-center whitespace-nowrap !px-1 !py-2 min-h-[44px] !text-xs transition-all active:translate-y-0.5 ${
               activeTab === id ? 'bg-fooder-primary text-white' : 'bg-white text-plum'
             }`}
           >
@@ -247,7 +247,7 @@ export default function ProfilePage() {
                 <div className="relative z-10 space-y-2 pr-24">
                   <Label>Ton archétype</Label>
                   <h2 className="text-[28px] text-plum leading-none">{dna.archetype}</h2>
-                  <p className="text-plum/80 text-sm font-medium leading-snug">{dna.archetypeDesc}</p>
+                  <p className="text-plum text-sm font-medium leading-snug">{dna.archetypeDesc}</p>
                 </div>
               </div>
 
@@ -258,7 +258,7 @@ export default function ProfilePage() {
                       <Sticker name={s.sticker} size={44} rotate={10} />
                     </div>
                     <p className="font-display text-[clamp(18px,6vw,24px)] leading-tight text-plum mt-5 break-words line-clamp-2">{s.value}</p>
-                    <p className="text-slate-500 text-[11px] font-bold">{s.label}</p>
+                    <p className="text-slate-muted text-xs font-bold">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -285,7 +285,7 @@ export default function ProfilePage() {
                 <div className="bg-white rounded-2xl p-6 border-[3px] border-plum text-center space-y-2 flex flex-col items-center">
                   <Sticker name="ramen" size={80} rotate={-6} className="bob" />
                   <p className="font-display text-xl text-plum">Commence à swiper !</p>
-                  <p className="text-slate-600 text-sm font-medium">Ton Food DNA se révèle à travers tes likes.</p>
+                  <p className="text-plum-muted text-sm font-medium">Ton Food DNA se révèle à travers tes likes.</p>
                 </div>
               )}
             </motion.div>
@@ -300,13 +300,13 @@ export default function ProfilePage() {
                     <Sticker name={c.sticker} size={40} rotate={-6} />
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex justify-between gap-2">
-                        <p className="text-sm font-bold text-plum truncate">{c.title}</p>
+                        <p className="text-sm font-bold text-plum leading-tight">{c.title}</p>
                         <span className="text-xs font-black text-plum shrink-0">{c.progress}/{c.goal}</span>
                       </div>
                       <div className="h-2.5 bg-cream border-2 border-plum rounded-full overflow-hidden">
                         <div className={`h-full ${c.progress >= c.goal ? 'bg-fooder-mint' : 'bg-bubblegum'}`} style={{ width: `${(c.progress / c.goal) * 100}%` }} />
                       </div>
-                      <p className="text-[11px] font-medium text-slate-500">{c.desc}</p>
+                      <p className="text-xs font-medium text-slate-muted">{c.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -316,26 +316,30 @@ export default function ProfilePage() {
                 <Label>Titres de contributeur</Label>
                 <div className="flex flex-wrap gap-2">
                   {titles.map(t => (
-                    <span key={t.id} title={t.desc} className={`chip text-xs ${t.unlocked ? 'bg-fooder-secondary text-plum' : 'bg-cream text-plum/40'}`}>
+                    <span key={t.id} title={t.desc} className={`chip text-xs ${t.unlocked ? 'bg-fooder-secondary text-plum' : 'bg-white text-plum-muted border-dashed'}`}>
                       {t.label}
                     </span>
                   ))}
                 </div>
-                <p className="text-[11px] font-medium text-slate-500">Confirme tes visites et publie les vraies photos pour les débloquer.</p>
+                <p className="text-xs font-medium text-slate-muted">Confirme tes visites et publie les vraies photos pour les débloquer.</p>
               </div>
 
               <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-2.5">
                 <Label>Avantages par niveau · exemples, en attente de restaurants partenaires</Label>
                 {PERKS.map(pk => (
-                  <div key={pk.level} className={`flex items-center gap-3 ${level >= pk.level ? '' : 'opacity-45'}`}>
-                    <Sticker name={pk.sticker} size={34} rotate={-6} />
-                    <p className="flex-1 text-sm font-bold text-plum leading-tight">{pk.label}</p>
-                    <span className={`chip !px-2 text-[10px] ${level >= pk.level ? 'bg-fooder-mint text-plum' : 'bg-cream text-plum'}`}>niv. {pk.level}</span>
+                  <div key={pk.level} className="flex items-center gap-3">
+                    <div className={level >= pk.level ? '' : 'opacity-50'}>
+                      <Sticker name={pk.sticker} size={34} rotate={-6} />
+                    </div>
+                    <p className={`flex-1 text-sm font-bold leading-tight ${level >= pk.level ? 'text-plum' : 'text-plum-muted'}`}>{pk.label}</p>
+                    <span className={`chip shrink-0 !px-2 !text-xs ${level >= pk.level ? 'bg-fooder-mint text-plum' : 'bg-cream text-plum'}`}>niv. {pk.level}</span>
                   </div>
                 ))}
               </div>
 
-              <Label>{achievements.length}/{ALL_ACHIEVEMENTS.length} trophées débloqués</Label>
+              <div className="inline-block bg-cream rounded-full border-2 border-plum px-3 py-1">
+                <Label>{achievements.length}/{ALL_ACHIEVEMENTS.length} trophées débloqués</Label>
+              </div>
               <div className="grid grid-cols-1 gap-3">
                 {ALL_ACHIEVEMENTS.map(ach => {
                   const unlocked = unlockedIds.includes(ach.id);
@@ -343,15 +347,15 @@ export default function ProfilePage() {
                     <div
                       key={ach.id}
                       className={`flex items-center gap-3.5 p-3 rounded-2xl border-[3px] border-plum ${
-                        unlocked ? 'bg-fooder-secondary shadow-hard' : 'bg-white/60 opacity-60'
+                        unlocked ? 'bg-fooder-secondary shadow-hard' : 'bg-white'
                       }`}
                     >
-                      <div className={`w-12 h-12 flex items-center justify-center ${unlocked ? '' : 'opacity-25'}`}>
+                      <div className={`w-12 h-12 flex items-center justify-center ${unlocked ? '' : 'opacity-30 grayscale'}`}>
                         <Sticker name={badgeFor(ach.id)} size={44} rotate={-6} />
                       </div>
                       <div className="flex-1">
-                        <p className="font-bold text-plum text-sm">{ach.title}</p>
-                        <p className="text-plum/70 text-xs font-medium">{ach.description}</p>
+                        <p className={`font-bold text-sm ${unlocked ? 'text-plum' : 'text-plum-muted'}`}>{ach.title}</p>
+                        <p className="text-plum-muted text-xs font-medium">{ach.description}</p>
                       </div>
                     </div>
                   );
@@ -368,7 +372,7 @@ export default function ProfilePage() {
                   {wrappedStats.map(s => (
                     <div key={s.label} className="bg-cream rounded-2xl p-3 space-y-1 border-[3px] border-plum text-plum">
                       <p className="font-display text-3xl leading-none"><AnimatedNumber value={s.value} suffix={s.suffix} /></p>
-                      <p className="text-plum/60 text-[11px] font-bold">{s.label}</p>
+                      <p className="text-plum-muted text-xs font-bold">{s.label}</p>
                     </div>
                   ))}
                 </div>
@@ -381,7 +385,7 @@ export default function ProfilePage() {
                 <div>
                   <Label>Personnalité food</Label>
                   <p className="font-display text-xl text-plum leading-tight">{dna.archetype}</p>
-                  <p className="text-slate-500 text-xs font-medium">Cuisine fav : {dna.favCuisine}</p>
+                  <p className="text-slate-muted text-xs font-medium">Cuisine fav : {dna.favCuisine}</p>
                 </div>
               </div>
 
@@ -420,13 +424,13 @@ export default function ProfilePage() {
                       key={q.name}
                       whileTap={{ scale: 0.93 }}
                       className={`rounded-2xl p-2.5 flex flex-col items-center gap-1 border-[3px] border-plum ${
-                        unlocked ? 'bg-white shadow-hard' : 'bg-white/50'
+                        unlocked ? 'bg-white shadow-hard' : 'bg-white'
                       }`}
                     >
-                      <div className={unlocked ? '' : 'opacity-30'}>
+                      <div className={unlocked ? '' : 'opacity-30 grayscale'}>
                         <Sticker name={q.sticker} size={52} rotate={unlocked ? -6 : 0} />
                       </div>
-                      <span className={`text-[10px] font-bold text-center leading-tight ${unlocked ? 'text-plum' : 'text-slate-400'}`}>
+                      <span className={`text-xs font-bold text-center leading-tight break-words max-w-full ${unlocked ? 'text-plum' : 'text-plum-muted'}`}>
                         {q.name}
                       </span>
                     </motion.div>
@@ -434,15 +438,15 @@ export default function ProfilePage() {
                 })}
               </div>
 
-              <div className="bg-white/60 rounded-2xl p-4 border-[3px] border-dashed border-plum/40 text-center space-y-1">
-                <p className="text-slate-600 text-sm font-bold">Chaque visite confirmée colore son quartier. 5 quartiers = titre de Cartographe.</p>
+              <div className="bg-white rounded-2xl p-4 border-[3px] border-dashed border-plum text-center space-y-1">
+                <p className="text-plum-muted text-sm font-bold">Chaque visite confirmée colore son quartier. 5 quartiers = titre de Cartographe.</p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      <footer className="px-4 pb-6 pt-1">
+      <footer className="mt-4 px-4 pb-6 pt-4 bg-cream border-t-[3px] border-plum">
         <InstallPrompt className="mb-4" />
         <LegalCenter />
       </footer>

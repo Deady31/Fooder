@@ -69,9 +69,9 @@ export function LegalCenter() {
             <Link href={l.href} className='flex items-center gap-3 px-4 py-3 min-h-[56px] active:bg-cream'>
               <span className='min-w-0 flex-1'>
                 <span className='block text-sm font-bold text-plum'>{l.label}</span>
-                <span className='block text-[11px] font-semibold text-plum/50'>{l.hint}</span>
+                <span className='block text-xs font-semibold text-plum-muted'>{l.hint}</span>
               </span>
-              <ChevronRight className='w-4 h-4 text-plum/50 shrink-0' strokeWidth={3} />
+              <ChevronRight className='w-4 h-4 text-plum-muted shrink-0' strokeWidth={3} />
             </Link>
           </li>
         ))}
@@ -79,10 +79,10 @@ export function LegalCenter() {
 
       <div className='mt-3 bg-white panel rounded-3xl p-4 space-y-3'>
         <p className='text-sm font-bold text-plum'>Mes données</p>
-        <p className='text-xs font-semibold text-slate-600 leading-snug'>
+        <p className='text-xs font-semibold text-plum-muted leading-snug'>
           Tout est enregistré sur ce téléphone. Tu peux le récupérer ou tout effacer.
         </p>
-        <p className='text-xs font-semibold text-slate-600 leading-snug'>
+        <p className='text-xs font-semibold text-plum-muted leading-snug'>
           Les mesures d&apos;usage anonymes se désactivent dans <Link href='/compte' className='underline'>Compte</Link>.
         </p>
         <button onClick={exportData} className='duo-button w-full bg-white text-plum text-sm flex items-center justify-center gap-2'>
@@ -96,18 +96,18 @@ export function LegalCenter() {
             </p>
             <div className='flex gap-2'>
               <button onClick={() => setConfirming(false)} className='duo-button flex-1 bg-white text-plum text-sm'>Annuler</button>
-              <button onClick={wipe} className='duo-button flex-1 bg-fooder-red text-white text-sm'>Supprimer</button>
+              <button onClick={wipe} className='duo-button flex-1 bg-danger text-white text-sm'>Supprimer</button>
             </div>
           </div>
         ) : (
-          <button onClick={() => setConfirming(true)} className='duo-button w-full bg-white text-fooder-red text-sm flex items-center justify-center gap-2'>
+          <button onClick={() => setConfirming(true)} className='duo-button w-full bg-white text-danger text-sm flex items-center justify-center gap-2'>
             <Trash2 className='w-4 h-4' strokeWidth={3} /> Supprimer mes données
           </button>
         )}
-        {message && <p role='status' className='text-xs font-bold text-plum/70 text-center'>{message}</p>}
+        {message && <p role='status' className='text-xs font-bold text-plum-muted text-center'>{message}</p>}
       </div>
 
-      <p className='mt-4 text-center text-[10px] font-semibold text-plum/40'>Fooder · version de test · Toulouse</p>
+      <p className='mt-4 text-center text-xs font-semibold text-plum-muted'>Fooder · version de test · Toulouse</p>
     </section>
   );
 }

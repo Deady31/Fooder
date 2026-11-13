@@ -19,3 +19,20 @@ export function rememberRef(search: string): void {
     /* stockage indisponible : on ignore */
   }
 }
+
+export const REPLAY_PARAM = 'rejouer';
+
+/** Vrai pour « ?rejouer=1 » : relance l'onboarding (outil de test), rien d'autre. */
+export function wantsReplay(search: string): boolean {
+  if (typeof search !== 'string' || !search) return false;
+  return new URLSearchParams(search).get(REPLAY_PARAM) === '1';
+}
+
+/** Query string sans le paramètre « rejouer » (évite la boucle au rechargement) ; garde les autres paramètres. */
+export function withoutReplayParam(search: string): string {
+  if (typeof search !== 'string' || !search) return '';
+  const params = new URLSearchParams(search);
+  params.delete(REPLAY_PARAM);
+  const rest = params.toString();
+  return rest ? `?${rest}` : '';
+}

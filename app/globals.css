@@ -190,7 +190,10 @@ h1, h2, h3 {
 .tap-ripple { animation: tap-ripple 1.8s ease-out infinite; }
 
 .doodle-bg {
-  background-image: url('/bg/doodle-cream.webp');
+  /* Voile creme (#FFF6E5 a 78 %) par-dessus le motif : il reste visible mais ne gene plus la lecture. */
+  background-image:
+    linear-gradient(rgba(255, 246, 229, 0.78), rgba(255, 246, 229, 0.78)),
+    url('/bg/doodle-cream.webp');
   background-size: cover;
   background-position: center top;
 }

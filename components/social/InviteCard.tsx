@@ -72,7 +72,7 @@ export function InviteCard({ variant = 'full', showInstall = true, className = '
           <Sticker name='b_heart' size={40} rotate={-8} />
           <span className='flex-1 min-w-0'>
             <span className='block font-display text-base text-plum leading-tight'>Invite tes potes</span>
-            <span className='block text-xs font-bold text-plum/70'>Mangez ensemble, comparez vos goûts</span>
+            <span className='block text-xs font-bold text-plum-muted'>Mangez ensemble, comparez vos goûts</span>
           </span>
           <Share2 className='w-5 h-5 text-plum shrink-0' strokeWidth={2.5} />
         </button>
@@ -90,12 +90,12 @@ export function InviteCard({ variant = 'full', showInstall = true, className = '
           <Sticker name='b_heart' size={64} rotate={-8} className='bob shrink-0' />
           <div className='min-w-0'>
             <p className='font-display text-2xl text-plum leading-tight'>Invite tes potes</p>
-            <p className='text-xs font-bold text-plum/70 leading-snug'>Plus on est de fous, plus on mange bien. Envoie-leur ton lien.</p>
+            <p className='text-xs font-bold text-plum-muted leading-snug'>Plus on est de fous, plus on mange bien. Envoie-leur ton lien.</p>
           </div>
         </div>
 
         {formatCode(code) && (
-          <p className='text-xs font-bold text-plum/70'>
+          <p className='text-xs font-bold text-plum-muted'>
             Ton code d’ami : <span className='font-display text-base text-plum tracking-wide'>{formatCode(code)}</span>
           </p>
         )}

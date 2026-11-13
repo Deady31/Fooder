@@ -57,7 +57,7 @@ export function AvatarPicker({ isOpen, current, level, onClose, onSave, onLocked
               <div className='flex items-start justify-between gap-3'>
                 <div className='min-w-0 flex-1'>
                   <h2 className='text-[clamp(21px,6.6vw,28px)] leading-[1.05] text-plum'>Ta mascotte</h2>
-                  <p className='text-slate-600 text-xs font-semibold mt-1'>Choisis ton perso et ta couleur</p>
+                  <p className='text-plum-muted text-xs font-semibold mt-1'>Choisis ton perso et ta couleur</p>
                 </div>
                 <button
                   onClick={onClose}
@@ -82,7 +82,7 @@ export function AvatarPicker({ isOpen, current, level, onClose, onSave, onLocked
                     aria-checked={draft.bg === b.id}
                     aria-label={b.label}
                     onClick={() => setDraft({ ...draft, bg: b.id })}
-                    className={`w-9 h-9 rounded-full border-[3px] border-plum transition-transform active:scale-90 flex items-center justify-center ${draft.bg === b.id ? 'scale-110 shadow-hard' : ''}`}
+                    className={`w-11 h-11 rounded-full border-[3px] border-plum transition-transform active:scale-90 flex items-center justify-center ${draft.bg === b.id ? 'scale-110 shadow-hard' : ''}`}
                     style={{ backgroundColor: b.color }}
                   >
                     {draft.bg === b.id && <Check className='w-4 h-4 text-plum' strokeWidth={4} />}
@@ -106,7 +106,7 @@ export function AvatarPicker({ isOpen, current, level, onClose, onSave, onLocked
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={avatarSrc(a.id)} alt='' draggable={false} className={`w-[84%] h-[84%] object-contain ${open ? '' : 'opacity-40 grayscale'}`} />
                       {!open && (
-                        <span className='absolute -bottom-1.5 left-1/2 -translate-x-1/2 chip !px-1.5 !py-0.5 !text-[9px] bg-white text-plum whitespace-nowrap'>
+                        <span className='absolute -bottom-1.5 left-1/2 -translate-x-1/2 chip !gap-0.5 !px-1 !py-0.5 !text-xs bg-white text-plum whitespace-nowrap'>
                           <Lock className='w-2.5 h-2.5' strokeWidth={3} />
                           {reason}
                         </span>

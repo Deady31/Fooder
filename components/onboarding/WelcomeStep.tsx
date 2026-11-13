@@ -34,7 +34,7 @@ export function WelcomeStep({ onNext }: { onNext: () => void }) {
         </motion.p>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
           className='text-slate-500 font-medium text-base max-w-xs leading-relaxed'>
-          Trouve ton prochain resto en moins de 30 secondes. Dis-nous qui tu es, on s&apos;occupe de ton assiette.
+          Dis-nous qui tu es en 30 secondes, on s&apos;occupe de ton assiette. Tes goûts, on les apprend à chaque swipe.
         </motion.p>
         <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
           onClick={onNext}
@@ -43,7 +43,7 @@ export function WelcomeStep({ onNext }: { onNext: () => void }) {
         </motion.button>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
           className='text-slate-400 text-xs font-medium'>
-          Gratuit · 1 minute chrono
+          Gratuit · 30 secondes chrono
         </motion.p>
       </div>
     </div>
