@@ -5,8 +5,42 @@ import { deleteCloudPost, fetchCloudPosts, setCloudPostLike } from '../lib/cloud
 import { runWithSession } from '../lib/cloud/gate';
 import { communityPhotosFor } from '../lib/communityPhotos';
 import { awardPhotoPost, countKnownPhotos } from '../lib/rewards';
-import { publishPostOnline } from '../lib/cloud/publish';
+import { getUploadQueue, startUploadRetry } from '../lib/cloud/publish';
+import { publishMessage } from '../lib/cloud/photoUpload';
+import type { QueueItem, UploadStatus } from '../lib/cloud/uploadQueue';
 import { COMMENTS_KEY, MAX_COMMENT, FeedComment, FeedPost, POSTS_KEY, POST_LIKES_KEY, seedComments, seedPosts } from '../lib/feed';
+
+/** Texte à afficher pour un état d'envoi (null = rien à dire, ex. cloud non configuré). */
+export function uploadStatusText(s: UploadStatus | undefined): string | null {
+  if (!s) return null;
+  if (s.state === 'sending') return 'Envoi en ligne en cours…';
+  if (s.state === 'sent') return 'Publié en ligne.';
+  if (s.reason === 'cloud_off') return null;
+  return publishMessage({ ok: false, reason: s.reason ?? 'server', message: s.message });
+}
+
+/** États d'envoi en direct + file en attente + reprise manuelle (bouton « Réessayer »). */
+export function useUploadQueue() {
+  const [statuses, setStatuses] = useState<Record<string, UploadStatus>>({});
+  const [pending, setPending] = useState<QueueItem[]>([]);
+
+  useEffect(() => {
+    const q = getUploadQueue();
+    startUploadRetry();
+    setPending(q.pending());
+    return q.subscribe((id, s) => {
+      setStatuses(prev => ({ ...prev, [id]: s }));
+      setPending(q.pending());
+    });
+  }, []);
+
+  const retry = useCallback((postId?: string) => {
+    const q = getUploadQueue();
+    void (postId ? q.submit(postId) : q.flush()).catch(() => undefined);
+  }, []);
+
+  return { statuses, pending, retry };
+}
 
 const CLOUD_POST_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -45,6 +79,8 @@ export function useFeed() {
     setSeeds(seedPosts());
     setSeedCom(seedComments());
     setMyCom(readJson<FeedComment[]>(COMMENTS_KEY, []));
+    // Photos restées en attente (réseau, session) : elles repartent toutes seules.
+    startUploadRetry();
   }, []);
 
   // Fil de la ville : posts publics du serveur (les exemples de démo restent tant qu'il est vide)
@@ -76,11 +112,13 @@ export function useFeed() {
             })
             .catch(() => undefined)
         : Promise.resolve();
-      // Action explicite (bouton Publier) : on crée un compte anonyme si besoin. Échec : le post reste local, message à l'utilisateur.
+      // Action explicite (bouton Publier) : on crée un compte anonyme si besoin. Échec : le post reste local ET dans la file
+      // d'envoi (reprise automatique), avec la cause précise affichée à l'utilisateur.
       settled
-        .then(() => publishPostOnline(post))
-        .then(r => {
-          if (!r.ok && !r.silent && r.message) onOnline?.(r.message);
+        .then(() => getUploadQueue().submit(post.id))
+        .then(s => {
+          const text = uploadStatusText(s);
+          if (text) onOnline?.(text);
         })
         .catch(() => undefined);
       return true;

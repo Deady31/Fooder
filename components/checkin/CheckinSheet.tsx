@@ -20,7 +20,9 @@ import { computeLevel } from '../../hooks/useGamification';
 import { AvatarChoice, DEFAULT_AVATAR } from '../../lib/avatars';
 import { FeedPost, POSTS_KEY } from '../../lib/feed';
 import { track } from '../../lib/analytics';
-import { publishPostOnline } from '../../lib/cloud/publish';
+import { getUploadQueue } from '../../lib/cloud/publish';
+import { useUploadQueue } from '../../hooks/useFeed';
+import { UploadNotice } from '../feed/ComposeSheet';
 import { verdictSlug } from '../../lib/usageProps';
 import { shouldPublishOnline } from '../../lib/checkinPublish';
 
@@ -54,7 +56,8 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<Done | null>(null);
   const [inviteOpen, setInviteOpen] = useState(false);
-  const [onlineNotice, setOnlineNotice] = useState<string | null>(null);
+  const [onlinePostId, setOnlinePostId] = useState<string | null>(null);
+  const uploads = useUploadQueue();
   const [publishOnline, setPublishOnline] = useState(false);
   const [rightsConfirmed, setRightsConfirmed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -70,7 +73,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
     setError(null);
     setDone(null);
     setInviteOpen(false);
-    setOnlineNotice(null);
+    setOnlinePostId(null);
     setPublishOnline(false);
     setRightsConfirmed(false);
     setBusy(false);
@@ -141,14 +144,13 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
         return;
       }
       // En ligne seulement si l'utilisateur a coché « Publier aussi sur le fil » (et confirmé ses droits pour une photo).
+      // Passe par la file d'envoi : en cas d'échec la photo reste en attente (reprise automatique), cause affichée.
       if (shouldPublishOnline({ publishOnline, rightsConfirmed, hasPhoto: Boolean(photo), hasCaption: Boolean(caption.trim()) })) {
-        publishPostOnline(post)
-          .then(r => {
-            if (r.ok) {
-              if (post.photo) track('photo_posted', { verdict: verdictSlug(verdict) });
-            } else if (!r.silent && r.message) {
-              setOnlineNotice(r.message);
-            }
+        setOnlinePostId(post.id);
+        getUploadQueue()
+          .submit(post.id)
+          .then(s => {
+            if (s.state === 'sent' && post.photo) track('photo_posted', { verdict: verdictSlug(verdict) });
           })
           .catch(() => undefined);
       }
@@ -327,7 +329,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                 <Flame className='w-4 h-4' strokeWidth={2.5} />
                 {done.streak > 0 ? `Série : ${done.streak} semaine${done.streak > 1 ? 's' : ''}` : 'Série lancée !'}
               </div>
-              {onlineNotice && <p role='status' className='text-xs font-bold text-plum/70'>{onlineNotice}</p>}
+              {onlinePostId && <UploadNotice status={uploads.statuses[onlinePostId]} onRetry={() => uploads.retry(onlinePostId)} />}
               {done.newWeek && <p className='text-sm font-bold text-plum'>Semaine validée ! Reviens la semaine prochaine pour garder ta série.</p>}
               {inviteOpen && (
                 <div className='relative text-left'>

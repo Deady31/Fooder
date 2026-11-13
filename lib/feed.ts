@@ -1,5 +1,6 @@
 import { AvatarChoice } from './avatars';
 import { StickerName } from './stickers';
+import { PHOTO_ALLOWED_MIME, PHOTO_MAX_BYTES, estimateDataUrlBytes } from './cloud/photoUpload';
 
 export interface FeedAuthor {
   name: string;
@@ -67,25 +68,54 @@ export function timeAgo(ts: number, now: number = Date.now()): string {
   return `il y a ${Math.round(h / 24)} j`;
 }
 
+/** Encode (mime, qualité, échelle) => data URL. Un navigateur sans encodeur pour `mime` renvoie du PNG. */
+export type PhotoEncoder = (mime: string, quality: number, scale: number) => string;
+
+/**
+ * Choisit un encodage accepté par le serveur (JPEG, sinon WebP ; jamais PNG) et sous la limite de poids du bucket,
+ * en baissant qualité puis taille si besoin. null si aucun encodage ne convient.
+ */
+export function encodeWithinLimits(encode: PhotoEncoder, quality: number): string | null {
+  const qualities = Array.from(new Set([quality, 0.6, 0.5, 0.4])).filter(q => q <= quality);
+  for (const mime of PHOTO_ALLOWED_MIME) {
+    const first = encode(mime, quality, 1);
+    if (!first.startsWith(`data:${mime}`)) continue; // encodeur absent : repli PNG refusé par le bucket
+    if (estimateDataUrlBytes(first) <= PHOTO_MAX_BYTES) return first;
+    for (const scale of [1, 0.75, 0.5]) {
+      for (const q of qualities) {
+        const out = encode(mime, q, scale);
+        if (out.startsWith(`data:${mime}`) && estimateDataUrlBytes(out) <= PHOTO_MAX_BYTES) return out;
+      }
+    }
+  }
+  return null;
+}
+
 /** Recompresse une photo côté client : redimensionne et supprime les métadonnées EXIF (dont le GPS). */
 export function compressImage(file: File, maxSide = 800, quality = 0.72): Promise<string> {
   return new Promise((resolve, reject) => {
-    if (!file.type.startsWith('image/')) return reject(new Error('Fichier non pris en charge'));
+    // Certains Android ne renseignent pas file.type pour une photo prise à l'instant : on laisse le décodeur trancher.
+    if (file.type && !file.type.startsWith('image/')) return reject(new Error('Fichier non pris en charge'));
     const url = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
-      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const base = Math.min(1, maxSide / Math.max(img.width, img.height));
       const canvas = document.createElement('canvas');
-      canvas.width = Math.round(img.width * scale);
-      canvas.height = Math.round(img.height * scale);
       const ctx = canvas.getContext('2d');
       if (!ctx) {
         URL.revokeObjectURL(url);
         return reject(new Error('Canvas indisponible'));
       }
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const encode: PhotoEncoder = (mime, q, scale) => {
+        canvas.width = Math.max(1, Math.round(img.width * base * scale));
+        canvas.height = Math.max(1, Math.round(img.height * base * scale));
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL(mime, q);
+      };
+      const out = encodeWithinLimits(encode, quality);
       URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL('image/jpeg', quality));
+      if (!out) return reject(new Error('Format non pris en charge'));
+      resolve(out);
     };
     img.onerror = () => {
       URL.revokeObjectURL(url);

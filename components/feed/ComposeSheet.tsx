@@ -8,6 +8,32 @@ import { stickerFor } from '../../lib/stickers';
 import { Sticker } from '../ui/Sticker';
 import { DISH_PHOTO_TIP } from '../../lib/photoInvite';
 import { PHOTO_XP_FIRST, PHOTO_XP_REPEAT } from '../../lib/photoXp';
+import { uploadStatusText, useUploadQueue } from '../../hooks/useFeed';
+import type { UploadStatus } from '../../lib/cloud/uploadQueue';
+
+interface UploadNoticeProps {
+  status: UploadStatus | undefined;
+  prefix?: string;
+  onRetry: () => void;
+}
+
+/** État d'envoi en ligne d'une publication : en cours, publiée, ou en attente avec la raison et un bouton « Réessayer ». */
+export function UploadNotice({ status, prefix = '', onRetry }: UploadNoticeProps) {
+  const text = uploadStatusText(status);
+  if (!status || !text) return null;
+  const canRetry = status.state === 'pending' || (status.state === 'failed' && status.reason === 'queue_full');
+  const tone = status.state === 'sending' ? 'text-plum/70' : 'text-plum';
+  return (
+    <div role='status' aria-live='polite' className='flex items-start gap-2 rounded-2xl border-[3px] border-plum/30 bg-white p-3 text-left'>
+      <p className={`flex-1 text-xs font-bold leading-snug ${tone}`}>{prefix}{text}</p>
+      {canRetry && (
+        <button onClick={onRetry} className='shrink-0 min-h-[44px] px-3 rounded-full border-[3px] border-plum bg-lemon text-xs font-bold text-plum active:translate-y-0.5'>
+          Réessayer
+        </button>
+      )}
+    </div>
+  );
+}
 
 export interface LikedRestaurant {
   id: string;
@@ -40,6 +66,7 @@ export function ComposeSheet({ isOpen, liked, preset, onClose, onPublish }: Comp
   const [photo, setPhoto] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const { pending, retry } = useUploadQueue();
 
   useEffect(() => {
     if (isOpen) {
@@ -244,6 +271,13 @@ export function ComposeSheet({ isOpen, liked, preset, onClose, onPublish }: Comp
                   </div>
 
                   {error && <p role='alert' className='text-xs font-bold text-fooder-red'>{error}</p>}
+                  {pending.length > 0 && (
+                    <UploadNotice
+                      status={{ state: 'pending', reason: pending[0].reason ?? 'offline' }}
+                      prefix={`${pending.length} publication${pending.length > 1 ? 's' : ''} en attente d’envoi. `}
+                      onRetry={() => retry()}
+                    />
+                  )}
                   <button onClick={publish} disabled={!picked} className='duo-button w-full bg-bubblegum text-plum disabled:opacity-50'>
                     Publier
                   </button>

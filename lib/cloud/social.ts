@@ -1,5 +1,6 @@
-import { RealtimeChannel } from '@supabase/supabase-js';
+import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
 import { cloud, photoUrl, PHOTO_BUCKET } from './client';
+import { ErrorLike, PublishOutcome, classifyPublishError, isDuplicateError, preparePhoto } from './photoUpload';
 import { FriendSnapshot, parseSnapshot } from '../social/snapshot';
 import { readFriends, upsertFriend } from '../social/friends';
 import { GroupSession, GroupVote, mergeGroups, saveGroup, findGroup } from '../social/group';
@@ -136,33 +137,67 @@ export function watchGroup(groupId: string, onChange: () => void): () => void {
 
 // ═════════════════════════ Posts et vraies photos ═════════════════════════
 
-async function dataUrlToBlob(dataUrl: string): Promise<Blob> {
-  return (await fetch(dataUrl)).blob();
+/**
+ * Publie un post sur le compte (photo comprise). Jamais d'exception : renvoie la cause précise en cas d'échec
+ * (le post reste local et la file d'envoi le retentera).
+ *
+ * Idempotent (clé = id du post) : post déjà en ligne => succès sans rien renvoyer ; fichier déjà déposé lors d'un essai
+ * précédent => on passe à l'insertion ; insertion déjà faite (23505) => succès.
+ * Ordre : la photo d'abord, le post ensuite (photo_path ne pointe jamais vers un fichier absent).
+ *
+ * Avant ce correctif, la photo était convertie avec `fetch(dataUrl)` : la CSP (connect-src sans `data:`) le bloque,
+ * l'exception était avalée par runWithSession et l'utilisateur voyait « pas encore en ligne ».
+ */
+export async function publishCloudPost(post: FeedPost, uid: string, sb: SupabaseClient | null = cloud()): Promise<PublishOutcome> {
+  if (!sb) return { ok: false, reason: 'cloud_off' };
+  try {
+    const existing = await sb.from('posts').select('id').eq('id', post.id).maybeSingle();
+    if (!existing.error && existing.data) return { ok: true };
+
+    let photoPath: string | null = null;
+    if (post.photo) {
+      const prepared = preparePhoto(uid, post.id, post.photo);
+      if (!prepared.ok) return { ok: false, reason: prepared.reason };
+      photoPath = prepared.path;
+      const body = new Blob([prepared.bytes.buffer as ArrayBuffer],{ type: prepared.mime });
+      const up = await sb.storage.from(PHOTO_BUCKET).upload(photoPath, body, { contentType: prepared.mime, upsert: false, cacheControl: '31536000' });
+      if (up.error && !isDuplicateError(up.error as ErrorLike) && !(await photoAlreadyStored(sb, uid, photoPath))) {
+        return { ok: false, reason: classifyPublishError(up.error as ErrorLike, { stage: 'upload', online: onlineNow() }) };
+      }
+    }
+    const { error } = await sb.from('posts').insert(postRow(post, uid, photoPath));
+    if (!error || isDuplicateError(error as ErrorLike)) return { ok: true };
+    return { ok: false, reason: classifyPublishError(error as ErrorLike, { stage: 'insert', online: onlineNow() }) };
+  } catch (e) {
+    return { ok: false, reason: classifyPublishError(e as ErrorLike, { online: onlineNow() }) };
+  }
 }
 
-/** Publie un post sur le compte (photo comprise). Retourne false en cas d'échec : le post reste local. */
-export async function publishCloudPost(post: FeedPost, uid: string): Promise<boolean> {
-  const sb = cloud();
-  if (!sb) return false;
-  let photoPath: string | null = null;
-  if (post.photo?.startsWith('data:image/')) {
-    const blob = await dataUrlToBlob(post.photo);
-    if (blob.size > 1_500_000) return false;
-    photoPath = `${uid}/${post.id}.jpg`;
-    const up = await sb.storage.from(PHOTO_BUCKET).upload(photoPath, blob, { contentType: 'image/jpeg', upsert: false });
-    if (up.error) return false;
+/** Le fichier a-t-il déjà été déposé par un essai précédent ? (le refus du plafond peut masquer un doublon) */
+async function photoAlreadyStored(sb: SupabaseClient, uid: string, path: string): Promise<boolean> {
+  try {
+    const name = path.slice(uid.length + 1);
+    const { data, error } = await sb.storage.from(PHOTO_BUCKET).list(uid, { search: name, limit: 5 });
+    return !error && Array.isArray(data) && data.some(f => f.name === name);
+  } catch {
+    return false;
   }
-  const { error } = await sb.from('posts').insert({
+}
+
+const onlineNow = (): boolean | undefined => (typeof navigator !== 'undefined' && navigator.onLine === false ? false : undefined);
+
+/** Ligne `posts` conforme aux contraintes SQL (longueurs bornées, verdict de la liste). */
+export function postRow(post: FeedPost, uid: string, photoPath: string | null) {
+  return {
     id: post.id,
     user_id: uid,
     restaurant_id: post.restaurantId.slice(0, 40),
     restaurant_name: post.restaurantName.slice(0, 60),
-    cuisine: post.cuisine.slice(0, 40),
+    cuisine: (post.cuisine ?? '').slice(0, 40),
     verdict: post.verdict,
-    caption: post.caption.slice(0, 140),
+    caption: (post.caption ?? '').slice(0, 140),
     photo_path: photoPath,
-  });
-  return !error;
+  };
 }
 
 interface PostRow {
