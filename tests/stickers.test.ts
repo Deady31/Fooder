@@ -68,10 +68,51 @@ describe('icônes de restaurants', () => {
     }
   });
 
-  it('couvre au moins 85 % des fiches réelles avec une icône spécifique', () => {
+  it('associe les icônes du lot 2', () => {
+    expect(stickerFor('Poké', 'x', 'Pokawa')).toBe('poke');
+    expect(stickerFor('Grec', 'x', 'Alba')).toBe('gyros');
+    expect(stickerFor('Restaurant', 'x', 'Grec & co.')).toBe('gyros');
+    expect(stickerFor('Falafel', 'x', '')).toBe('falafel');
+    expect(stickerFor('Tex-mex', 'x', 'Fresh Burritos')).toBe('burrito');
+    expect(stickerFor('Restaurant', 'x', 'Paella Casa')).toBe('paella');
+    expect(stickerFor('Poulet', 'x', 'KFC')).toBe('chicken');
+    expect(stickerFor('Restaurant', 'x', 'Le Biergarten')).toBe('beer');
+    expect(stickerFor('Restaurant', 'x', 'Donna Bar à Cocktails')).toBe('cocktail');
+    expect(stickerFor('Restaurant', 'x', 'La Cave se rebiffe')).toBe('winebar');
+    expect(stickerFor('Barbecue', 'x', 'Yankee Grill')).toBe('steakhouse');
+    expect(stickerFor('Gaufres', 'x', 'Waffle Factory')).toBe('waffle');
+    expect(stickerFor('Restaurant', 'x', 'Madame Raclette')).toBe('fondue');
+    expect(stickerFor('Tibetan', 'x', '')).toBe('momo');
+    expect(stickerFor('Japonais', 'x', 'Izakaya Iori')).toBe('yakitori');
+    expect(stickerFor('Restaurant', 'x', 'Tikka N’curry')).toBe('naan');
+  });
+
+  it('corrige les mauvaises associations connues', () => {
+    expect(stickerFor('Japonais', 'x', 'Bo-Bun')).toBe('vietnam');
+    expect(stickerFor('Restaurant', 'x', 'Bistr’O bo bun')).toBe('vietnam');
+    expect(stickerFor('Poulet', 'x', 'Miss Fish')).toBe('seafood');
+    expect(stickerFor('Japonais', 'x', 'Mizuki Ramen')).toBe('ramen');
+    expect(stickerFor('Asiatique', 'x', 'Restaurant Phô')).toBe('vietnam');
+    expect(stickerFor('Asiatique', 'x', 'Thaï Food')).toBe('thai');
+    expect(stickerFor('Végétarien', 'x', 'Madame Poutine')).toBe('fries');
+    expect(stickerFor('Africain', 'x', 'La Kasbah')).toBe('tagine');
+    expect(stickerFor('Restaurant', 'x', 'Smash Pickleball Club')).toBe('plate');
+    expect(stickerFor('Restaurant', 'x', 'Bowling de Gramont')).toBe('plate');
+    expect(stickerFor('Gastropub', 'x', 'Bier Akademie')).toBe('beer');
+    expect(stickerFor('Iranienne', 'x', 'La Perse')).toBe('mezze');
+    expect(stickerFor('Senegal', 'x', '')).toBe('african');
+  });
+
+  it('couvre au moins 87 % des fiches réelles avec une icône spécifique', () => {
     const data = JSON.parse(readFileSync('data/toulouse-places.json', 'utf8')) as OsmRecord[];
     const pool = data.filter(r => (r.k === 'restaurant' || r.k === 'fast_food') && isPresentable(r));
     const hit = pool.filter(r => matchSticker(cuisineLabel(r), r.n) !== null).length;
-    expect(hit / pool.length).toBeGreaterThan(0.85);
+    expect(hit / pool.length).toBeGreaterThan(0.87);
+  });
+
+  it('chaque icône attribuée à une fiche réelle a bien son fichier', () => {
+    const data = JSON.parse(readFileSync('data/toulouse-places.json', 'utf8')) as OsmRecord[];
+    const used = new Set(data.map(r => stickerFor(cuisineLabel(r), r.id, r.n)));
+    for (const k of Array.from(used)) expect(existsSync(`public${stickerSrc(k)}`), k).toBe(true);
   });
 });
