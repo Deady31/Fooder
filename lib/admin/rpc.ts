@@ -12,6 +12,25 @@ export class RpcError extends Error {
   }
 }
 
+/** Type de clé, déduit de son préfixe ou du rôle de son JWT (jamais la valeur). Sert uniquement au diagnostic. */
+export function describeKey(key: string): string {
+  const k = key.trim();
+  if (!k) return 'vide';
+  if (k !== key) return 'espace ou retour à la ligne parasite';
+  if (/^["'].*["']$/.test(k)) return 'entre guillemets (à retirer)';
+  if (k.startsWith('sb_secret_')) return 'clé secrète (sb_secret_…)';
+  if (k.startsWith('sb_publishable_')) return 'clé PUBLIQUE (sb_publishable_…) : mauvaise clé, il faut la clé secrète';
+  if (k.startsWith('eyJ')) {
+    try {
+      const payload = JSON.parse(Buffer.from(k.split('.')[1] ?? '', 'base64url').toString('utf8')) as { role?: string };
+      return payload.role === 'service_role' ? 'JWT service_role' : `JWT de rôle « ${payload.role ?? 'inconnu'} » : mauvaise clé, il faut service_role`;
+    } catch {
+      return 'JWT illisible';
+    }
+  }
+  return 'format inconnu';
+}
+
 function headers(key: string): Record<string, string> {
   // Anciennes clés (JWT « eyJ… ») : apikey + Authorization. Nouvelles clés secrètes (sb_secret_…) : apikey seulement.
   const h: Record<string, string> = { apikey: key, 'Content-Type': 'application/json', Accept: 'application/json' };
@@ -36,8 +55,11 @@ export async function rpc<T>(fn: string, args: Record<string, unknown> = {}): Pr
   }
   if (res.ok) return (await res.json()) as T;
   let code = '';
+  let upstreamMsg = '';
   try {
-    code = String(((await res.json()) as { code?: string }).code ?? '');
+    const body = (await res.json()) as { code?: string; message?: string };
+    code = String(body.code ?? '');
+    upstreamMsg = String(body.message ?? '').split(key).join('[clé]').slice(0, 120);
   } catch {
     code = '';
   }
@@ -45,6 +67,10 @@ export async function rpc<T>(fn: string, args: Record<string, unknown> = {}): Pr
   if (res.status === 404 || code === 'PGRST202' || code === '42P01' || code === '42883') {
     throw new RpcError('missing_migration', `Fonction ${fn} absente.`);
   }
-  if (res.status === 401 || res.status === 403) throw new RpcError('config', 'Clé service refusée par Supabase.');
+  if (res.status === 401 || res.status === 403) {
+    // Diagnostic sans fuite : on indique le TYPE de clé reçu (jamais sa valeur) et la réponse de Supabase.
+    const detail = [`HTTP ${res.status}${code ? ` ${code}` : ''}`, `clé détectée : ${describeKey(key)}`, upstreamMsg].filter(Boolean).join(' ; ');
+    throw new RpcError('config', `Clé service refusée par Supabase (${detail}).`);
+  }
   throw new RpcError('upstream', `Erreur Supabase (${res.status}${code ? ` ${code}` : ''}).`);
 }
