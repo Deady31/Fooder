@@ -8,7 +8,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://tiles.openfreemap.org https://*.supabase.co wss://*.supabase.co https://eu.i.posthog.com https://vitals.vercel-insights.com",
+  "connect-src 'self' https://tiles.openfreemap.org https://api-adresse.data.gouv.fr https://*.supabase.co wss://*.supabase.co https://eu.i.posthog.com https://vitals.vercel-insights.com",
   "worker-src 'self' blob:",
   "child-src 'self' blob:",
   "frame-ancestors 'none'",

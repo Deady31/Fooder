@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyFilters, dietsFromProfile, toggleDiet, FILTER_DIETS } from '../lib/filters';
+import { applyFilters, blockingFilter, dietsFromProfile, toggleDiet, FILTER_DIETS } from '../lib/filters';
 import { mockRestaurants } from '../data/mockRestaurants';
 import type { Restaurant } from '../data/mockRestaurants';
 
@@ -57,6 +57,57 @@ describe('applyFilters', () => {
   });
 });
 
+describe('applyFilters : rayon autour de la position', () => {
+  // Capitole ; ~550 m plus au sud (Carmes) ; ~3,3 km (Rangueil) ; sans coordonnées.
+  const origin = { lat: 43.6045, lng: 1.4442 };
+  const near = mk('near', { lat: 43.6045, lng: 1.4452 }); // ~80 m
+  const mid = mk('mid', { lat: 43.5995, lng: 1.4455 }); // ~560 m
+  const far = mk('far', { lat: 43.5755, lng: 1.4620 }); // ~3,5 km
+  const nowhere = mk('nowhere');
+  const geo = [near, mid, far, nowhere];
+
+  it('garde seulement les restos dans le rayon (haversine), ordre conserve', () => {
+    expect(applyFilters(geo, { openNow: false, diets: [], now: NOON, origin, radiusM: 500 }).map(r => r.id)).toEqual(['near']);
+    expect(applyFilters(geo, { openNow: false, diets: [], now: NOON, origin, radiusM: 1000 }).map(r => r.id)).toEqual(['near', 'mid']);
+    expect(applyFilters(geo, { openNow: false, diets: [], now: NOON, origin, radiusM: 5000 }).map(r => r.id)).toEqual(['near', 'mid', 'far']);
+  });
+
+  it('rayon null (toute la metropole) ou sans origine : aucun filtre de distance', () => {
+    expect(applyFilters(geo, { openNow: false, diets: [], now: NOON, origin, radiusM: null })).toHaveLength(4);
+    expect(applyFilters(geo, { openNow: false, diets: [], now: NOON, origin: null, radiusM: 500 })).toHaveLength(4);
+  });
+
+  it('fiche sans coordonnees exclue quand un rayon est actif', () => {
+    expect(applyFilters([nowhere], { openNow: false, diets: [], now: NOON, origin, radiusM: 10000 })).toEqual([]);
+  });
+
+  it('se combine avec ouvert maintenant et les regimes', () => {
+    const vegNearOpen = mk('v1', { lat: 43.6046, lng: 1.4443, hours: OPEN_HOURS as never, diets: ['vegan'] });
+    const vegNearClosed = mk('v2', { lat: 43.6046, lng: 1.4443, hours: CLOSED_HOURS as never, diets: ['vegan'] });
+    const vegFarOpen = mk('v3', { lat: 43.5755, lng: 1.462, hours: OPEN_HOURS as never, diets: ['vegan'] });
+    const out = applyFilters([vegNearOpen, vegNearClosed, vegFarOpen, near], {
+      openNow: true, diets: ['vegan'], now: NOON, origin, radiusM: 2000,
+    });
+    expect(out.map(r => r.id)).toEqual(['v1']);
+  });
+});
+
+describe('applyFilters : budget et cuisine (non destructifs)', () => {
+  const cheap = mk('cheap', { price: 12, cuisine: 'Pizzeria' });
+  const pricey = mk('pricey', { price: 90, cuisine: 'Gastronomique' });
+  const unknown = mk('unknown', { price: 0, cuisine: 'Pizzeria' });
+
+  it('budget max : prix connus au-dessus exclus, prix inconnu garde', () => {
+    expect(applyFilters([cheap, pricey, unknown], { openNow: false, diets: [], now: NOON, maxPrice: 40 }).map(r => r.id)).toEqual(['cheap', 'unknown']);
+    expect(applyFilters([cheap, pricey, unknown], { openNow: false, diets: [], now: NOON, maxPrice: null })).toHaveLength(3);
+  });
+
+  it('cuisine exacte ; null = toutes', () => {
+    expect(applyFilters([cheap, pricey, unknown], { openNow: false, diets: [], now: NOON, cuisine: 'Pizzeria' }).map(r => r.id)).toEqual(['cheap', 'unknown']);
+    expect(applyFilters([cheap, pricey, unknown], { openNow: false, diets: [], now: NOON, cuisine: null })).toHaveLength(3);
+  });
+});
+
 describe('toggleDiet', () => {
   it('ajoute puis retire sans muter', () => {
     const base: ('vegan')[] = [];
@@ -85,5 +136,21 @@ describe('dietsFromProfile', () => {
 describe('FILTER_DIETS', () => {
   it('pas de sans gluten', () => {
     expect(FILTER_DIETS).toEqual(['vegetarian', 'vegan', 'halal']);
+  });
+});
+
+describe('blockingFilter : quel filtre vide la pile', () => {
+  const origin = { lat: 43.6045, lng: 1.4442 };
+  const farVeg = mk('fv', { lat: 43.5755, lng: 1.462, hours: OPEN_HOURS as never, diets: ['vegan'] });
+  const nearMeat = mk('nm', { lat: 43.6046, lng: 1.4443, hours: CLOSED_HOURS as never });
+  const base = { openNow: false, diets: [] as never[], now: NOON, origin, radiusM: 500 };
+
+  it('le rayon en premier s il suffit a debloquer', () => {
+    expect(blockingFilter([farVeg], base)).toBe('radius');
+  });
+  it('sinon le regime, puis ouvert maintenant, puis budget/cuisine', () => {
+    expect(blockingFilter([nearMeat], { ...base, diets: ['vegan'] })).toBe('diets');
+    expect(blockingFilter([nearMeat], { ...base, openNow: true })).toBe('openNow');
+    expect(blockingFilter([nearMeat], { ...base, cuisine: 'Thaï' })).toBe('price');
   });
 });

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import records from '../../../data/toulouse-places.json';
-import { completeness, haversine, isPresentable, OsmRecord, osmToRestaurant } from '../../../lib/osm';
+import { completeness, formatMeters, haversine, isPresentable, OsmRecord, osmToRestaurant } from '../../../lib/osm';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +23,9 @@ function limited(ip: string): boolean {
   return h.n > 60;
 }
 
+/** Coordonnées arrondies à 3 décimales (~100 m) : moins de données personnelles, meilleur cache. */
+const round3 = (n: number): number => Math.round(n * 1000) / 1000;
+
 const num = (v: string | null, fallback: number, min: number, max: number): number => {
   if (v === null) return fallback;
   const n = Number(v);
@@ -36,8 +39,8 @@ export function GET(req: NextRequest) {
   }
 
   const p = req.nextUrl.searchParams;
-  const lat = num(p.get('lat'), TOULOUSE.lat, -90, 90);
-  const lng = num(p.get('lng'), TOULOUSE.lng, -180, 180);
+  const lat = round3(num(p.get('lat'), TOULOUSE.lat, -90, 90));
+  const lng = round3(num(p.get('lng'), TOULOUSE.lng, -180, 180));
   const radius = num(p.get('radius'), 3000, 100, MAX_RADIUS);
   const limit = num(p.get('limit'), 20, 1, MAX_LIMIT);
   const offset = num(p.get('offset'), 0, 0, 100_000);
@@ -48,7 +51,13 @@ export function GET(req: NextRequest) {
     .filter(x => x.d <= radius)
     .sort((a, b) => a.d - b.d - (completeness(a.r) - completeness(b.r)) * 150);
 
-  const page = near.slice(offset, offset + limit).map(x => osmToRestaurant(x.r, { lat, lng }));
+  // Sans origine dans osmToRestaurant : la description ne dit pas « à X de toi » (le client recalcule
+  // la distance depuis la vraie position, celle-ci n'est qu'indicative et part d'une origine arrondie).
+  const page = near.slice(offset, offset + limit).map(x => ({
+    ...osmToRestaurant(x.r),
+    distance: formatMeters(x.d),
+    distanceMeters: Math.round(x.d),
+  }));
 
   return NextResponse.json(
     { success: true, data: page, meta: { total: near.length, offset, limit } },

@@ -19,6 +19,15 @@ import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../
 import { track } from '../../lib/analytics';
 import { Lightbox } from '../ui/Lightbox';
 import { DIETS, DIET_LABEL, DIET_SOURCE_NOTE } from '../../lib/diets';
+import { googleMapsDirectionsUrl, googleMapsInfoUrl, restaurantFullAddress } from '../../lib/geo/format';
+import { findPlaceId, type PlaceIdEntry } from '../../lib/google/placeIdCache';
+import { readJson } from '../../lib/store';
+
+/** place_id Google déjà connu (stockage local `fooder_place_ids`), sinon null. */
+function knownPlaceId(restId: string): string | null {
+  const list = readJson<unknown>('fooder_place_ids', []);
+  return Array.isArray(list) ? findPlaceId(list as PlaceIdEntry[], restId) : null;
+}
 
 interface DetailSheetProps {
   rest: Restaurant | null;
@@ -187,8 +196,9 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
               <div className='flex items-center gap-2 text-slate-500 font-semibold text-xs'>
                 <span>{rest.cuisine}</span>
                 <span className='w-1 h-1 bg-slate-300 rounded-full' />
-                <MapPin className='w-3 h-3' />
-                <span className='line-clamp-1'>{rest.address}</span>
+                <MapPin className='w-3 h-3 shrink-0' />
+                <span className='line-clamp-2 select-text'>{restaurantFullAddress(rest)}</span>
+                {rest.distance && <span className='shrink-0 text-plum'>· {rest.distance}</span>}
               </div>
               <div className='mt-2 flex items-center gap-2 text-slate-400 text-[11px] font-bold'>
                 <span>{rest.reviews ? `${rest.reviews.toLocaleString('fr-FR')} avis` : ''}</span>
@@ -372,19 +382,27 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                 Partager
               </button>
             )}
-            <button
-              onClick={() => {
-                const url =
-                  rest.lat !== undefined && rest.lng !== undefined
-                    ? `https://www.google.com/maps/dir/?api=1&destination=${rest.lat},${rest.lng}&travelmode=walking`
-                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rest.name + ' ' + rest.address)}`;
-                window.open(url, '_blank', 'noopener,noreferrer');
-              }}
-              className='w-full duo-button bg-fooder-primary text-white py-4 text-lg flex items-center justify-center gap-3'
-            >
-              <MapPin className='w-6 h-6' />
-              Y aller
-            </button>
+            <div className='grid grid-cols-2 gap-2.5'>
+              <a
+                href={googleMapsDirectionsUrl(rest)}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='duo-button bg-fooder-primary text-white py-4 text-base flex items-center justify-center gap-2'
+              >
+                <MapPin className='w-5 h-5 shrink-0' />
+                Itinéraire
+              </a>
+              <a
+                href={googleMapsInfoUrl(rest, knownPlaceId(rest.id))}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={`Plus d’informations sur ${rest.name} (Google Maps, nouvel onglet)`}
+                className='duo-button bg-white text-plum py-4 text-base flex items-center justify-center gap-2 text-center leading-tight'
+              >
+                <ExternalLink className='w-5 h-5 shrink-0' />
+                Plus d’informations
+              </a>
+            </div>
           </div>
           {viewer !== null && viewerImages.length > 0 && (
             <Lightbox

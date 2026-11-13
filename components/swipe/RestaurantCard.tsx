@@ -8,6 +8,7 @@ import { stickerFor } from '../../lib/stickers';
 import { isOpenAt } from '../../lib/openingHours';
 import { cardSummary } from './cardSummary';
 import { DIET_LABEL, DIET_SHORT_LABEL, DIET_SOURCE_NOTE, badgeDiets } from '../../lib/diets';
+import { restaurantPlaceLine } from '../../lib/geo/format';
 
 interface RestaurantCardProps {
   rest: Restaurant;
@@ -89,12 +90,15 @@ export function RestaurantCard({ rest, hold, hideHint }: RestaurantCardProps) {
       <div className='flex-1 min-h-0 flex flex-col px-5 pt-4 pb-3.5'>
         <h2 className='rcard-name leading-[1.05] text-plum pr-16 line-clamp-2'>{rest.name}</h2>
 
-        <div className='rcard-chips flex flex-wrap gap-2 mt-2.5'>
+        {/* Adresse de rue (repli quartier) et distance réelle depuis la position choisie. */}
+        <p className='rcard-place mt-1.5 flex items-center gap-1 min-w-0 text-[13px] font-bold text-plum'>
+          <MapPin className='w-3.5 h-3.5 shrink-0' strokeWidth={2.5} aria-hidden='true' />
+          <span className='truncate'>{restaurantPlaceLine(rest)}</span>
+          {rest.distance && <span className='shrink-0 rounded-full bg-fooder-mint border-2 border-plum px-1.5 text-[11px] leading-[18px]'>{rest.distance}</span>}
+        </p>
+
+        <div className='rcard-chips flex flex-wrap gap-2 mt-2'>
           {rest.price > 0 && <span className='chip bg-fooder-secondary text-plum'>{rest.price}€</span>}
-          <span className='chip bg-fooder-mint text-plum'>
-            <MapPin className='w-3 h-3' />
-            {rest.distance}
-          </span>
           <span className='chip bg-fooder-primary text-white'>{rest.cuisine}</span>
           {badgeDiets(rest).map(d => (
             <span key={d} className='chip !text-[11px] !px-2 !py-0.5 bg-white text-plum' title={`${DIET_LABEL[d]} (${DIET_SOURCE_NOTE})`}>
