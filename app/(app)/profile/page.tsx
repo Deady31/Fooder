@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Share2, ChevronRight, Pencil, Flame, Users } from 'lucide-react';
+import { Share2, ChevronRight, Pencil, Flame, Users, Trophy } from 'lucide-react';
 import { useFoodDNA } from '../../../hooks/useFoodDNA';
 import { useGamification, ALL_ACHIEVEMENTS } from '../../../hooks/useGamification';
 import { Sticker } from '../../../components/ui/Sticker';
@@ -16,6 +16,7 @@ import { InstallPrompt } from '../../../components/pwa/InstallPrompt';
 import { InviteCard } from '../../../components/social/InviteCard';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useSocial } from '../../../hooks/useSocial';
+import { useWeekRank } from '../../../components/leaderboard/useLeaderboard';
 import { useAuth } from '../../../components/auth/AuthProvider';
 import { QUARTIERS } from '../../../lib/quartiers';
 import { visitedQuartiers } from '../../../lib/visits';
@@ -67,6 +68,7 @@ export default function ProfilePage() {
   const [lockedHint, setLockedHint] = useState<string | null>(null);
   const social = useSocial();
   const auth = useAuth();
+  const weekRank = useWeekRank(Boolean(auth.session));
   const [posts, setPosts] = useState<FeedPost[]>([]);
 
   useEffect(() => {
@@ -186,6 +188,19 @@ export default function ProfilePage() {
           </span>
         </Link>
       )}
+
+      <Link href="/classement" className="mx-4 mt-3 flex items-center gap-3 min-h-[44px] bg-fooder-secondary rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5">
+        <span className="w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center">
+          <Trophy className="w-5 h-5 text-plum" strokeWidth={2.5} />
+        </span>
+        <span className="flex-1 min-w-0">
+          <span className="block font-display text-lg text-plum leading-tight">Classement</span>
+          <span className="block text-xs font-bold text-plum/70 truncate">
+            {weekRank ? `#${weekRank} cette semaine` : 'Les plus belles photos de plats'}
+          </span>
+        </span>
+        <ChevronRight className="w-4 h-4 text-plum shrink-0" strokeWidth={3} />
+      </Link>
 
       <Link href="/amis" className="mx-4 my-3 flex items-center gap-3 bg-bubblegum rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5">
         <span className="w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center">

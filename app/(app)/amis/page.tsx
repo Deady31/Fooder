@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Target, Users } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Target, Trophy, Users } from 'lucide-react';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { MyCard } from '../../../components/social/MyCard';
 import { InviteCard } from '../../../components/social/InviteCard';
@@ -54,6 +54,17 @@ export default function FriendsPage() {
             {pendingDefis > 0 && <span className='absolute top-2 right-2 w-3 h-3 rounded-full bg-white border-2 border-plum' />}
           </Link>
         </div>
+
+        <Link href='/classement' className='flex items-center gap-3 min-h-[44px] bg-fooder-secondary rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5'>
+          <span className='w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center'>
+            <Trophy className='w-5 h-5 text-plum' strokeWidth={2.5} />
+          </span>
+          <span className='flex-1 min-w-0'>
+            <span className='block font-display text-lg text-plum leading-tight'>Classement</span>
+            <span className='block text-xs font-bold text-plum/70'>Les plus belles photos de plats</span>
+          </span>
+          <ChevronRight className='w-4 h-4 text-plum shrink-0' strokeWidth={3} />
+        </Link>
 
         <WeeklyBoard me={snapshot} friends={friends} />
 

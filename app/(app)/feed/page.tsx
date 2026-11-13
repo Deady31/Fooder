@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Plus, Users } from 'lucide-react';
+import { Plus, Trophy, Users } from 'lucide-react';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { PostCard } from '../../../components/feed/PostCard';
 import { ComposeSheet, ComposeResult, LikedRestaurant } from '../../../components/feed/ComposeSheet';
@@ -86,6 +86,13 @@ export default function FeedPage() {
         subtitle='Les verdicts des foodies de Toulouse'
         right={
           <div className='flex gap-2 shrink-0'>
+          <Link
+            href='/classement'
+            aria-label='Classement'
+            className='w-11 h-11 bg-fooder-secondary border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 active:shadow-none transition-all shrink-0'
+          >
+            <Trophy className='w-5 h-5 text-plum' strokeWidth={2.5} />
+          </Link>
           <Link
             href='/amis'
             aria-label='Mes amis'
