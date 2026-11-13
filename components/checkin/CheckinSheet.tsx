@@ -5,12 +5,14 @@ import { Camera, Flame, X } from 'lucide-react';
 import Link from 'next/link';
 import { Sticker } from '../ui/Sticker';
 import { communityPhotosFor } from '../../lib/communityPhotos';
-import { shouldInviteRealPhoto } from '../../lib/photoInvite';
+import { DISH_PHOTO_TIP, shouldInviteRealPhoto } from '../../lib/photoInvite';
 import { stickerFor } from '../../lib/stickers';
 import { MAX_CAPTION, Verdict, compressImage } from '../../lib/feed';
 import { VisitInput, addVisit, dismissCheckin, snoozeCheckin, visitedQuartiers } from '../../lib/visits';
 import { weeklyStreak } from '../../lib/streak';
-import { XP, awardXp, unlockAchievement } from '../../lib/rewards';
+import { XP, awardPhotoPost, awardXp, countKnownPhotos, unlockAchievement } from '../../lib/rewards';
+import { PHOTO_XP_FIRST } from '../../lib/photoXp';
+import { useToast } from '../ui/Toast';
 import { newPostId, publishPost } from '../../lib/share';
 import { readJson } from '../../lib/store';
 import { getMe } from '../../lib/identity';
@@ -55,7 +57,9 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
   const [onlineNotice, setOnlineNotice] = useState<string | null>(null);
   const [publishOnline, setPublishOnline] = useState(false);
   const [rightsConfirmed, setRightsConfirmed] = useState(false);
+  const [busy, setBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useToast(4000);
 
   useEffect(() => {
     if (!target) return;
@@ -69,6 +73,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
     setOnlineNotice(null);
     setPublishOnline(false);
     setRightsConfirmed(false);
+    setBusy(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target?.restId, mode]);
 
@@ -95,12 +100,16 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
     }
   };
 
-  const validate = () => {
-    if (step !== 'verdict') return;
+  const validate = async () => {
+    if (step !== 'verdict' || busy) return;
     if (publishOnline && photo && !rightsConfirmed) {
       setError('Confirme tes droits sur la photo pour la publier, ou décoche « Publier aussi sur le fil ».');
       return;
     }
+    // Photos déjà connues AVANT ce post (le sien ne compte pas) : décide +30 XP (première) ou +10 XP.
+    setBusy(true);
+    const knownPhotos = photo ? await countKnownPhotos(target.restId, communityPhotosFor(target.restId).length) : 0;
+    setBusy(false);
     const beforeList = readJson<{ at: number }[]>('fooder_visits', []);
     const wasDone = weeklyStreak(beforeList.map(v => v.at)).thisWeekDone;
     const visits = addVisit(target, verdict);
@@ -144,7 +153,9 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
           .catch(() => undefined);
       }
       if (photo) {
-        xp += XP.photo;
+        const award = awardPhotoPost({ restId: target.restId, hasPhoto: true, knownPhotos });
+        xp += award.xp;
+        if (award.message) toast.show(award.message);
         const photos = readJson<FeedPost[]>(POSTS_KEY, []).filter(p => p.photo).length;
         unlockAchievement('photo_1');
         if (photos >= 5) unlockAchievement('photos_5');
@@ -172,6 +183,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
   };
 
   return (
+    <>
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -259,7 +271,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                   </span>
                   <span>
                     <span className='block text-sm font-bold text-plum'>Ajoute la vraie photo</span>
-                    <span className='block text-xs font-medium text-slate-500'>+{XP.photo} XP · elle remplacera l’illustration</span>
+                    <span className='block text-xs font-medium text-slate-500'>Jusqu’à +{PHOTO_XP_FIRST} XP · elle remplacera l’illustration</span>
                   </span>
                 </button>
               )}
@@ -302,8 +314,8 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                 </div>
               )}
               {error && <p className='text-xs font-bold text-fooder-red'>{error}</p>}
-              <button onClick={validate} className='w-full duo-button bg-bubblegum text-plum py-4 text-base'>
-                Valider ma visite · +{XP.visit + (photo ? XP.photo : 0)} XP
+              <button onClick={validate} disabled={busy} className='w-full duo-button bg-bubblegum text-plum py-4 text-base disabled:opacity-60'>
+                Valider ma visite · +{XP.visit} XP{photo ? ' + bonus photo' : ''}
               </button>
             </div>
           )}
@@ -330,6 +342,8 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
                     <span className='min-w-0'>
                       <span className='block font-bold text-plum text-sm leading-tight'>Ajoute la vraie photo du plat</span>
                       <span className='block text-xs font-medium text-slate-500 leading-snug'>Les prochains foodies la verront en premier.</span>
+                      <span className='block mt-1 text-xs font-bold text-plum leading-snug'>{DISH_PHOTO_TIP.title}</span>
+                      <span className='block text-[11px] font-medium text-slate-500 leading-snug'>{DISH_PHOTO_TIP.example}</span>
                     </span>
                   </Link>
                   <button
@@ -349,5 +363,7 @@ export function CheckinSheet({ target, mode, onClose, onVisited }: CheckinSheetP
         </motion.div>
       </motion.div>
     </AnimatePresence>
+    {toast.node}
+    </>
   );
 }

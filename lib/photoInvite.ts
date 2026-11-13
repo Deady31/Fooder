@@ -14,3 +14,14 @@ export function shouldInviteRealPhoto(i: InviteInput): boolean {
   if (i.communityPhotos.length > 0) return false;
   return !i.myPostPhotoRestIds.includes(i.restId);
 }
+
+/** Fiche sans vraie photo de plat d'un foodie : on invite à poster (aucune récompense supplémentaire). */
+export function needsRealDishPhoto(i: { communityPhotos: string[]; photoSource?: string }): boolean {
+  return i.communityPhotos.length === 0 && i.photoSource !== 'community';
+}
+
+/** Consigne affichée au moment de poster. */
+export const DISH_PHOTO_TIP = {
+  title: 'Photographie ton plat (pas la devanture)',
+  example: 'Ex. : la pizza dans l’assiette, vue de dessus, plutôt que la façade du resto.',
+} as const;

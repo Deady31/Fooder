@@ -6,6 +6,8 @@ import { Camera, Search, X } from 'lucide-react';
 import { MAX_CAPTION, VERDICTS, Verdict, compressImage } from '../../lib/feed';
 import { stickerFor } from '../../lib/stickers';
 import { Sticker } from '../ui/Sticker';
+import { DISH_PHOTO_TIP } from '../../lib/photoInvite';
+import { PHOTO_XP_FIRST, PHOTO_XP_REPEAT } from '../../lib/photoXp';
 
 export interface LikedRestaurant {
   id: string;
@@ -201,6 +203,15 @@ export function ComposeSheet({ isOpen, liked, preset, onClose, onPublish }: Comp
                     ))}
                   </div>
 
+                  <div className='flex items-start gap-2.5 rounded-2xl bg-fooder-secondary/40 border-2 border-plum/30 px-3 py-2'>
+                    <Camera className='w-4 h-4 mt-0.5 shrink-0 text-plum' strokeWidth={2.5} aria-hidden='true' />
+                    <div className='text-xs leading-snug text-plum'>
+                      <p className='font-bold'>{DISH_PHOTO_TIP.title}</p>
+                      <p className='font-medium text-plum/70'>{DISH_PHOTO_TIP.example}</p>
+                      <p className='mt-1 font-bold'><span aria-hidden='true'>✓</span> le plat dans l’assiette · <span aria-hidden='true'>✗</span> la devanture</p>
+                    </div>
+                  </div>
+
                   <button
                     onClick={() => fileRef.current?.click()}
                     className='relative w-full aspect-[16/9] rounded-2xl border-[3px] border-dashed border-plum/50 bg-white flex flex-col items-center justify-center gap-1 text-plum/70 overflow-hidden active:scale-[0.99] transition-transform'
@@ -211,11 +222,14 @@ export function ComposeSheet({ isOpen, liked, preset, onClose, onPublish }: Comp
                     ) : (
                       <>
                         <Camera className='w-7 h-7' strokeWidth={2.5} />
-                        <span className='text-xs font-bold'>Ajouter une photo du plat ou du lieu</span>
+                        <span className='text-xs font-bold'>Ajouter une photo du plat</span>
                       </>
                     )}
                   </button>
                   <input ref={fileRef} type='file' accept='image/*' hidden onChange={e => onFile(e.target.files?.[0])} />
+                  <p className='-mt-2 text-center text-[11px] font-bold text-plum/60'>
+                    Photo du plat : +{PHOTO_XP_FIRST} XP si c’est la première de ce resto, sinon +{PHOTO_XP_REPEAT} XP.
+                  </p>
 
                   <div>
                     <textarea

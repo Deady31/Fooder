@@ -108,7 +108,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
   const cuisine = cuisineLabel(rec);
   const quartier = quartierFor(rec.la, rec.ln);
   const distance = dist !== undefined ? formatMeters(dist) : undefined;
-  const dish = dishPhotoFor(cuisine, rec.n);
+  const dish = dishPhotoFor(cuisine, rec.n, rec.id);
   const card: Restaurant = {
     id: rec.id,
     name: rec.n,

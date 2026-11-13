@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { mockRestaurants, Restaurant } from '../../../data/mockRestaurants';
 import { track } from '../../../lib/analytics';
 import { communityPhotosFor } from '../../../lib/communityPhotos';
-import { withBetterPhoto } from '../../../lib/photoPriority';
+import { CommunityPhoto, mergeCommunityPhotos, withBetterPhoto } from '../../../lib/photoPriority';
 import { useGamification } from '../../../hooks/useGamification';
 import { useDailyPicks } from '../../../hooks/useDailyPicks';
 import { useMissions } from '../../../hooks/useMissions';
@@ -22,8 +22,7 @@ import { Sticker } from '../../../components/ui/Sticker';
 import { Logo } from '../../../components/ui/Logo';
 import { NotificationBell } from '../../../components/notifications/NotificationBell';
 import { CHECKINS_KEY, queueCheckin, readCheckins } from '../../../lib/visits';
-import { fetchRestaurantPhotos } from '../../../lib/cloud/social';
-import { fetchGooglePhotos } from '../../../lib/placePhotosClient';
+import { fetchRestaurantPhotoDetails } from '../../../lib/cloud/social';
 import { openCardProps, swipeProps } from '../../../lib/usageProps';
 import { rankRichFirst } from '../../../lib/ranking';
 import { applyFilters as applyDeckFilters, dietsFromProfile, toggleDiet, FILTER_DIETS } from '../../../lib/filters';
@@ -225,9 +224,9 @@ export default function SwipePage() {
             const candidates = [...mockRestaurants, ...fromApi.filter(r => !known.has(r.name.toLowerCase()))];
             const unseen = candidates.filter(r => !seen.has(r.id));
             const merged = unseen.length > 0 ? unseen : candidates;
-            const cloudPhotos = await fetchRestaurantPhotos(merged.map(r => r.id)).catch(() => new Map<string, string[]>());
+            const cloudPhotos = await fetchRestaurantPhotoDetails(merged.map(r => r.id)).catch(() => new Map<string, CommunityPhoto[]>());
             const withCommunity = merged.map(r => {
-                const photos = [...communityPhotosFor(r.id), ...(cloudPhotos.get(r.id) ?? [])];
+                const photos = mergeCommunityPhotos(communityPhotosFor(r.id), cloudPhotos.get(r.id) ?? []); // la plus aimée en premier
                 return withBetterPhoto(r, { source: 'community', images: photos });
             });
             const sorted = sortWithSponsored(rankRichFirst(withCommunity));
@@ -406,25 +405,7 @@ export default function SwipePage() {
         void loadMore();
     }, [isLoading, filterActive, deckCards.length, restaurants.length]);
 
-    // Vraies photos Google pour la carte du dessus et les suivantes (jamais pour tout le catalogue : coût et règles de Google).
-    const requestedPhotos = useRef<Set<string>>(new Set());
-    useEffect(() => {
-        if (isLoading) return;
-        const upcoming = restaurants.slice(Math.max(0, currentIndex - 1), currentIndex + 1); // 2 cartes du dessus seulement : l'appel photo est le seul payant
-        for (const r of upcoming) {
-            if (r.photoSource === 'community' || r.photoSource === 'google' || requestedPhotos.current.has(r.id)) continue;
-            requestedPhotos.current.add(r.id);
-            fetchGooglePhotos(r).then(photos => {
-                if (photos.length === 0) return;
-                const apply = (x: Restaurant): Restaurant =>
-                    x.id === r.id
-                        ? withBetterPhoto(x, { source: 'google', images: photos.map(p => p.url), credit: photos[0].author })
-                        : x;
-                setRestaurants(prev => prev.map(apply));
-                allRestaurantsRef.current = allRestaurantsRef.current.map(apply);
-            });
-        }
-    }, [currentIndex, restaurants.length, isLoading]);
+    // Aucune photo Google pendant le swipe : la carte montre un vrai plat (communauté) ou un plat typique ; Google = fiche seulement.
     const isDeckEmpty = currentIndex < 0 && restaurants.length > 0;
     const noneOpen = filterActive && !isDeckEmpty && restaurants.length > 0 && deckCards.length === 0;
 

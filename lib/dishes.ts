@@ -136,7 +136,77 @@ export function dishKeyFor(cuisine: string, name = ''): string | null {
   return byName && MANIFEST[byName[1]] ? byName[1] : null;
 }
 
-export function dishPhotoFor(cuisine: string, name = ''): DishPhoto | null {
+/**
+ * Photos supplémentaires d'une même cuisine (clé de base → autres assiettes typiques), pour que les cartes
+ * d'une même cuisine ne montrent pas toutes la même photo.
+ */
+const VARIANTS: Record<string, string[]> = {
+  thai: ['thai_padthai', 'thai_tomyum', 'thai_greencurry'],
+  korean: ['korean_bibimbap', 'korean_chicken', 'korean_bulgogi'],
+  sushi: ['sushi_tempura', 'sushi_katsucurry', 'sushi_okonomiyaki', 'sushi_yakitori'],
+  ramen: ['ramen_tonkotsu', 'dimsum_gyoza'],
+  dimsum: ['dimsum_gyoza', 'wok_bao'],
+  pho: ['pho_bun', 'pho_banhmi', 'pho_nem'],
+  chinese: ['chinese_duck', 'chinese_friedrice', 'wok_bao'],
+  wok: ['wok_bao', 'wok_padseeew', 'chinese_friedrice'],
+  indian: ['indian_butterchicken', 'indian_tandoori', 'indian_biryani', 'indian_samosa', 'indian_dal', 'indian_naan'],
+  moroccan: ['moroccan_tajine', 'moroccan_pastilla'],
+  couscous: ['couscous_royal', 'moroccan_tajine'],
+  kebab: ['kebab_shawarma', 'kebab_durum'],
+  lebanese: ['lebanese_hummus', 'lebanese_mezze', 'kebab_shawarma'],
+  falafel: ['falafel_plate', 'lebanese_hummus'],
+  greek: ['greek_moussaka', 'greek_gyros'],
+  tapas: ['tapas_bravas', 'tapas_tortilla'],
+  paella: ['paella_valenciana'],
+  pizza: ['pizza_margherita', 'pizza_quattro'],
+  pasta: ['pasta_lasagna', 'pasta_carbonara', 'pasta_risotto'],
+  dessert: ['dessert_tiramisu', 'dessert_fondant'],
+  terroir: ['terroir_cassoulet', 'terroir_magret', 'terroir_confit', 'terroir_saucisse'],
+  french: ['french_bourguignon', 'french_oignon', 'steak_frites', 'terroir_confit'],
+  bistro: ['bistro_entrecote', 'steak_frites', 'french_oignon'],
+  steak: ['steak_frites', 'steak_tartare', 'steak_brochettes', 'bistro_entrecote'],
+  seafood: ['seafood_moules'],
+  sandwich: ['sandwich_croque', 'pho_banhmi'],
+  crepe: ['crepe_galette', 'crepe_sucre'],
+  burger: ['burger_smash', 'burger_cheese'],
+  fries: ['fries_fishchips', 'burger_cheese'],
+  poke: ['poke_bowl'],
+  vegan: ['vegan_acai'],
+  tacos: ['tacos_nachos', 'tacos_fajitas'],
+  peruvian: ['peruvian_ceviche'],
+  argentine: ['argentine_empanadas', 'steak_brochettes'],
+  brunch: ['brunch_benedict', 'brunch_pancakes'],
+  waffle: ['waffle_gaufre'],
+  salad: ['salad_caesar'],
+  bakery: ['bakery_croissant'],
+  icecream: ['icecream_cone'],
+  chicken: ['chicken_rotisserie'],
+};
+
+/** Toutes les photos possibles pour une cuisine : la clé de base d'abord, puis les variantes présentes dans le manifest. */
+export function dishVariants(key: string): string[] {
+  return [key, ...(VARIANTS[key] ?? [])].filter((k, i, a) => !!MANIFEST[k] && a.indexOf(k) === i);
+}
+
+/** Hash FNV-1a 32 bits : stable d'une exécution à l'autre (jamais de Math.random). */
+function hash(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+/**
+ * Photo de plat typique pour ce restaurant, ou null si on ne sait pas honnêtement.
+ * Avec une graine (l'identifiant du resto), choisit de façon déterministe parmi les photos de la cuisine ;
+ * sans graine, renvoie la photo de base (comportement historique).
+ */
+export function dishPhotoFor(cuisine: string, name = '', seed?: string): DishPhoto | null {
   const key = dishKeyFor(cuisine, name);
-  return key ? dishPhoto(key) : null;
+  if (!key) return null;
+  if (!seed) return dishPhoto(key);
+  const options = dishVariants(key);
+  return dishPhoto(options.length ? options[hash(seed) % options.length] : key);
 }

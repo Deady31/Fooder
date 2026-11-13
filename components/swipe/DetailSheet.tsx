@@ -8,7 +8,10 @@ import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
 import { stickerFor } from '../../lib/stickers';
 import { communityPhotosFor } from '../../lib/communityPhotos';
-import { galleryFor } from '../../lib/photoPriority';
+import { CommunityPhoto, galleryFor, photoLikesLine, viewerCredit } from '../../lib/photoPriority';
+import { fetchRestaurantPhotoDetails } from '../../lib/cloud/social';
+import { DISH_PHOTO_TIP, needsRealDishPhoto } from '../../lib/photoInvite';
+import { FetchedPhoto, fetchGooglePhotos } from '../../lib/placePhotosClient';
 import { outcomeLabel, shareLink } from '../../lib/share';
 import { isSharable, restoUrl, shareText } from '../../lib/restoShare';
 import { safeCommonsPage, safeWebUrl } from '../../lib/safeUrl';
@@ -16,7 +19,6 @@ import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../
 import { track } from '../../lib/analytics';
 import { Lightbox } from '../ui/Lightbox';
 import { DIETS, DIET_LABEL, DIET_SOURCE_NOTE } from '../../lib/diets';
-import { photoCreditLine } from '../ui/lightboxMath';
 
 interface DetailSheetProps {
   rest: Restaurant | null;
@@ -93,10 +95,50 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
   }, [rest?.id]);
   const gallery = rest ? galleryFor(rest, community) : [];
   const [viewer, setViewer] = useState<number | null>(null);
+  // Photo communautaire la plus aimée (cœurs + pseudo) : facultatif, sans donnée on n'affiche rien.
+  const [best, setBest] = useState<CommunityPhoto | null>(null);
+  useEffect(() => {
+    setBest(null);
+    if (!rest || rest.photoSource !== 'community') return;
+    let alive = true;
+    fetchRestaurantPhotoDetails([rest.id], true)
+      .then(m => alive && setBest(m.get(rest.id)?.[0] ?? null))
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, [rest?.id, rest?.photoSource]);
+  const bestLine = best && best.url === rest?.image ? photoLikesLine(best) : null;
   useEffect(() => {
     setViewer(null);
   }, [rest?.id]);
-  const viewerImages = rest ? [...(rest.image ? [rest.image] : []), ...gallery.filter((g) => g !== rest.image)] : [];
+  // Photo Google : une seule demande à l'ouverture de la fiche, en mémoire de session, jamais stockée.
+  const [google, setGoogle] = useState<FetchedPhoto | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const restId = rest?.id;
+  useEffect(() => {
+    setGoogle(null);
+    if (!rest) {
+      setGoogleLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setGoogleLoading(true);
+    fetchGooglePhotos(rest)
+      .then((photos) => {
+        if (!cancelled) setGoogle(photos[0] ?? null);
+      })
+      .finally(() => {
+        if (!cancelled) setGoogleLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [restId]);
+  const viewerImages = rest
+    ? [...(rest.image ? [rest.image] : []), ...gallery.filter((g) => g !== rest.image), ...(google ? [google.url] : [])]
+    : [];
   const openViewer = (src: string) => {
     const i = viewerImages.indexOf(src);
     if (i >= 0) setViewer(i);
@@ -191,6 +233,24 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
               )}
             </section>
 
+            {needsRealDishPhoto({ communityPhotos: community, photoSource: rest.photoSource }) && (
+              <section className='p-4 bg-white border-[3px] border-dashed border-plum rounded-[22px]'>
+                <div className='flex items-center gap-3'>
+                  <span className='w-11 h-11 shrink-0 rounded-full bg-bubblegum border-[3px] border-plum flex items-center justify-center'>
+                    <Camera className='w-5 h-5 text-plum' strokeWidth={2.5} />
+                  </span>
+                  <p className='font-bold text-plum text-base leading-tight'>Pas encore de photo du vrai plat. Tu y es allé ?</p>
+                </div>
+                <p className='mt-2 text-xs font-medium text-slate-500 leading-snug'>{DISH_PHOTO_TIP.title}. {DISH_PHOTO_TIP.example}</p>
+                <Link
+                  href={`/feed?photo=${encodeURIComponent(rest.id)}&n=${encodeURIComponent(rest.name)}&c=${encodeURIComponent(rest.cuisine)}`}
+                  className='mt-3 flex items-center justify-center gap-2 py-3.5 bg-bubblegum border-[3px] border-plum text-plum font-bold text-sm rounded-full shadow-hard active:translate-y-0.5 transition-transform'
+                >
+                  <Camera className='w-4 h-4' strokeWidth={2.5} /> Poster le plat que j’ai mangé
+                </Link>
+              </section>
+            )}
+
             <HoursSection hours={rest.hours} />
 
             {rest.diets && rest.diets.length > 0 && (
@@ -205,26 +265,9 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
               </section>
             )}
 
-            {rest.photoSource !== 'community' && rest.photoSource !== 'google' && (
-              <Link
-                href={`/feed?photo=${encodeURIComponent(rest.id)}&n=${encodeURIComponent(rest.name)}&c=${encodeURIComponent(rest.cuisine)}`}
-                className='flex items-center gap-3 p-3 pr-4 bg-white border-[3px] border-dashed border-plum rounded-2xl active:translate-y-0.5 transition-transform'
-              >
-                <span className='w-11 h-11 shrink-0 rounded-full bg-bubblegum border-[3px] border-plum flex items-center justify-center'>
-                  <Camera className='w-5 h-5 text-plum' strokeWidth={2.5} />
-                </span>
-                <span className='min-w-0'>
-                  <span className='block font-bold text-plum text-sm leading-tight'>
-                    {rest.photoSource === 'dish' ? 'Photo d’un plat typique, pas de ce resto' : 'Cette image est une illustration'}
-                  </span>
-                  <span className='block text-xs font-medium text-slate-500 leading-snug'>Tu connais l&apos;endroit ? Propose la vraie photo.</span>
-                </span>
-              </Link>
-            )}
-
             {gallery.length > 0 && (
               <section>
-                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : rest.photoSource === 'google' ? 'Photos Google Maps' : rest.photoSource === 'dish' ? 'Plat typique' : 'Photos des plats'}</SectionTitle>
+                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : rest.photoSource === 'dish' ? 'Plat typique' : 'Photos des plats'}</SectionTitle>
                 <div className='flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5'>
                   {gallery.map((img, i) => (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -237,6 +280,9 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                     />
                   ))}
                 </div>
+                {bestLine && (
+                  <p className='text-[11px] font-bold text-plum/70 -mt-2 mb-1'>{bestLine}</p>
+                )}
                 {rest.photoSource === 'dish' && safeCommonsPage(rest.photoPage) && (
                   <p className='text-[11px] font-medium text-slate-500 -mt-2'>
                     Photo : {rest.photoCredit}, {rest.photoLicense},{' '}
@@ -244,9 +290,42 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                     Elle illustre un plat typique, pas ce restaurant.
                   </p>
                 )}
-                {rest.photoSource === 'google' && (
-                  <p className='text-[11px] font-medium text-slate-500 -mt-2'>Photos : Google Maps{rest.photoCredit ? `, dont ${rest.photoCredit}` : ''}.</p>
-                )}
+              </section>
+            )}
+
+            {googleLoading && !google && (
+              <p aria-hidden='true' className='text-[11px] font-medium text-slate-400 animate-pulse'>Le lieu · chargement…</p>
+            )}
+            {google && (
+              <section>
+                <SectionTitle>Le lieu · Google Maps</SectionTitle>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={google.url}
+                  onClick={() => openViewer(google.url)}
+                  className='w-52 h-52 rounded-[26px] object-cover border-[3px] border-plum shadow-hard cursor-zoom-in'
+                  alt={`${rest.name} sur Google Maps`}
+                />
+                <p className='mt-2 text-[11px] font-medium text-slate-500'>
+                  Photo Google Maps
+                  {google.author && (
+                    <>
+                      {' · '}
+                      {safeWebUrl(google.authorUri) ? (
+                        <a href={safeWebUrl(google.authorUri)} target='_blank' rel='noopener noreferrer' className='underline'>{google.author}</a>
+                      ) : (
+                        google.author
+                      )}
+                    </>
+                  )}
+                  {safeWebUrl(google.googleMapsUri) && (
+                    <>
+                      {' · '}
+                      <a href={safeWebUrl(google.googleMapsUri)} target='_blank' rel='noopener noreferrer' className='underline'>Voir sur Google Maps</a>
+                    </>
+                  )}
+                  . Elle montre le lieu, pas forcément le plat.
+                </p>
               </section>
             )}
 
@@ -306,7 +385,7 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
               images={viewerImages}
               index={viewer}
               alt={rest.name}
-              credit={community.length > 0 ? null : photoCreditLine(rest.photoSource, rest.photoCredit, rest.photoLicense)}
+              credit={viewerCredit(rest, viewerImages[viewer], community, google)}
               onIndexChange={setViewer}
               onClose={() => setViewer(null)}
             />
