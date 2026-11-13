@@ -16,10 +16,12 @@ interface StepFrameProps {
   ctaDisabled?: boolean;
   /** Mise en page centrée verticalement (sinon liste défilante) */
   centered?: boolean;
+  /** Action secondaire sous le bouton principal (ex. « Plus tard ») */
+  secondary?: ReactNode;
 }
 
 /** Cadre commun des écrans d'inscription : en-tête, contenu défilant, bouton principal. */
-export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onCta, ctaDisabled, centered }: StepFrameProps) {
+export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onCta, ctaDisabled, centered, secondary }: StepFrameProps) {
   return (
     <div className='flex flex-col h-full px-5 pt-1 pb-6'>
       <div className='text-center space-y-1.5 flex-shrink-0 pb-4'>
@@ -53,6 +55,7 @@ export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onC
       >
         {cta} <ChevronRight className='w-5 h-5' />
       </motion.button>
+      {secondary}
     </div>
   );
 }

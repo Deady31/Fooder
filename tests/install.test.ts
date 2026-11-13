@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest';
-import { DISMISS_MS, decideInstall, isDismissed, isIos, isIosSafari, isStandalone } from '../components/pwa/installLogic';
+import { describe, expect, it, vi } from 'vitest';
+import { createInstallCapture } from '../components/pwa/installCapture';
+import { DISMISS_MS, cleanInstallUrl, decideInstall, decideOnboardingInstall, isInAppBrowser, isDismissed, isIos, isIosSafari, isStandalone } from '../components/pwa/installLogic';
 
 const IPHONE_SAFARI = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1';
 const IPHONE_CHROME = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0 Mobile/15E148 Safari/604.1';
@@ -59,5 +60,101 @@ describe('decideInstall', () => {
   });
   it('refus ancien : réapparaît', () => {
     expect(decideInstall({ ...base, hasPrompt: true, dismissedAt: base.now - DISMISS_MS - 1 })).toBe('android');
+  });
+});
+
+const TIKTOK = 'Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 Chrome/120.0 Mobile Safari/537.36 musical_ly_30.0 BytedanceWebview/d8a21c6';
+const FB = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 [FBAN/FBIOS;FBAV/450.0]';
+const DESKTOP = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36';
+
+describe('isInAppBrowser', () => {
+  it('reconnaît Instagram, TikTok, Facebook', () => {
+    for (const ua of [IPHONE_INSTA, TIKTOK, FB]) expect(isInAppBrowser(ua), ua).toBe(true);
+  });
+  it('pas les vrais navigateurs', () => {
+    for (const ua of [IPHONE_SAFARI, IPHONE_CHROME, ANDROID, DESKTOP]) expect(isInAppBrowser(ua), ua).toBe(false);
+  });
+});
+
+describe('decideOnboardingInstall', () => {
+  const base = { standalone: false, ua: DESKTOP, iosSafari: false, hasPrompt: false };
+  it('déjà installée : étape ignorée, quel que soit le navigateur', () => {
+    expect(decideOnboardingInstall({ ...base, standalone: true, hasPrompt: true })).toBe('skip');
+    expect(decideOnboardingInstall({ ...base, standalone: true, ua: IPHONE_INSTA })).toBe('skip');
+  });
+  it('Android/Chrome avec invite : installation native', () => {
+    expect(decideOnboardingInstall({ ...base, ua: ANDROID, hasPrompt: true })).toBe('native');
+  });
+  it('Android/Chrome sans invite (pas encore reçue) : ignorée', () => {
+    expect(decideOnboardingInstall({ ...base, ua: ANDROID })).toBe('skip');
+  });
+  it('iOS Safari : mode d’emploi', () => {
+    expect(decideOnboardingInstall({ ...base, ua: IPHONE_SAFARI, iosSafari: true })).toBe('ios');
+  });
+  it('navigateur intégré : copier le lien, même avec une invite', () => {
+    expect(decideOnboardingInstall({ ...base, ua: IPHONE_INSTA })).toBe('inapp');
+    expect(decideOnboardingInstall({ ...base, ua: TIKTOK, hasPrompt: true })).toBe('inapp');
+  });
+  it('bureau sans invite et Chrome iOS : ignorée', () => {
+    expect(decideOnboardingInstall(base)).toBe('skip');
+    expect(decideOnboardingInstall({ ...base, ua: IPHONE_CHROME })).toBe('skip');
+  });
+});
+
+describe('cleanInstallUrl', () => {
+  it('retire l’ancre et rejouer, garde le reste', () => {
+    expect(cleanInstallUrl('https://fooder.app/onboarding?ref=ABC&rejouer=1#x')).toBe('https://fooder.app/onboarding?ref=ABC');
+    expect(cleanInstallUrl('https://fooder.app/')).toBe('https://fooder.app/');
+  });
+  it('texte invalide renvoyé tel quel', () => {
+    expect(cleanInstallUrl('pas une url')).toBe('pas une url');
+  });
+});
+
+describe('capture de beforeinstallprompt', () => {
+  const fire = (target: EventTarget, type: string) => {
+    const e = new Event(type, { cancelable: true });
+    target.dispatchEvent(e);
+    return e;
+  };
+
+  it('garde l’événement (et bloque la bannière native) pour plus tard', () => {
+    const target = new EventTarget();
+    const cap = createInstallCapture(target);
+    cap.start();
+    const e = fire(target, 'beforeinstallprompt');
+    expect(e.defaultPrevented).toBe(true);
+    expect(cap.get()).toBe(e);
+  });
+
+  it('start est idempotent : un seul écouteur', () => {
+    const target = new EventTarget();
+    const cap = createInstallCapture(target);
+    const cb = vi.fn();
+    cap.subscribe(cb);
+    cap.start();
+    cap.start();
+    fire(target, 'beforeinstallprompt');
+    expect(cb).toHaveBeenCalledTimes(1);
+  });
+
+  it('rien avant start ; appinstalled et clear l’oublient ; unsubscribe fonctionne', () => {
+    const target = new EventTarget();
+    const cap = createInstallCapture(target);
+    fire(target, 'beforeinstallprompt');
+    expect(cap.get()).toBeNull();
+    cap.start();
+    fire(target, 'beforeinstallprompt');
+    expect(cap.get()).not.toBeNull();
+    fire(target, 'appinstalled');
+    expect(cap.get()).toBeNull();
+    fire(target, 'beforeinstallprompt');
+    const cb = vi.fn();
+    const off = cap.subscribe(cb);
+    cap.clear();
+    expect(cap.get()).toBeNull();
+    off();
+    fire(target, 'beforeinstallprompt');
+    expect(cb).toHaveBeenCalledTimes(1);
   });
 });

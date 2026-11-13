@@ -2,9 +2,26 @@ import { readJson, writeJson } from './store';
 import { AGE_RANGES, DIETS, EMAIL_MAX, GENDERS, ONBOARDING_DRAFT_KEY } from './profile';
 import type { AgeRange, Diet, Gender } from './profile';
 
-/** Parcours : accueil, pseudo, genre, âge, régime, « Tu nous aides », prêt. */
-export const ONBOARDING_STEPS = ['welcome', 'pseudo', 'gender', 'age', 'diet', 'help', 'final'] as const;
+/** Parcours : accueil, pseudo, genre, âge, régime, « Tu nous aides », écran d'accueil (si pertinent), prêt. */
+export const ONBOARDING_STEPS = ['welcome', 'pseudo', 'gender', 'age', 'diet', 'help', 'install', 'final'] as const;
 export type StepId = (typeof ONBOARDING_STEPS)[number];
+
+/** Étapes réellement parcourues : « install » seulement si l'appli peut être installée. */
+export function visibleSteps(showInstall: boolean): StepId[] {
+  return ONBOARDING_STEPS.filter(s => showInstall || s !== 'install');
+}
+
+/** Étape suivante dans l'ordre du parcours, même si `step` n'est pas (ou plus) visible ; reste sur la dernière. */
+export function stepAfter(step: StepId, visible: readonly StepId[]): StepId {
+  const at = ONBOARDING_STEPS.indexOf(step);
+  return visible.find(s => ONBOARDING_STEPS.indexOf(s) > at) ?? visible[visible.length - 1];
+}
+
+/** Étape précédente visible ; reste sur la première. */
+export function stepBefore(step: StepId, visible: readonly StepId[]): StepId {
+  const at = ONBOARDING_STEPS.indexOf(step);
+  return [...visible].reverse().find(s => ONBOARDING_STEPS.indexOf(s) < at) ?? visible[0];
+}
 
 /** Réponses en cours de saisie (textes bruts : validés à la construction du profil). */
 export interface OnboardingAnswers {

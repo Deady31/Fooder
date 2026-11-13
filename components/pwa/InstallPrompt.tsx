@@ -3,11 +3,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Download, PlusSquare, Share, X } from 'lucide-react';
 import { DISMISS_KEY, InstallMode, decideInstall, isIosSafari, isStandalone } from './installLogic';
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
+import { BeforeInstallPromptEvent, installCapture } from './installCapture';
 
 function readDismissedAt(): number | null {
   try {
@@ -37,23 +33,16 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
       const env = envState();
       setMode(decideInstall({ ...env, hasPrompt, dismissedAt: readDismissedAt(), now: Date.now() }));
     };
-    refresh(false);
-
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferred(e as BeforeInstallPromptEvent);
-      refresh(true);
+    // L'événement a pu être capturé plus tôt (inscription) : on le reprend, et on écoute la suite.
+    const capture = installCapture();
+    capture.start();
+    const sync = () => {
+      const prompt = capture.get();
+      setDeferred(prompt);
+      refresh(prompt !== null);
     };
-    const onInstalled = () => {
-      setDeferred(null);
-      setMode('hidden');
-    };
-    window.addEventListener('beforeinstallprompt', onPrompt);
-    window.addEventListener('appinstalled', onInstalled);
-    return () => {
-      window.removeEventListener('beforeinstallprompt', onPrompt);
-      window.removeEventListener('appinstalled', onInstalled);
-    };
+    sync();
+    return capture.subscribe(sync);
   }, []);
 
   if (mode === 'hidden') return null;
@@ -76,7 +65,7 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
     if (!deferred) return;
     await deferred.prompt();
     const { outcome } = await deferred.userChoice;
-    setDeferred(null);
+    installCapture().clear(); // l'invite native ne peut servir qu'une fois
     if (outcome === 'accepted') {
       setMode('hidden');
     } else {

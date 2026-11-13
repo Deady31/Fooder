@@ -5,6 +5,7 @@ import { ChevronRight, Heart, Pointer, X } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import { EMAIL_MAX, EMAIL_MESSAGES, validateEmail } from '../../lib/profile';
 import type { Profile } from '../../lib/profile';
+import { canFinishOnboarding } from '../../lib/legal';
 import { AGE_OPTIONS, DIET_OPTIONS, labelOf } from './options';
 
 interface FinalStepProps {
@@ -12,6 +13,9 @@ interface FinalStepProps {
   /** Texte saisi dans le champ e-mail (facultatif) */
   email: string;
   onEmailChange: (v: string) => void;
+  /** Case « J'accepte les Conditions et la Politique de confidentialité » (obligatoire) */
+  termsAccepted: boolean;
+  onTermsChange: (v: boolean) => void;
   /** « C'est parti » : l'e-mail saisi, s'il y en a un, est conservé */
   onGo: () => void;
   /** « Passer » : on entre dans l'app sans e-mail, jamais bloquant */
@@ -26,7 +30,7 @@ const TIPS = [
 
 const STICKERS = ['donut', 'pizza', 'ramen'] as const;
 
-export function FinalStep({ profile, email, onEmailChange, onGo, onSkip }: FinalStepProps) {
+export function FinalStep({ profile, email, onEmailChange, termsAccepted, onTermsChange, onGo, onSkip }: FinalStepProps) {
   const [error, setError] = useState<string | null>(null);
 
   const chips = [
@@ -34,7 +38,10 @@ export function FinalStep({ profile, email, onEmailChange, onGo, onSkip }: Final
     ...profile.diets.map(d => labelOf(DIET_OPTIONS, d)),
   ].filter((c): c is string => Boolean(c));
 
+  const canFinish = canFinishOnboarding(termsAccepted);
+
   const go = () => {
+    if (!canFinish) return;
     const res = validateEmail(email);
     if (!res.ok) {
       setError(EMAIL_MESSAGES[res.reason]);
@@ -98,10 +105,27 @@ export function FinalStep({ profile, email, onEmailChange, onGo, onSkip }: Final
             className={`text-xs font-semibold leading-snug ${error ? 'text-fooder-red' : 'text-slate-500'}`}>
             {error ?? 'Pour retrouver ton compte plus tard. On ne t’envoie rien pour l’instant.'}
           </p>
-          <button type='button' onClick={onSkip}
-            className='w-full rounded-xl border-[3px] border-plum bg-white py-2 text-sm font-black text-plum active:translate-y-0.5'>
+          <button type='button' onClick={onSkip} disabled={!canFinish}
+            className='w-full rounded-xl border-[3px] border-plum bg-white py-2 text-sm font-black text-plum active:translate-y-0.5 disabled:border-slate-300 disabled:text-slate-400 disabled:cursor-not-allowed'>
             Passer
           </button>
+        </div>
+
+        <div className='w-full max-w-xs text-left'>
+          <label htmlFor='onboarding-terms' className='flex items-start gap-3 min-h-[44px] cursor-pointer'>
+            <input id='onboarding-terms' type='checkbox' checked={termsAccepted} onChange={e => onTermsChange(e.target.checked)}
+              aria-describedby='onboarding-terms-help' required
+              className='mt-0.5 w-6 h-6 shrink-0 accent-[#6C2BFF] rounded border-[3px] border-plum' />
+            <span className='text-sm font-semibold text-plum leading-snug'>
+              J&apos;accepte les{' '}
+              <a href='/legal/terms' target='_blank' rel='noopener noreferrer' className='underline font-black'>Conditions d&apos;utilisation</a>{' '}
+              et la{' '}
+              <a href='/legal/privacy' target='_blank' rel='noopener noreferrer' className='underline font-black'>Politique de confidentialité</a>.
+            </span>
+          </label>
+          <p id='onboarding-terms-help' role='status' className={`text-xs font-bold leading-snug pl-9 ${canFinish ? 'text-slate-500' : 'text-fooder-red'}`}>
+            {canFinish ? 'Merci ! Les liens s’ouvrent dans un nouvel onglet.' : 'Coche cette case pour entrer dans Fooder. Les liens s’ouvrent dans un nouvel onglet.'}
+          </p>
         </div>
 
         <ul className='space-y-2 text-sm font-semibold text-slate-600'>
@@ -114,8 +138,10 @@ export function FinalStep({ profile, email, onEmailChange, onGo, onSkip }: Final
         </ul>
       </div>
 
-      <motion.button type='button' onClick={go} whileTap={{ scale: 0.97 }}
-        className='w-full duo-button bg-fooder-primary border-fooder-primary text-white text-xl py-5 mt-3 flex-shrink-0 flex items-center justify-center gap-2'>
+      <motion.button type='button' onClick={go} disabled={!canFinish} whileTap={canFinish ? { scale: 0.97 } : undefined}
+        className={`w-full duo-button text-xl py-5 mt-3 flex-shrink-0 flex items-center justify-center gap-2 ${
+          canFinish ? 'bg-fooder-primary border-fooder-primary text-white' : 'bg-white border-slate-300 text-slate-400 cursor-not-allowed'
+        }`}>
         C&apos;est parti ! <ChevronRight className='w-6 h-6' />
       </motion.button>
     </div>

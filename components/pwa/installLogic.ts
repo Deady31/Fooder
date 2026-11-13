@@ -45,3 +45,36 @@ export function decideInstall(input: {
   if (input.iosSafari) return 'ios';
   return 'hidden';
 }
+
+/* ── Étape « écran d'accueil » de l'inscription ──────────────────── */
+
+export type OnboardingInstallMode = 'skip' | 'native' | 'ios' | 'inapp';
+
+/** Navigateur intégré à une application (Instagram, TikTok, Facebook, Snapchat, WebView Android…) : installation impossible. */
+export function isInAppBrowser(ua: string): boolean {
+  return /instagram|fban|fbav|fb_iab|tiktok|musical_ly|bytedancewebview|snapchat|linkedinapp|micromessenger|twitter|line\/|; wv\)/i.test(ua);
+}
+
+/**
+ * Que montrer dans l'inscription ? Rien si déjà installée ou sur un navigateur qui ne sait pas installer (bureau…).
+ * Le refus des 7 jours de l'invitation habituelle ne s'applique pas ici : l'étape est courte et passable.
+ */
+export function decideOnboardingInstall(input: { standalone: boolean; ua: string; iosSafari: boolean; hasPrompt: boolean }): OnboardingInstallMode {
+  if (input.standalone) return 'skip';
+  if (isInAppBrowser(input.ua)) return 'inapp';
+  if (input.hasPrompt) return 'native';
+  if (input.iosSafari) return 'ios';
+  return 'skip';
+}
+
+/** Adresse à copier pour la rouvrir dans un vrai navigateur : sans ancre ni paramètre de relecture. */
+export function cleanInstallUrl(href: string): string {
+  try {
+    const url = new URL(href);
+    url.hash = '';
+    url.searchParams.delete('rejouer');
+    return url.toString();
+  } catch {
+    return href;
+  }
+}

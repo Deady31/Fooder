@@ -9,14 +9,28 @@ import { WelcomeStep } from '../../components/onboarding/WelcomeStep';
 import { PseudoStep } from '../../components/onboarding/PseudoStep';
 import { FinalStep } from '../../components/onboarding/FinalStep';
 import { HelpStep } from '../../components/onboarding/HelpStep';
+import { InstallStep } from '../../components/onboarding/InstallStep';
 import { MultiStep, SingleStep } from '../../components/onboarding/ChoiceSteps';
 import { AGE_OPTIONS, DIET_OPTIONS, GENDER_OPTIONS } from '../../components/onboarding/options';
 import { buildProfile, completeOnboarding, hasCompletedOnboarding, resetOnboardingForReplay } from '../../lib/profile';
-import { EMPTY_ANSWERS, ONBOARDING_STEPS, OnboardingAnswers, clearDraft, readDraft, writeDraft } from '../../lib/onboardingDraft';
+import { EMPTY_ANSWERS, OnboardingAnswers, StepId, clearDraft, readDraft, stepAfter, stepBefore, visibleSteps, writeDraft } from '../../lib/onboardingDraft';
+import { createAcceptance, canFinishOnboarding } from '../../lib/legal';
+import { installCapture } from '../../components/pwa/installCapture';
+import { decideOnboardingInstall, isIosSafari, isStandalone } from '../../components/pwa/installLogic';
+import type { OnboardingInstallMode } from '../../components/pwa/installLogic';
 import { rememberRef, wantsReplay, withoutReplayParam } from '../../lib/refParam';
 
-const STEPS = ONBOARDING_STEPS;
-const PROGRESS_TOTAL = STEPS.length - 1;
+/** Lit l'environnement du navigateur (hors rendu serveur) pour décider de l'étape « écran d'accueil ». */
+function readInstallMode(hasPrompt: boolean): OnboardingInstallMode {
+  const nav = navigator as Navigator & { standalone?: boolean };
+  const env = { ua: nav.userAgent, platform: nav.platform, maxTouchPoints: nav.maxTouchPoints };
+  return decideOnboardingInstall({
+    standalone: isStandalone({ displayModeStandalone: window.matchMedia('(display-mode: standalone)').matches, navigatorStandalone: nav.standalone }),
+    ua: nav.userAgent,
+    iosSafari: isIosSafari(env),
+    hasPrompt,
+  });
+}
 
 const slideVariants = {
   enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
@@ -27,9 +41,20 @@ const slideVariants = {
 export default function Onboarding() {
   const router = useRouter();
   const [checked, setChecked] = useState(false);
-  const [stepIdx, setStepIdx] = useState(0);
+  const [step, setStep] = useState<StepId>('welcome');
   const [dir, setDir] = useState(1);
   const [draft, setDraft] = useState<OnboardingAnswers>(EMPTY_ANSWERS);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [installMode, setInstallMode] = useState<OnboardingInstallMode>('skip');
+
+  // Capture de l'invite d'installation dès l'arrivée (l'événement n'est émis qu'une fois) et suivi du mode.
+  useEffect(() => {
+    const capture = installCapture();
+    capture.start();
+    const sync = () => setInstallMode(readInstallMode(capture.get() !== null));
+    sync();
+    return capture.subscribe(sync);
+  }, []);
 
   useEffect(() => {
     const search = window.location.search;
@@ -46,9 +71,8 @@ export default function Onboarding() {
       if (saved) {
         // Un pseudo invalide ne permet pas d'aller plus loin que l'écran du pseudo.
         const pseudoOk = buildProfile({ pseudo: saved.answers.pseudo }) !== null;
-        const idx = STEPS.indexOf(saved.step);
         setDraft(saved.answers);
-        setStepIdx(pseudoOk ? idx : Math.min(idx, STEPS.indexOf('pseudo')));
+        setStep(pseudoOk ? saved.step : 'pseudo');
       }
     }
     setChecked(true);
@@ -57,29 +81,36 @@ export default function Onboarding() {
   // Brouillon : réponses et étape courante gardées à chaque changement (effacé à la fin).
   useEffect(() => {
     if (!checked) return;
-    const step = STEPS[stepIdx];
     if (step === 'welcome' && draft === EMPTY_ANSWERS) return;
     writeDraft(step, draft);
-  }, [checked, stepIdx, draft]);
+  }, [checked, step, draft]);
 
   const patch = (changes: Partial<OnboardingAnswers>) => setDraft(d => ({ ...d, ...changes }));
 
+  const steps = useMemo(() => visibleSteps(installMode !== 'skip'), [installMode]);
   const next = () => {
     setDir(1);
-    setStepIdx(i => Math.min(i + 1, STEPS.length - 1));
+    setStep(s => stepAfter(s, steps));
   };
   const prev = () => {
     setDir(-1);
-    setStepIdx(i => Math.max(i - 1, 0));
+    setStep(s => stepBefore(s, steps));
   };
+
+  // L'appli vient d'être installée (ou le mode a changé) pendant l'étape : on passe à la suite.
+  useEffect(() => {
+    if (step === 'install' && installMode === 'skip') setStep('final');
+  }, [step, installMode]);
 
   const profile = useMemo(() => buildProfile({ ...draft }), [draft]);
 
   const finish = (withEmail: boolean) => {
-    const final = buildProfile({ ...draft, contactEmail: withEmail ? draft.contactEmail : '' });
+    if (!canFinishOnboarding(termsAccepted)) return;
+    const now = Date.now();
+    const final = buildProfile({ ...draft, contactEmail: withEmail ? draft.contactEmail : '', ...createAcceptance(now) }, now);
     if (!final) {
       setDir(-1);
-      setStepIdx(STEPS.indexOf('pseudo'));
+      setStep('pseudo');
       return;
     }
     completeOnboarding(final);
@@ -87,7 +118,7 @@ export default function Onboarding() {
     router.push('/swipe');
   };
 
-  const step = STEPS[stepIdx];
+  const stepIdx = Math.max(0, steps.indexOf(step));
 
   if (!checked) return <div className='h-[100dvh] bg-cream' />;
 
@@ -101,7 +132,7 @@ export default function Onboarding() {
               className='p-2 rounded-full hover:bg-white transition-colors flex-shrink-0'>
               <ArrowLeft className='w-5 h-5 text-slate-500' />
             </button>
-            <StepProgress index={stepIdx - 1} total={PROGRESS_TOTAL} />
+            <StepProgress index={stepIdx - 1} total={steps.length - 1} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -140,9 +171,12 @@ export default function Onboarding() {
 
             {step === 'help' && <HelpStep onNext={next} />}
 
+            {step === 'install' && installMode !== 'skip' && <InstallStep mode={installMode} onNext={next} />}
+
             {step === 'final' && profile && (
               <FinalStep profile={profile} email={draft.contactEmail}
                 onEmailChange={contactEmail => patch({ contactEmail })}
+                termsAccepted={termsAccepted} onTermsChange={setTermsAccepted}
                 onGo={() => finish(true)} onSkip={() => finish(false)} />
             )}
           </motion.div>

@@ -2,6 +2,8 @@ import { readJson, writeJson } from './store';
 import { renameMe } from './identity';
 import { validatePseudo } from './pseudo';
 import { QUARTIERS } from './quartiers';
+import { TERMS_FALLBACK_KEY, createAcceptance, sanitizeTermsAcceptance } from './legal';
+import type { TermsAcceptance } from './legal';
 import type { Diet } from '../data/mockRestaurants';
 
 /* ── Types ───────────────────────────────────────────────────────── */
@@ -26,6 +28,9 @@ export interface Profile {
   /** E-mail facultatif, jamais envoyé à un service d'authentification : stocké en local, synchronisé avec le profil. */
   contactEmail?: string | null;
   completedAt: number;
+  /** Conditions acceptées : date ISO et version (absents pour un profil créé avant l'acceptation obligatoire). */
+  termsAcceptedAt?: string;
+  termsVersion?: string;
   /* Champs hérités de l'ancien onboarding : lus s'ils existent, jamais écrits par le nouveau parcours. */
   /** Anciens ids de cuisines, par ordre de choix */
   cuisines?: string[];
@@ -158,6 +163,7 @@ function sanitize(raw: unknown, completedAt: number): Profile | null {
     diets: listOf(DIETS, raw.diets),
     contactEmail: email.ok ? email.value : null,
     completedAt: typeof raw.completedAt === 'number' && Number.isFinite(raw.completedAt) ? raw.completedAt : completedAt,
+    ...(sanitizeTermsAcceptance(raw) ?? {}),
     ...legacyFields(raw),
   };
 }
@@ -219,6 +225,22 @@ export function completeOnboarding(profile: Profile): boolean {
   }
   clearOnboardingDraft();
   return true;
+}
+
+/* ── Conditions d'utilisation acceptées ──────────────────────────── */
+
+/** Acceptation mémorisée : celle du profil (synchronisé), sinon le repli local. */
+export function readTermsAcceptance(): TermsAcceptance | null {
+  const profile = readProfile();
+  if (profile) return sanitizeTermsAcceptance(profile);
+  return sanitizeTermsAcceptance(readJson<unknown>(TERMS_FALLBACK_KEY, null));
+}
+
+/** Enregistre l'acceptation de la version courante dans le profil (ou, à défaut de profil, dans le repli local). */
+export function recordTermsAcceptance(now: number = Date.now()): boolean {
+  const acceptance = createAcceptance(now);
+  const profile = readProfile();
+  return profile ? writeProfile({ ...profile, ...acceptance }) : writeJson(TERMS_FALLBACK_KEY, acceptance);
 }
 
 /**

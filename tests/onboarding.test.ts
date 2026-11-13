@@ -6,6 +6,9 @@ import {
   clearDraft,
   parseDraft,
   readDraft,
+  stepAfter,
+  stepBefore,
+  visibleSteps,
   writeDraft,
 } from '../lib/onboardingDraft';
 import { extractRef, wantsReplay, withoutReplayParam } from '../lib/refParam';
@@ -21,8 +24,29 @@ function makeStorage() {
 }
 
 describe('parcours', () => {
-  it('accueil → pseudo → genre → âge → régime → aide → prêt', () => {
-    expect([...ONBOARDING_STEPS]).toEqual(['welcome', 'pseudo', 'gender', 'age', 'diet', 'help', 'final']);
+  it('accueil → pseudo → genre → âge → régime → aide → écran d’accueil → prêt', () => {
+    expect([...ONBOARDING_STEPS]).toEqual(['welcome', 'pseudo', 'gender', 'age', 'diet', 'help', 'install', 'final']);
+  });
+
+  it('l’étape écran d’accueil disparaît du parcours si l’installation est impossible', () => {
+    expect(visibleSteps(false)).not.toContain('install');
+    expect(visibleSteps(false)).toHaveLength(7);
+    expect(visibleSteps(true)).toEqual([...ONBOARDING_STEPS]);
+  });
+
+  it('stepAfter / stepBefore suivent le parcours visible', () => {
+    expect(stepAfter('help', visibleSteps(true))).toBe('install');
+    expect(stepAfter('help', visibleSteps(false))).toBe('final');
+    expect(stepAfter('install', visibleSteps(false))).toBe('final');
+    expect(stepAfter('final', visibleSteps(true))).toBe('final');
+    expect(stepBefore('final', visibleSteps(true))).toBe('install');
+    expect(stepBefore('final', visibleSteps(false))).toBe('help');
+    expect(stepBefore('welcome', visibleSteps(true))).toBe('welcome');
+  });
+
+  it('les brouillons aux étapes « help » et « install » restent lisibles', () => {
+    expect(parseDraft({ step: 'help' })?.step).toBe('help');
+    expect(parseDraft({ step: 'install' })?.step).toBe('install');
   });
 });
 
