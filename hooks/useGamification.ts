@@ -36,6 +36,8 @@ export const ALL_ACHIEVEMENTS: Achievement[] = [
   { id: 'quartiers_5', title: 'Cartographe', emoji: '🗺️', description: '5 quartiers explorés' },
   { id: 'photo_1', title: 'Éclaireur', emoji: '📸', description: 'Première vraie photo publiée' },
   { id: 'photos_5', title: 'Reporter', emoji: '🎞️', description: '5 vraies photos publiées' },
+  { id: 'first_shot', title: 'Premier cliché', emoji: '🤳', description: 'Ta première photo de plat publiée' },
+  { id: 'photographer', title: 'Photographe', emoji: '🖼️', description: '5 photos de plats publiées' },
   { id: 'friend_1', title: 'Premier ami', emoji: '🤝', description: 'Un ami ajouté' },
   { id: 'friends_5', title: 'La bande', emoji: '👯', description: '5 amis ajoutés' },
   { id: 'group_1', title: 'Chef de tablée', emoji: '🍽️', description: 'Une décision à plusieurs' },

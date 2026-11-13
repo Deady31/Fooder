@@ -1,9 +1,14 @@
 'use client';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '../components/auth/AuthProvider';
-import { deleteCloudPost, fetchCloudPosts } from '../lib/cloud/social';
+import { deleteCloudPost, fetchCloudPosts, setCloudPostLike } from '../lib/cloud/social';
+import { runWithSession } from '../lib/cloud/gate';
+import { communityPhotosFor } from '../lib/communityPhotos';
+import { awardPhotoPost, countKnownPhotos } from '../lib/rewards';
 import { publishPostOnline } from '../lib/cloud/publish';
 import { COMMENTS_KEY, MAX_COMMENT, FeedComment, FeedPost, POSTS_KEY, POST_LIKES_KEY, seedComments, seedPosts } from '../lib/feed';
+
+const CLOUD_POST_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function readJson<T>(key: string, fallback: T): T {
   try {
@@ -31,10 +36,12 @@ export function useFeed() {
   const [myCom, setMyCom] = useState<FeedComment[]>([]);
   const [remote, setRemote] = useState<FeedPost[]>([]);
   const { uid, enabled } = useAuth();
+  const likedRef = useRef<string[]>([]);
 
   useEffect(() => {
     setMine(readJson<FeedPost[]>(POSTS_KEY, []));
-    setLiked(readJson<string[]>(POST_LIKES_KEY, []));
+    likedRef.current = readJson<string[]>(POST_LIKES_KEY, []);
+    setLiked(likedRef.current);
     setSeeds(seedPosts());
     setSeedCom(seedComments());
     setMyCom(readJson<FeedComment[]>(COMMENTS_KEY, []));
@@ -55,11 +62,23 @@ export function useFeed() {
 
   const addPost = useCallback(
     (post: FeedPost, onOnline?: (message: string) => void): boolean => {
+      // Photos déjà connues AVANT d'enregistrer ce post (sinon il compterait pour lui-même).
+      const localBefore = post.photo ? communityPhotosFor(post.restaurantId).length : 0;
       const next = [post, ...mine];
       if (!writeJson(POSTS_KEY, next)) return false; // stockage plein : on prévient l'utilisateur
       setMine(next);
+      // XP de la photo (une fois par publication), puis envoi en ligne : le comptage serveur précède l'envoi.
+      const settled = post.photo
+        ? countKnownPhotos(post.restaurantId, localBefore)
+            .then(known => {
+              const award = awardPhotoPost({ restId: post.restaurantId, hasPhoto: true, knownPhotos: known });
+              if (award.message) onOnline?.(award.message);
+            })
+            .catch(() => undefined)
+        : Promise.resolve();
       // Action explicite (bouton Publier) : on crée un compte anonyme si besoin. Échec : le post reste local, message à l'utilisateur.
-      publishPostOnline(post)
+      settled
+        .then(() => publishPostOnline(post))
         .then(r => {
           if (!r.ok && !r.silent && r.message) onOnline?.(r.message);
         })
@@ -80,11 +99,14 @@ export function useFeed() {
   }, []);
 
   const toggleLike = useCallback((id: string) => {
-    setLiked(prev => {
-      const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
-      writeJson(POST_LIKES_KEY, next);
-      return next;
-    });
+    const current = likedRef.current;
+    const wasLiked = current.includes(id);
+    const next = wasLiked ? current.filter(x => x !== id) : [...current, id];
+    likedRef.current = next;
+    writeJson(POST_LIKES_KEY, next);
+    setLiked(next);
+    // Les cœurs des posts publiés comptent pour le classement des photos (échec silencieux : le cœur reste local).
+    if (CLOUD_POST_ID.test(id)) void runWithSession(uid => setCloudPostLike(id, uid, !wasLiked)).catch(() => undefined);
   }, []);
 
   const commentsFor = useCallback(

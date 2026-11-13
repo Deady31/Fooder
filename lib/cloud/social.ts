@@ -4,6 +4,7 @@ import { FriendSnapshot, parseSnapshot } from '../social/snapshot';
 import { readFriends, upsertFriend } from '../social/friends';
 import { GroupSession, GroupVote, mergeGroups, saveGroup, findGroup } from '../social/group';
 import { FeedPost, Verdict } from '../feed';
+import { CommunityPhoto, rankCommunityPhotos } from '../photoPriority';
 import { StickerName, stickerFor } from '../stickers';
 import { writeJson } from '../store';
 import { FRIENDS_KEY } from '../social/friends';
@@ -224,22 +225,67 @@ export async function deleteCloudPost(postId: string): Promise<void> {
   await sb.from('posts').delete().eq('id', postId);
 }
 
-/** Vraies photos de la communauté pour une liste de restos (une requête pour tout le deck). */
-export async function fetchRestaurantPhotos(restaurantIds: string[]): Promise<Map<string, string[]>> {
-  const out = new Map<string, string[]>();
+/**
+ * Photos communautaires par resto, avec leurs cœurs (vue `post_like_counts`) et, à la demande, le pseudo de l'auteur.
+ * Tant que la migration 20261114000100_photo_ranking.sql n'est pas jouée, les cœurs valent 0 (tri par récence), sans erreur.
+ */
+export async function fetchRestaurantPhotoDetails(
+  restaurantIds: string[],
+  withAuthors = false
+): Promise<Map<string, CommunityPhoto[]>> {
+  const out = new Map<string, CommunityPhoto[]>();
   const sb = cloud();
   if (!sb || restaurantIds.length === 0) return out;
   const { data } = await sb
     .from('posts')
-    .select('restaurant_id, photo_path')
+    .select('id, user_id, restaurant_id, photo_path, created_at')
     .in('restaurant_id', restaurantIds.slice(0, 200))
     .not('photo_path', 'is', null)
     .order('created_at', { ascending: false })
     .limit(400);
-  for (const row of (data ?? []) as { restaurant_id: string; photo_path: string }[]) {
-    out.set(row.restaurant_id, [...(out.get(row.restaurant_id) ?? []), photoUrl(row.photo_path)]);
+  const rows = (data ?? []) as { id: string; user_id: string; restaurant_id: string; photo_path: string; created_at: string }[];
+  if (rows.length === 0) return out;
+
+  const likeById = new Map<string, number>();
+  const { data: counts } = await sb.from('post_like_counts').select('post_id, likes').in('post_id', rows.map(r => r.id));
+  for (const c of (counts ?? []) as { post_id: string; likes: number }[]) likeById.set(c.post_id, c.likes);
+
+  const nameById = new Map<string, string>();
+  if (withAuthors) {
+    const { data: authors } = await sb.from('post_authors').select('id, name').in('id', Array.from(new Set(rows.map(r => r.user_id))));
+    for (const a of (authors ?? []) as { id: string; name: string }[]) nameById.set(a.id, a.name);
   }
+
+  for (const row of rows) {
+    const photo: CommunityPhoto = {
+      postId: row.id,
+      url: photoUrl(row.photo_path),
+      likes: likeById.get(row.id) ?? 0,
+      createdAt: Date.parse(row.created_at) || 0,
+      author: nameById.get(row.user_id),
+    };
+    out.set(row.restaurant_id, [...(out.get(row.restaurant_id) ?? []), photo]);
+  }
+  out.forEach((list, id) => out.set(id, rankCommunityPhotos(list)));
   return out;
+}
+
+/** Vraies photos de la communauté pour une liste de restos (une requête pour tout le deck), la plus aimée en premier. */
+export async function fetchRestaurantPhotos(restaurantIds: string[]): Promise<Map<string, string[]>> {
+  const details = await fetchRestaurantPhotoDetails(restaurantIds);
+  const urls = new Map<string, string[]>();
+  details.forEach((list, id) => urls.set(id, list.map(p => p.url)));
+  return urls;
+}
+
+/** Ajoute ou retire mon cœur sur un post publié. Échec silencieux : le cœur reste local. */
+export async function setCloudPostLike(postId: string, uid: string, liked: boolean): Promise<boolean> {
+  const sb = cloud();
+  if (!sb) return false;
+  const { error } = liked
+    ? await sb.from('post_likes').upsert({ post_id: postId, user_id: uid }, { onConflict: 'post_id,user_id', ignoreDuplicates: true })
+    : await sb.from('post_likes').delete().eq('post_id', postId).eq('user_id', uid);
+  return !error;
 }
 
 export async function reportPost(postId: string, uid: string, reason: string): Promise<boolean> {

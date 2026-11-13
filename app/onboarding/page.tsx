@@ -8,6 +8,7 @@ import { StepProgress } from '../../components/onboarding/StepProgress';
 import { WelcomeStep } from '../../components/onboarding/WelcomeStep';
 import { PseudoStep } from '../../components/onboarding/PseudoStep';
 import { FinalStep } from '../../components/onboarding/FinalStep';
+import { HelpStep } from '../../components/onboarding/HelpStep';
 import { MultiStep, SingleStep } from '../../components/onboarding/ChoiceSteps';
 import {
   AGE_OPTIONS, AVERSION_OPTIONS, BUDGET_OPTIONS, COMPANION_OPTIONS, DIET_OPTIONS,
@@ -22,11 +23,11 @@ import { rememberRef } from '../../lib/refParam';
 
 type StepId =
   | 'welcome' | 'pseudo' | 'gender' | 'age' | 'cuisines' | 'diet' | 'budget'
-  | 'vibes' | 'frequency' | 'aversions' | 'quartier' | 'companions' | 'final';
+  | 'vibes' | 'frequency' | 'aversions' | 'quartier' | 'companions' | 'help' | 'final';
 
 const STEPS: StepId[] = [
   'welcome', 'pseudo', 'gender', 'age', 'cuisines', 'diet', 'budget',
-  'vibes', 'frequency', 'aversions', 'quartier', 'companions', 'final',
+  'vibes', 'frequency', 'aversions', 'quartier', 'companions', 'help', 'final',
 ];
 const PROGRESS_TOTAL = STEPS.length - 1;
 
@@ -191,6 +192,8 @@ export default function Onboarding() {
                 subtitle='Pour te proposer les bonnes adresses.' sticker='pizza'
                 options={COMPANION_OPTIONS} value={draft.companions} onPick={companions => patch({ companions })} onNext={next} />
             )}
+
+            {step === 'help' && <HelpStep onNext={next} />}
 
             {step === 'final' && profile && <FinalStep profile={profile} onGo={finish} />}
           </motion.div>
