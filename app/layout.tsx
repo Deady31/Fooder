@@ -8,11 +8,11 @@ const body = DM_Sans({ subsets: ['latin'], variable: '--font-body' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://fooder-tawny.vercel.app'),
-  title: 'Fooder - Swipe your Food',
-  description: 'Trouvez votre prochain restaurant en swipant',
+  title: 'Fooder : swipe tes restos',
+  description: 'Trouve ton prochain resto en swipant, à Toulouse.',
   manifest: '/manifest.json',
   openGraph: {
-    title: 'Fooder - Swipe your Food',
+    title: 'Fooder : swipe tes restos',
     description: 'Swipe les restos de Toulouse, trouve où manger en quelques secondes et compare tes goûts avec tes amis.',
     siteName: 'Fooder',
     locale: 'fr_FR',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     images: ['/og.png'],
-    title: 'Fooder - Swipe your Food',
+    title: 'Fooder : swipe tes restos',
     description: 'Swipe les restos de Toulouse, trouve où manger en quelques secondes et compare tes goûts avec tes amis.',
   },
   appleWebApp: {

@@ -50,3 +50,14 @@ export function markAllRead(): void {
 export function clearNotifications(): void {
   write([]);
 }
+
+/** Fusionne un instantané avec la liste actuelle (annulation de « Tout effacer ») : sans doublon, du plus récent au plus ancien. */
+export function mergeNotifications(current: AppNotification[], snapshot: AppNotification[]): AppNotification[] {
+  const seen = new Set(current.map(n => n.id));
+  const extra = snapshot.filter(n => !seen.has(n.id));
+  return [...current, ...extra].sort((a, b) => b.createdAt - a.createdAt);
+}
+
+export function restoreNotifications(snapshot: AppNotification[]): void {
+  write(mergeNotifications(readNotifications(), snapshot));
+}

@@ -1,9 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Layers, Map, Heart, User, Users } from 'lucide-react';
+import { likesCount, subscribeLikes } from '../../lib/likes';
+import { badgeLabel, isTabActive, tabIndexAfter } from '../../lib/shell';
 
 const TABS = [
   { href: '/swipe', label: 'Découvrir', Icon: Layers },
@@ -13,35 +15,46 @@ const TABS = [
   { href: '/profile', label: 'Profil', Icon: User },
 ] as const;
 
-function readLikesCount(): number {
-  try {
-    return JSON.parse(localStorage.getItem('fooder_likes') || '[]').length;
-  } catch {
-    return 0;
-  }
-}
-
 export function TabBar() {
   const pathname = usePathname();
   const [likes, setLikes] = useState(0);
+  const navRef = useRef<HTMLElement>(null);
 
+  // Badge de favoris : relu à chaque changement du store (autre onglet du navigateur inclus) et de page.
   useEffect(() => {
-    setLikes(readLikesCount());
+    const sync = () => setLikes(likesCount());
+    sync();
+    return subscribeLikes(sync);
   }, [pathname]);
+
+  // Flèches / Début / Fin : déplacent le focus d'un onglet à l'autre (Tab reste utilisable).
+  const onKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    const links = Array.from(navRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? []);
+    const next = tabIndexAfter(e.key, links.indexOf(document.activeElement as HTMLAnchorElement), links.length);
+    if (next === null) return;
+    e.preventDefault();
+    links[next]?.focus();
+  };
+
+  const badge = badgeLabel(likes);
 
   return (
     <nav
+      ref={navRef}
       aria-label='Navigation principale'
+      onKeyDown={onKeyDown}
       className='shrink-0 z-30 flex gap-1.5 px-2.5 pt-2.5 pb-[max(env(safe-area-inset-bottom),10px)] bg-cream border-t-[3px] border-plum'
     >
       {TABS.map(({ href, label, Icon }) => {
-        const active = pathname === href;
+        const active = isTabActive(pathname, href);
+        const showBadge = href === '/wishlist' && badge !== null;
         return (
           <Link
             key={href}
             href={href}
             aria-current={active ? 'page' : undefined}
-            className='relative flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-2xl'
+            aria-label={showBadge ? `${label}, ${likes} resto${likes > 1 ? 's' : ''}` : undefined}
+            className='relative flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 py-1.5 rounded-2xl'
           >
             {active && (
               <motion.span
@@ -57,23 +70,24 @@ export function TabBar() {
               transition={{ type: 'spring', stiffness: 500, damping: 22 }}
             >
               <span className='relative'>
-                <Icon className={`w-6 h-6 ${active ? 'text-plum' : 'text-plum/55'}`} strokeWidth={2.5} />
+                <Icon aria-hidden='true' className={`w-6 h-6 ${active ? 'text-plum' : 'text-plum-soft'}`} strokeWidth={2.5} />
                 <AnimatePresence>
-                  {href === '/wishlist' && likes > 0 && (
+                  {showBadge && (
                     <motion.span
-                      key={likes}
+                      key={badge}
+                      aria-hidden='true'
                       initial={{ scale: 0.3, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.3, opacity: 0 }}
                       transition={{ type: 'spring', stiffness: 500, damping: 14 }}
                       className='absolute -top-1.5 -right-3 min-w-[18px] h-[18px] px-1 rounded-full bg-bubblegum border-2 border-plum text-[10px] font-black text-plum flex items-center justify-center'
                     >
-                      {likes}
+                      {badge}
                     </motion.span>
                   )}
                 </AnimatePresence>
               </span>
-              <span className={`text-[11px] font-bold ${active ? 'text-plum' : 'text-plum/55'}`}>{label}</span>
+              <span className={`text-[11px] font-bold ${active ? 'text-plum' : 'text-plum-soft'}`}>{label}</span>
             </motion.span>
           </Link>
         );

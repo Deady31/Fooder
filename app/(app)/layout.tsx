@@ -1,4 +1,6 @@
 import { TabBar } from '../../components/nav/TabBar';
+import { VisibilityPause } from '../../components/nav/VisibilityPause';
+import { CelebrationHost } from '../../components/celebrate/CelebrationHost';
 import { RitualsRunner } from '../../components/rituals/RitualsRunner';
 import { AuthProvider } from '../../components/auth/AuthProvider';
 import { TermsGate } from '../../components/legal/TermsGate';
@@ -10,6 +12,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div className='flex-1 min-h-0 relative'>{children}</div>
       <TabBar />
       <RitualsRunner />
+      <CelebrationHost />
+      <VisibilityPause />
       <TermsGate />
     </div>
     </AuthProvider>
