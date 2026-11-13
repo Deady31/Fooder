@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Restaurant } from '../data/mockRestaurants';
 import { StickerName } from '../lib/stickers';
+import { readDislikes, readLikes, subscribeLikes } from '../lib/likes';
 
 export interface FoodDNA {
   archetype: string;
@@ -69,17 +70,9 @@ const EMPTY_DNA: FoodDNA = {
   topCuisines: [],
 };
 
-function readList(key: string): Restaurant[] {
-  try {
-    return JSON.parse(localStorage.getItem(key) || '[]');
-  } catch {
-    return [];
-  }
-}
-
 export function computeDNA(): FoodDNA {
-  const likes = readList('fooder_likes');
-  const dislikes = readList('fooder_dislikes');
+  const likes = readLikes();
+  const dislikes = readDislikes();
   const totalLikes = likes.length;
   const totalSwipes = totalLikes + dislikes.length;
   const likeRate = totalSwipes > 0 ? Math.round((totalLikes / totalSwipes) * 100) : 0;
@@ -110,6 +103,10 @@ export function computeDNA(): FoodDNA {
 
 export function useFoodDNA(): FoodDNA {
   const [dna, setDna] = useState<FoodDNA>(EMPTY_DNA);
-  useEffect(() => { setDna(computeDNA()); }, []);
+  useEffect(() => {
+    const sync = () => setDna(computeDNA());
+    sync();
+    return subscribeLikes(sync);
+  }, []);
   return dna;
 }

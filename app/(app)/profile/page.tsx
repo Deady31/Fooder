@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { Share2, ChevronRight, Pencil, Flame, Users, Trophy } from 'lucide-react';
@@ -23,6 +23,11 @@ import { visitedQuartiers } from '../../../lib/visits';
 import { PERKS, bestTitle, contributorTitles, monthlyChallenges } from '../../../lib/rituals';
 import { FeedPost, POSTS_KEY } from '../../../lib/feed';
 import { readJson } from '../../../lib/store';
+import { readDislikes, readLikes, subscribeLikes } from '../../../lib/likes';
+import { ScaleBar } from '../../../components/profile/ScaleBar';
+import { XpGauge } from '../../../components/profile/XpGauge';
+import { ActionToast, ActionToastState } from '../../../components/profile/ActionToast';
+import { streakHint } from '../../../components/profile/streakHint';
 
 const QUARTIER_STICKERS: StickerName[] = [
   'plate', 'wine', 'croissant', 'pasta', 'coffee', 'croque', 'cupcake', 'kebab', 'burger',
@@ -40,18 +45,12 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id'];
 
 interface StoredStats {
-  likes: { address?: string }[];
   totalSwipes: number;
 }
 
+/** Même source que Favoris, Carte et la barre d'onglets (lib/likes). */
 function readStats(): StoredStats {
-  try {
-    const likes = JSON.parse(localStorage.getItem('fooder_likes') || '[]');
-    const dislikes = JSON.parse(localStorage.getItem('fooder_dislikes') || '[]');
-    return { likes, totalSwipes: likes.length + dislikes.length };
-  } catch {
-    return { likes: [], totalSwipes: 0 };
-  }
+  return { totalSwipes: readLikes().length + readDislikes().length };
 }
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -62,7 +61,7 @@ export default function ProfilePage() {
   const dna = useFoodDNA();
   const { streak, xp, level, xpProgress, achievements, unlockedIds } = useGamification();
   const [activeTab, setActiveTab] = useState<TabId>('dna');
-  const [stats, setStats] = useState<StoredStats>({ likes: [], totalSwipes: 0 });
+  const [stats, setStats] = useState<StoredStats>({ totalSwipes: 0 });
   const { avatar, setAvatar } = useAvatar();
   const [pickerOpen, setPickerOpen] = useState(false);
   const [lockedHint, setLockedHint] = useState<string | null>(null);
@@ -72,9 +71,26 @@ export default function ProfilePage() {
   const [posts, setPosts] = useState<FeedPost[]>([]);
 
   useEffect(() => {
-    setStats(readStats());
+    const sync = () => setStats(readStats());
+    sync();
     setPosts(readJson<FeedPost[]>(POSTS_KEY, []));
+    return subscribeLikes(sync);
   }, []);
+
+  const [toast, setToast] = useState<ActionToastState | null>(null);
+  const toastSeq = useRef(0);
+  const dismissToast = useCallback(() => setToast(null), []);
+  const notify = (message: string) => {
+    toastSeq.current += 1;
+    setToast({ id: toastSeq.current, message });
+  };
+
+  // Indice de verrouillage de la mascotte : minuteur annulé au démontage et à chaque nouvel indice.
+  useEffect(() => {
+    if (!lockedHint) return;
+    const t = setTimeout(() => setLockedHint(null), 2200);
+    return () => clearTimeout(t);
+  }, [lockedHint]);
 
   const unlockedQuartiers = visitedQuartiers(social.visits);
   const explorationPct = Math.round((unlockedQuartiers.size / TOULOUSE_QUARTIERS.length) * 100);
@@ -83,13 +99,21 @@ export default function ProfilePage() {
   const title = bestTitle(titles);
   const challenges = monthlyChallenges(social.visits, posts);
   const weekly = social.streak;
+  const hint = streakHint(weekly);
 
   const handleShare = async () => {
     const text = `Mon profil Fooder : ${dna.archetype}\nSérie : ${weekly.current} semaine(s)\n${social.visits.length} restos testés\n#Fooder`;
-    if (navigator.share) {
-      await navigator.share({ title: 'Mon Fooder Wrapped', text });
-    } else {
-      navigator.clipboard?.writeText(text);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Mon Fooder Wrapped', text });
+      } else {
+        await navigator.clipboard.writeText(text);
+        notify('Copié dans le presse-papiers');
+      }
+    } catch (err) {
+      // Annuler la feuille de partage n'est pas une erreur.
+      if (err instanceof DOMException && err.name === 'AbortError') return;
+      notify('Partage impossible pour le moment');
     }
   };
 
@@ -142,30 +166,17 @@ export default function ProfilePage() {
             title={weekly.thisWeekDone ? 'Semaine validée' : 'Teste un resto cette semaine pour garder ta série'}
           >
             <span className="font-display text-xl leading-none flex items-center gap-0.5">
-              <Flame className="w-4 h-4" strokeWidth={2.5} />
+              <Flame className={`w-4 h-4 transition-opacity ${hint?.urgent ? 'opacity-50' : ''}`} strokeWidth={2.5} aria-hidden="true" />
               {weekly.current}
             </span>
             <span className="text-xs font-bold">{weekly.current > 1 ? 'semaines' : 'semaine'}</span>
           </div>
         </div>
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs font-bold text-plum-muted">
-            <span>Niveau {level}</span>
-            <span>{Math.round(xpProgress * 100)}%</span>
-          </div>
-          <div className="h-4 bg-white border-[3px] border-plum rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${xpProgress * 100}%` }}
-              transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
-              className="h-full bg-bubblegum"
-            />
-          </div>
-        </div>
+        <XpGauge xp={xp} level={level} xpProgress={xpProgress} />
         {!weekly.thisWeekDone && (
-          <p className="text-xs font-bold text-plum-muted">
-            {weekly.current > 0 ? `Teste un resto avant dimanche pour garder ta série de ${weekly.current} semaine${weekly.current > 1 ? 's' : ''}.` : 'Teste un resto cette semaine pour lancer ta série.'}
-            {weekly.jokersLeft > 0 && weekly.current > 0 ? ' Joker dispo.' : ''}
+          <p className={`text-xs font-bold ${hint?.urgent ? 'text-danger' : 'text-plum-muted'}`}>
+            {hint ? `${hint.text}. ` : 'Teste un resto cette semaine pour lancer ta série. '}
+            {weekly.jokersLeft > 0 && weekly.current > 0 ? 'Joker dispo.' : ''}
           </p>
         )}
       </section>
@@ -222,10 +233,14 @@ export default function ProfilePage() {
 
       <InviteCard showInstall={false} className="mx-4 mb-3" />
 
-      <nav className="sticky top-0 z-20 flex px-3 py-2.5 gap-2 bg-cream border-b-[3px] border-plum" aria-label="Sections du profil">
+      <div role="tablist" className="sticky top-0 z-20 flex px-3 py-2.5 gap-2 bg-cream border-b-[3px] border-plum" aria-label="Sections du profil">
         {TABS.map(({ id, label }) => (
           <button
             key={id}
+            role="tab"
+            id={`profile-tab-${id}`}
+            aria-selected={activeTab === id}
+            aria-controls="profile-panel"
             onClick={() => setActiveTab(id)}
             className={`flex-1 chip justify-center whitespace-nowrap !px-1 !py-2 min-h-[44px] !text-xs transition-all active:translate-y-0.5 ${
               activeTab === id ? 'bg-fooder-primary text-white' : 'bg-white text-plum'
@@ -234,9 +249,9 @@ export default function ProfilePage() {
             {label}
           </button>
         ))}
-      </nav>
+      </div>
 
-      <div>
+      <div id="profile-panel" role="tabpanel" aria-labelledby={`profile-tab-${activeTab}`}>
         <AnimatePresence mode="wait">
           {activeTab === 'dna' && (
             <motion.div key="dna" {...fade} className="p-4 space-y-4">
@@ -269,10 +284,11 @@ export default function ProfilePage() {
                   {dna.topCuisines.map(({ cuisine, count }) => (
                     <div key={cuisine} className="flex items-center gap-3">
                       <span className="text-sm font-bold text-plum flex-1 truncate">{cuisine}</span>
-                      <div className="flex-1 h-3 bg-cream border-2 border-plum rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-fooder-primary"
-                          style={{ width: `${Math.min((count / Math.max(dna.totalLikes, 1)) * 100, 100)}%` }}
+                      <div className="flex-1">
+                        <ScaleBar
+                          value={count / Math.max(dna.totalLikes, 1)}
+                          trackClassName="h-3 bg-cream border-2 border-plum rounded-full"
+                          barClassName="bg-fooder-primary"
                         />
                       </div>
                       <span className="text-xs font-black text-plum w-5 text-right">{count}</span>
@@ -303,9 +319,11 @@ export default function ProfilePage() {
                         <p className="text-sm font-bold text-plum leading-tight">{c.title}</p>
                         <span className="text-xs font-black text-plum shrink-0">{c.progress}/{c.goal}</span>
                       </div>
-                      <div className="h-2.5 bg-cream border-2 border-plum rounded-full overflow-hidden">
-                        <div className={`h-full ${c.progress >= c.goal ? 'bg-fooder-mint' : 'bg-bubblegum'}`} style={{ width: `${(c.progress / c.goal) * 100}%` }} />
-                      </div>
+                      <ScaleBar
+                        value={c.progress / c.goal}
+                        trackClassName="h-2.5 bg-cream border-2 border-plum rounded-full"
+                        barClassName={c.progress >= c.goal ? 'bg-fooder-mint' : 'bg-bubblegum'}
+                      />
                       <p className="text-xs font-medium text-slate-muted">{c.desc}</p>
                     </div>
                   </div>
@@ -406,14 +424,12 @@ export default function ProfilePage() {
                   <p className="font-display text-xl text-plum">Ma Toulouse</p>
                   <span className="chip bg-fooder-mint text-plum">{explorationPct}% découvert</span>
                 </div>
-                <div className="h-4 bg-cream border-[3px] border-plum rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${explorationPct}%` }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                    className="h-full bg-fooder-mint"
-                  />
-                </div>
+                <ScaleBar
+                  value={explorationPct / 100}
+                  trackClassName="h-4 bg-cream border-[3px] border-plum rounded-full"
+                  barClassName="bg-fooder-mint"
+                  delay={0.3}
+                />
               </div>
 
               <div className="grid grid-cols-3 gap-3">
@@ -459,13 +475,13 @@ export default function ProfilePage() {
         onSave={setAvatar}
         onLockedTap={reason => setLockedHint(reason)}
       />
+      <ActionToast toast={toast} onDismiss={dismissToast} />
       <AnimatePresence>
         {lockedHint && pickerOpen && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            onAnimationComplete={() => setTimeout(() => setLockedHint(null), 1600)}
             className="fixed bottom-24 inset-x-0 z-[160] flex justify-center pointer-events-none"
           >
             <span className="chip bg-lemon text-plum text-xs !px-4 !py-2">
