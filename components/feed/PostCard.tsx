@@ -2,26 +2,35 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, MessageCircle, Send, Trash2 } from 'lucide-react';
-import { FeedComment, FeedPost, MAX_COMMENT, VERDICTS, timeAgo } from '../../lib/feed';
+import { FeedPost, MAX_COMMENT, VERDICTS, timeAgo } from '../../lib/feed';
+import { CommentItem } from './CommentItem';
+import type { EditResult, StoredComment } from './commentEdit';
 import { Avatar } from '../profile/Avatar';
+import { isDemoPost, isVisitPost } from './feedLogic';
 import { Sticker } from '../ui/Sticker';
 
 interface PostCardProps {
   post: FeedPost;
   liked: boolean;
-  comments: FeedComment[];
+  /** Nombre de « miam » à afficher (voir miamCount) : jamais recalculé ici. */
+  count: number;
+  comments: StoredComment[];
   onLike: (id: string) => void;
   onDelete: (id: string) => void;
   onComment: (postId: string, text: string) => boolean;
+  onEditComment: (commentId: string, text: string) => EditResult;
 }
 
+/** Texte du tampon : teintes accessibles (les couleurs vives restent pour le contour). */
+const VERDICT_INK: Record<string, string> = { miam: '#0B7A47', bof: '#C4105E', atester: '#6C2BFF' };
+
 /** Un post = un ticket de caisse : tampon de verdict, nom du resto, mot, perforation, réactions. */
-export function PostCard({ post, liked, comments, onLike, onDelete, onComment }: PostCardProps) {
+export function PostCard({ post, liked, count, comments, onLike, onDelete, onComment, onEditComment }: PostCardProps) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
   const verdict = VERDICTS.find(v => v.id === post.verdict) ?? VERDICTS[0];
-  const isSeed = post.id.startsWith('seed-');
-  const count = post.likes + (liked ? 1 : 0);
+  const isDemo = isDemoPost(post);
+  const isVisit = isVisitPost(post);
 
   const send = () => {
     if (onComment(post.id, draft)) setDraft('');
@@ -40,22 +49,23 @@ export function PostCard({ post, liked, comments, onLike, onDelete, onComment }:
         <div className='flex items-start justify-between gap-3'>
           <span
             className='inline-block font-display text-xl leading-none px-2.5 py-1.5 rounded-lg border-[3px] -rotate-6 bg-cream'
-            style={{ color: verdict.color, borderColor: verdict.color }}
+            style={{ color: VERDICT_INK[verdict.id] ?? '#2B0F3A', borderColor: verdict.color }}
           >
             {verdict.label}
           </span>
           <div className='flex items-center gap-1.5 shrink-0'>
-            {isSeed && <span className='chip !text-[9px] !px-2 !py-0.5 bg-lemon text-plum'>démo</span>}
+            {isDemo && <span className='chip !text-[10px] !px-2 !py-0.5 bg-lemon text-plum'>exemple</span>}
+            {isVisit && <span className='chip !text-[10px] !px-2 !py-0.5 bg-fooder-mint text-plum'>visite confirmée</span>}
             <span className='chip !text-[10px] !px-2 !py-0.5 bg-cream text-plum'>{post.cuisine}</span>
           </div>
         </div>
 
         <h3 className='mt-3 text-[clamp(20px,6.2vw,24px)] leading-[1.05] text-plum break-words'>{post.restaurantName}</h3>
 
-        <div className='mt-1.5 flex items-center gap-2 text-[11px] font-semibold text-plum/60 min-w-0'>
+        <div className='mt-1.5 flex items-center gap-2 text-[11px] font-semibold text-plum-muted min-w-0'>
           <Avatar avatar={post.author.avatar} size={22} className='!border-2 !shadow-none' />
           <span className='truncate'>
-            {post.mine ? 'Toi' : post.author.name} · niv. {post.author.level} · {timeAgo(post.createdAt)}
+            {post.mine ? 'Toi' : post.author.name} · niv. {post.author.level} · {isDemo ? 'exemple' : timeAgo(post.createdAt)}
           </span>
         </div>
 
@@ -108,8 +118,8 @@ export function PostCard({ post, liked, comments, onLike, onDelete, onComment }:
           <MessageCircle className='w-5 h-5' strokeWidth={2.5} />
           {comments.length}
         </button>
-        {post.mine && (
-          <button onClick={() => onDelete(post.id)} aria-label='Supprimer mon post' className='ml-auto w-11 h-11 flex items-center justify-center text-plum/50 active:text-plum'>
+        {post.mine && !isVisit && (
+          <button onClick={() => onDelete(post.id)} aria-label='Supprimer mon post' className='ml-auto w-11 h-11 flex items-center justify-center text-plum-muted active:text-plum'>
             <Trash2 className='w-5 h-5' strokeWidth={2.5} />
           </button>
         )}
@@ -125,13 +135,9 @@ export function PostCard({ post, liked, comments, onLike, onDelete, onComment }:
             className='overflow-hidden rounded-b-[13px] bg-cream/70 border-t-2 border-plum/20'
           >
             <ul className='px-4 pt-3 space-y-2'>
-              {comments.length === 0 && <li className='text-xs font-semibold text-plum/50'>Personne n&apos;a encore commenté. Lance la discussion.</li>}
+              {comments.length === 0 && <li className='text-xs font-semibold text-plum-muted'>Personne n&apos;a encore commenté. Lance la discussion.</li>}
               {comments.map(c => (
-                <li key={c.id} className='text-sm leading-snug break-words'>
-                  <span className='font-bold text-plum'>{c.mine ? 'Toi' : c.authorName}</span>{' '}
-                  <span className='font-medium text-slate-700'>{c.text}</span>
-                  <span className='text-[10px] font-bold text-plum/40'> · {timeAgo(c.createdAt)}</span>
-                </li>
+                <CommentItem key={c.id} comment={c} onEdit={onEditComment} />
               ))}
             </ul>
             <form

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Restaurant } from '../../data/mockRestaurants';
 import { CheckinSheet } from '../checkin/CheckinSheet';
@@ -15,11 +15,21 @@ const PROMPTED_KEY = 'fooder_checkin_prompted';
 export function RitualsRunner() {
   const pathname = usePathname();
   const [prompt, setPrompt] = useState<Checkin | null>(null);
+  /** Minuteur de la question spontanée : annulé au changement d'écran et au démontage (aucune fuite). */
+  const promptTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const clearTimer = () => {
+      if (promptTimer.current !== null) {
+        clearTimeout(promptTimer.current);
+        promptTimer.current = null;
+      }
+    };
+
     const run = () => {
       const now = new Date();
-      const due = dueCheckins(readCheckins(), now.getTime());
+      const stored = readCheckins();
+      const due = dueCheckins(Array.isArray(stored) ? stored : [], now.getTime());
       due.forEach(c =>
         pushNotification({
           id: `checkin-${c.restId}-${c.dueAt}`,
@@ -30,7 +40,8 @@ export function RitualsRunner() {
         })
       );
 
-      const visits = readVisits();
+      const rawVisits = readVisits();
+      const visits = Array.isArray(rawVisits) ? rawVisits : [];
       if (isWeekendWindow(now)) {
         const picks = weekendPicks(readJson<Restaurant[]>('fooder_likes', []), visits);
         if (picks.length > 0) {
@@ -55,21 +66,43 @@ export function RitualsRunner() {
       }
 
       // Une seule question spontanée par session, et seulement sur l'écran Découvrir.
-      if (pathname === '/swipe' && due.length > 0) {
+      // Le marqueur de session n'est posé qu'au déclenchement : une navigation avant 1,4 s n'« use » pas la question.
+      if (pathname === '/swipe' && due.length > 0 && promptTimer.current === null) {
         try {
           if (sessionStorage.getItem(PROMPTED_KEY)) return;
-          sessionStorage.setItem(PROMPTED_KEY, '1');
         } catch {
           return;
         }
-        setTimeout(() => setPrompt(due[0]), 1400);
+        const first = due[0];
+        promptTimer.current = setTimeout(() => {
+          promptTimer.current = null;
+          try {
+            if (sessionStorage.getItem(PROMPTED_KEY)) return;
+            sessionStorage.setItem(PROMPTED_KEY, '1');
+          } catch {
+            return;
+          }
+          setPrompt(first);
+        }, 1400);
       }
     };
 
-    run();
-    const onVisible = () => document.visibilityState === 'visible' && run();
+    // Hors ligne ou stockage indisponible : un rituel qui échoue ne doit jamais faire tomber l'application.
+    const safeRun = () => {
+      try {
+        run();
+      } catch {
+        /* rien à rappeler pour cette fois */
+      }
+    };
+
+    safeRun();
+    const onVisible = () => document.visibilityState === 'visible' && safeRun();
     document.addEventListener('visibilitychange', onVisible);
-    return () => document.removeEventListener('visibilitychange', onVisible);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      clearTimer();
+    };
   }, [pathname]);
 
   return (

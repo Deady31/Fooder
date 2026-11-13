@@ -63,7 +63,8 @@ export function mergeKey(key: SyncKey, local: unknown, remote: unknown): unknown
     case 'fooder_defis':
       return unionBy(local, remote, x => str(x.id), (a, b) => ({ ...a, revealed: Boolean(a.revealed || b.revealed), done: Boolean(a.done || b.done) }));
     case 'fooder_comments':
-      return unionBy(local, remote, x => str(x.id));
+      // Même id des deux côtés : la version modifiée le plus récemment (editedAt) l'emporte ; à égalité, la locale.
+      return unionBy(local, remote, x => str(x.id), (a, b) => (numOf(b.editedAt) > numOf(a.editedAt) ? b : a));
     case 'fooder_friends':
       return unionBy(
         local,

@@ -1,19 +1,20 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Plus, Trophy, Users } from 'lucide-react';
+import { Plus, Search, Trophy, Users, X } from 'lucide-react';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { PostCard } from '../../../components/feed/PostCard';
 import { ComposeSheet, ComposeResult, LikedRestaurant } from '../../../components/feed/ComposeSheet';
+import { useDebouncedValue } from '../../../components/feed/useDebouncedValue';
+import { MAX_QUERY, filterPosts, parseQueryParam, searchView } from '../../../components/feed/reviewSearch';
 import { useFeed } from '../../../hooks/useFeed';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useGamification } from '../../../hooks/useGamification';
 import { stickerFor } from '../../../lib/stickers';
 import { track } from '../../../lib/analytics';
 import { newPostId } from '../../../lib/share';
-import type { OsmRecord } from '../../../lib/osm';
-import { isSharable, resolvePhotoPreset } from '../../../lib/restoShare';
+import { isSharable } from '../../../lib/restoShare';
 import { verdictSlug } from '../../../lib/usageProps';
 import { useToast } from '../../../components/ui/Toast';
 
@@ -26,14 +27,40 @@ function readLiked(): LikedRestaurant[] {
   }
 }
 
+function FeedSkeleton() {
+  return (
+    <div role='status' aria-label='Chargement du fil' className='space-y-4'>
+      {[0, 1, 2].map(i => (
+        <div key={i} className='bg-white rounded-2xl border-[3px] border-plum shadow-hard p-4 animate-pulse' aria-hidden='true'>
+          <div className='h-7 w-16 rounded-lg bg-plum/10' />
+          <div className='mt-3 h-6 w-3/4 rounded bg-plum/10' />
+          <div className='mt-2 h-3 w-1/2 rounded bg-plum/10' />
+          <div className='mt-4 h-12 rounded-xl bg-plum/10' />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function FeedPage() {
-  const { posts, liked, addPost, removePost, toggleLike, commentsFor, addComment } = useFeed();
+  const { posts, liked, ready, remoteLoading, hasDemo, likeCount, addPost, removePost, toggleLike, commentsFor, addComment, editCommentText } = useFeed();
   const { avatar } = useAvatar();
   const { level } = useGamification();
   const [composeOpen, setComposeOpen] = useState(false);
   const [likedRestaurants, setLikedRestaurants] = useState<LikedRestaurant[]>([]);
   const [preset, setPreset] = useState<LikedRestaurant | null>(null);
   const toast = useToast(4000);
+  const [typed, setTyped] = useState('');
+  const [settled, flushSearch] = useDebouncedValue(typed, 300);
+
+  // Lien « avis de ce resto » (/feed?q=…) : la recherche démarre pré-remplie.
+  useEffect(() => {
+    const q = parseQueryParam(new URLSearchParams(window.location.search).get('q'));
+    if (!q) return;
+    setTyped(q);
+    flushSearch(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Arrivée depuis une fiche (« Propose la vraie photo ») : on ouvre le formulaire sur ce resto.
   useEffect(() => {
@@ -41,21 +68,32 @@ export default function FeedPage() {
     const id = q.get('photo');
     if (!id) return;
     window.history.replaceState(null, '', '/feed');
-    // L'URL n'est pas fiable : seul l'id compte, nom et cuisine viennent du jeu de données (chargé à la demande).
+    // L'URL n'est pas fiable : seul l'id compte, nom et cuisine viennent du serveur (route validée, le gros JSON reste côté serveur).
     if (!isSharable(id)) return;
-    import('../../../data/toulouse-places.json')
-      .then(mod => {
-        const found = resolvePhotoPreset(mod.default as OsmRecord[], id);
-        if (!found) return;
-        setPreset(found);
+    const ctrl = new AbortController();
+    fetch(`/api/restaurants/${encodeURIComponent(id)}`, { signal: ctrl.signal })
+      .then(res => (res.ok ? res.json() : null))
+      .then((json: { success?: boolean; data?: LikedRestaurant } | null) => {
+        if (!json?.success || !json.data) return;
+        setPreset({ id: json.data.id, name: json.data.name, cuisine: json.data.cuisine });
         setComposeOpen(true);
       })
       .catch(() => undefined);
+    return () => ctrl.abort();
   }, []);
 
   useEffect(() => {
     setLikedRestaurants(readLiked());
   }, [composeOpen]);
+
+  const results = useMemo(() => filterPosts(posts, settled, { excludeDemo: true }), [posts, settled]);
+  const view = searchView({ typed, settled, resultCount: results.length });
+  const searching = view !== 'idle';
+  const shown = searching ? results : posts;
+  const clearSearch = () => {
+    setTyped('');
+    flushSearch('');
+  };
 
   const publish = ({ restaurant, caption, verdict, photo }: ComposeResult): boolean => {
     const ok = addPost({
@@ -111,12 +149,90 @@ export default function FeedPage() {
         }
       />
       <div className='flex-1 min-h-0 scroll-y px-4 py-4 space-y-4'>
-        <AnimatePresence initial={false}>
-          {posts.map(post => (
-            <PostCard key={post.id} post={post} liked={liked.includes(post.id)} comments={commentsFor(post.id)} onLike={toggleLike} onDelete={removePost} onComment={addComment} />
-          ))}
-        </AnimatePresence>
-        <p className='text-center text-[11px] font-bold text-plum/50 pb-2'>Exemples de démo · le vrai fil arrive avec les comptes</p>
+        <form role='search' aria-label='Chercher un avis' onSubmit={e => { e.preventDefault(); flushSearch(typed); }}
+          className='flex items-center gap-2 rounded-full border-[3px] border-plum bg-white pl-4 pr-1 min-h-[48px] focus-within:shadow-hard'>
+          <Search className='w-4 h-4 text-plum-muted shrink-0' strokeWidth={3} aria-hidden='true' />
+          <label htmlFor='fil-recherche' className='sr-only'>Chercher un resto ou un avis</label>
+          <input
+            id='fil-recherche'
+            type='search'
+            value={typed}
+            onChange={e => setTyped(e.target.value.slice(0, MAX_QUERY))}
+            placeholder='Chercher un resto ou un avis'
+            autoComplete='off'
+            enterKeyHint='search'
+            className='flex-1 min-w-0 bg-transparent text-base font-medium text-plum placeholder:text-plum-muted outline-none'
+          />
+          {typed && (
+            <button type='button' onClick={clearSearch} aria-label='Effacer la recherche'
+              className='w-11 h-11 shrink-0 rounded-full flex items-center justify-center text-plum'>
+              <X className='w-4 h-4' strokeWidth={3} />
+            </button>
+          )}
+        </form>
+        <p role='status' aria-live='polite' className='sr-only'>
+          {view === 'results' ? `${results.length} avis trouvé${results.length > 1 ? 's' : ''}` : view === 'empty' ? 'Aucun avis trouvé' : ''}
+        </p>
+        {!ready ? (
+          <FeedSkeleton />
+        ) : view === 'loading' ? (
+          <p role='status' className='text-sm font-bold text-plum bg-white rounded-2xl border-[3px] border-plum p-4'>Recherche…</p>
+        ) : view === 'empty' ? (
+          <section className='bg-white rounded-2xl border-[3px] border-plum shadow-hard p-4 space-y-3'>
+            <h2 className='text-xl leading-tight text-plum'>Aucun avis trouvé</h2>
+            <p className='text-sm font-medium text-plum-muted leading-snug'>
+              Aucun avis pour « {settled.trim()} » : sois le premier à en poster un.
+            </p>
+            <div className='flex flex-wrap gap-2'>
+              <button onClick={() => setComposeOpen(true)} className='duo-button min-h-[44px] bg-bubblegum text-plum text-sm py-2.5'>
+                Poster un avis
+              </button>
+              <button onClick={clearSearch} className='duo-button min-h-[44px] bg-white text-plum text-sm py-2.5'>
+                Effacer la recherche
+              </button>
+            </div>
+          </section>
+        ) : (
+          <>
+            {hasDemo && !searching && (
+              <section aria-labelledby='fil-vide' className='bg-white rounded-2xl border-[3px] border-plum shadow-hard p-4 space-y-3'>
+                <h2 id='fil-vide' className='text-xl leading-tight text-plum'>Ton fil est vide pour l’instant</h2>
+                <p className='text-sm font-medium text-plum-muted leading-snug'>
+                  Confirme une visite ou partage un resto : il apparaîtra ici. Les cartes marquées « exemple » ne sont pas de vrais
+                  foodies et disparaissent dès ton premier vrai post.
+                </p>
+                <div className='flex flex-wrap gap-2'>
+                  <button onClick={() => setComposeOpen(true)} className='duo-button min-h-[44px] bg-bubblegum text-plum text-sm py-2.5'>
+                    Partager un resto
+                  </button>
+                  <Link href='/swipe' className='duo-button min-h-[44px] inline-flex items-center bg-white text-plum text-sm py-2.5'>
+                    Découvrir
+                  </Link>
+                </div>
+              </section>
+            )}
+            {remoteLoading && !searching && (
+              <p role='status' className='text-xs font-bold text-plum bg-white rounded-full border-2 border-plum/30 px-3 py-2 w-fit'>
+                Chargement du fil de la ville…
+              </p>
+            )}
+            <AnimatePresence initial={false}>
+              {shown.map(post => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  liked={liked.includes(post.id)}
+                  count={likeCount(post)}
+                  comments={commentsFor(post.id)}
+                  onLike={toggleLike}
+                  onDelete={removePost}
+                  onComment={addComment}
+                  onEditComment={editCommentText}
+                />
+              ))}
+            </AnimatePresence>
+          </>
+        )}
       </div>
       {toast.node}
       <ComposeSheet isOpen={composeOpen} liked={likedRestaurants}
