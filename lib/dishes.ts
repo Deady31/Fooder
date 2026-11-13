@@ -31,6 +31,18 @@ type Rule = [RegExp, string];
 
 /** Cuisine connue → clé de photo (le plus spécifique d'abord). */
 const CUISINE_RULES: Rule[] = [
+  // Plats nommés explicitement : une seule photo, celle du plat.
+  [/cassoulet/, 'terroir_cassoulet'],
+  [/tartare/, 'steak_tartare'],
+  [/\bmoules?\b/, 'seafood_moules'],
+  [/fish.?and.?chips/, 'fries_fishchips'],
+  [/banh.?mi|bahn.?mi/, 'pho_banhmi'],
+  [/\bbao\b/, 'wok_bao'],
+  [/acai/, 'vegan_acai'],
+  [/nachos/, 'tacos_nachos'],
+  [/empanada/, 'argentine_empanadas'],
+  [/ceviche/, 'peruvian_ceviche'],
+  [/tiramisu/, 'dessert_tiramisu'],
   [/pizz/, 'pizza'],
   [/hot.?dog/, 'hotdog'],
   [/tacos|taco|mexic|tex.?mex|burrito|fajita/, 'tacos'],
@@ -86,6 +98,11 @@ const NAME_RULES: Rule[] = [
   [/\b(pizz\w*|pizzeria)\b/, 'pizza'],
   [/\b(burger\w*|smash)\b/, 'burger'],
   [/\b(taco\w*|cantina|hacienda|mexic\w*|burrito\w*)\b/, 'tacos'],
+  [/\b(cassoulet\w*)\b/, 'terroir_cassoulet'],
+  [/\b(tartare\w*)\b/, 'steak_tartare'],
+  [/\b(banh mi|bahn mi)\b/, 'pho_banhmi'],
+  [/\b(acai)\b/, 'vegan_acai'],
+  [/\b(ceviche\w*)\b/, 'peruvian_ceviche'],
   [/\b(falafel\w*)\b/, 'falafel'],
   [/\b(kebab\w*|kebap|doner|durum|istanbul|anatolie|ottoman\w*|sultan|bosphore|efes)\b/, 'kebab'],
   [/\b(beyrouth|liban\w*|cedre|cedres|mezze\w*|damas|byblos)\b/, 'lebanese'],
@@ -128,7 +145,7 @@ export function dishKeyFor(cuisine: string, name = ''): string | null {
   const c = fold(cuisine);
   const n = fold(name);
   // Un nom explicite l'emporte sur une cuisine générique (« Italien » + « Pizzeria Roma »).
-  const strong = NAME_RULES.slice(0, 3).find(([re]) => re.test(n));
+  const strong = NAME_RULES.find(([re, key], i) => (i < 3 || key.includes('_')) && re.test(n));
   if (strong) return strong[1];
   const byCuisine = CUISINE_RULES.find(([re]) => re.test(c));
   if (byCuisine && MANIFEST[byCuisine[1]]) return byCuisine[1];

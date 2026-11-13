@@ -382,5 +382,605 @@
   "license": "CC BY-SA 4.0",
   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Chow_mein_2.jpg"
+ },
+ "thai_padthai": {
+  "src": "/dishes/thai_padthai.webp",
+  "title": "Pad Thai Noodles - Little Thai, Brighton 2024-03-21.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Pad_Thai_Noodles_-_Little_Thai,_Brighton_2024-03-21.jpg"
+ },
+ "thai_tomyum": {
+  "src": "/dishes/thai_tomyum.webp",
+  "title": "Tom Yum Soup with Mushroom - Easythaiger 2026-04-21.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tom_Yum_Soup_with_Mushroom_-_Easythaiger_2026-04-21.jpg"
+ },
+ "thai_greencurry": {
+  "src": "/dishes/thai_greencurry.webp",
+  "title": "Thai green chicken curry and roti.jpg",
+  "author": "Takeaway",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Thai_green_chicken_curry_and_roti.jpg"
+ },
+ "korean_bibimbap": {
+  "src": "/dishes/korean_bibimbap.webp",
+  "title": "Bibimbap 7.jpg",
+  "author": "Chloe Lim",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bibimbap_7.jpg"
+ },
+ "korean_chicken": {
+  "src": "/dishes/korean_chicken.webp",
+  "title": "Korean Fried Chicken - Chikin.jpg",
+  "author": "Francesc Fort",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Korean_Fried_Chicken_-_Chikin.jpg"
+ },
+ "korean_bulgogi": {
+  "src": "/dishes/korean_bulgogi.webp",
+  "title": "Korean.cuisine-Bulgogi-01.jpg",
+  "author": "by ayustety",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Korean.cuisine-Bulgogi-01.jpg"
+ },
+ "sushi_tempura": {
+  "src": "/dishes/sushi_tempura.webp",
+  "title": "Tempura shrimp and vegetables - Massachusetts.jpg",
+  "author": "Daderot",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tempura_shrimp_and_vegetables_-_Massachusetts.jpg"
+ },
+ "sushi_katsucurry": {
+  "src": "/dishes/sushi_katsucurry.webp",
+  "title": "Katsu-curry 003.jpg",
+  "author": "Ocdp",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Katsu-curry_003.jpg"
+ },
+ "sushi_okonomiyaki": {
+  "src": "/dishes/sushi_okonomiyaki.webp",
+  "title": "Okonomiyaki with tomato and cheeze (4716607523).jpg",
+  "author": "pelican from Tokyo, Japan",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Okonomiyaki_with_tomato_and_cheeze_(4716607523).jpg"
+ },
+ "sushi_yakitori": {
+  "src": "/dishes/sushi_yakitori.webp",
+  "title": "Yakitori - Tora.jpg",
+  "author": "Francesc Fort",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yakitori_-_Tora.jpg"
+ },
+ "ramen_tonkotsu": {
+  "src": "/dishes/ramen_tonkotsu.webp",
+  "title": "Tonkotsu ramen in Tokyo.jpg",
+  "author": "Syced",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tonkotsu_ramen_in_Tokyo.jpg"
+ },
+ "dimsum_gyoza": {
+  "src": "/dishes/dimsum_gyoza.webp",
+  "title": "Gyoza no Antei - 3.jpg",
+  "author": "Enming Yan / 闫恩铭",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gyoza_no_Antei_-_3.jpg"
+ },
+ "wok_bao": {
+  "src": "/dishes/wok_bao.webp",
+  "title": "Bao con cochinita pibil.jpg",
+  "author": "Francesc Fort",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bao_con_cochinita_pibil.jpg"
+ },
+ "pho_bun": {
+  "src": "/dishes/pho_bun.webp",
+  "title": "Bún thịt nướng bò in Xizhimen (20141226135500).JPG",
+  "author": "N509FZ",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:B%C3%BAn_th%E1%BB%8Bt_n%C6%B0%E1%BB%9Bng_b%C3%B2_in_Xizhimen_(20141226135500).JPG"
+ },
+ "pho_banhmi": {
+  "src": "/dishes/pho_banhmi.webp",
+  "title": "Bánh mì đậu hũ.jpg",
+  "author": "Nguyentrongphu",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_m%C3%AC_%C4%91%E1%BA%ADu_h%C5%A9.jpg"
+ },
+ "pho_nem": {
+  "src": "/dishes/pho_nem.webp",
+  "title": "Chả giò SG (nem rán giòn) ở quán bún riêu Bà Ti ng26th7n2023 (3).jpg",
+  "author": "Phương Huy",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ch%E1%BA%A3_gi%C3%B2_SG_(nem_r%C3%A1n_gi%C3%B2n)_%E1%BB%9F_qu%C3%A1n_b%C3%BAn_ri%C3%AAu_B%C3%A0_Ti_ng26th7n2023_(3).jpg"
+ },
+ "chinese_friedrice": {
+  "src": "/dishes/chinese_friedrice.webp",
+  "title": "Pineapple fried rice at Banana Leaf in Milpitas, California.jpg",
+  "author": "Grendelkhan",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pineapple_fried_rice_at_Banana_Leaf_in_Milpitas,_California.jpg"
+ },
+ "wok_padseeew": {
+  "src": "/dishes/wok_padseeew.webp",
+  "title": "Chicken pad see ew at Rice and Noodles Thai Restaurant, Franconia.jpg",
+  "author": "Ser Amantio di Nicolao",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Chicken_pad_see_ew_at_Rice_and_Noodles_Thai_Restaurant,_Franconia.jpg"
+ },
+ "indian_butterchicken": {
+  "src": "/dishes/indian_butterchicken.webp",
+  "title": "Chicken makhani.jpg",
+  "author": "stu_spivack",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chicken_makhani.jpg"
+ },
+ "indian_tandoori": {
+  "src": "/dishes/indian_tandoori.webp",
+  "title": "Tandoori Chicken 1.JPG",
+  "author": "Miansari66",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Tandoori_Chicken_1.JPG"
+ },
+ "indian_biryani": {
+  "src": "/dishes/indian_biryani.webp",
+  "title": "Shrimp Biriyani.JPG",
+  "author": "Jyothis",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Shrimp_Biriyani.JPG"
+ },
+ "indian_dal": {
+  "src": "/dishes/indian_dal.webp",
+  "title": "Dal Tadka-Delhi.jpg",
+  "author": "AugustineKajur",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dal_Tadka-Delhi.jpg"
+ },
+ "indian_naan": {
+  "src": "/dishes/indian_naan.webp",
+  "title": "Naan baked in Tandoor.jpg",
+  "author": "Ravi Dwivedi",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Naan_baked_in_Tandoor.jpg"
+ },
+ "moroccan_pastilla": {
+  "src": "/dishes/moroccan_pastilla.webp",
+  "title": "Pastilla marocaine recouverte de sucre glace.jpg",
+  "author": "kochtopf",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pastilla_marocaine_recouverte_de_sucre_glace.jpg"
+ },
+ "couscous_royal": {
+  "src": "/dishes/couscous_royal.webp",
+  "title": "Couscous (74111).jpg",
+  "author": "Laurhim",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Couscous_(74111).jpg"
+ },
+ "kebab_shawarma": {
+  "src": "/dishes/kebab_shawarma.webp",
+  "title": "Shawarma 3.jpg",
+  "author": "Vis M",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Shawarma_3.jpg"
+ },
+ "kebab_durum": {
+  "src": "/dishes/kebab_durum.webp",
+  "title": "Dürüm of Ali Baba Tauberbischofsheim.jpg",
+  "author": "Triplec85",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:D%C3%BCr%C3%BCm_of_Ali_Baba_Tauberbischofsheim.jpg"
+ },
+ "lebanese_hummus": {
+  "src": "/dishes/lebanese_hummus.webp",
+  "title": "Hummus from The Nile.jpg",
+  "author": "Paul Goyette",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hummus_from_The_Nile.jpg"
+ },
+ "lebanese_mezze": {
+  "src": "/dishes/lebanese_mezze.webp",
+  "title": "Mezze platter.jpg",
+  "author": "Shreya13jain",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mezze_platter.jpg"
+ },
+ "falafel_plate": {
+  "src": "/dishes/falafel_plate.webp",
+  "title": "Falafel (49728839526).jpg",
+  "author": "やましこ",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Falafel_(49728839526).jpg"
+ },
+ "greek_moussaka": {
+  "src": "/dishes/greek_moussaka.webp",
+  "title": "Meat Moussaka - Kouzina, Brighton 2023-11-24.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Meat_Moussaka_-_Kouzina,_Brighton_2023-11-24.jpg"
+ },
+ "greek_gyros": {
+  "src": "/dishes/greek_gyros.webp",
+  "title": "Pitta Mushroom Gyros - Montague Gyros 2025-12-06.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Pitta_Mushroom_Gyros_-_Montague_Gyros_2025-12-06.jpg"
+ },
+ "tapas_bravas": {
+  "src": "/dishes/tapas_bravas.webp",
+  "title": "Taberna Che - Braves.jpg",
+  "author": "Francesc Fort",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Taberna_Che_-_Braves.jpg"
+ },
+ "tapas_tortilla": {
+  "src": "/dishes/tapas_tortilla.webp",
+  "title": "Tortilla española con patatas y cebolla.jpg",
+  "author": "Juan Emilio Prades Bel",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tortilla_espa%C3%B1ola_con_patatas_y_cebolla.jpg"
+ },
+ "paella_valenciana": {
+  "src": "/dishes/paella_valenciana.webp",
+  "title": "Paella Mixta at Celler sa Premsa.jpg",
+  "author": "Tsumugii",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Paella_Mixta_at_Celler_sa_Premsa.jpg"
+ },
+ "pizza_margherita": {
+  "src": "/dishes/pizza_margherita.webp",
+  "title": "Eq it-na pizza-margherita sep2005 sml.jpg",
+  "author": "Valerio Capello at English Wikipedia",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg"
+ },
+ "pizza_quattro": {
+  "src": "/dishes/pizza_quattro.webp",
+  "title": "Pizza quattro formaggi at restaurant, Chalk Farm Road, London.jpg",
+  "author": "Ewan Munro from London, UK",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pizza_quattro_formaggi_at_restaurant,_Chalk_Farm_Road,_London.jpg"
+ },
+ "pasta_lasagna": {
+  "src": "/dishes/pasta_lasagna.webp",
+  "title": "Lasagne - stonesoup.jpg",
+  "author": "jules / stonesoup",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lasagne_-_stonesoup.jpg"
+ },
+ "pasta_risotto": {
+  "src": "/dishes/pasta_risotto.webp",
+  "title": "Risotto de gambas, restaurant Danieli (Vienne, Autriche).jpg",
+  "author": "Benoît Prieur",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Risotto_de_gambas,_restaurant_Danieli_(Vienne,_Autriche).jpg"
+ },
+ "dessert_tiramisu": {
+  "src": "/dishes/dessert_tiramisu.webp",
+  "title": "Classic Italian Tiramisu-3 (29989504485).jpg",
+  "author": "Sharon Chen from Austin, United States",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Classic_Italian_Tiramisu-3_(29989504485).jpg"
+ },
+ "dessert_fondant": {
+  "src": "/dishes/dessert_fondant.webp",
+  "title": "Fondant au Chocolat 1.jpg",
+  "author": "Rogi.Official",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fondant_au_Chocolat_1.jpg"
+ },
+ "terroir_magret": {
+  "src": "/dishes/terroir_magret.webp",
+  "title": "Magret de canard 02.jpg",
+  "author": "Arnaud 25",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magret_de_canard_02.jpg"
+ },
+ "terroir_confit": {
+  "src": "/dishes/terroir_confit.webp",
+  "title": "Duck confit - the girl and the fig - 2021-11-10 - Sarah Stierch.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Duck_confit_-_the_girl_and_the_fig_-_2021-11-10_-_Sarah_Stierch.jpg"
+ },
+ "terroir_saucisse": {
+  "src": "/dishes/terroir_saucisse.webp",
+  "title": "Saucisse de Toulouse au CBD servie au Stamtich, Lyon (juil 2022).jpg",
+  "author": "Sebleouf",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Saucisse_de_Toulouse_au_CBD_servie_au_Stamtich,_Lyon_(juil_2022).jpg"
+ },
+ "french_bourguignon": {
+  "src": "/dishes/french_bourguignon.webp",
+  "title": "Boeuf bourguignon servi avec des pâtes.jpg",
+  "author": "DC",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Boeuf_bourguignon_servi_avec_des_p%C3%A2tes.jpg"
+ },
+ "french_oignon": {
+  "src": "/dishes/french_oignon.webp",
+  "title": "Mmm...onion soup (5344349906).jpg",
+  "author": "jeffreyw",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mmm...onion_soup_(5344349906).jpg"
+ },
+ "bistro_entrecote": {
+  "src": "/dishes/bistro_entrecote.webp",
+  "title": "Entrecot cocinado a la brasa.jpg",
+  "author": "Juan Emilio Prades Bel",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Entrecot_cocinado_a_la_brasa.jpg"
+ },
+ "steak_tartare": {
+  "src": "/dishes/steak_tartare.webp",
+  "title": "Steak tartare, Walsdorf, water.jpg",
+  "author": "Gerda Arendt",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Steak_tartare,_Walsdorf,_water.jpg"
+ },
+ "steak_brochettes": {
+  "src": "/dishes/steak_brochettes.webp",
+  "title": "Souvlaki in Athens.JPG",
+  "author": "Miyagawa",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Souvlaki_in_Athens.JPG"
+ },
+ "seafood_moules": {
+  "src": "/dishes/seafood_moules.webp",
+  "title": "Moules frites wth rose and pastis.JPG",
+  "author": "LittleGun",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Moules_frites_wth_rose_and_pastis.JPG"
+ },
+ "sandwich_croque": {
+  "src": "/dishes/sandwich_croque.webp",
+  "title": "Asparagi alla Bismarck and croque-monsieur (4717894679).jpg",
+  "author": "Kimberly Vardeman from Lubbock, TX, USA",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Asparagi_alla_Bismarck_and_croque-monsieur_(4717894679).jpg"
+ },
+ "crepe_sucre": {
+  "src": "/dishes/crepe_sucre.webp",
+  "title": "Crêpe au sucre au Bouchon breton (octobre 2021).jpg",
+  "author": "Benoît Prieur",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Cr%C3%AApe_au_sucre_au_Bouchon_breton_(octobre_2021).jpg"
+ },
+ "burger_smash": {
+  "src": "/dishes/burger_smash.webp",
+  "title": "Double Smash Burger with Fries.jpg",
+  "author": "Wiki.cullin",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Double_Smash_Burger_with_Fries.jpg"
+ },
+ "burger_cheese": {
+  "src": "/dishes/burger_cheese.webp",
+  "title": "Cheeseburger.jpg",
+  "author": "Renee Comet (photographer)",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Cheeseburger.jpg"
+ },
+ "fries_fishchips": {
+  "src": "/dishes/fries_fishchips.webp",
+  "title": "Fish and chips blackpool.jpg",
+  "author": "Matthias Meckel",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fish_and_chips_blackpool.jpg"
+ },
+ "poke_bowl": {
+  "src": "/dishes/poke_bowl.webp",
+  "title": "Salmon Poke Bowl (S) with Spicy mayo sauce - Kitokito.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Salmon_Poke_Bowl_(S)_with_Spicy_mayo_sauce_-_Kitokito.jpg"
+ },
+ "vegan_acai": {
+  "src": "/dishes/vegan_acai.webp",
+  "title": "Açaí bowl 1 2018-07-07.jpg",
+  "author": "FASTILY",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A%C3%A7a%C3%AD_bowl_1_2018-07-07.jpg"
+ },
+ "tacos_fajitas": {
+  "src": "/dishes/tacos_fajitas.webp",
+  "title": "Fajitas at Taqueria La Hacienda - October 2023 - Sarah Stierch 02.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fajitas_at_Taqueria_La_Hacienda_-_October_2023_-_Sarah_Stierch_02.jpg"
+ },
+ "brunch_pancakes": {
+  "src": "/dishes/brunch_pancakes.webp",
+  "title": "Pancakes with fruit.jpg",
+  "author": "Nightcrafter",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pancakes_with_fruit.jpg"
+ },
+ "waffle_gaufre": {
+  "src": "/dishes/waffle_gaufre.webp",
+  "title": "Waffle with strawberries.jpg",
+  "author": "Douglas Paul Perkins",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Waffle_with_strawberries.jpg"
+ },
+ "salad_caesar": {
+  "src": "/dishes/salad_caesar.webp",
+  "title": "Caesar Salad from Tony Roma Restaurant- March 2024 02.jpg",
+  "author": "Banej",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Caesar_Salad_from_Tony_Roma_Restaurant-_March_2024_02.jpg"
+ },
+ "bakery_croissant": {
+  "src": "/dishes/bakery_croissant.webp",
+  "title": "Croissant In Austria.jpg",
+  "author": "בר",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Croissant_In_Austria.jpg"
+ },
+ "icecream_cone": {
+  "src": "/dishes/icecream_cone.webp",
+  "title": "Ice cream cone with spoon.jpg",
+  "author": "Thegreatmutata",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Ice_cream_cone_with_spoon.jpg"
+ },
+ "chicken_rotisserie": {
+  "src": "/dishes/chicken_rotisserie.webp",
+  "title": "Max's Roasted Chicken - Evan Swigart.jpg",
+  "author": "Evan Swigart from Chicago, USA",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg"
+ },
+ "moroccan_tajine": {
+  "src": "/dishes/moroccan_tajine.webp",
+  "title": "Tajine 012.JPG",
+  "author": "Arnaud 25",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tajine_012.JPG"
+ },
+ "pasta_carbonara": {
+  "src": "/dishes/pasta_carbonara.webp",
+  "title": "Spaghetti alla Carbonara (Madrid).JPG",
+  "author": "Tamorlan",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_alla_Carbonara_(Madrid).JPG"
+ },
+ "terroir_cassoulet": {
+  "src": "/dishes/terroir_cassoulet.webp",
+  "title": "Cassoulet Carcassonne FRA 001.JPG",
+  "author": "ignis",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Cassoulet_Carcassonne_FRA_001.JPG"
+ },
+ "steak_frites": {
+  "src": "/dishes/steak_frites.webp",
+  "title": "Reel and Brand - September 2021 - Sarah Stierch 05.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Reel_and_Brand_-_September_2021_-_Sarah_Stierch_05.jpg"
+ },
+ "crepe_galette": {
+  "src": "/dishes/crepe_galette.webp",
+  "title": "Galette complète in Annecy, France - 20130714.jpg",
+  "author": "Jacklee.",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Galette_compl%C3%A8te_in_Annecy,_France_-_20130714.jpg"
+ },
+ "peruvian_ceviche": {
+  "src": "/dishes/peruvian_ceviche.webp",
+  "title": "Ceviche ecuador.JPG",
+  "author": "Rinaldo Wurglitsch",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ceviche_ecuador.JPG"
+ },
+ "argentine_empanadas": {
+  "src": "/dishes/argentine_empanadas.webp",
+  "title": "Empanadas venezolanas.jpg",
+  "author": "Periodismodepaz",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Empanadas_venezolanas.jpg"
+ },
+ "chinese_duck": {
+  "src": "/dishes/chinese_duck.webp",
+  "title": "Peking duck 1.jpg",
+  "author": "Pauloleong2002",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Peking_duck_1.jpg"
+ },
+ "indian_samosa": {
+  "src": "/dishes/indian_samosa.webp",
+  "title": "Samosa AMU's canteen.jpg",
+  "author": "Ning Gusti",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Samosa_AMU%27s_canteen.jpg"
+ },
+ "tacos_nachos": {
+  "src": "/dishes/tacos_nachos.webp",
+  "title": "Nachos with sour cream, salsa and guacamole.jpg",
+  "author": "Wiki.cullin",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nachos_with_sour_cream,_salsa_and_guacamole.jpg"
+ },
+ "brunch_benedict": {
+  "src": "/dishes/brunch_benedict.webp",
+  "title": "Eggs Benedict - the M&S Café.jpg",
+  "author": "Andy Li",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Eggs_Benedict_-_the_M%26S_Caf%C3%A9.jpg"
  }
 }

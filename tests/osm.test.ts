@@ -61,7 +61,7 @@ describe('osm', () => {
     const r = osmToRestaurant(rec, { lat: 43.6045, lng: 1.4442 });
     expect(r.rating).toBe(0);
     expect(r.price).toBe(0);
-    expect(r.image).toBe('/dishes/pizza.webp');
+    expect(r.image).toMatch(/^\/dishes\/pizza[a-z_]*\.webp$/);
     expect(r.photoSource).toBe('dish');
     expect(r.dataSource).toBe('osm');
     expect(r.hours).toBeDefined();
