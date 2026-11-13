@@ -1,5 +1,5 @@
 'use client';
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import { describeEvent, formatDuration, formatNumber, isUuid } from '../../lib/admin/metrics';
 import type { AdminError, RecentUser, TimelineRow, UserPayload } from '../../lib/admin/types';
@@ -45,7 +45,8 @@ function extra(r: TimelineRow, names: Record<string, string>): string {
   return bits.join(' · ');
 }
 
-export function UserJourney({ recent }: { recent: RecentUser[] }) {
+/** `open` : demande d'ouverture venue de la liste des utilisateurs (nonce = relance même pour le même utilisateur). */
+export function UserJourney({ recent, open = null }: { recent: RecentUser[]; open?: { id: string; nonce: number } | null }) {
   const [query, setQuery] = useState('');
   const [data, setData] = useState<UserPayload | null>(null);
   const [loading, setLoading] = useState(false);
@@ -73,6 +74,11 @@ export function UserJourney({ recent }: { recent: RecentUser[] }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (open) void load(open.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open?.nonce]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();

@@ -3,6 +3,7 @@ import { SYNC_KEYS, SyncData, mergeAll } from './merge';
 import { STORE_EVENT } from '../store';
 import { buildMySnapshot } from '../social/friends';
 import { getMe } from '../identity';
+import { pickAlignedName } from './identityAlign';
 
 /**
  * Synchronisation local ⇄ compte.
@@ -38,6 +39,16 @@ function writeLocal(data: SyncData): void {
   window.dispatchEvent(new CustomEvent(STORE_EVENT, { detail: 'sync' }));
 }
 
+/** Pseudo saisi à l'onboarding (null si pas encore fait ou illisible). */
+function onboardedPseudo(): string | null {
+  try {
+    const p = JSON.parse(localStorage.getItem('fooder_profile') ?? 'null') as { pseudo?: unknown } | null;
+    return p && typeof p.pseudo === 'string' && p.pseudo ? p.pseudo : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Aligne l'identité locale sur le compte (id = id du compte, pseudo et code d'ami du profil). */
 async function alignIdentity(uid: string): Promise<void> {
   const sb = cloud();
@@ -45,7 +56,8 @@ async function alignIdentity(uid: string): Promise<void> {
   const { data } = await sb.from('profiles').select('name, friend_code').eq('id', uid).single();
   if (!data) return;
   const me = getMe();
-  localStorage.setItem('fooder_me', JSON.stringify({ ...me, id: uid.replace(/-/g, ''), name: data.name, code: data.friend_code }));
+  const name = pickAlignedName({ serverName: data.name, localName: me.name, onboardedPseudo: onboardedPseudo() });
+  localStorage.setItem('fooder_me', JSON.stringify({ ...me, id: uid.replace(/-/g, ''), name, code: data.friend_code }));
   window.dispatchEvent(new CustomEvent(STORE_EVENT, { detail: 'fooder_me' }));
 }
 

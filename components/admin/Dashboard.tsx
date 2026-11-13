@@ -9,6 +9,7 @@ import { FunnelView } from './FunnelView';
 import { RetentionTable } from './RetentionTable';
 import { TopRestos, TopScreens } from './TopLists';
 import { UserJourney } from './UserJourney';
+import { UsersSection } from './UsersSection';
 import { ChipButton, Empty, Kpi, Panel, Skeleton } from './ui';
 
 type LoadState = { kind: 'loading' } | { kind: 'error'; error: AdminError } | { kind: 'ready'; data: MetricsPayload };
@@ -132,6 +133,11 @@ function ReadyView({ data, steps, onSteps }: { data: MetricsPayload; steps: stri
   const n = (v: unknown) => formatNumber(v);
   const noEvents = Number(o.events) === 0;
   const stickiness = rate(Number(o.dau), Number(o.mau));
+  const [journeyUser, setJourneyUser] = useState<{ id: string; nonce: number } | null>(null);
+  const openJourney = (id: string) => {
+    setJourneyUser(prev => ({ id, nonce: (prev?.nonce ?? 0) + 1 }));
+    document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className='space-y-5'>
@@ -202,8 +208,10 @@ function ReadyView({ data, steps, onSteps }: { data: MetricsPayload; steps: stri
         </Panel>
       </div>
 
+      <UsersSection days={data.days} onOpenUser={openJourney} />
+
       <Panel id='journey' kicker='Timeline chronologique' title='Parcours d’un utilisateur'>
-        <UserJourney recent={data.recentUsers} />
+        <UserJourney recent={data.recentUsers} open={journeyUser} />
       </Panel>
 
       {data.events.length > 0 && (

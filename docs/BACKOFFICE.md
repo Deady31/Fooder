@@ -12,7 +12,8 @@ Page non indexée (`robots: noindex`), non liée depuis l'appli, protégée par 
 1. `supabase/migrations/20261111000000_accounts.sql` (si pas déjà fait)
 2. `supabase/migrations/20261112000000_anonymous.sql`
 3. `supabase/migrations/20261112000100_events.sql`
-4. `supabase/migrations/20261113000000_tracking.sql` ← nouvelle : table `app_events` + fonctions `admin_*`
+4. `supabase/migrations/20261113000000_tracking.sql` : table `app_events` + fonctions `admin_*`
+5. `supabase/migrations/20261115000000_admin_users.sql` ← nouvelle : fonctions `admin_users` (qui sont les utilisateurs) et `admin_devices` (répartition des appareils). Sans elle, la section « Utilisateurs » affiche « joue la migration 20261115000000_admin_users.sql ».
 
 Toutes sont idempotentes : les rejouer ne casse rien. L'ancienne table `events` (pseudonyme journalier) reste en place mais n'est plus alimentée.
 
@@ -106,6 +107,24 @@ ramène à l'heure serveur s'ils sortent de [−7 jours ; +5 min].
 | Activité produit | likes, passes, fiches, check-ins, posts (table `posts`), invitations (`share`, liens, défis), groupes, amitiés, comptes sauvegardés |
 | Parcours d'un utilisateur | timeline des 300 derniers événements (sans battements), groupés par session |
 
+### Utilisateurs et appareils
+
+Section « Appareils » (barres : plateforme, navigateur, appli installée ou non, type d'appareil) et tableau « Utilisateurs »
+(recherche par pseudo ou début d'identifiant, 25 par page, tri par dernière activité). Un clic sur une ligne ouvre le
+« Parcours d'un utilisateur ». Colonnes : pseudo, appareil, première visite, dernière activité, sessions, temps actif, likes, photos
+(passes, ouvertures, check-ins et posts sont aussi calculés côté SQL).
+
+- **Pseudo** : `profiles.name`. Le pseudo choisi à l'onboarding est envoyé dès que la session anonyme existe (la synchro ne le remplace
+  plus par le « foodieNN » automatique du serveur : `lib/cloud/identityAlign.ts`), puis à chaque changement (synchro toutes les 20 s).
+- **Appareil** : lu dans les propriétés du dernier `session_start`. Les utilisateurs qui n'ont pas relancé la nouvelle version
+  apparaissent « Inconnu » ; aucune valeur n'est inventée. Une répartition vide affiche « Pas encore de données ».
+- **Collecté sur l'appareil** (`lib/device.ts`, listes fermées) : plateforme (ios, android, windows, macos, linux, autre), type (mobile,
+  tablette, ordinateur), navigateur (chrome, safari, firefox, edge, samsung, in-app instagram / facebook / tiktok, autre) et sa version
+  majeure, appli installée (mode standalone) oui / non, taille d'écran arrondie à 10 px, langue (fr, en, es, de, it, pt, nl, ar, autre),
+  continent du fuseau horaire.
+- **Jamais collecté ni affiché** : adresse IP, user-agent brut, modèle de téléphone, ville ou fuseau précis, adresse e-mail (la fonction
+  SQL renvoie seulement « a un e-mail », sans l'adresse). Les valeurs sont refiltrées en SQL (liste blanche) avant affichage.
+
 ### Lire le funnel
 
 - Chaque étape compte les **utilisateurs distincts** qui l'ont faite **après** l'étape précédente (ordre strict, sans limite de
@@ -144,6 +163,8 @@ select * from public.admin_retention(30, 'day');
 select * from public.admin_top_screens(30, 10);
 select * from public.admin_top_restos(30, 10);
 select * from public.admin_recent_users(10);
+select public.admin_users(25, 0, null);
+select public.admin_devices(30);
 -- select * from public.admin_user_timeline('<uuid>', 50);
 
 -- Insertion test « comme un client » (doit réussir) puis lecture (doit renvoyer 0 ligne / erreur de droit)
@@ -155,10 +176,11 @@ select * from public.admin_recent_users(10);
 
 ## 7. Fichiers
 
+- `lib/device.ts` : détection d'appareil (logique pure) — tests `tests/device.test.ts` ; `lib/cloud/identityAlign.ts` : pseudo à la création de session — tests `tests/identityAlign.test.ts` ; `lib/admin/users.ts` — tests `tests/adminUsers.test.ts`
 - `lib/tracking.ts` : logique pure (sessions, file, lots, validation) — tests `tests/tracking.test.ts`
 - `lib/analytics.ts` : câblage navigateur (`track`, `getTracker`, réglage d'usage, PostHog)
 - `components/analytics/Tracker.tsx` : écrans, clics, battements de cœur, session anonyme silencieuse
 - `lib/admin/auth.ts` (mot de passe, cookie signé, limiteur) — tests `tests/adminAuth.test.ts`
 - `lib/admin/metrics.ts` (taux, funnel, cohortes, durées) — tests `tests/adminMetrics.test.ts`
 - `lib/admin/rpc.ts` (appel des fonctions SQL avec la clé service), `lib/admin/types.ts`
-- `app/admin/page.tsx`, `components/admin/*`, `app/api/admin/{login,logout,metrics}/route.ts`
+- `app/admin/page.tsx`, `components/admin/*`, `app/api/admin/{login,logout,metrics,users}/route.ts`, `components/admin/{UsersSection,DeviceBars}.tsx`

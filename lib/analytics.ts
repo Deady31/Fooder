@@ -1,6 +1,7 @@
 import { cloud, currentUserId, isCloudEnabled } from './cloud/client';
 import { KeyValueStore, classifySendError, readOptIn, writeOptIn } from './usage';
 import { Tracker, TrackOptions, TrackProps, createTracker } from './tracking';
+import { detectDevice, deviceProps, readDeviceEnv } from './device';
 
 // Mesure d'audience respectueuse : rien n'est envoyé sans consentement explicite (RGPD / CNIL).
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
@@ -72,7 +73,6 @@ function newSessionId(): string {
 }
 
 function deviceContext(): TrackProps {
-  const standalone = window.matchMedia?.('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
   let ref = '';
   try {
     ref = document.referrer ? new URL(document.referrer).hostname : '';
@@ -81,7 +81,7 @@ function deviceContext(): TrackProps {
   }
   return {
     device: window.matchMedia?.('(pointer: coarse)').matches ? 'mobile' : 'desktop',
-    standalone: Boolean(standalone),
+    ...deviceProps(detectDevice(readDeviceEnv())),
     ...(ref && ref !== window.location.hostname ? { ref } : {}),
   };
 }

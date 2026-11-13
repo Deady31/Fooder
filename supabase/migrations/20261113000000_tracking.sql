@@ -1,3 +1,5 @@
+-- Temps actif : chaque battement porte sa durée en secondes (props.s : 15 s à l'origine, 60 s depuis le passage à 1 battement/minute).
+-- On additionne props.s (15 par défaut pour les anciens événements) au lieu de multiplier le nombre de battements par 15.
 -- Fooder · suivi d'usage avec identifiant utilisateur stable + fonctions de lecture du backoffice.
 -- À exécuter APRÈS 20261112000000_anonymous.sql puis 20261112000100_events.sql. Idempotent (rejouable sans risque).
 --
@@ -115,7 +117,7 @@ returns jsonb language sql stable security definer set search_path = public, aut
   s as (
     select session_id,
            extract(epoch from max(created_at) - min(created_at))::float8 as dur,
-           count(*) filter (where name = 'heartbeat') * 15 as active_s
+           coalesce(sum(coalesce((props->>'s')::numeric, 15)) filter (where name = 'heartbeat'), 0) as active_s
     from public.app_events
     where created_at >= (select since from p) and session_id is not null
     group by session_id
@@ -172,7 +174,7 @@ language sql stable security definer set search_path = public, auth, pg_temp as 
            count(distinct user_id) as au, count(distinct session_id) as se, count(*) as ev,
            count(*) filter (where name = 'swipe_like') as li,
            count(*) filter (where name = 'swipe_pass') as pa,
-           count(*) filter (where name = 'heartbeat') as hb
+           coalesce(sum(coalesce((props->>'s')::numeric, 15)) filter (where name = 'heartbeat'), 0) as hb
     from public.app_events, p
     where created_at >= (p.today - p.n)::timestamp at time zone 'Europe/Paris'
     group by 1
@@ -184,7 +186,7 @@ language sql stable security definer set search_path = public, auth, pg_temp as 
     group by 1
   )
   select d.day, coalesce(nu.n, 0)::int, coalesce(e.au, 0)::int, coalesce(e.se, 0)::int, coalesce(e.ev, 0)::int,
-         coalesce(e.li, 0)::int, coalesce(e.pa, 0)::int, (coalesce(e.hb, 0) * 15 / 60)::int
+         coalesce(e.li, 0)::int, coalesce(e.pa, 0)::int, (coalesce(e.hb, 0) / 60)::int
   from d left join e on e.day = d.day left join nu on nu.day = d.day
   order by d.day;
 $$;
@@ -271,7 +273,7 @@ language sql stable security definer set search_path = public, pg_temp as $$
   select e.screen,
          count(*) filter (where e.name = 'screen_view'),
          count(distinct e.user_id) filter (where e.name = 'screen_view'),
-         (count(*) filter (where e.name = 'heartbeat') * 15)::bigint
+         (coalesce(sum(coalesce((e.props->>'s')::numeric, 15)) filter (where e.name = 'heartbeat'), 0))::bigint
   from public.app_events e
   where e.created_at >= now() - make_interval(days => least(greatest(coalesce(p_days, 30), 1), 365))
     and e.screen is not null and e.name in ('screen_view', 'heartbeat')
@@ -343,7 +345,7 @@ returns jsonb language sql stable security definer set search_path = public, aut
     'last_seen', (select max(created_at) from public.app_events where user_id = p_user),
     'events', (select count(*) from public.app_events where user_id = p_user),
     'sessions', (select count(distinct session_id) from public.app_events where user_id = p_user),
-    'active_s', (select count(*) * 15 from public.app_events where user_id = p_user and name = 'heartbeat')
+    'active_s', (select coalesce(sum(coalesce((props->>'s')::numeric, 15)), 0)::bigint from public.app_events where user_id = p_user and name = 'heartbeat')
   );
 $$;
 
