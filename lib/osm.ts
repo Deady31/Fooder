@@ -5,6 +5,7 @@ import { parseOpeningHours } from './openingHours';
 import { quartierFor } from './quartiers';
 import { withBetterPhoto } from './photoPriority';
 import { safeWebUrl } from './safeUrl';
+import { restaurantPhoto } from './sitePhotos';
 
 export { formatMeters, haversine };
 
@@ -128,6 +129,10 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     dataSource: 'osm',
     ...(rec.dt?.length ? { diets: [...rec.dt] } : {}),
   };
-  // Plat typique = niveau le plus bas de la priorité (communauté > Google > plat > illustration).
-  return dish ? withBetterPhoto(card, { source: 'dish', images: [dish.src], credit: dish.author, license: dish.license, page: dish.page }) : card;
+  // Priorité : voir PHOTO_PRIORITY. Photo du restaurant seulement avec son consentement (lib/sitePhotos.ts).
+  const illustrated = dish ? withBetterPhoto(card, { source: 'dish', images: [dish.src], credit: dish.author, license: dish.license, page: dish.page }) : card;
+  const own = restaurantPhoto(rec.id);
+  return own
+    ? withBetterPhoto(illustrated, { source: own.kind === 'dish' ? 'restaurant' : 'site', images: [own.src], credit: own.credit })
+    : illustrated;
 }

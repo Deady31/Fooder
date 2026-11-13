@@ -39,3 +39,7 @@ docs/private/
 
 # Images brutes téléchargées (droits de tiers, jamais dans le dépôt public)
 data/photos-raw/
+
+# Photos de restaurants gardées sur le disque du fondateur (droits de tiers / lourdes)
+public/restaurant-photos/
+data/photos-restaurateurs/

@@ -4,13 +4,16 @@ import { photoCreditLine } from '../components/ui/lightboxMath';
 export type PhotoSource = NonNullable<Restaurant['photoSource']>;
 
 /**
- * Priorité d'affichage de la CARTE : communauté (vrai plat d'un foodie) > plat typique > illustration (aucune source).
+ * Priorité d'affichage de la CARTE, de la plus haute à la plus basse (modifier cette liste suffit à changer l'ordre) :
+ * plat envoyé par le restaurateur ('restaurant') > photo d'un foodie ('community') > photo du site consentie ('site')
+ * > plat typique Wikimedia ('dish') > illustration (aucune source).
  * Google vaut 0 : jamais image principale de la carte (il n'apparaît que dans la fiche, à la demande).
  */
-const RANK: Record<PhotoSource, number> = { community: 3, dish: 1, google: 0 };
+export const PHOTO_PRIORITY: readonly PhotoSource[] = ['restaurant', 'community', 'site', 'dish'];
 
 export function photoRank(source: Restaurant['photoSource'] | undefined): number {
-  return source ? RANK[source] : 0;
+  const i = source ? PHOTO_PRIORITY.indexOf(source) : -1;
+  return i < 0 ? 0 : PHOTO_PRIORITY.length - i;
 }
 
 export interface PhotoCandidate {
@@ -78,7 +81,7 @@ export function photoLikesLine(photo: Pick<CommunityPhoto, 'likes' | 'author'>):
 
 /** Galerie de la fiche : photos des foodies, puis plat typique (jamais une illustration ni une image Google). */
 export function galleryFor(rest: Restaurant, community: string[]): string[] {
-  const main = (rest.photoSource === 'community' || rest.photoSource === 'dish') && rest.image ? [rest.image] : [];
+  const main = (rest.photoSource === 'community' || rest.photoSource === 'restaurant' || rest.photoSource === 'site' || rest.photoSource === 'dish') && rest.image ? [rest.image] : [];
   return Array.from(new Set([...community, ...main, ...(rest.extraImages ?? [])].filter(Boolean)));
 }
 

@@ -17,7 +17,7 @@ export function shouldInviteRealPhoto(i: InviteInput): boolean {
 
 /** Fiche sans vraie photo de plat d'un foodie : on invite à poster (aucune récompense supplémentaire). */
 export function needsRealDishPhoto(i: { communityPhotos: string[]; photoSource?: string }): boolean {
-  return i.communityPhotos.length === 0 && i.photoSource !== 'community';
+  return i.communityPhotos.length === 0 && i.photoSource !== 'community' && i.photoSource !== 'restaurant';
 }
 
 /** Consigne affichée au moment de poster. */

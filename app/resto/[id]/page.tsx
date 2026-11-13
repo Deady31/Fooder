@@ -36,10 +36,20 @@ export default function RestoPublicPage({ params }: PageProps) {
       <div className='h-64 w-full border-b-[3px] border-plum bg-fooder-secondary'>
         {r.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={r.image} alt={`Plat typique : ${r.cuisine}`} className='w-full h-full object-cover' />
+          <img
+            src={r.image}
+            alt={r.photoSource === 'site' || r.photoSource === 'restaurant' ? `Photo de ${r.name}` : `Plat typique : ${r.cuisine}`}
+            className='w-full h-full object-cover'
+          />
         ) : null}
       </div>
       <div className='px-5 pt-5 space-y-5'>
+        {(r.photoSource === 'site' || r.photoSource === 'restaurant') && (
+          <p className='text-[11px] font-medium text-slate-500'>
+            {r.photoCredit || 'Photo du restaurant'}
+            {r.photoSource === 'site' ? ' : elle montre le restaurant, pas forcément un plat.' : '.'}
+          </p>
+        )}
         {r.photoSource === 'dish' && (
           <p className='text-[11px] font-medium text-slate-500'>
             Photo d&apos;un plat typique, pas de ce restaurant. Photo : {r.photoCredit}, {r.photoLicense}

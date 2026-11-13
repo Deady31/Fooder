@@ -267,7 +267,7 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
             {gallery.length > 0 && (
               <section>
-                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : rest.photoSource === 'dish' ? 'Plat typique' : 'Photos des plats'}</SectionTitle>
+                <SectionTitle>{community.length > 0 ? 'Photos des foodies' : rest.photoSource === 'dish' ? 'Plat typique' : rest.photoSource === 'restaurant' ? 'Le plat du restaurant' : rest.photoSource === 'site' ? 'Le restaurant' : 'Photos des plats'}</SectionTitle>
                 <div className='flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5'>
                   {gallery.map((img, i) => (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -282,6 +282,12 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                 </div>
                 {bestLine && (
                   <p className='text-[11px] font-bold text-plum/70 -mt-2 mb-1'>{bestLine}</p>
+                )}
+                {(rest.photoSource === 'site' || rest.photoSource === 'restaurant') && (
+                  <p className='text-[11px] font-medium text-slate-500 -mt-2'>
+                    {rest.photoCredit || 'Photo du restaurant'}
+                    {rest.photoSource === 'site' ? ' : elle montre le restaurant, pas forcément ton plat.' : '.'}
+                  </p>
                 )}
                 {rest.photoSource === 'dish' && safeCommonsPage(rest.photoPage) && (
                   <p className='text-[11px] font-medium text-slate-500 -mt-2'>
