@@ -36,3 +36,6 @@ docs/private/
 .vercel
 .env*
 !.env.example
+
+# Images brutes téléchargées (droits de tiers, jamais dans le dépôt public)
+data/photos-raw/
