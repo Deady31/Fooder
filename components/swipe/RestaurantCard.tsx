@@ -23,7 +23,8 @@ function PhotoCredit({ rest }: { rest: Restaurant }) {
     return (
       <div className={base}>
         <Camera className='w-3 h-3 shrink-0' strokeWidth={2.5} />
-        <span className='truncate'>Plat typique{rest.photoCredit ? ` · ${rest.photoCredit}` : ''}</span>
+        {/* Le crédit complet (auteur Wikimedia) reste dans la fiche et la visionneuse. */}
+        <span className='truncate'>Plat typique</span>
       </div>
     );
   }

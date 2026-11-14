@@ -18,6 +18,9 @@ import { haversine } from '../../lib/geo';
 import type { Coords, PositionState } from '../../lib/geo/position';
 import { DISLIKES_KEY, LIKES_KEY } from '../../lib/likes';
 import { readJson } from '../../lib/store';
+
+/** Fiches de démonstration (données inventées) : jamais dans le vrai paquet, seulement si NEXT_PUBLIC_DEMO_DECK=1 (essais hors ligne). */
+const DECK_SEED: readonly Restaurant[] = process.env.NEXT_PUBLIC_DEMO_DECK === '1' ? mockRestaurants : [];
 import type { CommunityPhoto } from '../../lib/photoPriority';
 
 /** Au-delà de ce déplacement, la page API est redemandée depuis la nouvelle origine. */
@@ -95,7 +98,7 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
     const have = new Set(all.current.map(r => r.id));
     const fresh = withLocalCommunity(withDistances(res.items.filter(r => !have.has(r.id) && !seen.has(r.id)), pos.coords, pos.source));
     if (deckRef.current.list.length === 0) {
-      const d = initialDeck({ mock: mockRestaurants, api: res.items, seen, moodId, origin: pos.coords, source: pos.source });
+      const d = initialDeck({ mock: DECK_SEED, api: res.items, seen, moodId, origin: pos.coords, source: pos.source });
       d.list = withLocalCommunity(d.list);
       all.current = [...d.list].reverse();
       setDeckState(d);
@@ -124,7 +127,7 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
     const pos = posRef.current;
     deckOrigin.current = pos.coords;
     deckFromDefault.current = pos.source === 'default';
-    const d = initialDeck({ mock: mockRestaurants, api: [], seen: seenIds(), moodId, origin: pos.coords, source: pos.source, fallbackToSeen: false });
+    const d = initialDeck({ mock: DECK_SEED, api: [], seen: seenIds(), moodId, origin: pos.coords, source: pos.source, fallbackToSeen: false });
     d.list = withLocalCommunity(d.list);
     all.current = [...d.list].reverse();
     setDeckState(d);
