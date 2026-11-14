@@ -9,10 +9,11 @@ import { WelcomeStep } from '../../components/onboarding/WelcomeStep';
 import { PseudoStep } from '../../components/onboarding/PseudoStep';
 import { FinalStep } from '../../components/onboarding/FinalStep';
 import { HelpStep } from '../../components/onboarding/HelpStep';
+import { TutorialStep } from '../../components/onboarding/TutorialStep';
 import { InstallStep } from '../../components/onboarding/InstallStep';
 import { MultiStep, SingleStep } from '../../components/onboarding/ChoiceSteps';
 import { AGE_OPTIONS, DIET_OPTIONS, GENDER_OPTIONS } from '../../components/onboarding/options';
-import { buildProfile, completeOnboarding, hasCompletedOnboarding, resetOnboardingForReplay } from '../../lib/profile';
+import { buildProfile, completeOnboarding, hasCompletedOnboarding, resetOnboardingForReplay, signupEmailProblem } from '../../lib/profile';
 import { EMPTY_ANSWERS, OnboardingAnswers, StepId, clearDraft, readDraft, stepAfter, stepBefore, visibleSteps, writeDraft } from '../../lib/onboardingDraft';
 import { createAcceptance, canFinishOnboarding } from '../../lib/legal';
 import { installCapture } from '../../components/pwa/installCapture';
@@ -104,10 +105,12 @@ export default function Onboarding() {
 
   const profile = useMemo(() => buildProfile({ ...draft }), [draft]);
 
-  const finish = (withEmail: boolean) => {
+  const finish = () => {
     if (!canFinishOnboarding(termsAccepted)) return;
+    // Béta : l'e-mail est obligatoire (format vérifié, aucune confirmation envoyée).
+    if (signupEmailProblem(draft.contactEmail) !== null) return;
     const now = Date.now();
-    const final = buildProfile({ ...draft, contactEmail: withEmail ? draft.contactEmail : '', ...createAcceptance(now) }, now);
+    const final = buildProfile({ ...draft, ...createAcceptance(now) }, now);
     if (!final) {
       setDir(-1);
       setStep('pseudo');
@@ -169,6 +172,8 @@ export default function Onboarding() {
                 onNext={next} columns={2} noneLabel='Aucun, je mange de tout' emptyCta='Continuer' />
             )}
 
+            {step === 'tuto' && <TutorialStep onNext={next} />}
+
             {step === 'help' && <HelpStep onNext={next} />}
 
             {step === 'install' && installMode !== 'skip' && <InstallStep mode={installMode} onNext={next} />}
@@ -177,7 +182,7 @@ export default function Onboarding() {
               <FinalStep profile={profile} email={draft.contactEmail}
                 onEmailChange={contactEmail => patch({ contactEmail })}
                 termsAccepted={termsAccepted} onTermsChange={setTermsAccepted}
-                onGo={() => finish(true)} onSkip={() => finish(false)} />
+                onGo={finish} />
             )}
           </motion.div>
         </AnimatePresence>

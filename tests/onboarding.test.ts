@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { EMAIL_MESSAGES, ONBOARDING_DRAFT_KEY, resetOnboardingForReplay, validateEmail } from '../lib/profile';
+import { EMAIL_MESSAGES, EMAIL_REQUIRED_MESSAGE, ONBOARDING_DRAFT_KEY, resetOnboardingForReplay, signupEmailProblem, validateEmail } from '../lib/profile';
 import {
   EMPTY_ANSWERS,
   ONBOARDING_STEPS,
@@ -25,12 +25,12 @@ function makeStorage() {
 
 describe('parcours', () => {
   it('accueil → pseudo → genre → âge → régime → aide → écran d’accueil → prêt', () => {
-    expect([...ONBOARDING_STEPS]).toEqual(['welcome', 'pseudo', 'gender', 'age', 'diet', 'help', 'install', 'final']);
+    expect([...ONBOARDING_STEPS]).toEqual(['welcome', 'pseudo', 'gender', 'age', 'diet', 'tuto', 'help', 'install', 'final']);
   });
 
   it('l’étape écran d’accueil disparaît du parcours si l’installation est impossible', () => {
     expect(visibleSteps(false)).not.toContain('install');
-    expect(visibleSteps(false)).toHaveLength(7);
+    expect(visibleSteps(false)).toHaveLength(8);
     expect(visibleSteps(true)).toEqual([...ONBOARDING_STEPS]);
   });
 
@@ -47,6 +47,17 @@ describe('parcours', () => {
   it('les brouillons aux étapes « help » et « install » restent lisibles', () => {
     expect(parseDraft({ step: 'help' })?.step).toBe('help');
     expect(parseDraft({ step: 'install' })?.step).toBe('install');
+  });
+});
+
+describe('signupEmailProblem (e-mail obligatoire pendant la béta)', () => {
+  it('refuse un e-mail vide ou blanc', () => {
+    expect(signupEmailProblem('')).toBe(EMAIL_REQUIRED_MESSAGE);
+    expect(signupEmailProblem('   ')).toBe(EMAIL_REQUIRED_MESSAGE);
+  });
+  it('refuse un format invalide, accepte une adresse correcte', () => {
+    expect(signupEmailProblem('pasunmail')).toBe(EMAIL_MESSAGES.invalid);
+    expect(signupEmailProblem('a@b.fr')).toBeNull();
   });
 });
 

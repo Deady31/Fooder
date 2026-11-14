@@ -2,8 +2,8 @@ import { readJson, writeJson } from './store';
 import { AGE_RANGES, DIETS, EMAIL_MAX, GENDERS, ONBOARDING_DRAFT_KEY } from './profile';
 import type { AgeRange, Diet, Gender } from './profile';
 
-/** Parcours : accueil, pseudo, genre, âge, régime, « Tu nous aides », écran d'accueil (si pertinent), prêt. */
-export const ONBOARDING_STEPS = ['welcome', 'pseudo', 'gender', 'age', 'diet', 'help', 'install', 'final'] as const;
+/** Parcours : accueil, pseudo, genre, âge, régime, essai du swipe, « Tu nous aides », écran d'accueil (si pertinent), prêt. */
+export const ONBOARDING_STEPS = ['welcome', 'pseudo', 'gender', 'age', 'diet', 'tuto', 'help', 'install', 'final'] as const;
 export type StepId = (typeof ONBOARDING_STEPS)[number];
 
 /** Étapes réellement parcourues : « install » seulement si l'appli peut être installée. */
