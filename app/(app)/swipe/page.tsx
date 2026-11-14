@@ -10,6 +10,7 @@ import { AchievementToast } from '../../../components/AchievementToast';
 import { SwipeDeck, SwipeDeckHandle } from '../../../components/swipe/SwipeDeck';
 import { ActionButtons } from '../../../components/swipe/ActionButtons';
 import { StickerBurst } from '../../../components/swipe/StickerBurst';
+import { FlyingHeart } from '../../../components/swipe/FlyingHeart';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet, type FilterValues } from '../../../components/swipe/FilterSheet';
 import { DiscoverHeader, FilterChips, PositionRow } from '../../../components/swipe/DiscoverHeader';
@@ -213,6 +214,7 @@ export default function SwipePage() {
       />
 
       {actions.burst.active && <StickerBurst burstId={actions.burst.id} onDone={actions.endBurst} />}
+      {actions.burst.active && <FlyingHeart burstId={actions.burst.id} onDone={() => {}} />}
 
       <DetailSheet rest={selectedRest} onClose={() => setSelectedRest(null)} />
 

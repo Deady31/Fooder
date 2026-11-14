@@ -53,6 +53,7 @@ export function TabBar() {
             key={href}
             href={href}
             aria-current={active ? 'page' : undefined}
+            data-tab={href}
             aria-label={showBadge ? `${label}, ${likes} resto${likes > 1 ? 's' : ''}` : undefined}
             className='relative flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 py-1.5 rounded-2xl'
           >
