@@ -49,3 +49,11 @@ data/photos-restaurateurs/
 
 # Planche de contrôle locale des photos (régénérable)
 data/apercu-photos.html
+
+# Sorties locales du pipeline photos (régénérables, images de tiers : jamais dans le dépôt public)
+data/contact-sheet.png
+data/planche-finale.png
+data/photo-stats.json
+data/photos-local.json
+data/photos-rejetees/
+data/shot-*.png
