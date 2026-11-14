@@ -73,7 +73,7 @@ function Badges({ rest }: { rest: Restaurant }) {
   const extra = diets.length - shown.length;
   return (
     // 2 lignes au maximum : le surplus est coupé, jamais une 3e ligne.
-    <div className='rcard-chips flex flex-wrap gap-1.5 mt-2 max-h-[62px] overflow-hidden shrink-0 min-w-0'>
+    <div className='rcard-chips flex flex-wrap gap-1.5 mt-1.5 max-h-[62px] overflow-hidden shrink-0 min-w-0'>
       {rest.price > 0 && <span className='chip shrink-0 bg-fooder-secondary text-plum'>{rest.price}€</span>}
       <span className='chip min-w-0 max-w-full bg-fooder-primary text-white'><span className='truncate'>{rest.cuisine}</span></span>
       {shown.map(d => (
@@ -129,11 +129,11 @@ export function RestaurantCard({ rest }: RestaurantCardProps) {
         )}
       </div>
 
-      <div className='rcard-body flex-1 min-h-0 min-w-0 flex flex-col overflow-hidden px-5 pt-4 pb-3.5'>
+      <div className='rcard-body shrink-0 min-w-0 flex flex-col overflow-hidden px-4 pt-2.5 pb-2.5'>
         <h2 className='rcard-name shrink-0 text-plum line-clamp-2 pb-[0.08em]'>{rest.name}</h2>
 
         {/* Adresse de rue (repli quartier) et distance réelle depuis la position choisie. */}
-        <p className='rcard-place shrink-0 mt-1.5 flex items-center gap-1 min-w-0 text-[13px] font-bold text-plum'>
+        <p className='rcard-place shrink-0 mt-0.5 flex items-center gap-1 min-w-0 text-[13px] font-bold text-plum'>
           <MapPin className='w-3.5 h-3.5 shrink-0' strokeWidth={2.5} aria-hidden='true' />
           <span className='truncate'>{restaurantPlaceLine(rest)}</span>
           {rest.distance && <span className='shrink-0 rounded-full bg-fooder-mint border-2 border-plum px-1.5 text-[11px] leading-[18px]'>{rest.distance}</span>}
@@ -141,9 +141,9 @@ export function RestaurantCard({ rest }: RestaurantCardProps) {
 
         <Badges rest={rest} />
 
-        {summary && <p className='rcard-summary shrink-0 mt-2 text-[13px] font-bold text-plum leading-snug line-clamp-2'>{summary}</p>}
+        {summary && <p className='rcard-summary shrink-0 mt-1.5 text-[13px] font-bold text-plum leading-snug line-clamp-1'>{summary}</p>}
 
-        <p className='rcard-desc text-slate-600 text-sm font-medium leading-snug mt-2.5'>
+        <p className='rcard-desc text-slate-600 text-sm font-medium leading-snug mt-1.5'>
           {rest.description}
         </p>
       </div>

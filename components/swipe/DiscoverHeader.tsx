@@ -20,7 +20,7 @@ interface DiscoverHeaderProps {
 /** Barre du haut (filtres, logo + envie, notifications) : le logo s'efface quand l'écran est bas (la carte passe avant). */
 export function DiscoverHeader({ moodLabel, onFilters, onMood }: DiscoverHeaderProps) {
   return (
-      <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 [@media(max-height:700px)]:py-1.5 border-b-[3px] border-plum z-20 bg-cream'>
+      <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 [@media(max-height:1000px)]:py-1.5 border-b-[3px] border-plum z-20 bg-cream'>
         <h1 className='sr-only'>Découvrir</h1>
         <button
           type='button'
@@ -31,7 +31,7 @@ export function DiscoverHeader({ moodLabel, onFilters, onMood }: DiscoverHeaderP
           <SlidersHorizontal className='w-5 h-5 text-plum' strokeWidth={2.5} />
         </button>
         <div className='flex flex-col items-center gap-1.5  min-w-0'>
-          <Logo className='w-[clamp(104px,32vw,136px)] [@media(max-height:700px)]:hidden' />
+          <Logo className='w-[clamp(104px,32vw,136px)] [@media(max-height:1000px)]:hidden' />
           <button type='button' onClick={onMood} className='chip bg-fooder-secondary text-plum active:translate-y-0.5 transition-transform'>
             <span className='truncate max-w-[110px]'>{moodLabel}</span>
             <ChevronDown className='w-3 h-3' strokeWidth={3} />
@@ -67,7 +67,9 @@ export function PositionRow({ position, address, onPosition, radius, onRadius }:
           <ChevronDown className='w-3 h-3' strokeWidth={3} aria-hidden='true' />
         </button>
       </div>
-      <PositionBanner position={position} onHelp={onPosition} />
+      <div className='[@media(max-height:1100px)]:hidden'>
+        <PositionBanner position={position} onHelp={onPosition} />
+      </div>
     </>
   );
 }
@@ -116,7 +118,7 @@ export function FilterChips({ openNow, diets, onOpenNow, onDiet, count, radius, 
         })}
       </div>
       {showCount && (
-        <p className='mt-1 mb-1 flex items-center justify-center gap-1.5 text-xs font-bold text-plum-muted' aria-live='polite'>
+        <p className={`mt-1 mb-1 flex items-center justify-center gap-1.5 text-xs font-bold text-plum-muted ${count > 3 ? '[@media(max-height:1100px)]:hidden' : ''}`} aria-live='polite'>
           <span>{count} {count > 1 ? 'restos' : 'resto'} {withinLabel(radius)}</span>
           {count > 0 && count <= 3 && widenTo !== undefined && (
             <button type='button' onClick={() => onWiden(widenTo)} className='underline underline-offset-2 text-plum min-h-[28px]'>
