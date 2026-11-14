@@ -112,7 +112,7 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
           <motion.span key={String(liked)} initial={{ scale: 0.6 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 12 }}>
             <Heart className={`w-5 h-5 ${liked ? 'fill-bubblegum' : ''}`} strokeWidth={2.5} />
           </motion.span>
-          {count}
+          {!isDemo && count}
         </motion.button>
         <button
           onClick={() => setOpen(o => !o)}
@@ -121,7 +121,7 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
           className={`flex items-center gap-1.5 min-h-[44px] px-3 text-sm font-bold text-plum rounded-full transition-colors ${open ? 'bg-lemon/70' : ''}`}
         >
           <MessageCircle className='w-5 h-5' strokeWidth={2.5} />
-          {comments.length}
+          {!isDemo && comments.length}
         </button>
         {post.mine && !isVisit && (
           <button onClick={() => onDelete(post.id)} aria-label='Supprimer mon post' className='ml-auto w-11 h-11 flex items-center justify-center text-plum-muted active:text-plum'>

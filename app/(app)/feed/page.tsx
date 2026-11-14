@@ -206,7 +206,7 @@ export default function FeedPage() {
     <div className='h-full flex flex-col'>
       <PageHeader
         title='Le fil'
-        subtitle='Les verdicts des foodies de Toulouse'
+        subtitle='Les verdicts de Toulouse'
         right={
           <div className='flex gap-2 shrink-0'>
           <Link
@@ -277,12 +277,11 @@ export default function FeedPage() {
               <section aria-labelledby='fil-vide' className='bg-white rounded-2xl border-[3px] border-plum shadow-hard p-4 space-y-3'>
                 <h2 id='fil-vide' className='text-xl leading-tight text-plum'>Ton fil est vide pour l’instant</h2>
                 <p className='text-sm font-medium text-plum-muted leading-snug'>
-                  Confirme une visite ou partage un resto : il apparaîtra ici. Les cartes marquées « exemple » ne sont pas de vrais
-                  foodies et disparaissent dès ton premier vrai post.
+                  Partage un resto ou confirme une visite : il apparaîtra ici. Les cartes « exemple » disparaissent dès ton premier vrai post.
                 </p>
                 <div className='flex flex-wrap gap-2'>
                   <button onClick={() => setComposeOpen(true)} className='duo-button min-h-[44px] bg-bubblegum text-plum text-sm py-2.5'>
-                    Partager un resto
+                    Partager
                   </button>
                   <Link href='/swipe' className='duo-button min-h-[44px] inline-flex items-center bg-white text-plum text-sm py-2.5'>
                     Découvrir
