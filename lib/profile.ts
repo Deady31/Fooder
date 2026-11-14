@@ -25,7 +25,7 @@ export interface Profile {
   gender: Gender;
   ageRange: AgeRange | null;
   diets: Diet[];
-  /** E-mail facultatif, jamais envoyé à un service d'authentification : stocké en local, synchronisé avec le profil. */
+  /** E-mail exigé à l'inscription (béta), jamais envoyé à un service d'authentification : stocké en local, synchronisé avec le profil. Absent sur les anciens profils. */
   contactEmail?: string | null;
   completedAt: number;
   /** Conditions acceptées : date ISO et version (absents pour un profil créé avant l'acceptation obligatoire). */
@@ -70,9 +70,12 @@ export type EmailResult =
   | { ok: false; reason: EmailRefusal; value?: undefined };
 
 export const EMAIL_MESSAGES: Record<EmailRefusal, string> = {
-  invalid: 'Cet e-mail ne ressemble pas à une adresse. Corrige-le ou passe cette étape.',
-  too_long: 'Cette adresse est trop longue. Corrige-la ou passe cette étape.',
+  invalid: 'Cet e-mail ne ressemble pas à une adresse. Vérifie-le.',
+  too_long: 'Cette adresse est trop longue. Vérifie-la.',
 };
+
+/** Béta : l'e-mail est exigé à l'inscription (le format seul est vérifié, aucune confirmation). */
+export const EMAIL_REQUIRED_MESSAGE = 'Indique ton e-mail pour entrer dans Fooder.';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[^\s@.]{2,}$/;
 
@@ -84,6 +87,13 @@ export function validateEmail(raw: unknown): EmailResult {
   if (value === '') return { ok: true, value: null };
   if (value.length > EMAIL_MAX) return { ok: false, reason: 'too_long' };
   return EMAIL_PATTERN.test(value) ? { ok: true, value } : { ok: false, reason: 'invalid' };
+}
+
+/** Message à afficher pour une adresse refusée à l'inscription (vide = obligatoire), ou null si elle est valide. */
+export function signupEmailProblem(raw: string): string | null {
+  const res = validateEmail(raw);
+  if (!res.ok) return EMAIL_MESSAGES[res.reason];
+  return res.value === null ? EMAIL_REQUIRED_MESSAGE : null;
 }
 
 /* ── Préférences du deck (fooder_preferences) ────────────────────── */
