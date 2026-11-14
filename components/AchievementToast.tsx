@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { X } from 'lucide-react';
 import { Achievement } from '../hooks/useGamification';
 import { Sticker } from './ui/Sticker';
 import { badgeFor, StickerName } from '../lib/stickers';
@@ -41,16 +42,14 @@ export function AchievementToast({ achievement, onDone, label = 'Trophée déblo
     <AnimatePresence>
       {achievement && (
         <div className='fixed top-3 inset-x-0 z-[300] flex justify-center px-4 pointer-events-none'>
-          <motion.button
-            type='button'
+          <motion.div
+            role='status'
             key={achievement.id}
             initial={reduce ? { opacity: 0 } : { y: -90, opacity: 0, scale: 0.85, rotate: -3 }}
             animate={reduce ? { opacity: 1 } : { y: 0, opacity: 1, scale: 1, rotate: 0 }}
             exit={reduce ? { opacity: 0 } : { y: -90, opacity: 0, scale: 0.85 }}
             transition={{ type: 'spring', damping: 18, stiffness: 420 }}
             className='w-full max-w-xs pointer-events-auto text-left'
-            onClick={() => onDoneRef.current()}
-            aria-label={`${label} : ${achievement.title}. Toucher pour fermer.`}
           >
             <div className='bg-fooder-secondary rounded-2xl px-4 py-3 flex items-center gap-3 panel'>
               <motion.span
@@ -63,14 +62,23 @@ export function AchievementToast({ achievement, onDone, label = 'Trophée déblo
               </motion.span>
               <div className='flex-1 min-w-0'>
                 <p className='text-[10px] font-black text-plum uppercase tracking-widest'>{label}</p>
-                <p className='font-display text-lg text-plum leading-tight truncate'>{achievement.title}</p>
-                <p className='text-plum text-xs font-semibold truncate opacity-80'>{achievement.description}</p>
+                {/* Texte en entier : il passe à la ligne, la police se réduit s'il est long, jamais de « … ». */}
+                <p className={`font-display text-plum leading-tight break-words ${achievement.title.length > 28 ? 'text-base' : 'text-lg'}`}>{achievement.title}</p>
+                <p className={`text-plum font-semibold leading-snug break-words opacity-80 ${achievement.description.length > 70 ? 'text-[11px]' : 'text-xs'}`}>{achievement.description}</p>
               </div>
               {badge && (
                 <span className='chip bg-white text-plum flex-shrink-0 font-display !text-sm'>{badge}</span>
               )}
+              <button
+                type='button'
+                onClick={() => onDoneRef.current()}
+                aria-label='Fermer'
+                className='flex-shrink-0 self-start -mt-1 -mr-2 w-10 h-10 flex items-center justify-center rounded-full text-plum active:bg-white/60'
+              >
+                <X className='w-5 h-5' strokeWidth={3} aria-hidden='true' />
+              </button>
             </div>
-          </motion.button>
+          </motion.div>
         </div>
       )}
     </AnimatePresence>
