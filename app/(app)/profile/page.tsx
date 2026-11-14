@@ -26,6 +26,7 @@ import { readJson } from '../../../lib/store';
 import { readDislikes, readLikes, subscribeLikes } from '../../../lib/likes';
 import { ScaleBar } from '../../../components/profile/ScaleBar';
 import { XpGauge } from '../../../components/profile/XpGauge';
+import { GiftsSection } from '../../../components/profile/GiftsSection';
 import { ActionToast, ActionToastState } from '../../../components/profile/ActionToast';
 import { streakHint } from '../../../components/profile/streakHint';
 
@@ -180,6 +181,8 @@ export default function ProfilePage() {
           </p>
         )}
       </section>
+
+      <GiftsSection level={level} />
 
       {auth.enabled && !auth.session && !auth.loading && (
         <Link href="/compte" className="mx-4 mt-3 flex items-center gap-3 bg-fooder-secondary rounded-3xl border-[3px] border-plum shadow-hard p-3 active:translate-y-0.5">
