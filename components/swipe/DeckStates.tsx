@@ -1,6 +1,8 @@
 'use client';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { likesCount } from '../../lib/likes';
 import { Sticker } from '../ui/Sticker';
 import { radiusLabel, withinLabel, type Radius } from '../../lib/geo/radius';
 
@@ -45,6 +47,8 @@ function UndoButton({ canUndo, onUndo }: Pick<ActionsProps, 'canUndo' | 'onUndo'
 
 /** Fin de paquet : tout a été vu dans le rayon. */
 export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius: Radius; onMood: () => void }) {
+  const [likes, setLikes] = useState<number | null>(null);
+  useEffect(() => setLikes(likesCount()), []);
   return (
     <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} className='flex flex-col items-center text-center px-6 gap-5 w-full max-w-sm'>
       <div className='relative h-28 w-48' aria-hidden='true'>
@@ -52,10 +56,13 @@ export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius:
         <div className='absolute right-0 top-0 bob' style={{ ['--r' as string]: '10deg', animationDelay: '0.5s' }}><Sticker name='icecream' size={88} rotate={10} /></div>
       </div>
       <div className='space-y-2 rounded-[22px] bg-cream border-[3px] border-plum px-4 py-3'>
-        <h3 className='text-4xl text-plum'>Tu as tout vu !</h3>
+        <h3 className='text-4xl text-plum'>Tu as tout swipé !</h3>
         <p className='text-plum-muted font-medium text-sm leading-relaxed'>
           Tous les restos {withinLabel(radius)} sont passés entre tes doigts.
         </p>
+        {likes !== null && likes > 0 && (
+          <p className='text-plum font-bold text-sm'>❤️ {likes} coup{likes > 1 ? 's' : ''} de cœur dans tes favoris</p>
+        )}
       </div>
       <div className='flex flex-col w-full gap-3'>
         <WidenButton {...actions} />
