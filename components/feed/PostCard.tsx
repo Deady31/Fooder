@@ -8,6 +8,7 @@ import type { EditResult, StoredComment } from './commentEdit';
 import { Avatar } from '../profile/Avatar';
 import { isDemoPost, isVisitPost } from './feedLogic';
 import { Sticker } from '../ui/Sticker';
+import { Lightbox } from '../ui/Lightbox';
 
 interface PostCardProps {
   post: FeedPost;
@@ -27,6 +28,7 @@ const VERDICT_INK: Record<string, string> = { miam: '#0B7A47', bof: '#C4105E', a
 /** Un post = un ticket de caisse : tampon de verdict, nom du resto, mot, perforation, réactions. */
 export function PostCard({ post, liked, count, comments, onLike, onDelete, onComment, onEditComment }: PostCardProps) {
   const [open, setOpen] = useState(false);
+  const [zoom, setZoom] = useState(false);
   const [draft, setDraft] = useState('');
   const verdict = VERDICTS.find(v => v.id === post.verdict) ?? VERDICTS[0];
   const isDemo = isDemoPost(post);
@@ -69,25 +71,28 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
           </span>
         </div>
 
-        <div className='mt-3 flex items-start gap-3'>
-          <div className='flex-1 min-w-0'>
-            {post.caption ? (
-              <p className='text-sm font-medium text-plum leading-snug break-words rounded-xl border-2 border-dashed border-plum/30 bg-cream/60 px-3 py-2'>
-                {post.caption}
-              </p>
-            ) : (
-              <div className='flex items-center'>
-                <Sticker name={post.sticker} size={56} rotate={-6} />
-              </div>
-            )}
-          </div>
-          {post.photo && (
-            <div className='relative shrink-0 rotate-3 bg-white p-1 pb-3 border-[3px] border-plum shadow-hard-sm'>
-              <span aria-hidden className='absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-3 bg-lemon/90 border-2 border-plum/40 -rotate-3' />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={post.photo} alt={`Photo de ${post.restaurantName}`} className='w-20 h-20 object-cover' draggable={false} />
+        {post.photo && (
+          <button
+            type='button'
+            onClick={() => setZoom(true)}
+            aria-label={`Agrandir la photo de ${post.restaurantName}`}
+            className='mt-3 block w-full overflow-hidden rounded-xl border-[3px] border-plum shadow-hard-sm active:translate-y-0.5 transition-transform'
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={post.photo} alt={`Photo de ${post.restaurantName}`} className='block w-full aspect-[4/3] object-cover' draggable={false} />
+          </button>
+        )}
+
+        <div className='mt-3'>
+          {post.caption ? (
+            <p className='text-sm font-medium text-plum leading-snug break-words rounded-xl border-2 border-dashed border-plum/30 bg-cream/60 px-3 py-2'>
+              {post.caption}
+            </p>
+          ) : !post.photo ? (
+            <div className='flex items-center'>
+              <Sticker name={post.sticker} size={56} rotate={-6} />
             </div>
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -167,6 +172,9 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
           </motion.div>
         )}
       </AnimatePresence>
+      {zoom && post.photo && (
+        <Lightbox images={[post.photo]} index={0} alt={`Photo de ${post.restaurantName}`} onIndexChange={() => undefined} onClose={() => setZoom(false)} />
+      )}
     </motion.article>
   );
 }

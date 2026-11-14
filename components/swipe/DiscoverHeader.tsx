@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, CircleDot, SlidersHorizontal } from 'lucide-react';
+import { ChevronDown, CircleDot, SlidersHorizontal, Sparkles } from 'lucide-react';
 import type { Diet } from '../../data/mockRestaurants';
 import { Logo } from '../ui/Logo';
 import { NotificationBell } from '../notifications/NotificationBell';
@@ -20,23 +20,29 @@ interface DiscoverHeaderProps {
 /** Barre du haut (filtres, logo + envie, notifications) : le logo s'efface quand l'écran est bas (la carte passe avant). */
 export function DiscoverHeader({ moodLabel, onFilters, onMood }: DiscoverHeaderProps) {
   return (
-      <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 [@media(max-height:1000px)]:py-1.5 border-b-[3px] border-plum z-20 bg-cream'>
+      <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 [@media(max-height:700px)]:py-1.5 border-b-[3px] border-plum z-20 bg-cream'>
         <h1 className='sr-only'>Découvrir</h1>
-        <button
-          type='button'
-          onClick={onFilters}
-          aria-label='Filtres'
-          className='w-11 h-11 bg-white border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 active:shadow-none transition-all'
-        >
-          <SlidersHorizontal className='w-5 h-5 text-plum' strokeWidth={2.5} />
-        </button>
-        <div className='flex flex-col items-center gap-1.5  min-w-0'>
-          <Logo className='w-[clamp(104px,32vw,136px)] [@media(max-height:1000px)]:hidden' />
-          <button type='button' onClick={onMood} className='chip bg-fooder-secondary text-plum active:translate-y-0.5 transition-transform'>
-            <span className='truncate max-w-[110px]'>{moodLabel}</span>
-            <ChevronDown className='w-3 h-3' strokeWidth={3} />
+        <div className='flex items-center gap-2 shrink-0'>
+          <button
+            type='button'
+            onClick={onFilters}
+            aria-label='Filtres'
+            className='w-11 h-11 bg-white border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 active:shadow-none transition-all'
+          >
+            <SlidersHorizontal className='w-5 h-5 text-plum' strokeWidth={2.5} />
+          </button>
+          <button
+            type='button'
+            onClick={onMood}
+            aria-label={`Mon envie : ${moodLabel}. Changer`}
+            title={moodLabel}
+            className='relative w-11 h-11 bg-fooder-secondary border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 active:shadow-none transition-all'
+          >
+            <Sparkles className='w-5 h-5 text-plum' strokeWidth={2.5} />
+            {moodLabel !== 'Surprends-moi' && <span aria-hidden='true' className='absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-fooder-primary border-2 border-plum' />}
           </button>
         </div>
+        <Logo className='w-[clamp(96px,30vw,136px)] min-w-0 [@media(max-height:560px)]:hidden' />
         <NotificationBell />
       </header>
   );

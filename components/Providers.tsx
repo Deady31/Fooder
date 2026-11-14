@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { MotionConfig } from 'framer-motion';
 import { ConsentBanner } from './legal/ConsentBanner';
+import { Splash } from './Splash';
 import { Tracker } from './analytics/Tracker';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {children}
       {admin ? null : <ConsentBanner />}
       <Tracker />
+      <Splash />
     </MotionConfig>
   );
 }
