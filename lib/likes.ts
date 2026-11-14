@@ -114,6 +114,38 @@ export function restoreDislike(rest: Restaurant, index: number): void {
   if (next !== list) writeJson(DISLIKES_KEY, next);
 }
 
+/* ── Verdict MIAM / BOF depuis la fiche ───────────────────────────── */
+
+export type Verdict = 'miam' | 'bof' | null;
+
+/** Verdict actuel d'un resto : MIAM s'il est en favoris, BOF s'il est écarté, sinon null. */
+export function verdictOf(id: string): Verdict {
+  if (readLikes().some(r => r.id === id)) return 'miam';
+  if (readDislikes().some(r => r.id === id)) return 'bof';
+  return null;
+}
+
+/**
+ * Pose un verdict : MIAM l'ajoute aux favoris (et le sort des écartés), BOF l'écarte (et le sort des favoris).
+ * Le même verdict une seconde fois l'annule. Aucune récompense ici : l'XP reste réservée au swipe (pas de farm).
+ * Retourne le nouveau verdict.
+ */
+export function applyVerdict(rest: Restaurant, wanted: 'miam' | 'bof'): Verdict {
+  if (verdictOf(rest.id) === wanted) {
+    if (wanted === 'miam') removeLike(rest.id);
+    else removeDislike(rest.id);
+    return null;
+  }
+  if (wanted === 'miam') {
+    removeDislike(rest.id);
+    toggleLike(rest);
+  } else {
+    removeLike(rest.id);
+    writeJson(DISLIKES_KEY, [...readDislikes().filter(r => r.id !== rest.id), rest]);
+  }
+  return wanted;
+}
+
 /* ── Tri des favoris (pur) ─────────────────────────────────────────── */
 
 export type LikeSort = 'recent' | 'ancien' | 'az' | 'proche';

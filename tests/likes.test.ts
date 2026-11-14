@@ -4,7 +4,7 @@ import { STORE_EVENT } from '../lib/store';
 import {
   DISLIKES_KEY, LIKES_KEY, WISHLIST_KEY,
   likedIds, likesCount, readDislikes, readLikes, removeDislike, removeLike, restoreDislike, restoreLike,
-  subscribeLikes, toggleLike,
+  applyVerdict, subscribeLikes, toggleLike, verdictOf,
 } from '../lib/likes';
 import { CHECKINS_KEY } from '../lib/visits';
 
@@ -159,5 +159,39 @@ describe('subscribeLikes', () => {
     off();
     toggleLike(rest('b'));
     expect(cb).not.toHaveBeenCalled();
+  });
+});
+
+describe('verdict MIAM / BOF depuis la fiche', () => {
+  it('MIAM ajoute aux favoris, un second MIAM annule', () => {
+    expect(verdictOf('a')).toBeNull();
+    expect(applyVerdict(rest('a'), 'miam')).toBe('miam');
+    expect(ids()).toEqual(['a']);
+    expect(verdictOf('a')).toBe('miam');
+    expect(applyVerdict(rest('a'), 'miam')).toBeNull();
+    expect(ids()).toEqual([]);
+  });
+
+  it('BOF écarte, un second BOF annule', () => {
+    expect(applyVerdict(rest('a'), 'bof')).toBe('bof');
+    expect(readDislikes().map(r => r.id)).toEqual(['a']);
+    expect(verdictOf('a')).toBe('bof');
+    expect(applyVerdict(rest('a'), 'bof')).toBeNull();
+    expect(readDislikes()).toEqual([]);
+  });
+
+  it('changer d’avis déplace le resto d’une liste à l’autre, jamais dans les deux', () => {
+    applyVerdict(rest('a'), 'miam');
+    applyVerdict(rest('a'), 'bof');
+    expect(ids()).toEqual([]);
+    expect(readDislikes().map(r => r.id)).toEqual(['a']);
+    applyVerdict(rest('a'), 'miam');
+    expect(ids()).toEqual(['a']);
+    expect(readDislikes()).toEqual([]);
+  });
+
+  it('n’émet que des clés suivies par subscribeLikes', () => {
+    applyVerdict(rest('a'), 'miam');
+    expect(events.length).toBeGreaterThan(0);
   });
 });

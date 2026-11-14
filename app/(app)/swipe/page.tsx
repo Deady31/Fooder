@@ -204,7 +204,14 @@ export default function SwipePage() {
       {actions.burst.active && <StickerBurst burstId={actions.burst.id} onDone={actions.endBurst} />}
       {actions.burst.active && <FlyingHeart burstId={actions.burst.id} onDone={() => {}} />}
 
-      <DetailSheet rest={selectedRest} onClose={() => setSelectedRest(null)} />
+      <DetailSheet
+        rest={selectedRest}
+        onClose={() => setSelectedRest(null)}
+        onVerdict={dir => {
+          setSelectedRest(null);
+          deckRef.current?.swipe(dir === 'right' ? 'right' : 'left');
+        }}
+      />
 
       <FilterSheet
         isOpen={sheet === 'filters'}

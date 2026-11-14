@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Share2, Maximize2 } from 'lucide-react';
+import { Star, MapPin, X, Zap, Quote, BookOpen, ExternalLink, Phone, Share2, Maximize2, Heart } from 'lucide-react';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { FoodImage } from '../ui/FoodImage';
@@ -18,10 +18,16 @@ import { track } from '../../lib/analytics';
 import { REPORT_LABEL, reportPlace, type ReportReason } from '../../lib/reports';
 import { DIETS, DIET_LABEL, DIET_SOURCE_NOTE } from '../../lib/diets';
 import { googleMapsDirectionsUrl, restaurantFullAddress } from '../../lib/geo/format';
+import { applyVerdict, subscribeLikes, verdictOf, type Verdict } from '../../lib/likes';
 
 interface DetailSheetProps {
   rest: Restaurant | null;
   onClose: () => void;
+  /**
+   * Fourni par Découvrir : MIAM/BOF passent alors par le swipe de la carte du dessus (animation, XP, annulation).
+   * Sans lui (Favoris, Carte), le verdict est enregistré directement.
+   */
+  onVerdict?: (dir: 'left' | 'right', rest: Restaurant) => void;
 }
 
 const TITLE_ID = 'fiche-titre';
@@ -93,7 +99,7 @@ function galleryTitle(rest: Restaurant): string {
   return 'Photos des plats';
 }
 
-export function DetailSheet({ rest, onClose }: DetailSheetProps) {
+export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
   // On garde la dernière fiche pendant l'animation de sortie (rest passe à null à la fermeture).
   const last = useRef<Restaurant | null>(null);
   if (rest) last.current = rest;
@@ -109,6 +115,26 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
     setShareMsg(null);
     setViewer(null);
   }, [restId]);
+
+  // Verdict courant (MIAM = favori, BOF = écarté), tenu à jour si la liste change ailleurs.
+  const [verdict, setVerdict] = useState<Verdict>(null);
+  useEffect(() => {
+    if (!restId) return;
+    const sync = () => setVerdict(verdictOf(restId));
+    sync();
+    return subscribeLikes(sync);
+  }, [restId]);
+  const decide = (wanted: 'miam' | 'bof') => {
+    if (!rest) return;
+    if (onVerdict) {
+      onVerdict(wanted === 'miam' ? 'right' : 'left', rest);
+      return;
+    }
+    const next = applyVerdict(rest, wanted);
+    setVerdict(next);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(30);
+    if (next === 'bof') onClose();
+  };
 
   // Photo Google : une seule demande à l'ouverture de la fiche, en mémoire de session, jamais stockée.
   const [google, setGoogle] = useState<FetchedPhoto | null>(null);
@@ -407,16 +433,36 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
 
           <div className='sticky bottom-0 z-20 px-5 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] bg-cream border-t-[3px] border-plum'>
             {shareMsg && <p role='status' className='text-xs font-bold text-plum text-center mb-2'>{shareMsg}</p>}
-            <a
-              href={googleMapsDirectionsUrl(shown)}
-              target='_blank'
-              rel='noopener noreferrer'
-              aria-label={`Itinéraire vers ${shown.name} (Google Maps, nouvel onglet)`}
-              className='duo-button w-full min-h-[56px] bg-fooder-primary text-white py-3.5 text-base flex items-center justify-center gap-2'
-            >
-              <MapPin className='w-5 h-5 shrink-0' aria-hidden='true' />
-              Itinéraire
-            </a>
+            <div className='flex items-center gap-2.5'>
+              <button
+                type='button'
+                onClick={() => decide('bof')}
+                aria-pressed={verdict === 'bof'}
+                aria-label={verdict === 'bof' ? 'BOF : écarté, toucher pour annuler' : 'BOF : écarter ce resto'}
+                className={`shrink-0 w-14 h-14 rounded-full border-[3px] border-plum shadow-hard flex items-center justify-center active:translate-y-0.5 active:shadow-none transition-all ${verdict === 'bof' ? 'bg-fooder-red' : 'bg-white'}`}
+              >
+                <X className={`w-7 h-7 ${verdict === 'bof' ? 'text-white' : 'text-danger'}`} strokeWidth={4} aria-hidden='true' />
+              </button>
+              <button
+                type='button'
+                onClick={() => decide('miam')}
+                aria-pressed={verdict === 'miam'}
+                aria-label={verdict === 'miam' ? 'MIAM : dans tes favoris, toucher pour retirer' : 'MIAM : ajouter aux favoris'}
+                className={`shrink-0 w-14 h-14 rounded-full border-[3px] border-plum shadow-hard flex items-center justify-center active:translate-y-0.5 active:shadow-none transition-all ${verdict === 'miam' ? 'bg-fooder-primary' : 'bg-bubblegum'}`}
+              >
+                <Heart className={`w-7 h-7 ${verdict === 'miam' ? 'text-white fill-white' : 'text-plum fill-white'}`} strokeWidth={3} aria-hidden='true' />
+              </button>
+              <a
+                href={googleMapsDirectionsUrl(shown)}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={`Itinéraire vers ${shown.name} (Google Maps, nouvel onglet)`}
+                className='duo-button flex-1 min-w-0 min-h-[56px] bg-fooder-primary text-white py-3.5 text-base flex items-center justify-center gap-2'
+              >
+                <MapPin className='w-5 h-5 shrink-0' aria-hidden='true' />
+                Itinéraire
+              </a>
+            </div>
           </div>
 
           {viewer !== null && viewerImages.length > 0 && (
