@@ -12,7 +12,7 @@ Direction artistique : « Bubbly Maximalism » (crème/prune, ombres dures, stic
 ## Commandes
 - Dev : `npm run dev` (port 3000). Tests : `npx vitest run`. Types : `npx tsc --noEmit` (ignorer les erreurs sous `.next/types`).
 - NE PAS lancer `next build` dans le dossier de travail pendant qu'un serveur de dev tourne : ça corrompt `.next`. Pour vérifier un build : exporter l'index (`git checkout-index -a --prefix=<dossier-temp>/`), relier `node_modules`, construire dans cette copie.
-- Tester l'appli SANS polluer la base de production : `NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY= npm run dev -- -p 3100` (cloud désactivé, 100 % local). Ne jamais créer de comptes ni d'événements sur la base réelle pour tester.
+- Tester l'appli SANS polluer la base de production : `NEXT_PUBLIC_DISABLE_CLOUD=1 npm run dev -- -p 3100` (cloud désactivé, 100 % local). Vider les variables Supabase en ligne de commande NE SUFFIT PAS : `.env.local` les remet. Vérifier ensuite dans le navigateur (`performance.getEntriesByType('resource')`) qu'aucune requête ne part vers supabase.co. Ne jamais créer de comptes ni d'événements sur la base réelle pour tester.
 - Windows : l'export d'index convertit les fins de ligne en CRLF ; pas de ligne shebang `#!` dans les scripts importés par vitest.
 
 ## Git
