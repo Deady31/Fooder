@@ -71,18 +71,53 @@ Vérifié : `tsc --noEmit` OK, **733 tests / 38 fichiers** OK, `next build` OK, 
   plats. Les fichiers rejetés automatiquement sont dans `data/photos-rejetees`, le reste est
   supprimable à la main : `data/restaurant-photos.json` donne le nom de chaque photo.
 
-## Consentement des restaurateurs (règle produit)
+## Consentement et déploiement (mis à jour le 14/11/2026)
 
-Sans accord d'un restaurant, sa photo n'est PAS affichée. Les 1 254 photos de `public/restaurant-photos/` restent
-sur le disque (dossier ignoré par git) et ne servent que de réserve pour `--from-site`.
+**Accord général** : le fondateur a obtenu l'accord oral des restaurateurs de toute la zone Grand Toulouse. Il est
+consigné dans `data/photo-consent.json > blanket` (`active`, `scope: 'grand-toulouse'`, `consentedAt`, `source`, `note`).
 
-- `data/photo-consent.json` : `{ version, restaurants: { "<id OSM>": { name, consentedAt, source, note? } } }`. Vide au départ.
-  Retrait d'un accord = supprimer l'entrée (la photo disparaît aussitôt).
-- `data/photos-consented.json` : `{ id: { src, kind: 'dish'|'site', credit, consentedAt } }`, généré par le script.
-- `public/restos/<id>.jpg` : photos consenties (900 px, léger, suivi par git).
-- `lib/sitePhotos.ts` n'expose une photo que si l'id est dans le consentement ET dans la table.
+Une photo est affichée si **(id dans `restaurants` OU `blanket.active`) ET id absent de `revoked` ET id absent de
+`data/photo-blocklist.json`** (règle dans `lib/sitePhotos.ts`, testée dans `tests/restaurantPhotos.test.ts`).
+Passer `blanket.active` à `false` rétablit le refus par défaut (seuls les accords individuels restent).
 
-### Import
+### Retirer une photo ou un restaurant
+
+```
+node scripts/block-photo.mjs osm-n250665866 "logo"            # mauvaise photo (qualité) -> photo-blocklist.json
+node scripts/block-photo.mjs osm-n250665866 --revoke          # le restaurant retire son accord -> consent.revoked
+node scripts/block-photo.mjs osm-n250665866 --undo [--revoke] # annule
+```
+
+Effet au prochain déploiement. Aucun fichier image n'est supprimé. `data/apercu-photos.html` affiche l'id sous chaque vignette.
+
+### Fabrication des photos servies
+
+```
+node scripts/build-consented-photos.mjs [--limit=N] [--dry-run] [--size=720] [--quality=68] [--no-auto-block] [--force]
+node scripts/build-preview.mjs        # planche de contrôle data/apercu-photos.html
+```
+
+1. Écarte les visuels de marque probables (`scripts/photo-quality.mjs`) dans `data/photo-blocklist.json`
+   (entrées `source:'manual'` jamais touchées ; les `auto` sont recalculées).
+2. Convertit `public/restaurant-photos/<id>.jpg` (originaux, jamais modifiés) en `public/restos/<id>.webp`
+   (720 px max, qualité 68, EXIF supprimé) avec ffmpeg. Les WebP déjà présents sont conservés (`--force` pour refaire).
+3. Écrit `data/photos-consented.json` : `{ id: { src, kind, credit (domaine), page, consentedAt } }`. Les entrées
+   `kind:'dish'` (plats envoyés par les restaurateurs) sont conservées et gardent la priorité.
+
+Résultat : 1 075 photos, **40 Mo** (limite 45 Mo ; sinon `--size=640 --quality=60`). `public/restos/` est suivi par git ;
+`public/restaurant-photos/`, `data/photos-raw/`, `data/photos-restaurateurs/` restent ignorés.
+
+### Filtrage qualité : ce que les heuristiques savent et ne savent pas
+
+Écartées : **179 sur 1 254 (14 %)** : ratio largeur/hauteur extrême (> 2,2 ou < 0,6), très peu de couleurs, image presque
+unie, PNG graphique, poids très faible, mot suspect dans le nom du fichier (logo, banner, header, menu, carte, capture,
+flyer, façade, devanture, exterieur…). Rapport seul : `node scripts/filter-photos.mjs`.
+
+**Elles ne savent pas reconnaître « un plat »** : une façade, une salle, une photo de groupe ou un portrait
+de chef sans mot-clé dans le nom passent ; un bon plat en bannière large est écarté à tort. La planche de contrôle
+(`data/apercu-photos.html`, section « écartées » puis « gardées ») sert à corriger à la main avec `block-photo.mjs`.
+
+### Import (accords individuels / plats envoyés)
 
 Dépose les fichiers reçus dans `data/photos-restaurateurs/`, écris un CSV (`;`) :
 

@@ -43,3 +43,9 @@ data/photos-raw/
 # Photos de restaurants gardées sur le disque du fondateur (droits de tiers / lourdes)
 public/restaurant-photos/
 data/photos-restaurateurs/
+
+# Photos converties et consenties (WebP, ~40 Mo) : SUIVIES par git (ne pas ignorer public/restos/)
+!public/restos/
+
+# Planche de contrôle locale des photos (régénérable)
+data/apercu-photos.html

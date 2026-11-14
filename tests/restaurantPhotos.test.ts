@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+// @ts-ignore script Node (JS)
+import { qualityReasons } from '../scripts/photo-quality.mjs';
 import { consentedPhotoFor, restaurantPhoto, RESTAURANT_PHOTO_CREDIT } from '../lib/sitePhotos';
 import { PHOTO_PRIORITY, photoRank, viewerCredit, withBetterPhoto, galleryFor } from '../lib/photoPriority';
 import { photoCreditLine } from '../components/ui/lightboxMath';
@@ -8,7 +10,7 @@ import type { Restaurant } from '../data/mockRestaurants';
 // @ts-ignore script Node (JS)
 import { matchName, normalizeName, parseCsv, parseRows } from '../scripts/import-restaurant-photos.mjs';
 
-const photo: any = { src: '/restos/osm-n1.jpg', kind: 'dish', credit: RESTAURANT_PHOTO_CREDIT, consentedAt: '2026-11-13T10:00:00.000Z' };
+const photo: any = { src: '/restos/osm-n1.webp', kind: 'dish', credit: RESTAURANT_PHOTO_CREDIT, consentedAt: '2026-11-13T10:00:00.000Z' };
 const consent = (ids: string[]) => ({
   version: 1,
   restaurants: Object.fromEntries(ids.map(i => [i, { name: 'X', consentedAt: '2026-11-13T10:00:00.000Z', source: 'phone' }])),
@@ -17,6 +19,52 @@ const consent = (ids: string[]) => ({
 const base: Restaurant = {
   id: 'osm-n1', name: 'Chez Test', rating: 0, price: 0, distance: 'Toulouse', cuisine: 'Pizzeria', image: '', address: 'x', description: '',
 };
+
+const blanket = (extra: object = {}) => ({ ...consent([]), blanket: { active: true, scope: 'grand-toulouse' }, revoked: [], ...extra });
+
+describe('accord général, retrait et blocage', () => {
+  it('accord général actif : toute photo présente est affichable', () => {
+    expect(consentedPhotoFor('osm-n1', { 'osm-n1': photo }, blanket())).toEqual(photo);
+    expect(consentedPhotoFor('osm-n2', { 'osm-n1': photo }, blanket())).toBeNull();
+  });
+  it('accord général inactif : retour au refus par défaut', () => {
+    expect(consentedPhotoFor('osm-n1', { 'osm-n1': photo }, blanket({ blanket: { active: false } }))).toBeNull();
+  });
+  it('restaurant révoqué : jamais affiché, même avec accord général ou explicite', () => {
+    expect(consentedPhotoFor('osm-n1', { 'osm-n1': photo }, blanket({ revoked: ['osm-n1'] }))).toBeNull();
+    expect(consentedPhotoFor('osm-n1', { 'osm-n1': photo }, { ...consent(['osm-n1']), revoked: ['osm-n1'] })).toBeNull();
+    expect(consentedPhotoFor('osm-n3', { 'osm-n3': photo }, blanket({ revoked: ['osm-n1'] }))).not.toBeNull();
+  });
+  it('photo bloquée pour qualité : masquée, les autres restent', () => {
+    const bl = { blocked: { 'osm-n1': { reason: 'logo' } } };
+    expect(consentedPhotoFor('osm-n1', { 'osm-n1': photo }, blanket(), bl)).toBeNull();
+    expect(consentedPhotoFor('osm-n3', { 'osm-n3': photo }, blanket(), bl)).not.toBeNull();
+    expect(consentedPhotoFor('osm-n1', { 'osm-n1': photo }, consent(['osm-n1']), bl)).toBeNull();
+  });
+  it('données réelles : photo servie en WebP, aucune entrée bloquée exposée', () => {
+    const table = require('../data/photos-consented.json');
+    const blocked = require('../data/photo-blocklist.json').blocked;
+    const ids = Object.keys(table);
+    expect(ids.length).toBeGreaterThan(0);
+    for (const id of ids.slice(0, 50)) expect(restaurantPhoto(id)?.src).toMatch(/^\/restos\/.+\.webp$/);
+    for (const id of Object.keys(blocked)) expect(restaurantPhoto(id)).toBeNull();
+  });
+});
+
+describe('heuristiques de qualité', () => {
+  const ok = { colors: 200, top: 0.05, mean: 120, std: 50, ratio: 1.4 };
+  it('garde une photo normale', () => {
+    expect(qualityReasons(ok, { image: 'https://x.fr/uploads/pizza-4-fromages.jpg', bytes: 90000 })).toEqual([]);
+  });
+  it('écarte ratio extrême, aplat, logo, nom suspect, poids faible', () => {
+    expect(qualityReasons({ ...ok, ratio: 3 }, {})).toContain('ratio extrême');
+    expect(qualityReasons({ ...ok, colors: 20 }, {})).toContain('logo/aplat');
+    expect(qualityReasons({ ...ok, top: 0.7 }, {})).toContain('uniforme');
+    expect(qualityReasons(ok, { image: 'https://x.fr/img/Logo-Resto.png' }).join()).toContain('logo');
+    expect(qualityReasons(ok, { image: 'https://x.fr/a/facade-devanture.jpg' }).join()).toContain('facade');
+    expect(qualityReasons(ok, { image: 'https://x.fr/a.jpg', bytes: 10000 })).toContain('poids faible');
+  });
+});
 
 describe('consentement', () => {
   it('refus par défaut : fichier de consentement vide, aucune photo exposée', () => {
@@ -34,8 +82,11 @@ describe('consentement', () => {
     expect(consentedPhotoFor('osm-n1', { 'osm-n1': { ...photo, src: '' } }, consent(['osm-n1']))).toBeNull();
     expect(consentedPhotoFor('osm-n1', { 'osm-n1': { ...photo, kind: 'x' as any } }, consent(['osm-n1']))).toBeNull();
   });
-  it('osmToRestaurant n’affiche aucune photo de resto sans consentement', () => {
-    const r = osmToRestaurant({ id: 'osm-n250665866', n: 'Folles Saisons', k: 'restaurant', c: 'french', la: 43.6, ln: 1.44, a: '', h: '', w: '', d: 0 });
+  it('osmToRestaurant : photo du site (accord général), rien pour un id sans photo', () => {
+    const mk = (id: string) => osmToRestaurant({ id, n: 'Test', k: 'restaurant', c: 'french', la: 43.6, ln: 1.44, a: '', h: '', w: '', d: 0 });
+    expect(mk('osm-n250665866').photoSource).toBe('site');
+    expect(mk('osm-n250665866').image).toMatch(/^\/restos\/.+\.webp$/);
+    const r = mk('osm-n0-sans-photo');
     expect(r.photoSource === 'site' || r.photoSource === 'restaurant').toBe(false);
   });
 });

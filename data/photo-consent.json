@@ -1,4 +1,12 @@
 {
-  "version": 1,
-  "restaurants": {}
+ "version": 2,
+ "blanket": {
+  "active": true,
+  "scope": "grand-toulouse",
+  "consentedAt": "2026-11-13",
+  "source": "phone",
+  "note": "Accord oral obtenu par le fondateur auprès des restaurateurs de la zone Grand Toulouse (toutes communes)"
+ },
+ "restaurants": {},
+ "revoked": []
 }

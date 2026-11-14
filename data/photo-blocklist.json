@@ -1,0 +1,900 @@
+{
+ "version": 1,
+ "blocked": {
+  "osm-n29681754": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n259419396": {
+   "reason": "ratio extrême, nom « exterieur »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n343622288": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n356783375": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n644841655": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n636914896": {
+   "reason": "ratio extrême, nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n803725007": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n868727687": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n866644054": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1128667128": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1077268740": {
+   "reason": "nom « menus »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1349563367": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1377508768": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1373605035": {
+   "reason": "ratio extrême, graphique png, nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1458196914": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1468315718": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1532506322": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1534348558": {
+   "reason": "nom « flyer »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1666191502": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1667118809": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1724031895": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1771321029": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1857067690": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1976765821": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2054159590": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2170803967": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2306635292": {
+   "reason": "nom « exterieur »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2444345656": {
+   "reason": "nom « casino »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2450406605": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2450406655": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2457772016": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2457772044": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2457772065": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2459885026": {
+   "reason": "nom « casino »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2463356564": {
+   "reason": "nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2465993964": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2465994066": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2478393276": {
+   "reason": "ratio extrême, nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2478393553": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2813140206": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2872061458": {
+   "reason": "nom « slot »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2820152912": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2982574483": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n3125457117": {
+   "reason": "nom « screenshot »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n3440754923": {
+   "reason": "poids faible, nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n3440754930": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n3693450320": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n3749146303": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n4413138394": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n4285279591": {
+   "reason": "nom « menus »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n4934203722": {
+   "reason": "peu de couleurs, nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n5265893756": {
+   "reason": "nom « exterieur »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n5550674368": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n5050467093": {
+   "reason": "poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n5929157657": {
+   "reason": "peu de couleurs, poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n6480859561": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n6612621225": {
+   "reason": "graphique png, nom « map »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n6928688591": {
+   "reason": "nom « map »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n6983362229": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7319238113": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7434970641": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7678080739": {
+   "reason": "poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7678077870": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7707397504": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7785156363": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n7787123021": {
+   "reason": "nom « screenshot »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n8017003985": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n8721954349": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n9988440195": {
+   "reason": "nom « screenshot »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10575101048": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10795289283": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10790696954": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10834281577": {
+   "reason": "nom « exterior »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10971060889": {
+   "reason": "graphique png, poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11395668590": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11449239536": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11524546268": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11494072666": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n12391543631": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n12500927604": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n12628125955": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n12696454498": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13133064807": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13137613155": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13565672825": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13460285489": {
+   "reason": "ratio extrême, nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13622107571": {
+   "reason": "ratio extrême, peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13650166170": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13997379076": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n14230445152": {
+   "reason": "nom « devanture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n14258150729": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n14061002867": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w64404131": {
+   "reason": "ratio extrême, nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w64109979": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w67893691": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w67895858": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w70495554": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w84380436": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w123577250": {
+   "reason": "nom « map »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w342543230": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w386510826": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w667141263": {
+   "reason": "nom « menus »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w827375332": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w646704721": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w827375333": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w846677303": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w1028802619": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w1159629715": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w1165136278": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-27515bab-ceac-408e": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w117785213": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-4be50bac-11fe-44f9": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-4510279f-8984-4f77": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-3920e9e9-6ba5-45ce": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-e9e449d4-b1f0-4fc1": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d265e70f-918e-4594": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-fdc861b1-c791-421b": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-9652fe19-4ac6-439c": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6cbdfe15-940f-4a4a": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-bdd43b5b-5901-47d4": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-c4a83173-51b2-46e1": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-3e8deead-0a41-4ff2": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-bfe6d811-bf7b-447e": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6460970d-c67f-47d7": {
+   "reason": "ratio extrême, nom « bandeau »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-0d880542-36dc-4cf7": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-f548312c-626d-41c7": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-e8f81789-e2d7-480b": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-00860adf-fdb9-44be": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-82bde069-e578-4f08": {
+   "reason": "ratio extrême, poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-ab56ae68-2c45-46de": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-2a4e222c-b056-4639": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-14ef35dc-ad69-492d": {
+   "reason": "nom « exterior »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-fb677443-a312-4843": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-da74d6fe-ef4c-4d12": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-b896e438-a179-43ba": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-726a67af-9b50-4116": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6aabe895-a637-41d7": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d96e13a9-0429-475f": {
+   "reason": "ratio extrême, nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-847287e2-26dc-4c52": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8ac6cec8-bdd2-43fc": {
+   "reason": "nom « casino »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-85460e4c-d441-4c1a": {
+   "reason": "nom « casino »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d567405e-ac52-4b02": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-403a3908-5280-4ae6": {
+   "reason": "ratio extrême, nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-f3653a2d-0f34-4a49": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-a8c82411-9654-46af": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8e68fb3a-652b-4fa5": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-843f3d50-da5d-485d": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8b38ec48-68ed-4f41": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-13a686aa-2edb-4c7e": {
+   "reason": "ratio extrême, nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-1dfa42af-e1ff-446d": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-bf01a608-7f19-4eab": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-04db5129-30ca-41d0": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-2c3edb40-e36d-4d39": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8fa1f5a1-c4e9-4cab": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-a9ad98a6-7b19-4f97": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6f11778b-6ace-4cdd": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-2e7f7c63-fedc-4879": {
+   "reason": "ratio extrême, nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-abbbc101-ec4c-488e": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-effe6fcc-da02-41e4": {
+   "reason": "nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-eef3f45a-5d13-4e58": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-a6a77054-03b1-436f": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-1e223cf6-5f5f-4b81": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-269b4a74-4327-4031": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-91e10eec-49b2-4545": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d2fca2d3-de31-4da4": {
+   "reason": "nom « bandeau »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-f42fcc8a-7bc8-4e8e": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-ec63b505-a1c4-460a": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-5d0b3a1a-fc73-4fae": {
+   "reason": "poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-0a306a3d-dcf5-4f8e": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6e0fb9cb-41e6-4bce": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-e25d294f-52da-4cfc": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-7f51cf61-5d70-4611": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-a238e04e-29d9-464d": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d60b88eb-64b0-4bac": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-ec1d63ee-b1d7-4280": {
+   "reason": "nom « flyer »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-dba74eb8-a8b1-41be": {
+   "reason": "poids faible, nom « icons »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-4024b573-1ba5-420c": {
+   "reason": "nom « screenshot »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-97c89590-c55a-4530": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d736acde-5f96-46e1": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  }
+ }
+}
