@@ -6,6 +6,7 @@ import { DEFAULT_RADIUS_M, RADIUS_KEY, parseRadius, serializeRadius, type Radius
 import { readJson, writeJson } from '../../lib/store';
 
 const OPEN_NOW_KEY = 'fooder_open_now';
+const SHOW_CLOSED_KEY = 'fooder_show_closed';
 const DIET_FILTER_KEY = 'fooder_diet_filter';
 const BUDGET_FILTER_KEY = 'fooder_budget_filter';
 const CUISINE_FILTER_KEY = 'fooder_cuisine_filter';
@@ -15,7 +16,10 @@ const PREFS_KEY = 'fooder_preferences';
 export const BUDGET_MAX = 150;
 
 export interface DeckFilters {
+  /** « Ouvert (confirmé) » : exclut aussi les horaires inconnus. */
   openNow: boolean;
+  /** Réglage « Afficher aussi les fermés » (désactivé par défaut) pour planifier. */
+  showClosed: boolean;
   diets: Diet[];
   radius: Radius;
   /** null = sans limite */
@@ -27,6 +31,7 @@ export interface DeckFilters {
   /** Incrémenté à chaque changement voulu par l'utilisateur (libère les cartes épinglées). */
   version: number;
   toggleOpenNow: () => void;
+  setShowClosed: (show: boolean) => void;
   toggleDietChip: (d: Diet) => void;
   setRadius: (r: Radius) => void;
   setBudgetAndCuisine: (maxPrice: number | null, cuisine: string | null) => void;
@@ -42,6 +47,7 @@ const budgetFromPrefs = (): number | null => {
 /** Filtres du deck, tous non destructifs et mémorisés (initialisés depuis le profil la première fois). */
 export function useDeckFilters(): DeckFilters {
   const [openNow, setOpenNow] = useState(false);
+  const [showClosed, setShowClosedState] = useState(false);
   const [diets, setDiets] = useState<Diet[]>([]);
   const [radius, setRadiusState] = useState<Radius>(DEFAULT_RADIUS_M);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
@@ -53,6 +59,7 @@ export function useDeckFilters(): DeckFilters {
 
   useEffect(() => {
     setOpenNow(readJson<boolean>(OPEN_NOW_KEY, false) === true);
+    setShowClosedState(readJson<boolean>(SHOW_CLOSED_KEY, false) === true);
     const stored = readJson<unknown>(DIET_FILTER_KEY, null);
     if (Array.isArray(stored)) {
       setDiets(stored.filter((d): d is Diet => FILTER_DIETS.includes(d as Diet)));
@@ -79,6 +86,12 @@ export function useDeckFilters(): DeckFilters {
     setOpenNow(!openNow);
     bump();
   }, [openNow]);
+
+  const setShowClosed = useCallback((show: boolean) => {
+    writeJson(SHOW_CLOSED_KEY, show);
+    setShowClosedState(show);
+    bump();
+  }, []);
 
   const toggleDietChip = useCallback((d: Diet) => {
     const next = toggleDiet(diets, d);
@@ -109,5 +122,5 @@ export function useDeckFilters(): DeckFilters {
     bump();
   }, []);
 
-  return { openNow, diets, radius, maxPrice, cuisine, now, ready, version, toggleOpenNow, toggleDietChip, setRadius, setBudgetAndCuisine, clearFilters };
+  return { openNow, showClosed, diets, radius, maxPrice, cuisine, now, ready, version, toggleOpenNow, setShowClosed, toggleDietChip, setRadius, setBudgetAndCuisine, clearFilters };
 }

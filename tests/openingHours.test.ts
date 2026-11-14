@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { closesAt, formatCloseTime, isOpenAt, parseOpeningHours, parisWallClock } from '../lib/openingHours';
+import { closesAt, formatCloseTime, formatReopening, isOpenAt, minutesToClose, nextOpening, openStatus, parseOpeningHours, parisWallClock, CLOSING_SOON_MIN } from '../lib/openingHours';
 import type { OsmRecord } from '../lib/osm';
 
 // Lundi 9 novembre 2026 (heure locale)
@@ -195,5 +195,81 @@ describe('parisWallClock', () => {
     expect(isOpenAt(h, parisWallClock(new Date('2026-11-09T17:30:00Z')))).toBe(true); // lundi 18:30 Paris
     expect(isOpenAt(h, parisWallClock(new Date('2026-11-09T23:30:00Z')))).toBe(false); // mardi 00:30 Paris
     expect(isOpenAt(h, parisWallClock(new Date('2026-11-10T11:00:00Z')))).toBe(true); // mardi 12:00 Paris
+  });
+});
+
+describe('minutesToClose', () => {
+  it('minutes avant la fin de la plage en cours', () => {
+    expect(minutesToClose('Mo-Su 09:00-18:00', at(MON, 17, 40))).toBe(20);
+    expect(minutesToClose('Mo-Su 09:00-18:00', at(MON, 9, 0))).toBe(540);
+  });
+  it('plage qui passe minuit et plages enchaînées', () => {
+    expect(minutesToClose('Fr 18:00-02:00', at(FRI, 23, 0))).toBe(180);
+    expect(minutesToClose('Mo 18:00-24:00; Tu 00:00-02:00', at(MON, 23, 30))).toBe(150);
+  });
+  it('fermé ou inconnu : null', () => {
+    expect(minutesToClose('Mo-Su 09:00-18:00', at(MON, 19))).toBeNull();
+    expect(minutesToClose(undefined, at(MON, 12))).toBeNull();
+    expect(minutesToClose('sur rendez-vous', at(MON, 12))).toBeNull();
+  });
+});
+
+describe('openStatus', () => {
+  const h = 'Mo-Su 09:00-18:00';
+  it('open / closing-soon / closed / unknown', () => {
+    expect(openStatus(h, at(MON, 12))).toBe('open');
+    expect(openStatus(h, at(MON, 17, 31))).toBe('closing-soon');
+    expect(openStatus(h, at(MON, 19))).toBe('closed');
+    expect(openStatus(undefined, at(MON, 12))).toBe('unknown');
+    expect(openStatus('texte libre', at(MON, 12))).toBe('unknown');
+  });
+  it('seuil : moins de 30 minutes seulement', () => {
+    expect(CLOSING_SOON_MIN).toBe(30);
+    expect(openStatus(h, at(MON, 17, 30))).toBe('open'); // exactement 30 min
+    expect(openStatus(h, at(MON, 17, 59))).toBe('closing-soon');
+    expect(openStatus(h, at(MON, 18, 0))).toBe('closed');
+  });
+});
+
+describe('nextOpening', () => {
+  it('plus tard le même jour', () => {
+    expect(nextOpening('Mo-Fr 12:00-14:00', at(MON, 9))).toEqual({ minutes: 180, dayOffset: 0, time: '12:00' });
+  });
+  it('lendemain après la fermeture', () => {
+    expect(nextOpening('Mo-Fr 12:00-14:00', at(MON, 15))).toEqual({ minutes: 1260, dayOffset: 1, time: '12:00' });
+  });
+  it('jours enchaînés : du vendredi soir au lundi', () => {
+    expect(nextOpening('Mo-Fr 12:00-14:00', at(FRI, 15))).toEqual({ minutes: 3 * 1440 - 900 + 720, dayOffset: 3, time: '12:00' });
+  });
+  it('même jour de la semaine suivante', () => {
+    expect(nextOpening('Mo 12:00-14:00', at(MON, 15))).toEqual({ minutes: 7 * 1440 - 900 + 720, dayOffset: 7, time: '12:00' });
+  });
+  it('minuit : ouverture à 00:00 le lendemain', () => {
+    expect(nextOpening('Tu 00:00-02:00', at(MON, 23))).toEqual({ minutes: 60, dayOffset: 1, time: '00:00' });
+  });
+  it('minuit : plages enchaînées = déjà ouvert, puis réouverture le soir suivant', () => {
+    const h = 'Mo-Tu 18:00-24:00; Tu 00:00-02:00';
+    expect(nextOpening(h, at(MON, 23, 59))).toBeNull();
+    expect(nextOpening('Mo 18:00-24:00; Tu 00:00-02:00', at(TUE, 3))?.dayOffset).toBe(6);
+  });
+  it('fermeture exceptionnelle (jour « off ») : saute au jour suivant ouvert', () => {
+    const h = 'Mo-Fr 12:00-14:00; We off';
+    expect(nextOpening(h, at(TUE, 15))).toEqual({ minutes: 2 * 1440 - 900 + 720, dayOffset: 2, time: '12:00' });
+  });
+  it('déjà ouvert, inconnu ou jamais ouvert : null', () => {
+    expect(nextOpening('Mo-Su 09:00-18:00', at(MON, 12))).toBeNull();
+    expect(nextOpening(undefined, at(MON, 12))).toBeNull();
+    expect(nextOpening(null, at(MON, 12))).toBeNull();
+    expect(nextOpening('sur rendez-vous', at(MON, 12))).toBeNull();
+    expect(nextOpening('Mo-Su off', at(MON, 12))).toBeNull();
+  });
+});
+
+describe('formatReopening', () => {
+  it('aujourd’hui, demain, autre jour', () => {
+    expect(formatReopening({ minutes: 150, dayOffset: 0, time: '11:30' }, at(MON, 9))).toBe('à 11 h 30');
+    expect(formatReopening({ minutes: 900, dayOffset: 1, time: '12:00' }, at(MON, 21))).toBe('demain à 12 h');
+    expect(formatReopening({ minutes: 4000, dayOffset: 3, time: '12:00' }, at(FRI, 15))).toBe('lundi à 12 h');
+    expect(formatReopening({ minutes: 60, dayOffset: 1, time: '00:00' }, at(MON, 23))).toBe('demain à minuit');
   });
 });

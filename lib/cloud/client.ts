@@ -4,8 +4,12 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
  * Client Supabase côté navigateur. Retourne null tant que les variables d'environnement
  * ne sont pas renseignées : l'appli reste alors 100 % locale (mode prototype).
  */
-const URL_ = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
+// Interrupteur de test : NEXT_PUBLIC_DISABLE_CLOUD=1 coupe tout le cloud, même si .env.local contient les clés
+// (vider les variables en ligne de commande ne suffit pas : Next relit .env.local). À utiliser pour tester en local
+// sans créer d'utilisateurs ni d'événements dans la vraie base.
+const CLOUD_OFF = process.env.NEXT_PUBLIC_DISABLE_CLOUD === '1';
+const URL_ = CLOUD_OFF ? '' : process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+const ANON = CLOUD_OFF ? '' : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
 
 let client: SupabaseClient | null = null;
 

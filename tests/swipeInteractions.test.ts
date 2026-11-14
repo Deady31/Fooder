@@ -1,15 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { shouldOpenOnRelease, MOVE_TOLERANCE, HOLD_MS } from '../components/swipe/tapIntent';
+import { shouldOpenOnRelease, MOVE_TOLERANCE } from '../components/swipe/tapIntent';
 import { createRewardLedger } from '../components/swipe/rewardLedger';
 import { removeById } from '../components/swipe/undo';
 import { cardSummary, walkMinutes } from '../components/swipe/cardSummary';
 import type { Restaurant } from '../data/mockRestaurants';
 
 describe('tap pour ouvrir', () => {
-  const ok = { distance: 2, pressActive: true, committedSwipe: false, holdToOpen: true };
+  const ok = { distance: 2, pressActive: true, committedSwipe: false };
 
   it('constantes', () => {
-    expect(HOLD_MS).toBe(500);
     expect(MOVE_TOLERANCE).toBeGreaterThan(0);
   });
 
@@ -27,13 +26,10 @@ describe('tap pour ouvrir', () => {
     expect(shouldOpenOnRelease({ ...ok, committedSwipe: true })).toBe(false);
   });
 
-  it('pas d’ouverture si l’appui a été annulé ou déjà consommé par le maintien', () => {
+  it('pas d’ouverture si l’appui a été annulé', () => {
     expect(shouldOpenOnRelease({ ...ok, pressActive: false })).toBe(false);
   });
 
-  it('pas d’ouverture dans le deck de groupe (holdToOpen=false)', () => {
-    expect(shouldOpenOnRelease({ ...ok, holdToOpen: false })).toBe(false);
-  });
 });
 
 describe('rewardLedger (anti-farm d’XP)', () => {

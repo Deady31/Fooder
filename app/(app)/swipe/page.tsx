@@ -12,7 +12,7 @@ import { ActionButtons } from '../../../components/swipe/ActionButtons';
 import { StickerBurst } from '../../../components/swipe/StickerBurst';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet, type FilterValues } from '../../../components/swipe/FilterSheet';
-import { DiscoverHeader, FilterChips } from '../../../components/swipe/DiscoverHeader';
+import { DiscoverHeader, FilterChips, PositionRow } from '../../../components/swipe/DiscoverHeader';
 import { DeckDesert, DeckEnd, DeckLoader, DeckNoMatch } from '../../../components/swipe/DeckStates';
 import { useDeckFilters } from '../../../components/swipe/useDeckFilters';
 import { useDiscoverDeck } from '../../../components/swipe/useDiscoverDeck';
@@ -20,7 +20,7 @@ import { useSwipeActions } from '../../../components/swipe/useSwipeActions';
 import { PositionSheet } from '../../../components/geo/PositionSheet';
 import { RadiusSheet } from '../../../components/geo/RadiusSheet';
 import { openCardProps } from '../../../lib/usageProps';
-import { applyFilters, blockingFilter, type FilterOptions } from '../../../lib/filters';
+import { applyFilters, blockingFilter, reopeningLine, sinkClosed, type FilterOptions } from '../../../lib/filters';
 import { remaining } from '../../../lib/deckStore';
 import { usePosition } from '../../../lib/geo/usePosition';
 import { useUserAddress } from '../../../lib/geo/useAddress';
@@ -42,6 +42,9 @@ export default function SwipePage() {
   const [prefsReady, setPrefsReady] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const closeSheet = useCallback(() => setSheet(null), []);
+  const scroller = useRef<HTMLDivElement>(null);
+  /** Carte du dessus : jamais retirée sous les doigts quand l'heure la fait passer « fermée ». */
+  const topLock = useRef<{ id: string; version: number } | null>(null);
 
   const { newAchievement, clearNewAchievement, gainXP, unlock } = useGamification();
   const { progress: missionProgress } = useMissions();
@@ -68,11 +71,16 @@ export default function SwipePage() {
 
   const rem = useMemo(() => remaining(deck), [deck]);
   const opts: FilterOptions = {
-    openNow: filters.openNow, diets: filters.diets, now: filters.now, origin: position.coords,
+    openNow: filters.openNow, hideClosed: !filters.showClosed, diets: filters.diets, now: filters.now, origin: position.coords,
     radiusM: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine,
   };
   const passing = new Set(applyFilters(rem, opts).map(r => r.id));
-  const deckCards = rem.filter(r => passing.has(r.id) || pinned.has(r.id));
+  const lockedId = topLock.current && topLock.current.version === filters.version ? topLock.current.id : null;
+  const protect = new Set(pinned);
+  if (lockedId) protect.add(lockedId);
+  // Fermés et « bientôt fermés » tout en bas de la pile ; la carte du dessus et les cartes épinglées ne bougent pas.
+  const deckCards = sinkClosed(rem.filter(r => passing.has(r.id) || protect.has(r.id)), filters.now, protect);
+  topLock.current = deckCards.length > 0 ? { id: deckCards[deckCards.length - 1].id, version: filters.version } : null;
   visible.current = deckCards.slice(-VISIBLE_DEPTH).map(r => r.id);
   const widenTo = nextRadiusWithResults(filters.radius, r => applyFilters(rem, { ...opts, radiusM: r }).length);
   const cuisines = Array.from(new Set(rem.map(r => r.cuisine))).sort((a, b) => a.localeCompare(b, 'fr'));
@@ -87,6 +95,16 @@ export default function SwipePage() {
     autoLoads.current += 1;
     void loadMore();
   }, [isLoading, deckCards.length, deck.list.length, loadMore]);
+
+  // Petit écran ou paysage : l'entête secondaire défile, on garde la carte et les boutons dans le cadre.
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el || isLoading) return;
+    const toDeck = () => { if (el.scrollHeight > el.clientHeight) el.scrollTop = el.scrollHeight; };
+    toDeck();
+    window.addEventListener('resize', toDeck);
+    return () => window.removeEventListener('resize', toDeck);
+  }, [isLoading]);
 
   const isDeckEmpty = deck.index < 0 && deck.list.length > 0;
   const noMatch = !isDeckEmpty && deck.list.length > 0 && deckCards.length === 0;
@@ -117,10 +135,12 @@ export default function SwipePage() {
   const applySheet = (v: FilterValues) => {
     if (v.radius !== filters.radius) filters.setRadius(v.radius);
     filters.setBudgetAndCuisine(v.maxPrice, v.cuisine);
+    if (v.showClosed !== filters.showClosed) filters.setShowClosed(v.showClosed);
   };
   const fixBlock = () => {
     const reason = blockingFilter(rem, opts);
-    if (reason === 'price') filters.setBudgetAndCuisine(null, null);
+    if (reason === 'closed') filters.setShowClosed(true);
+    else if (reason === 'price') filters.setBudgetAndCuisine(null, null);
     else if (reason === 'openNow') filters.toggleOpenNow();
     else if (reason === 'diets') filters.clearFilters();
   };
@@ -128,54 +148,61 @@ export default function SwipePage() {
 
   return (
     <div className='flex flex-col h-full overflow-hidden relative'>
-      <DiscoverHeader
-        moodLabel={moodLabel}
-        onFilters={() => setSheet('filters')}
-        onMood={() => setSheet('mood')}
-        position={position}
-        address={address}
-        onPosition={() => setSheet('position')}
-        radius={filters.radius}
-        onRadius={() => setSheet('radius')}
-      />
+      <DiscoverHeader moodLabel={moodLabel} onFilters={() => setSheet('filters')} onMood={() => setSheet('mood')} />
 
-      {!isLoading && deck.list.length > 0 && (
-        <FilterChips
-          openNow={filters.openNow}
-          diets={filters.diets}
-          onOpenNow={filters.toggleOpenNow}
-          onDiet={filters.toggleDietChip}
-          count={deckCards.length}
+      {/* Zone qui défile si la hauteur manque : l'entête secondaire se réduit, jamais la carte. */}
+      <div ref={scroller} className='flex-1 min-h-0 flex flex-col overflow-y-auto overscroll-contain no-scrollbar'>
+        <PositionRow
+          position={position}
+          address={address}
+          onPosition={() => setSheet('position')}
           radius={filters.radius}
-          widenTo={widenTo}
-          onWiden={widen}
-          showCount={!isDeckEmpty}
+          onRadius={() => setSheet('radius')}
         />
-      )}
 
-      <main className='flex-1 relative flex items-center justify-center min-h-0 pt-3 pb-1'>
-        {isLoading ? (
-          <DeckLoader />
-        ) : isDeckEmpty ? (
-          <DeckEnd radius={filters.radius} onMood={() => setSheet('mood')} {...stateActions} />
-        ) : noMatch ? (
-          <DeckNoMatch reason={blockingFilter(rem, opts)} radius={filters.radius} onFix={fixBlock} {...stateActions} />
-        ) : deck.list.length > 0 ? (
-          <>
-            {/* Première utilisation : la pile oscille deux fois pour montrer le geste. */}
-            <div className={`w-full self-stretch flex justify-center ${showHint ? 'card-wobble' : ''}`} style={showHint ? { animationIterationCount: 2 } : undefined}>
+        {!isLoading && deck.list.length > 0 && (
+          <FilterChips
+            openNow={filters.openNow}
+            diets={filters.diets}
+            onOpenNow={filters.toggleOpenNow}
+            onDiet={filters.toggleDietChip}
+            count={deckCards.length}
+            radius={filters.radius}
+            widenTo={widenTo}
+            onWiden={widen}
+            showCount={!isDeckEmpty}
+          />
+        )}
+
+        <main className='deck-area flex-1 shrink-0 relative flex items-center justify-center pt-3'>
+          {isLoading ? (
+            <DeckLoader />
+          ) : isDeckEmpty ? (
+            <DeckEnd radius={filters.radius} onMood={() => setSheet('mood')} {...stateActions} />
+          ) : noMatch ? (
+            <DeckNoMatch
+              reason={blockingFilter(rem, opts)}
+              radius={filters.radius}
+              onFix={fixBlock}
+              reopening={reopeningLine(applyFilters(rem, { ...opts, hideClosed: false }), filters.now)}
+              {...stateActions}
+            />
+          ) : deck.list.length > 0 ? (
+            /* Première utilisation : la pile oscille deux fois pour montrer le geste. */
+            <div className={`w-full h-full flex justify-center ${showHint ? 'card-wobble' : ''}`} style={showHint ? { animationIterationCount: 2 } : undefined}>
               <SwipeDeck ref={deckRef} cards={deckCards} onSwipe={onSwipe} onOpen={openDetails} />
             </div>
-            {showHint && (
-              <p className='pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 z-40 chip bg-white text-plum text-xs whitespace-nowrap'>
-                Glisse à droite si ça te tente
-              </p>
-            )}
-          </>
-        ) : (
-          <DeckDesert />
-        )}
-      </main>
+          ) : (
+            <DeckDesert />
+          )}
+        </main>
+      </div>
+
+      {showHint && !isLoading && deckCards.length > 0 && (
+        <p className='shrink-0 px-3 pt-1 text-center text-xs font-bold text-plum-muted leading-tight'>
+          Touche la carte pour la fiche · glisse pour choisir
+        </p>
+      )}
 
       <ActionButtons
         hidden={isLoading || deck.index < 0 || noMatch}
@@ -191,7 +218,7 @@ export default function SwipePage() {
 
       <FilterSheet
         isOpen={sheet === 'filters'}
-        values={{ radius: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine }}
+        values={{ radius: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine, showClosed: filters.showClosed }}
         cuisines={cuisines}
         onApply={applySheet}
         onClose={closeSheet}

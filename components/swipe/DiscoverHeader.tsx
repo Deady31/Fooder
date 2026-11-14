@@ -15,18 +15,12 @@ interface DiscoverHeaderProps {
   moodLabel: string;
   onFilters: () => void;
   onMood: () => void;
-  position: PositionState;
-  address: Address | null;
-  onPosition: () => void;
-  radius: Radius;
-  onRadius: () => void;
 }
 
-/** Barre du haut + ligne « position · distance » + bandeau de refus. */
-export function DiscoverHeader({ moodLabel, onFilters, onMood, position, address, onPosition, radius, onRadius }: DiscoverHeaderProps) {
+/** Barre du haut (filtres, logo + envie, notifications) : le logo s'efface quand l'écran est bas (la carte passe avant). */
+export function DiscoverHeader({ moodLabel, onFilters, onMood }: DiscoverHeaderProps) {
   return (
-    <>
-      <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 backdrop-blur-md border-b-[3px] border-plum z-20 bg-cream/90'>
+      <header className='shrink-0 flex items-center justify-between gap-2 px-4 pt-3 pb-2.5 [@media(max-height:700px)]:py-1.5 border-b-[3px] border-plum z-20 bg-cream'>
         <h1 className='sr-only'>Découvrir</h1>
         <button
           type='button'
@@ -36,8 +30,8 @@ export function DiscoverHeader({ moodLabel, onFilters, onMood, position, address
         >
           <SlidersHorizontal className='w-5 h-5 text-plum' strokeWidth={2.5} />
         </button>
-        <div className='flex flex-col items-center gap-1.5 min-w-0'>
-          <Logo className='w-[clamp(130px,40vw,176px)]' />
+        <div className='flex flex-col items-center gap-1.5  min-w-0'>
+          <Logo className='w-[clamp(104px,32vw,136px)] [@media(max-height:700px)]:hidden' />
           <button type='button' onClick={onMood} className='chip bg-fooder-secondary text-plum active:translate-y-0.5 transition-transform'>
             <span className='truncate max-w-[110px]'>{moodLabel}</span>
             <ChevronDown className='w-3 h-3' strokeWidth={3} />
@@ -45,7 +39,21 @@ export function DiscoverHeader({ moodLabel, onFilters, onMood, position, address
         </div>
         <NotificationBell />
       </header>
+  );
+}
 
+interface PositionRowProps {
+  position: PositionState;
+  address: Address | null;
+  onPosition: () => void;
+  radius: Radius;
+  onRadius: () => void;
+}
+
+/** Ligne « position · distance » + bandeau de refus (partie secondaire : elle défile si l'écran manque de hauteur). */
+export function PositionRow({ position, address, onPosition, radius, onRadius }: PositionRowProps) {
+  return (
+    <>
       <div className='shrink-0 flex items-center gap-2 px-4 pt-2'>
         <PositionChip position={position} address={address} onOpen={onPosition} />
         <button
@@ -89,7 +97,7 @@ export function FilterChips({ openNow, diets, onOpenNow, onDiet, count, radius, 
           className={`chip shrink-0 min-h-[44px] text-plum active:translate-y-0.5 transition-transform ${openNow ? 'bg-fooder-mint' : 'bg-white'}`}
         >
           <span className={`w-2 h-2 rounded-full border-[1.5px] border-plum ${openNow ? 'bg-white' : 'bg-fooder-mint'}`} />
-          Ouvert maintenant
+          Ouvert (confirmé)
         </button>
         {FILTER_DIETS.map(d => {
           const active = diets.includes(d);

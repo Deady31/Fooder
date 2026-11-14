@@ -67,30 +67,33 @@ export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius:
   );
 }
 
-export type BlockReason = 'radius' | 'diets' | 'openNow' | 'price';
+export type BlockReason = 'radius' | 'closed' | 'diets' | 'openNow' | 'price';
 
 const COPY: Record<BlockReason, { title: (r: Radius) => string; text: string }> = {
   radius: { title: r => `Rien ${withinLabel(r)}`, text: 'Aucun resto restant dans ce rayon avec tes filtres.' },
   diets: { title: () => 'Pas encore de résultat', text: 'Peu de restos renseignés pour ce régime (selon OpenStreetMap).' },
-  openNow: { title: () => 'Rien d’ouvert pour le moment', text: 'Aucun resto restant n’est ouvert, ou ses horaires sont inconnus.' },
+  closed: { title: () => 'Tout est fermé pour l’instant', text: 'Aucun resto de ta sélection n’est ouvert en ce moment.' },
+  openNow: { title: () => 'Rien d’ouvert (confirmé)', text: 'Aucun resto restant n’a d’horaires confirmés ouverts en ce moment.' },
   price: { title: () => 'Rien pour ce budget ou cette cuisine', text: 'Aucun resto restant ne correspond au budget ou à la cuisine choisis.' },
 };
 
 const FIX_LABEL: Record<Exclude<BlockReason, 'radius'>, string> = {
   diets: 'Retirer le filtre régime',
-  openNow: 'Voir aussi les fermés',
+  closed: 'Voir les fermés',
+  openNow: 'Retirer « Ouvert (confirmé) »',
   price: 'Retirer budget et cuisine',
 };
 
 /** Plus aucune carte pour les filtres en cours : on dit lequel bloque et on propose la sortie précise. */
-export function DeckNoMatch({ reason, radius, onFix, ...actions }: ActionsProps & { reason: BlockReason; radius: Radius; onFix: () => void }) {
+export function DeckNoMatch({ reason, radius, onFix, reopening, ...actions }: ActionsProps & { reason: BlockReason; radius: Radius; onFix: () => void; reopening?: string | null }) {
   const copy = COPY[reason];
   return (
-    <div className='flex flex-col items-center text-center px-6 gap-5 w-full max-w-sm'>
-      <div className='bob' style={{ ['--r' as string]: '-6deg' }} aria-hidden='true'><Sticker name='ramen' size={96} rotate={-6} /></div>
+    <div className='flex flex-col items-center text-center px-6 gap-4 w-full max-w-sm'>
+      <div className='bob [@media(max-height:620px)]:hidden' style={{ ['--r' as string]: '-6deg' }} aria-hidden='true'><Sticker name='ramen' size={96} rotate={-6} /></div>
       <div className='space-y-2 rounded-[22px] bg-cream border-[3px] border-plum px-4 py-3'>
         <h3 className='text-3xl text-plum'>{copy.title(radius)}</h3>
         <p className='text-plum-muted font-medium text-sm leading-relaxed'>{copy.text}</p>
+        {reason === 'closed' && reopening && <p className='text-plum font-bold text-sm leading-snug'>{reopening}</p>}
       </div>
       <div className='flex flex-col w-full gap-3'>
         {reason === 'radius' ? (

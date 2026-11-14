@@ -170,10 +170,9 @@ function resolve(h: string | WeekHours | null | undefined): WeekHours | undefine
   return week;
 }
 
-/** Plage ouverte contenant `date` : [début, fin] en minutes depuis 00:00 du jour de `date`. */
-function currentSpan(week: WeekHours, date: Date): [number, number] | null {
+/** Plages fusionnées autour de `date` : minutes depuis 00:00 du jour de `date` (négatives = veille). */
+function mergedSpans(week: WeekHours, date: Date): [number, number][] {
   const today = (date.getDay() + 6) % 7;
-  const now = date.getHours() * 60 + date.getMinutes();
   const spans: [number, number][] = [];
   for (let k = -1; k <= 7; k++) {
     const day = (((today + k) % 7) + 7) % 7;
@@ -186,7 +185,15 @@ function currentSpan(week: WeekHours, date: Date): [number, number] | null {
     if (last && s[0] <= last[1]) last[1] = Math.max(last[1], s[1]);
     else merged.push([s[0], s[1]]);
   }
-  return merged.find(([a, b]) => a <= now && now < b) ?? null;
+  return merged;
+}
+
+const minutesOfDay = (date: Date): number => date.getHours() * 60 + date.getMinutes();
+
+/** Plage ouverte contenant `date` : [début, fin] en minutes depuis 00:00 du jour de `date`. */
+function currentSpan(week: WeekHours, date: Date): [number, number] | null {
+  const now = minutesOfDay(date);
+  return mergedSpans(week, date).find(([a, b]) => a <= now && now < b) ?? null;
 }
 
 /** true / false, ou null si les horaires sont inconnus ou non lisibles. */
@@ -202,10 +209,63 @@ export function closesAt(h: string | WeekHours | null | undefined, date: Date): 
   if (!week) return null;
   const span = currentSpan(week, date);
   if (!span) return null;
-  const now = date.getHours() * 60 + date.getMinutes();
+  const now = minutesOfDay(date);
   if (span[1] - now >= 6 * 1440) return null;
   const end = span[1] % 1440;
   return `${String(Math.floor(end / 60)).padStart(2, '0')}:${String(end % 60).padStart(2, '0')}`;
+}
+
+/** Minutes restantes avant la fin de la plage en cours ; null si fermé ou inconnu. */
+export function minutesToClose(h: string | WeekHours | null | undefined, date: Date): number | null {
+  const week = resolve(h);
+  if (!week) return null;
+  const span = currentSpan(week, date);
+  return span ? span[1] - minutesOfDay(date) : null;
+}
+
+/** Sous ce seuil (minutes), un resto ouvert est « bientôt fermé ». */
+export const CLOSING_SOON_MIN = 30;
+
+export type OpenStatus = 'open' | 'closing-soon' | 'closed' | 'unknown';
+
+/** État d'ouverture à l'heure murale `date` (voir parisWallClock) ; « bientôt fermé » = moins de 30 min. */
+export function openStatus(h: string | WeekHours | null | undefined, date: Date): OpenStatus {
+  const left = minutesToClose(h, date);
+  if (left !== null) return left < CLOSING_SOON_MIN ? 'closing-soon' : 'open';
+  return isOpenAt(h, date) === null ? 'unknown' : 'closed';
+}
+
+export interface NextOpening {
+  /** Minutes entre `date` et la prochaine ouverture */
+  minutes: number;
+  /** 0 = aujourd'hui, 1 = demain, … */
+  dayOffset: number;
+  /** « HH:MM » */
+  time: string;
+}
+
+/** Prochaine ouverture d'un resto actuellement fermé ; null si ouvert, inconnu ou jamais ouvert dans les 7 jours. */
+export function nextOpening(h: string | WeekHours | null | undefined, date: Date): NextOpening | null {
+  const week = resolve(h);
+  if (!week || currentSpan(week, date)) return null;
+  const now = minutesOfDay(date);
+  const next = mergedSpans(week, date).find(([a]) => a > now);
+  if (!next) return null;
+  const at = next[0];
+  const inDay = ((at % 1440) + 1440) % 1440;
+  const time = `${String(Math.floor(inDay / 60)).padStart(2, '0')}:${String(inDay % 60).padStart(2, '0')}`;
+  return { minutes: at - now, dayOffset: Math.floor(at / 1440), time };
+}
+
+const WEEKDAYS_FR = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+
+/** « à 11 h 30 », « demain à 12 h », « lundi à 12 h », « demain à minuit ». */
+export function formatReopening(next: NextOpening, date: Date): string {
+  const time = formatCloseTime(next.time);
+  const at = time === 'minuit' ? 'à minuit' : `à ${time}`;
+  if (next.dayOffset === 0) return at;
+  if (next.dayOffset === 1) return `demain ${at}`;
+  return `${WEEKDAYS_FR[(date.getDay() + next.dayOffset) % 7]} ${at}`;
 }
 
 /** « 22:00 » -> « 22 h », « 22:30 » -> « 22 h 30 », « 00:00 » -> « minuit ». */

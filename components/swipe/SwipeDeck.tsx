@@ -1,9 +1,9 @@
 'use client';
 import { forwardRef, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
-import { AnimatePresence, animate, AnimationPlaybackControls, motion, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { AnimatePresence, animate, motion, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { RestaurantCard } from './RestaurantCard';
-import { HOLD_MS, MOVE_TOLERANCE, shouldOpenOnRelease } from './tapIntent';
+import { MOVE_TOLERANCE, shouldOpenOnRelease } from './tapIntent';
 
 export type SwipeDir = 'left' | 'right';
 
@@ -15,8 +15,8 @@ interface SwipeDeckProps {
   cards: Restaurant[];
   onSwipe: (dir: SwipeDir, rest: Restaurant, index: number) => void;
   onOpen: (rest: Restaurant) => void;
-  /** false : pas d'ouverture de fiche par appui long (deck de groupe) */
-  holdToOpen?: boolean;
+  /** false : un tap sur la carte n'ouvre pas la fiche (deck de groupe) */
+  tapToOpen?: boolean;
 }
 
 const COMMIT_OFFSET = 110;
@@ -63,10 +63,10 @@ interface DeckCardProps {
   onCommit: (dir: SwipeDir) => void;
   onOpen: (rest: Restaurant) => void;
   onPeek: (peeking: boolean) => void;
-  holdToOpen: boolean;
+  tapToOpen: boolean;
 }
 
-function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, holdToOpen }: DeckCardProps) {
+function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, tapToOpen }: DeckCardProps) {
   const isTop = depth === 0;
 
   const x: MotionValue<number> = useMotionValue(0);
@@ -76,56 +76,36 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
   const likeScale = useTransform(x, [30, 130], [0.6, 1.08]);
   const nopeScale = useTransform(x, [-130, -30], [1.08, 0.6]);
 
-  const hold = useMotionValue(0);
   const dip = useMotionValue(0);
-  const pressScale = useTransform([hold, dip], ([h, d]: number[]) => 1 - 0.015 * d - 0.035 * h);
-  const holdControls = useRef<AnimationPlaybackControls | null>(null);
-  const pressStart = useRef<number | null>(null);
+  const pressScale = useTransform(dip, d => 1 - 0.015 * d);
+  const pressActive = useRef(false);
   const pressOrigin = useRef<{ x: number; y: number } | null>(null);
   const committedSwipe = useRef(false);
 
   const release = () => {
-    holdControls.current?.stop();
-    holdControls.current = null;
-    pressStart.current = null;
-    animate(hold, 0, { duration: 0.2, ease: 'easeOut' });
+    pressActive.current = false;
     animate(dip, 0, { type: 'spring', stiffness: 500, damping: 24 });
   };
 
   const handlePointerDown = (e: ReactPointerEvent) => {
-    if (!isTop || !holdToOpen) return;
+    if (!isTop || !tapToOpen) return;
     committedSwipe.current = false;
     pressOrigin.current = { x: e.clientX, y: e.clientY };
-    pressStart.current = Date.now();
-    buzz(8);
+    pressActive.current = true;
     animate(dip, 1, { type: 'spring', stiffness: 700, damping: 26 });
-    holdControls.current = animate(hold, 1, {
-      duration: HOLD_MS / 1000,
-      ease: 'linear',
-      onComplete: () => {
-        holdControls.current = null;
-        pressStart.current = null;
-        buzz([25, 30, 45]);
-        onOpen(rest);
-        setTimeout(() => {
-          animate(hold, 0, { duration: 0.3 });
-          animate(dip, 0, { type: 'spring', stiffness: 500, damping: 24 });
-        }, 250);
-      },
-    });
   };
 
-  // Appui bref sans glissement : ouvre la fiche tout de suite (le maintien 0,5 s ouvre aussi).
+  // Simple tap (sans glissement) : ouvre la fiche. Un glissement ne l'ouvre jamais.
   const handlePointerUp = (e: ReactPointerEvent) => {
     const origin = pressOrigin.current;
-    const pressActive = pressStart.current !== null;
+    const wasActive = pressActive.current;
     pressOrigin.current = null;
-    if (!pressActive || !origin) return;
+    if (!wasActive || !origin) return;
     const distance = Math.hypot(e.clientX - origin.x, e.clientY - origin.y);
     release();
     // Différé : l'événement de fin de glissement de framer-motion part sur window, après celui-ci.
     setTimeout(() => {
-      if (!shouldOpenOnRelease({ distance, pressActive, committedSwipe: committedSwipe.current, holdToOpen })) return;
+      if (!shouldOpenOnRelease({ distance, pressActive: wasActive, committedSwipe: committedSwipe.current })) return;
       buzz([25, 30, 45]);
       onOpen(rest);
     }, 0);
@@ -133,7 +113,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
 
   const handleDrag = (_: unknown, info: PanInfo) => {
     const dist = Math.hypot(info.offset.x, info.offset.y);
-    if (pressStart.current !== null && dist > MOVE_TOLERANCE) release();
+    if (pressActive.current && dist > MOVE_TOLERANCE) release();
     onPeek(Math.abs(info.offset.x) > PEEK_OFFSET);
   };
 
@@ -174,7 +154,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
         transition={{ ...STACK_SPRING, opacity: { duration: 0.25 } }}
       >
         <motion.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
-          <RestaurantCard rest={rest} hold={isTop ? hold : undefined} hideHint={!holdToOpen} />
+          <RestaurantCard rest={rest} />
         </motion.div>
       </motion.div>
 
@@ -208,7 +188,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ho
 }
 
 export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function SwipeDeck(
-  { cards, onSwipe, onOpen, holdToOpen = true },
+  { cards, onSwipe, onOpen, tapToOpen = true },
   ref
 ) {
   const [exitDir, setExitDir] = useState<SwipeDir>('right');
@@ -236,7 +216,7 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
   visible.forEach(r => known.add(r.id));
 
   return (
-    <div className='relative w-[92%] self-stretch mb-9 max-h-[640px]'>
+    <div className='deck-stack relative w-[92%] h-full max-h-[640px]'>
       <AnimatePresence custom={exitDir}>
         {visible.map((rest, i) => (
           <DeckCard
@@ -248,7 +228,7 @@ export const SwipeDeck = forwardRef<SwipeDeckHandle, SwipeDeckProps>(function Sw
             onCommit={commit}
             onOpen={onOpen}
             onPeek={setPeeking}
-            holdToOpen={holdToOpen}
+            tapToOpen={tapToOpen}
           />
         ))}
       </AnimatePresence>

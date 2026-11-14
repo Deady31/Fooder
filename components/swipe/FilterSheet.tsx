@@ -14,6 +14,8 @@ export interface FilterValues {
   maxPrice: number | null;
   /** null = toutes */
   cuisine: string | null;
+  /** « Afficher aussi les fermés » (pour planifier) */
+  showClosed: boolean;
 }
 
 interface FilterSheetProps {
@@ -24,7 +26,7 @@ interface FilterSheetProps {
   onClose: () => void;
 }
 
-/** Filtres non destructifs : distance, budget, cuisine. Rien n'est appliqué avant « Appliquer ». */
+/** Filtres non destructifs : distance, fermés, budget, cuisine. Rien n'est appliqué avant « Appliquer ». */
 export function FilterSheet({ isOpen, values, cuisines, onApply, onClose }: FilterSheetProps) {
   const [draft, setDraft] = useState<FilterValues>(values);
   useEffect(() => {
@@ -54,6 +56,24 @@ export function FilterSheet({ isOpen, values, cuisines, onApply, onClose }: Filt
         <div className='space-y-3'>
           <p id='filtres-distance' className='text-sm font-bold text-plum-muted'>Distance</p>
           <RadiusOptions value={draft.radius} labelledBy='filtres-distance' onChange={radius => setDraft(d => ({ ...d, radius }))} />
+        </div>
+
+        <div className='flex items-center justify-between gap-4 rounded-[20px] bg-white border-[3px] border-plum px-4 py-3'>
+          <div className='min-w-0'>
+            <p id='filtres-fermes' className='text-sm font-bold text-plum'>Afficher aussi les fermés</p>
+            <p id='filtres-fermes-aide' className='text-xs font-medium text-plum-muted'>Pour planifier. Sinon, seuls les restos ouverts ou aux horaires inconnus sont proposés.</p>
+          </div>
+          <button
+            type='button'
+            role='switch'
+            aria-checked={draft.showClosed}
+            aria-labelledby='filtres-fermes'
+            aria-describedby='filtres-fermes-aide'
+            onClick={() => setDraft(d => ({ ...d, showClosed: !d.showClosed }))}
+            className={`relative shrink-0 h-8 w-14 rounded-full border-[3px] border-plum transition-colors ${draft.showClosed ? 'bg-fooder-mint' : 'bg-cream'}`}
+          >
+            <span aria-hidden='true' className={`absolute top-1/2 -translate-y-1/2 h-5 w-5 rounded-full border-2 border-plum bg-white transition-all ${draft.showClosed ? 'left-[26px]' : 'left-0.5'}`} />
+          </button>
         </div>
 
         <div className='space-y-4'>
