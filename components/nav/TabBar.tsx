@@ -3,13 +3,12 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Layers, Map, Heart, User, Users } from 'lucide-react';
+import { Layers, Heart, User, Users } from 'lucide-react';
 import { likesCount, subscribeLikes } from '../../lib/likes';
 import { badgeLabel, isTabActive, tabIndexAfter } from '../../lib/shell';
 
 const TABS = [
   { href: '/swipe', label: 'Découvrir', Icon: Layers },
-  { href: '/map', label: 'Carte', Icon: Map },
   { href: '/feed', label: 'Fil', Icon: Users },
   { href: '/wishlist', label: 'Favoris', Icon: Heart },
   { href: '/profile', label: 'Profil', Icon: User },

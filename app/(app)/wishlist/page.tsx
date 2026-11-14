@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check, Navigation, Share2, Star, Trash2, Users } from 'lucide-react';
+import { Check, List, Map as MapIcon, Navigation, Share2, Star, Trash2, Users } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Restaurant } from '../../../data/mockRestaurants';
 import { Sticker } from '../../../components/ui/Sticker';
 import { FoodImage } from '../../../components/ui/FoodImage';
@@ -22,7 +23,15 @@ import { readJson } from '../../../lib/store';
 import { VisitInput } from '../../../lib/visits';
 import { isWeekendWindow, weekendPicks } from '../../../lib/rituals';
 
+// La carte (MapLibre) ne part qu'avec la vue « Carte ».
+const MapScreen = dynamic(() => import('../../../components/map/MapScreen').then(m => m.MapScreen), { ssr: false });
+
 type ListId = 'likes' | 'dislikes';
+type ViewId = 'liste' | 'carte';
+const VIEWS: { id: ViewId; label: string; Icon: typeof List }[] = [
+    { id: 'liste', label: 'Liste', Icon: List },
+    { id: 'carte', label: 'Carte', Icon: MapIcon },
+];
 
 /** Position déjà connue (GPS récent, dernière position ou adresse saisie), lue sans rien demander : null si seulement le centre par défaut. */
 function readKnownPosition(): { lat: number; lng: number } | null {
@@ -44,6 +53,7 @@ export default function WishlistPage() {
     const [sort, setSort] = useState<LikeSort>('recent');
     const [here, setHere] = useState<{ lat: number; lng: number } | null>(null);
     const [activeTab, setActiveTab] = useState<ListId>('likes');
+    const [view, setView] = useState<ViewId>('liste');
     const [selectedRest, setSelectedRest] = useState<Restaurant | null>(null);
     const [checkin, setCheckin] = useState<{ target: VisitInput; mode: CheckinMode } | null>(null);
     const [weekend, setWeekend] = useState(false);
@@ -62,6 +72,15 @@ export default function WishlistPage() {
         // Retrait, annulation ou like ailleurs : la liste et les compteurs suivent sans navigation.
         return subscribeLikes(sync);
     }, []);
+
+    // Lien /wishlist?vue=carte (ancien onglet Carte) : on ouvre directement la vue carte.
+    useEffect(() => {
+        if (new URLSearchParams(window.location.search).get('vue') === 'carte') setView('carte');
+    }, []);
+    const chooseView = (next: ViewId) => {
+        setView(next);
+        window.history.replaceState(null, '', next === 'carte' ? '/wishlist?vue=carte' : '/wishlist');
+    };
 
     // Arrivée depuis la notification « Alors, ce resto ? »
     useEffect(() => {
@@ -129,6 +148,28 @@ export default function WishlistPage() {
                 subtitle={likes.length > 0 ? `${likes.length} resto${likes.length > 1 ? 's' : ''} à tester` : 'Rien de sauvegardé pour l’instant'}
             />
 
+            <div className='px-4 pt-3'>
+                <div role='group' aria-label='Affichage des favoris' className='grid grid-cols-2 bg-white p-1 rounded-full border-2 border-plum'>
+                    {VIEWS.map(v => (
+                        <button
+                            key={v.id}
+                            type='button'
+                            aria-pressed={view === v.id}
+                            onClick={() => chooseView(v.id)}
+                            className={`min-h-[40px] rounded-full text-sm font-bold flex items-center justify-center gap-1.5 transition-colors ${view === v.id ? 'bg-fooder-secondary text-plum' : 'text-slate-muted'}`}
+                        >
+                            <v.Icon className='w-4 h-4' strokeWidth={2.5} aria-hidden='true' />
+                            {v.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {view === 'carte' ? (
+                <div className='flex-1 min-h-0 mt-3 border-t-2 border-plum'>
+                    <MapScreen initialScope='liked' />
+                </div>
+            ) : (
             <div id='wishlist-panel' role='tabpanel' aria-labelledby={`wishlist-tab-${activeTab}`} className='flex-1 overflow-y-auto px-4 pt-4 pb-6'>
                 <div role='tablist' aria-label='Mes listes' className='relative grid grid-cols-2 bg-white p-1.5 rounded-full border-[3px] border-plum mb-5'>
                     {LIST_TABS.map(tab => (
@@ -321,6 +362,7 @@ export default function WishlistPage() {
                     </motion.div>
                 )}
             </div>
+            )}
 
             <DetailSheet rest={selectedRest} onClose={() => setSelectedRest(null)} />
             <ActionToast toast={toast} onDismiss={dismissToast} />
