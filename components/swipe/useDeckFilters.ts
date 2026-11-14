@@ -48,7 +48,7 @@ const budgetFromPrefs = (): number | null => {
 
 /** Filtres du deck, tous non destructifs et mémorisés (initialisés depuis le profil la première fois). */
 export function useDeckFilters(): DeckFilters {
-  const [openNow, setOpenNow] = useState(false);
+  const [openNow, setOpenNow] = useState(true);
   const [showClosed, setShowClosedState] = useState(false);
   const [diets, setDiets] = useState<Diet[]>([]);
   const [radius, setRadiusState] = useState<Radius>(DEFAULT_RADIUS_M);
@@ -60,7 +60,8 @@ export function useDeckFilters(): DeckFilters {
   const bump = () => setVersion(v => v + 1);
 
   useEffect(() => {
-    setOpenNow(readJson<boolean>(OPEN_NOW_KEY, false) === true);
+    // Actif par défaut : on ne propose que des restos ouverts. Un choix déjà enregistré (désactivé) est respecté.
+    setOpenNow(readJson<boolean>(OPEN_NOW_KEY, true) !== false);
     setShowClosedState(readJson<boolean>(SHOW_CLOSED_KEY, false) === true);
     const stored = readJson<unknown>(DIET_FILTER_KEY, null);
     if (Array.isArray(stored)) {
