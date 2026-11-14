@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface FlyingHeartProps {
   /** Change à chaque like : relance l'animation. */
@@ -10,9 +10,11 @@ interface FlyingHeartProps {
 
 /** Cœur qui s'envole du bas de la carte vers l'onglet Favoris (ou en haut à droite si introuvable). */
 export function FlyingHeart({ burstId, onDone }: FlyingHeartProps) {
+  const reduced = useReducedMotion();
   const [to, setTo] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
+    if (reduced) return;
     const tab = document.querySelector<HTMLElement>('[data-tab="/wishlist"]');
     const r = tab?.getBoundingClientRect();
     const targetX = r ? r.left + r.width / 2 : window.innerWidth * 0.7;
@@ -20,9 +22,9 @@ export function FlyingHeart({ burstId, onDone }: FlyingHeartProps) {
     setTo({ x: targetX - window.innerWidth / 2, y: targetY - window.innerHeight * 0.55 });
     const t = setTimeout(onDone, 750);
     return () => clearTimeout(t);
-  }, [burstId, onDone]);
+  }, [burstId, onDone, reduced]);
 
-  if (!to) return null;
+  if (reduced || !to) return null;
   return (
     <div className='pointer-events-none fixed left-1/2 z-[121]' style={{ top: '55%' }} aria-hidden='true'>
       <motion.span
