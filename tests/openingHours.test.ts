@@ -273,3 +273,13 @@ describe('formatReopening', () => {
     expect(formatReopening({ minutes: 60, dayOffset: 1, time: '00:00' }, at(MON, 23))).toBe('demain à minuit');
   });
 });
+
+describe('formatTime (lib/hours) : même format que les cartes', () => {
+  it('« 14 h », « 10 h 30 », « minuit »', async () => {
+    const { formatTime, formatDay } = await import('../lib/hours');
+    expect(formatTime(840)).toBe('14 h');
+    expect(formatTime(630)).toBe('10 h 30');
+    expect(formatTime(1440)).toBe('minuit');
+    expect(formatDay([[720, 1320]])).toBe('12 h – 22 h');
+  });
+});

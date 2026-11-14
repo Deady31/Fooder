@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Sheet } from '../ui/Sheet';
 import { Download, PlusSquare, Share, X } from 'lucide-react';
 import { DISMISS_KEY, InstallMode, decideInstall, isIosSafari, isStandalone } from './installLogic';
 import { BeforeInstallPromptEvent, installCapture } from './installCapture';
@@ -86,27 +86,9 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
         </button>
       </section>
 
-      <AnimatePresence>
-        {sheet && (
-          <motion.div
-            className='fixed inset-0 z-[70] flex items-end bg-plum/50'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSheet(false)}
-          >
-            <motion.div
-              role='dialog'
-              aria-label='Installer Fooder sur iPhone'
-              className='w-full bg-cream rounded-t-[32px] border-t-[3px] border-x-[3px] border-plum p-5 pb-8 space-y-4'
-              initial={{ y: 80 }}
-              animate={{ y: 0 }}
-              exit={{ y: 80 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-              onClick={e => e.stopPropagation()}
-            >
+      <Sheet open={sheet} onClose={() => setSheet(false)} labelledBy='install-titre' zIndex={70} className='bg-cream rounded-t-[32px] border-[3px] border-plum p-5 pb-8 space-y-4'>
               <div className='flex items-start justify-between gap-3'>
-                <p className='font-display text-2xl text-plum leading-tight'>Installer Fooder</p>
+                <p id='install-titre' className='font-display text-2xl text-plum leading-tight'>Installer Fooder</p>
                 <button onClick={() => setSheet(false)} aria-label='Fermer' className='w-11 h-11 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center'>
                   <X className='w-4 h-4' strokeWidth={3} />
                 </button>
@@ -132,10 +114,7 @@ export function InstallPrompt({ className = '' }: { className?: string }) {
               <button onClick={dismiss} className='w-full min-h-[44px] text-center text-xs font-black text-plum-muted underline underline-offset-2'>
                 Plus tard
               </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </Sheet>
     </>
   );
 }

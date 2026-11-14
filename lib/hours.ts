@@ -1,3 +1,5 @@
+import { formatCloseTime } from './openingHours';
+
 export type DayRanges = [number, number][];
 export type WeekHours = DayRanges[];
 
@@ -8,11 +10,10 @@ export const todayIndex = (d: Date = new Date()): number => (d.getDay() + 6) % 7
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
+/** Minutes depuis 00:00 -> « 14 h », « 10 h 30 », « minuit » (même formateur que les cartes). */
 export function formatTime(minutes: number): string {
-  const m = minutes % 1440;
-  const h = Math.floor(m / 60);
-  const mm = m % 60;
-  return mm === 0 ? `${h}h` : `${h}h${pad(mm)}`;
+  const m = ((minutes % 1440) + 1440) % 1440;
+  return formatCloseTime(`${pad(Math.floor(m / 60))}:${pad(m % 60)}`);
 }
 
 export function formatDay(ranges: DayRanges): string {

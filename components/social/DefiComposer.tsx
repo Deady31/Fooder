@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Sheet } from '../ui/Sheet';
 import { X } from 'lucide-react';
 import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
@@ -76,28 +76,10 @@ export function DefiComposer({ isOpen, friendName, onClose, onToast }: DefiCompo
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className='fixed inset-0 z-[140] flex items-end justify-center p-3 bg-plum/60 backdrop-blur-sm'
-          onClick={e => {
-            if (e.target === e.currentTarget) onClose();
-          }}
-        >
-          <motion.div
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            className='w-full max-w-md max-h-[calc(100dvh-1.5rem)] bg-cream rounded-[32px] panel flex flex-col overflow-hidden'
-            role='dialog'
-            aria-label='Lancer un défi à l’aveugle'
-          >
+    <Sheet open={isOpen} onClose={onClose} labelledBy='defi-titre' zIndex={140} draggable={false} className='bg-cream rounded-[32px] panel flex flex-col overflow-hidden max-h-[calc(100dvh-1.5rem)]'>
             <div className='flex items-start justify-between gap-3 p-5 pb-3 border-b-[3px] border-plum'>
               <div>
-                <h2 className='text-[26px] leading-none text-plum'>Défi à l’aveugle</h2>
+                <h2 id='defi-titre' className='text-[26px] leading-none text-plum'>Défi à l’aveugle</h2>
                 <p className='text-xs font-medium text-slate-600 mt-1'>
                   {friendName ? `${friendName} ne verra que l’indice.` : 'Ton ami ne verra que l’indice.'} Le nom se révèle sur place.
                 </p>
@@ -142,9 +124,6 @@ export function DefiComposer({ isOpen, friendName, onClose, onToast }: DefiCompo
                 </div>
               </>
             )}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </Sheet>
   );
 }
