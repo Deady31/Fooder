@@ -105,12 +105,12 @@ export function GroupCreate({ onCreate, onCancel }: GroupCreateProps) {
         )}
       </section>
 
-      <div className='grid grid-cols-[1fr_2fr] gap-2.5 sticky bottom-0 -mx-4 px-4 pt-3 pb-1 bg-cream/95 backdrop-blur-sm border-t-[3px] border-plum'>
-        <button onClick={onCancel} className='duo-button bg-white text-plum py-3.5 text-sm'>Annuler</button>
+      <div className='grid grid-cols-[auto_1fr] gap-2.5 sticky bottom-0 -mx-4 px-4 pt-3 pb-1 bg-cream/95 backdrop-blur-sm border-t-[3px] border-plum'>
+        <button onClick={onCancel} className='duo-button bg-white text-plum py-3 px-5 text-sm'>Annuler</button>
         <button
           disabled={!valid}
           onClick={() => onCreate(title, candidates.filter(r => selected.has(r.id)))}
-          className='duo-button bg-bubblegum text-plum py-3.5 text-base disabled:opacity-50'
+          className='duo-button bg-bubblegum text-plum py-3 text-sm whitespace-nowrap disabled:opacity-50'
         >
           Lancer la session
         </button>
