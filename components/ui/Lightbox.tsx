@@ -6,6 +6,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Point,
   Size,
+  LIGHTBOX_Z_INDEX,
   clampPan,
   clampZoom,
   containedSize,
@@ -110,13 +111,21 @@ export function Lightbox({ images, index, alt, credit, onIndexChange, onClose }:
   );
 
   useEffect(() => {
+    // Phase de capture + stopPropagation : si la visionneuse s'ouvre au-dessus d'une feuille (fiche resto),
+    // Échap, Tab et les flèches ne doivent agir que sur la visionneuse, pas fermer la feuille dessous.
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
+        e.stopPropagation();
         requestClose();
-      } else if (e.key === 'ArrowRight') go(safeIndex + 1);
-      else if (e.key === 'ArrowLeft') go(safeIndex - 1);
-      else if (e.key === 'Tab') {
+      } else if (e.key === 'ArrowRight') {
+        e.stopPropagation();
+        go(safeIndex + 1);
+      } else if (e.key === 'ArrowLeft') {
+        e.stopPropagation();
+        go(safeIndex - 1);
+      } else if (e.key === 'Tab') {
+        e.stopPropagation();
         const items = Array.from(rootRef.current?.querySelectorAll<HTMLElement>('button') ?? []);
         if (items.length === 0) return;
         const i = items.indexOf(document.activeElement as HTMLElement);
@@ -124,8 +133,8 @@ export function Lightbox({ images, index, alt, credit, onIndexChange, onClose }:
         items[(i + (e.shiftKey ? items.length - 1 : 1)) % items.length].focus();
       }
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener('keydown', onKey, true);
+    return () => window.removeEventListener('keydown', onKey, true);
   }, [requestClose, go, safeIndex]);
 
   const boxSize = (): Size => {
@@ -270,7 +279,8 @@ export function Lightbox({ images, index, alt, credit, onIndexChange, onClose }:
       animate={{ opacity: 1 }}
       transition={{ duration: reduced ? 0 : 0.18 }}
       onClick={(e) => e.stopPropagation()}
-      className='fixed inset-0 z-[100] bg-black/90 select-none'
+      className='fixed inset-0 bg-black/90 select-none'
+      style={{ zIndex: LIGHTBOX_Z_INDEX }}
     >
       <div
         ref={stageRef}

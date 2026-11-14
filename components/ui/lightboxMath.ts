@@ -1,6 +1,9 @@
 export const MIN_ZOOM = 1;
 export const MAX_ZOOM = 4;
 
+/** Au-dessus des feuilles (Sheet = 150) mais sous les toasts (160 et plus). */
+export const LIGHTBOX_Z_INDEX = 170;
+
 export interface Point { x: number; y: number }
 export interface Size { w: number; h: number }
 

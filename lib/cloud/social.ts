@@ -313,6 +313,62 @@ export async function fetchRestaurantPhotos(restaurantIds: string[]): Promise<Ma
   return urls;
 }
 
+/** Une photo de la communauté pour un resto, avec son auteur, ses cœurs et mon propre cœur. */
+export interface CommunityPhotoPost {
+  postId: string;
+  url: string;
+  /** Total des cœurs côté serveur (contient mon cœur si `likedByMe`). */
+  likes: number;
+  createdAt: number;
+  author?: { name: string; avatar: { id: string; bg: string } };
+  /** Photo publiée par moi (jamais de cœur sur sa propre photo). */
+  mine: boolean;
+  likedByMe: boolean;
+}
+
+/**
+ * Photos postées pour UN restaurant (les plus récentes d'abord ; le tri par cœurs se fait côté affichage).
+ * Lève une erreur si la liste elle-même est illisible (l'interface le dit honnêtement) ;
+ * cœurs, pseudos et mes cœurs sont facultatifs : s'ils manquent, on affiche sans eux.
+ */
+export async function fetchCommunityPhotoPosts(restaurantId: string, myUid: string | null, limit = 30): Promise<CommunityPhotoPost[]> {
+  const sb = cloud();
+  if (!sb || !restaurantId) return [];
+  const { data, error } = await sb
+    .from('posts')
+    .select('id, user_id, photo_path, created_at')
+    .eq('restaurant_id', restaurantId)
+    .not('photo_path', 'is', null)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  if (error) throw new Error('community_photos_unavailable');
+  const rows = (data ?? []) as { id: string; user_id: string; photo_path: string; created_at: string }[];
+  if (rows.length === 0) return [];
+  const ids = rows.map(r => r.id);
+
+  const [counts, authors, mine] = await Promise.all([
+    sb.from('post_like_counts').select('post_id, likes').in('post_id', ids),
+    sb.from('post_authors').select('id, name, avatar_id, avatar_bg').in('id', Array.from(new Set(rows.map(r => r.user_id)))),
+    myUid ? sb.from('post_likes').select('post_id').eq('user_id', myUid).in('post_id', ids) : Promise.resolve({ data: [] }),
+  ]);
+  const likeById = new Map(((counts.data ?? []) as { post_id: string; likes: number }[]).map(c => [c.post_id, c.likes]));
+  const authorById = new Map(((authors.data ?? []) as { id: string; name: string; avatar_id: string; avatar_bg: string }[]).map(a => [a.id, a]));
+  const likedByMe = new Set(((mine.data ?? []) as { post_id: string }[]).map(l => l.post_id));
+
+  return rows.map(r => {
+    const a = authorById.get(r.user_id);
+    return {
+      postId: r.id,
+      url: photoUrl(r.photo_path),
+      likes: likeById.get(r.id) ?? 0,
+      createdAt: Date.parse(r.created_at) || 0,
+      author: a ? { name: a.name, avatar: { id: a.avatar_id, bg: a.avatar_bg } } : undefined,
+      mine: myUid !== null && r.user_id === myUid,
+      likedByMe: likedByMe.has(r.id),
+    };
+  });
+}
+
 /** Ajoute ou retire mon cœur sur un post publié. Échec silencieux : le cœur reste local. */
 export async function setCloudPostLike(postId: string, uid: string, liked: boolean): Promise<boolean> {
   const sb = cloud();
