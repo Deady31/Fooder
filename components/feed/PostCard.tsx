@@ -63,9 +63,9 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
         <h3 className='mt-3 text-[clamp(20px,6.2vw,24px)] leading-[1.05] text-plum break-words'>{post.restaurantName}</h3>
 
         <div className='mt-1.5 flex items-center gap-2 text-[11px] font-semibold text-plum-muted min-w-0'>
-          <Avatar avatar={post.author.avatar} size={22} className='!border-2 !shadow-none' />
+          <Avatar avatar={post.author.avatar} size={28} className='!border-2 !shadow-none' />
           <span className='truncate'>
-            {post.mine ? 'Toi' : post.author.name} · niv. {post.author.level} · {isDemo ? 'exemple' : timeAgo(post.createdAt)}
+            <span className='font-bold text-plum'>{post.mine ? 'Toi' : post.author.name}</span> · niv. {post.author.level} · {isDemo ? 'exemple' : timeAgo(post.createdAt)}
           </span>
         </div>
 

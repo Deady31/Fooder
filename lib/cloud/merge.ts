@@ -54,6 +54,11 @@ export function mergeKey(key: SyncKey, local: unknown, remote: unknown): unknown
   if (local === undefined || local === null) return remote;
   switch (key) {
     case 'fooder_likes':
+      // Même resto des deux côtés : on garde l'objet local, avec la date de like la plus ancienne connue.
+      return unionBy(local, remote, x => str(x.id), (a, b) => {
+        const dates = [a.likedAt, b.likedAt].filter((d): d is number => typeof d === 'number' && Number.isFinite(d));
+        return dates.length > 0 ? { ...a, likedAt: Math.min(...dates) } : a;
+      });
     case 'fooder_dislikes':
       return unionBy(local, remote, x => str(x.id));
     case 'fooder_visits':

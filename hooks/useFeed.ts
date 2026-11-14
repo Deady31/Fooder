@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '../components/auth/AuthProvider';
+import { cloud } from '../lib/cloud/client';
 import { deleteCloudPost, fetchCloudPosts, setCloudPostLike } from '../lib/cloud/social';
 import { runWithSession } from '../lib/cloud/gate';
 import { communityPhotosFor } from '../lib/communityPhotos';
@@ -14,6 +15,9 @@ import { VISITS_KEY, Visit } from '../lib/visits';
 import { AvatarChoice, DEFAULT_AVATAR } from '../lib/avatars';
 import { computeLevel } from './useGamification';
 import { cleanCommentText, editComment, type EditResult, type StoredComment } from '../components/feed/commentEdit';
+import { getMe } from '../lib/identity';
+import { FRIENDS_KEY, readFriends } from '../lib/social/friends';
+import { normalizeUserId } from '../components/feed/feedFilters';
 import { buildFeed, isCloudPostId, isDemoPost, isVisitPost, miamCount, removeById } from '../components/feed/feedLogic';
 
 /** Texte à afficher pour un état d'envoi (null = rien à dire, ex. cloud non configuré). */
@@ -59,6 +63,25 @@ function readMe(): FeedAuthor {
 
 const asList = <T>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
 
+/** Ids des comptes amis (32 hexadécimaux), lus dans la liste d'amis locale (alimentée par les amitiés serveur et les liens). */
+function readFriendIds(): Set<string> {
+  const ids = asList<{ snapshot?: { id?: unknown } }>(readFriends()).map(f => normalizeUserId(f?.snapshot?.id));
+  return new Set(ids.filter((id): id is string => id !== null));
+}
+
+/** Auteur de chaque post en ligne (lecture seule, même table que le fil). Échec : on renvoie une table vide, sans erreur. */
+async function fetchAuthorIds(postIds: string[]): Promise<Map<string, string>> {
+  const out = new Map<string, string>();
+  const sb = cloud();
+  if (!sb || postIds.length === 0) return out;
+  const { data } = await sb.from('posts').select('id, user_id').in('id', postIds.slice(0, 100));
+  for (const row of (data ?? []) as { id: string; user_id: string }[]) {
+    const uid = normalizeUserId(row.user_id);
+    if (uid) out.set(row.id, uid);
+  }
+  return out;
+}
+
 export function useFeed() {
   const [mine, setMine] = useState<FeedPost[]>([]);
   const [visits, setVisits] = useState<Visit[]>([]);
@@ -70,6 +93,7 @@ export function useFeed() {
   const myComRef = useRef<StoredComment[]>([]);
   const [remote, setRemote] = useState<FeedPost[]>([]);
   const [remoteLoading, setRemoteLoading] = useState(false);
+  const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
   const { uid, enabled } = useAuth();
   const likedRef = useRef<string[]>([]);
   const minesRef = useRef<FeedPost[]>([]);
@@ -98,7 +122,9 @@ export function useFeed() {
     const onStore = (e: Event) => {
       const key = (e as CustomEvent<unknown>).detail;
       if (typeof key === 'string' && WATCHED_KEYS.has(key)) syncLocal();
+      if (key === FRIENDS_KEY) setFriendIds(readFriendIds());
     };
+    setFriendIds(readFriendIds());
     window.addEventListener(STORE_EVENT, onStore);
     return () => window.removeEventListener(STORE_EVENT, onStore);
   }, [syncLocal]);
@@ -113,6 +139,13 @@ export function useFeed() {
         if (cancelled) return;
         likedAtLoadRef.current = new Set(likedRef.current.filter(id => list.some(p => p.id === id)));
         setRemote(list);
+        // Amis : l'auteur de chaque post en ligne arrive juste après (le fil s'affiche sans l'attendre).
+        void fetchAuthorIds(list.map(p => p.id))
+          .then(authors => {
+            if (cancelled || authors.size === 0) return;
+            setRemote(prev => prev.map(p => (authors.has(p.id) ? { ...p, authorId: authors.get(p.id) } : p)));
+          })
+          .catch(() => undefined);
       })
       .catch(() => {
         if (!cancelled) setRemote([]);
@@ -198,7 +231,9 @@ export function useFeed() {
     const clean = cleanCommentText(text);
     if (!clean) return false;
     const current = myComRef.current;
-    const next = [...current, { id: `mc-${Date.now()}-${current.length}`, postId, authorName: 'Toi', text: clean, createdAt: Date.now(), mine: true }];
+    // Pseudo et mascotte sont enregistrés avec le commentaire : il garde son visage même si le profil change ensuite.
+    const author = { authorName: getMe().name, avatar: readMe().avatar };
+    const next = [...current, { id: `mc-${Date.now()}-${current.length}`, postId, ...author, text: clean, createdAt: Date.now(), mine: true }];
     if (!writeJson(COMMENTS_KEY, next)) return false;
     myComRef.current = next;
     setMyCom(next);
@@ -215,5 +250,5 @@ export function useFeed() {
     return result;
   }, []);
 
-  return { posts, liked, ready, remoteLoading, hasDemo, likeCount, addPost, removePost, toggleLike, commentsFor, addComment, editCommentText };
+  return { posts, friendIds, liked, ready, remoteLoading, hasDemo, likeCount, addPost, removePost, toggleLike, commentsFor, addComment, editCommentText };
 }

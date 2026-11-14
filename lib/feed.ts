@@ -20,6 +20,8 @@ export interface FeedComment {
   id: string;
   postId: string;
   authorName: string;
+  /** Mascotte de l'auteur, enregistrée à la création (absente des anciens commentaires). */
+  avatar?: AvatarChoice;
   text: string;
   createdAt: number;
   mine?: boolean;
@@ -42,6 +44,8 @@ export interface FeedPost {
   likes: number;
   createdAt: number;
   mine?: boolean;
+  /** Identifiant du compte auteur (32 caractères hexadécimaux), connu pour les posts en ligne : sert au filtre « Amis ». */
+  authorId?: string;
 }
 
 export const MAX_CAPTION = 140;

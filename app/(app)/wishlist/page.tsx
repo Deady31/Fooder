@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Navigation, Share2, Star, Trash2, Users } from 'lucide-react';
 import Link from 'next/link';
@@ -13,11 +13,25 @@ import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { CheckinSheet, CheckinMode } from '../../../components/checkin/CheckinSheet';
 import { useSocial } from '../../../hooks/useSocial';
 import { ActionToast, ActionToastState } from '../../../components/profile/ActionToast';
-import { readDislikes, readLikes, removeDislike, removeLike, restoreDislike, restoreLike, subscribeLikes } from '../../../lib/likes';
+import {
+    LIKE_SORTS, LikeSort, SavedRestaurant, addedLabel, readDislikes, readLikeSort, readLikes, removeDislike, removeLike, restoreDislike, restoreLike,
+    sortLikes, subscribeLikes, writeLikeSort,
+} from '../../../lib/likes';
+import { LAST_POSITION_KEY, MANUAL_POSITION_KEY, initialPosition, parseStoredManual, parseStoredPosition } from '../../../lib/geo/position';
+import { readJson } from '../../../lib/store';
 import { VisitInput } from '../../../lib/visits';
 import { isWeekendWindow, weekendPicks } from '../../../lib/rituals';
 
 type ListId = 'likes' | 'dislikes';
+
+/** Position déjà connue (GPS récent, dernière position ou adresse saisie), lue sans rien demander : null si seulement le centre par défaut. */
+function readKnownPosition(): { lat: number; lng: number } | null {
+    const start = initialPosition(
+        parseStoredPosition(readJson<unknown>(LAST_POSITION_KEY, null), Date.now()),
+        parseStoredManual(readJson<unknown>(MANUAL_POSITION_KEY, null))
+    );
+    return start.source === 'default' ? null : start.coords;
+}
 
 const LIST_TABS: { id: ListId; label: string }[] = [
     { id: 'likes', label: 'Coups de cœur' },
@@ -25,8 +39,10 @@ const LIST_TABS: { id: ListId; label: string }[] = [
 ];
 
 export default function WishlistPage() {
-    const [likes, setLikes] = useState<Restaurant[]>([]);
+    const [likes, setLikes] = useState<SavedRestaurant[]>([]);
     const [dislikes, setDislikes] = useState<Restaurant[]>([]);
+    const [sort, setSort] = useState<LikeSort>('recent');
+    const [here, setHere] = useState<{ lat: number; lng: number } | null>(null);
     const [activeTab, setActiveTab] = useState<ListId>('likes');
     const [selectedRest, setSelectedRest] = useState<Restaurant | null>(null);
     const [checkin, setCheckin] = useState<{ target: VisitInput; mode: CheckinMode } | null>(null);
@@ -40,6 +56,8 @@ export default function WishlistPage() {
             setDislikes(readDislikes());
         };
         sync();
+        setSort(readLikeSort());
+        setHere(readKnownPosition());
         setWeekend(isWeekendWindow());
         // Retrait, annulation ou like ailleurs : la liste et les compteurs suivent sans navigation.
         return subscribeLikes(sync);
@@ -94,7 +112,14 @@ export default function WishlistPage() {
         }
     };
 
-    const activeList = activeTab === 'likes' ? likes : dislikes;
+    // « Les plus proches » demande une position connue ; sans elle, on retombe sur « Récents » (le choix reste mémorisé).
+    const effectiveSort: LikeSort = sort === 'proche' && !here ? 'recent' : sort;
+    const sortedLikes = useMemo(() => sortLikes(likes, effectiveSort, here), [likes, effectiveSort, here]);
+    const activeList: SavedRestaurant[] = activeTab === 'likes' ? sortedLikes : dislikes;
+    const chooseSort = (next: LikeSort) => {
+        setSort(next);
+        writeLikeSort(next);
+    };
     const counts: Record<ListId, number> = { likes: likes.length, dislikes: dislikes.length };
 
     return (
@@ -163,6 +188,34 @@ export default function WishlistPage() {
 
                 {activeTab === 'likes' && likes.length > 0 && <InviteCard variant='banner' className='mb-4' />}
 
+                {activeTab === 'likes' && likes.length > 1 && (
+                    <div className='mb-4'>
+                        <div role='group' aria-label='Trier les favoris' aria-describedby={here ? undefined : 'wishlist-sort-hint'} className='flex flex-wrap gap-1.5'>
+                            {LIKE_SORTS.map(opt => {
+                                const unavailable = opt.id === 'proche' && !here;
+                                const on = effectiveSort === opt.id;
+                                return (
+                                    <button
+                                        key={opt.id}
+                                        type='button'
+                                        disabled={unavailable}
+                                        aria-pressed={on}
+                                        onClick={() => chooseSort(opt.id)}
+                                        className={`min-h-[44px] px-3.5 rounded-full border-[3px] border-plum text-xs font-bold transition-colors ${on ? 'bg-bubblegum text-plum' : 'bg-white text-plum'} ${unavailable ? 'opacity-40' : 'active:translate-y-0.5'}`}
+                                    >
+                                        {opt.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        {!here && (
+                            <p id='wishlist-sort-hint' className='mt-1.5 px-1 text-[11px] font-semibold text-plum-muted'>
+                                « Les plus proches » demande ta position : autorise la localisation depuis Découvrir.
+                            </p>
+                        )}
+                    </div>
+                )}
+
                 <AnimatePresence mode='popLayout' initial={false}>
                     {activeList.map((rest, index) => (
                         <motion.div
@@ -202,6 +255,12 @@ export default function WishlistPage() {
                                             </>
                                         )}
                                         <span className='truncate'>{rest.cuisine}</span>
+                                        {activeTab === 'likes' && addedLabel(rest.likedAt) && (
+                                            <>
+                                                <span aria-hidden='true'>•</span>
+                                                <span className='shrink-0 font-semibold'>{addedLabel(rest.likedAt)}</span>
+                                            </>
+                                        )}
                                         {visitedIds.has(rest.id) && (
                                             <span className='chip !px-1.5 !py-0 !text-xs bg-fooder-mint text-plum shrink-0'>
                                                 <Check className='w-2.5 h-2.5' strokeWidth={3.5} /> Testé

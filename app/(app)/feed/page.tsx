@@ -7,7 +7,13 @@ import { PageHeader } from '../../../components/nav/PageHeader';
 import { PostCard } from '../../../components/feed/PostCard';
 import { ComposeSheet, ComposeResult, LikedRestaurant } from '../../../components/feed/ComposeSheet';
 import { useDebouncedValue } from '../../../components/feed/useDebouncedValue';
-import { MAX_QUERY, filterPosts, parseQueryParam, searchView } from '../../../components/feed/reviewSearch';
+import { FeedFilterBar } from '../../../components/feed/FeedFilterBar';
+import { InviteCard } from '../../../components/social/InviteCard';
+import { MAX_QUERY, parseQueryParam, searchView } from '../../../components/feed/reviewSearch';
+import {
+  DEFAULT_FILTERS, FILTERS_KEY, FeedFilters, applyFeedFilters, filtersToQuery, hasActiveFilters, parseFilters, parseStoredFilters, restaurantOptions,
+} from '../../../components/feed/feedFilters';
+import { readJson, writeJson } from '../../../lib/store';
 import { useFeed } from '../../../hooks/useFeed';
 import { useAvatar } from '../../../hooks/useAvatar';
 import { useGamification } from '../../../hooks/useGamification';
@@ -42,8 +48,57 @@ function FeedSkeleton() {
   );
 }
 
+interface EmptyResultsProps {
+  query: string;
+  filters: FeedFilters;
+  hasFriends: boolean;
+  onCompose: () => void;
+  onClearSearch: () => void;
+  onReset: () => void;
+}
+
+/** État vide du Fil : une consigne utile selon ce qui est filtré. */
+function EmptyResults({ query, filters, hasFriends, onCompose, onClearSearch, onReset }: EmptyResultsProps) {
+  const friendsOnly = !query && filters.scope === 'amis' && !filters.resto;
+  const meOnly = !query && filters.scope === 'moi' && !filters.resto;
+  const title = query ? 'Aucun avis trouvé' : friendsOnly ? 'Rien de tes amis' : meOnly ? 'Rien de ton côté' : 'Aucun avis ici';
+  const text = query
+    ? `Aucun avis pour « ${query} »${hasActiveFilters(filters) ? ' avec ces filtres' : ''} : sois le premier à en poster un.`
+    : friendsOnly
+      ? hasFriends
+        ? 'Aucun de tes amis n’a encore posté : invite-en.'
+        : 'Tu n’as pas encore d’amis sur Fooder : invite-en.'
+      : meOnly
+        ? 'Tu n’as encore rien posté ni confirmé de visite.'
+        : 'Aucun avis ne correspond à ces filtres.';
+  return (
+    <section className='bg-white rounded-2xl border-[3px] border-plum shadow-hard p-4 space-y-3'>
+      <h2 className='text-xl leading-tight text-plum'>{title}</h2>
+      <p className='text-sm font-medium text-plum-muted leading-snug'>{text}</p>
+      {friendsOnly && <InviteCard variant='banner' showInstall={false} />}
+      <div className='flex flex-wrap gap-2'>
+        {!friendsOnly && (
+          <button onClick={onCompose} className='duo-button min-h-[44px] bg-bubblegum text-plum text-sm py-2.5'>
+            Poster un avis
+          </button>
+        )}
+        {query && (
+          <button onClick={onClearSearch} className='duo-button min-h-[44px] bg-white text-plum text-sm py-2.5'>
+            Effacer la recherche
+          </button>
+        )}
+        {hasActiveFilters(filters) && (
+          <button onClick={onReset} className='duo-button min-h-[44px] bg-white text-plum text-sm py-2.5'>
+            Réinitialiser
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
 export default function FeedPage() {
-  const { posts, liked, ready, remoteLoading, hasDemo, likeCount, addPost, removePost, toggleLike, commentsFor, addComment, editCommentText } = useFeed();
+  const { posts, friendIds, liked, ready, remoteLoading, hasDemo, likeCount, addPost, removePost, toggleLike, commentsFor, addComment, editCommentText } = useFeed();
   const { avatar } = useAvatar();
   const { level } = useGamification();
   const [composeOpen, setComposeOpen] = useState(false);
@@ -52,6 +107,27 @@ export default function FeedPage() {
   const toast = useToast(4000);
   const [typed, setTyped] = useState('');
   const [settled, flushSearch] = useDebouncedValue(typed, 300);
+  const [filters, setFilters] = useState<FeedFilters>(DEFAULT_FILTERS);
+  const [filtersLoaded, setFiltersLoaded] = useState(false);
+
+  // Filtres : l'URL (?scope=amis&resto=<id>) prime, sinon la dernière sélection mémorisée.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.has('scope') || params.has('resto');
+    setFilters(fromUrl ? parseFilters(params) : parseStoredFilters(readJson<unknown>(FILTERS_KEY, null)));
+    setFiltersLoaded(true);
+  }, []);
+
+  // Mémorisation + URL lisible, sans empiler l'historique ni toucher aux autres paramètres.
+  useEffect(() => {
+    if (!filtersLoaded) return;
+    writeJson(FILTERS_KEY, filters);
+    const params = new URLSearchParams(window.location.search);
+    params.delete('scope');
+    params.delete('resto');
+    const qs = [filtersToQuery(filters), params.toString()].filter(Boolean).join('&');
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${qs ? `?${qs}` : ''}`);
+  }, [filters, filtersLoaded]);
 
   // Lien « avis de ce resto » (/feed?q=…) : la recherche démarre pré-remplie.
   useEffect(() => {
@@ -86,13 +162,22 @@ export default function FeedPage() {
     setLikedRestaurants(readLiked());
   }, [composeOpen]);
 
-  const results = useMemo(() => filterPosts(posts, settled, { excludeDemo: true }), [posts, settled]);
-  const view = searchView({ typed, settled, resultCount: results.length });
+  const results = useMemo(() => applyFeedFilters(posts, { query: settled, filters, friendIds }), [posts, settled, filters, friendIds]);
+  const options = useMemo(() => restaurantOptions(posts), [posts]);
+  const filtersOn = hasActiveFilters(filters);
+  const typedOn = typed.trim() !== '';
+  const view = typedOn
+    ? searchView({ typed, settled, resultCount: results.length })
+    : filtersOn ? (results.length > 0 ? 'results' : 'empty') : 'idle';
   const searching = view !== 'idle';
-  const shown = searching ? results : posts;
+  const shown = typedOn || filtersOn ? results : posts;
   const clearSearch = () => {
     setTyped('');
     flushSearch('');
+  };
+  const resetAll = () => {
+    setFilters(DEFAULT_FILTERS);
+    clearSearch();
   };
 
   const publish = ({ restaurant, caption, verdict, photo }: ComposeResult): boolean => {
@@ -170,28 +255,22 @@ export default function FeedPage() {
             </button>
           )}
         </form>
-        <p role='status' aria-live='polite' className='sr-only'>
-          {view === 'results' ? `${results.length} avis trouvé${results.length > 1 ? 's' : ''}` : view === 'empty' ? 'Aucun avis trouvé' : ''}
-        </p>
+        {ready && (
+          <FeedFilterBar filters={filters} onChange={setFilters} options={options} count={typedOn || filtersOn ? results.length : null} onReset={resetAll} />
+        )}
         {!ready ? (
           <FeedSkeleton />
         ) : view === 'loading' ? (
           <p role='status' className='text-sm font-bold text-plum bg-white rounded-2xl border-[3px] border-plum p-4'>Recherche…</p>
         ) : view === 'empty' ? (
-          <section className='bg-white rounded-2xl border-[3px] border-plum shadow-hard p-4 space-y-3'>
-            <h2 className='text-xl leading-tight text-plum'>Aucun avis trouvé</h2>
-            <p className='text-sm font-medium text-plum-muted leading-snug'>
-              Aucun avis pour « {settled.trim()} » : sois le premier à en poster un.
-            </p>
-            <div className='flex flex-wrap gap-2'>
-              <button onClick={() => setComposeOpen(true)} className='duo-button min-h-[44px] bg-bubblegum text-plum text-sm py-2.5'>
-                Poster un avis
-              </button>
-              <button onClick={clearSearch} className='duo-button min-h-[44px] bg-white text-plum text-sm py-2.5'>
-                Effacer la recherche
-              </button>
-            </div>
-          </section>
+          <EmptyResults
+            query={typedOn ? settled.trim() : ''}
+            filters={filters}
+            hasFriends={friendIds.size > 0}
+            onCompose={() => setComposeOpen(true)}
+            onClearSearch={clearSearch}
+            onReset={resetAll}
+          />
         ) : (
           <>
             {hasDemo && !searching && (

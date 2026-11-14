@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { MAX_COMMENT, timeAgo } from '../../lib/feed';
+import { CommentAvatar } from './CommentAvatar';
+import { commentIdentity } from './commentAuthor';
 import { EditFailure, EditResult, StoredComment, canEditComment, editedLabel } from './commentEdit';
 
 interface CommentItemProps {
@@ -63,9 +65,12 @@ export function CommentItem({ comment: c, onEdit }: CommentItemProps) {
   };
 
   const edited = editedLabel(c.editedAt);
+  const who = commentIdentity(c);
 
   return (
-    <li className='text-sm leading-snug break-words'>
+    <li className='flex items-start gap-2 text-sm leading-snug break-words'>
+      <CommentAvatar identity={who} />
+      <div className='min-w-0 flex-1'>
       <span role='status' aria-live='polite' className='sr-only'>{announce}</span>
       {editing ? (
         <form
@@ -103,7 +108,7 @@ export function CommentItem({ comment: c, onEdit }: CommentItemProps) {
         </form>
       ) : (
         <>
-          <span className='font-bold text-plum'>{c.mine ? 'Toi' : c.authorName}</span>{' '}
+          <span className='font-bold text-plum'>{who.name}</span>{' '}
           <span className='font-medium text-plum'>{c.text}</span>
           <span className='text-[10px] font-bold text-plum-muted'> · {timeAgo(c.createdAt)}{edited ? ` · ${edited}` : ''}</span>
           {canEditComment(c) && (
@@ -111,13 +116,14 @@ export function CommentItem({ comment: c, onEdit }: CommentItemProps) {
               ref={editBtnRef}
               onClick={start}
               aria-label={`Modifier mon commentaire : ${c.text.slice(0, 30)}`}
-              className='ml-1 min-h-[44px] px-2 text-[11px] font-bold text-plum-muted underline'
+              className='ml-1 min-h-[44px] min-w-[44px] px-2 text-[11px] font-bold text-plum-muted underline'
             >
               Modifier
             </button>
           )}
         </>
       )}
+      </div>
     </li>
   );
 }
