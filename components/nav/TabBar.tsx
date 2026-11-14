@@ -43,7 +43,7 @@ export function TabBar() {
       ref={navRef}
       aria-label='Navigation principale'
       onKeyDown={onKeyDown}
-      className='shrink-0 z-30 flex gap-1.5 px-2.5 pt-2.5 pb-[max(env(safe-area-inset-bottom),10px)] bg-cream border-t-[3px] border-plum'
+      className='shrink-0 z-30 flex gap-1 px-1.5 min-[360px]:gap-1.5 min-[360px]:px-2.5 pt-2.5 pb-[max(env(safe-area-inset-bottom),10px)] bg-cream border-t-[3px] border-plum'
     >
       {TABS.map(({ href, label, Icon }) => {
         const active = isTabActive(pathname, href);
@@ -88,7 +88,7 @@ export function TabBar() {
                   )}
                 </AnimatePresence>
               </span>
-              <span className={`text-[11px] font-bold ${active ? 'text-plum' : 'text-plum-soft'}`}>{label}</span>
+              <span className={`text-[10px] min-[360px]:text-[11px] font-bold ${active ? 'text-plum' : 'text-plum-soft'}`}>{label}</span>
             </motion.span>
           </Link>
         );

@@ -33,6 +33,8 @@ export interface DeckFilters {
   toggleOpenNow: () => void;
   setShowClosed: (show: boolean) => void;
   toggleDietChip: (d: Diet) => void;
+  /** Remplace tous les régimes d'un coup (feuille de filtres). */
+  setDietList: (next: Diet[]) => void;
   setRadius: (r: Radius) => void;
   setBudgetAndCuisine: (maxPrice: number | null, cuisine: string | null) => void;
   clearFilters: () => void;
@@ -100,6 +102,13 @@ export function useDeckFilters(): DeckFilters {
     bump();
   }, [diets]);
 
+  const setDietList = useCallback((next: Diet[]) => {
+    const clean = FILTER_DIETS.filter(d => next.includes(d));
+    writeJson(DIET_FILTER_KEY, clean);
+    setDiets([...clean]);
+    bump();
+  }, []);
+
   const setRadius = useCallback((r: Radius) => {
     setRadiusState(r);
     writeJson(RADIUS_KEY, serializeRadius(r));
@@ -122,5 +131,5 @@ export function useDeckFilters(): DeckFilters {
     bump();
   }, []);
 
-  return { openNow, showClosed, diets, radius, maxPrice, cuisine, now, ready, version, toggleOpenNow, setShowClosed, toggleDietChip, setRadius, setBudgetAndCuisine, clearFilters };
+  return { openNow, showClosed, diets, radius, maxPrice, cuisine, now, ready, version, toggleOpenNow, setShowClosed, toggleDietChip, setDietList, setRadius, setBudgetAndCuisine, clearFilters };
 }

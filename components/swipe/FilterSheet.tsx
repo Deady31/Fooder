@@ -4,6 +4,9 @@ import { X } from 'lucide-react';
 import { Sheet } from '../ui/Sheet';
 import { RadiusOptions } from '../geo/RadiusOptions';
 import type { Radius } from '../../lib/geo/radius';
+import type { Diet } from '../../data/mockRestaurants';
+import { DIET_LABEL } from '../../lib/diets';
+import { FILTER_DIETS } from '../../lib/filters';
 
 /** Cran maximal du curseur de budget : « Sans limite ». */
 const BUDGET_MAX = 150;
@@ -16,6 +19,8 @@ export interface FilterValues {
   cuisine: string | null;
   /** « Afficher aussi les fermés » (pour planifier) */
   showClosed: boolean;
+  /** Régimes exigés (ET logique) ; repris du profil la première fois. */
+  diets: Diet[];
 }
 
 interface FilterSheetProps {
@@ -56,6 +61,27 @@ export function FilterSheet({ isOpen, values, cuisines, onApply, onClose }: Filt
         <div className='space-y-3'>
           <p id='filtres-distance' className='text-sm font-bold text-plum-muted'>Distance</p>
           <RadiusOptions value={draft.radius} labelledBy='filtres-distance' onChange={radius => setDraft(d => ({ ...d, radius }))} />
+        </div>
+
+        <div className='space-y-3'>
+          <p id='filtres-regime' className='text-sm font-bold text-plum-muted'>Régime</p>
+          <div role='group' aria-labelledby='filtres-regime' className='flex flex-wrap gap-2.5'>
+            {FILTER_DIETS.map(d => {
+              const active = draft.diets.includes(d);
+              return (
+                <button
+                  key={d}
+                  type='button'
+                  aria-pressed={active}
+                  onClick={() => setDraft(v => ({ ...v, diets: active ? v.diets.filter(x => x !== d) : [...v.diets, d] }))}
+                  className={`chip min-h-[44px] text-xs px-4 py-2 transition-all active:translate-y-0.5 ${active ? 'bg-fooder-primary text-white' : 'bg-white text-plum'}`}
+                >
+                  {active && <span aria-hidden='true'>✓</span>}
+                  {DIET_LABEL[d]}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className='flex items-center justify-between gap-4 rounded-[20px] bg-white border-[3px] border-plum px-4 py-3'>

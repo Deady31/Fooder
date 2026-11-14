@@ -129,6 +129,7 @@ export default function SwipePage() {
     if (v.radius !== filters.radius) filters.setRadius(v.radius);
     filters.setBudgetAndCuisine(v.maxPrice, v.cuisine);
     if (v.showClosed !== filters.showClosed) filters.setShowClosed(v.showClosed);
+    filters.setDietList(v.diets);
   };
   const fixBlock = () => {
     const reason = blockingFilter(rem, opts);
@@ -141,7 +142,7 @@ export default function SwipePage() {
 
   return (
     <div className='flex flex-col h-full overflow-hidden relative'>
-      <DiscoverHeader moodLabel={moodLabel} onFilters={() => setSheet('filters')} onMood={() => setSheet('mood')} />
+      <DiscoverHeader moodLabel={moodLabel} onMood={() => setSheet('mood')} />
 
       {/* Jamais de scroll : le paquet prend la hauteur restante. */}
       <div className='flex-1 min-h-0 flex flex-col overflow-hidden'>
@@ -156,11 +157,10 @@ export default function SwipePage() {
         {!isLoading && deck.list.length > 0 && (
           <FilterChips
             openNow={filters.openNow}
-            diets={filters.diets}
             onOpenNow={filters.toggleOpenNow}
-            onDiet={filters.toggleDietChip}
+            onFilters={() => setSheet('filters')}
+            activeCount={filters.diets.length + (filters.maxPrice !== null ? 1 : 0) + (filters.cuisine ? 1 : 0) + (filters.showClosed ? 1 : 0)}
             count={deckCards.length}
-            radius={filters.radius}
             widenTo={widenTo}
             onWiden={widen}
             showCount={!isDeckEmpty}
@@ -212,7 +212,7 @@ export default function SwipePage() {
 
       <FilterSheet
         isOpen={sheet === 'filters'}
-        values={{ radius: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine, showClosed: filters.showClosed }}
+        values={{ radius: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine, showClosed: filters.showClosed, diets: filters.diets }}
         cuisines={cuisines}
         onApply={applySheet}
         onClose={closeSheet}
