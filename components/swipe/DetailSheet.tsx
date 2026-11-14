@@ -15,6 +15,7 @@ import { isSharable, restoUrl, shareText } from '../../lib/restoShare';
 import { safeCommonsPage, safeWebUrl } from '../../lib/safeUrl';
 import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../lib/hours';
 import { track } from '../../lib/analytics';
+import { REPORT_LABEL, reportPlace, type ReportReason } from '../../lib/reports';
 import { DIETS, DIET_LABEL, DIET_SOURCE_NOTE } from '../../lib/diets';
 import { googleMapsDirectionsUrl, restaurantFullAddress } from '../../lib/geo/format';
 
@@ -101,6 +102,8 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [shareMsg, setShareMsg] = useState<string | null>(null);
   const [viewer, setViewer] = useState<number | null>(null);
+  const [reporting, setReporting] = useState(false);
+  useEffect(() => setReporting(false), [rest?.id]);
   const restId = rest?.id;
   useEffect(() => {
     setShareMsg(null);
@@ -378,6 +381,28 @@ export function DetailSheet({ rest, onClose }: DetailSheetProps) {
                 </div>
               </section>
             )}
+            <section className='text-center'>
+              {!reporting ? (
+                <button type='button' onClick={() => setReporting(true)} className='min-h-[44px] px-3 text-sm font-bold text-plum-muted underline'>
+                  Signaler un problème
+                </button>
+              ) : (
+                <div className='space-y-2'>
+                  <p className='text-sm font-bold text-plum'>Quel problème ?</p>
+                  {(Object.keys(REPORT_LABEL) as ReportReason[]).map(reason => (
+                    <button
+                      key={reason}
+                      type='button'
+                      onClick={() => { reportPlace(shown.id, reason); setReporting(false); onClose(); }}
+                      className='flex min-h-[48px] w-full items-center justify-center rounded-full border-[3px] border-plum bg-white py-3 text-sm font-bold text-plum shadow-hard active:translate-y-0.5 transition-transform'
+                    >
+                      {REPORT_LABEL[reason]}
+                    </button>
+                  ))}
+                  <p className='text-xs font-medium text-plum-muted'>La fiche disparaît de ton appli. Merci !</p>
+                </div>
+              )}
+            </section>
           </div>
 
           <div className='sticky bottom-0 z-20 px-5 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] bg-cream border-t-[3px] border-plum'>

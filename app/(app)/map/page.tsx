@@ -12,6 +12,7 @@ import {
 } from '../../../components/map/mapData';
 import { Sticker } from '../../../components/ui/Sticker';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
+import { readReported, subscribeReports } from '../../../lib/reports';
 import { readLikes, subscribeLikes, toggleLike } from '../../../lib/likes';
 
 // MapLibre (~800 Ko) ne part qu'avec cet écran, et après son premier rendu.
@@ -93,7 +94,9 @@ export default function MapPage() {
   }, [notice]);
 
   const likedIds = useMemo(() => new Set(likes.map(r => r.id)), [likes]);
-  const places = useMemo(() => mergePlaces(likes, fetched), [likes, fetched]);
+  const [reported, setReported] = useState<Set<string>>(() => new Set());
+  useEffect(() => { const sync = () => setReported(readReported()); sync(); return subscribeReports(sync); }, []);
+  const places = useMemo(() => mergePlaces(likes, fetched.filter(r => !reported.has(r.id))), [likes, fetched, reported]);
   const shown = useMemo(() => scopePlaces(places, scope, likedIds), [places, scope, likedIds]);
   const selected = useMemo(() => shown.find(r => r.id === selectedId) ?? null, [shown, selectedId]);
 

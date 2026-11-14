@@ -32,7 +32,7 @@ export function UsageToggle() {
           onClick={toggle}
           className={`relative w-14 h-8 shrink-0 rounded-full border-[3px] border-plum transition-colors ${on ? 'bg-fooder-mint' : 'bg-white'}`}
         >
-          <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-plum transition-transform ${on ? 'translate-x-[24px]' : 'translate-x-0.5'}`} />
+          <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-plum transition-transform ${on ? 'translate-x-6' : 'translate-x-0'}`} />
         </button>
       </div>
       <p className='text-[11px] font-medium text-slate-600 leading-snug'>

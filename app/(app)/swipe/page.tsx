@@ -10,6 +10,7 @@ import { AchievementToast } from '../../../components/AchievementToast';
 import { SwipeDeck, SwipeDeckHandle } from '../../../components/swipe/SwipeDeck';
 import { ActionButtons } from '../../../components/swipe/ActionButtons';
 import { StickerBurst } from '../../../components/swipe/StickerBurst';
+import { readReported, subscribeReports } from '../../../lib/reports';
 import { FlyingHeart } from '../../../components/swipe/FlyingHeart';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet, type FilterValues } from '../../../components/swipe/FilterSheet';
@@ -69,7 +70,9 @@ export default function SwipePage() {
   // Un changement de filtre voulu par l'utilisateur libère les cartes épinglées (la pile suit les filtres).
   useEffect(() => { unpin(); }, [filters.version, unpin]);
 
-  const rem = useMemo(() => remaining(deck), [deck]);
+  const [reported, setReported] = useState<Set<string>>(() => new Set());
+  useEffect(() => { const sync = () => setReported(readReported()); sync(); return subscribeReports(sync); }, []);
+  const rem = useMemo(() => remaining(deck).filter(r => !reported.has(r.id)), [deck, reported]);
   const opts: FilterOptions = {
     openNow: filters.openNow, hideClosed: !filters.showClosed, diets: filters.diets, now: filters.now, origin: position.coords,
     radiusM: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine,
