@@ -24,10 +24,10 @@ interface StepFrameProps {
 export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onCta, ctaDisabled, centered, secondary }: StepFrameProps) {
   return (
     <div className='flex flex-col h-full px-5 pt-1 pb-6'>
-      <div className='text-center space-y-1.5 flex-shrink-0 pb-4'>
+      <div className='text-center space-y-1.5 flex-shrink-0 pb-4 [@media(max-height:680px)]:pb-2'>
         {sticker && (
           <motion.div
-            className='flex justify-center -mb-1'
+            className='flex justify-center -mb-1 [@media(max-height:680px)]:hidden'
             initial={{ scale: 0, rotate: -20 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', damping: 11, stiffness: 220, delay: 0.1 }}
@@ -37,7 +37,7 @@ export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onC
         )}
         <p className='text-xs font-black text-fooder-primary uppercase tracking-[0.2em]'>{kicker}</p>
         <h2 className='text-3xl font-black text-slate-900 tracking-tight leading-tight'>{title}</h2>
-        {subtitle && <p className='text-slate-500 font-medium text-sm max-w-xs mx-auto leading-snug'>{subtitle}</p>}
+        {subtitle && <p className='text-slate-500 font-medium text-sm max-w-xs mx-auto leading-snug [@media(max-height:600px)]:hidden'>{subtitle}</p>}
       </div>
 
       <div className={`flex-1 min-h-0 overflow-y-auto no-scrollbar -mx-1 px-1 pb-2 ${centered ? 'flex flex-col justify-center' : ''}`}>

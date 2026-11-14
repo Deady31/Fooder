@@ -26,9 +26,9 @@ export function Choice({ label, sub, sticker, selected, index = 0, onClick }: Ch
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.025, 0.4), type: 'spring', damping: 18, stiffness: 260 }}
-      className={`relative border-[3px] border-plum transition-all active:translate-y-1 active:shadow-none rounded-2xl flex items-center gap-3 pl-3 pr-4 py-2.5 text-left w-full ${state}`}
+      className={`relative border-[3px] border-plum transition-all active:translate-y-1 active:shadow-none rounded-2xl flex items-center gap-3 pl-3 pr-4 py-2.5 [@media(max-height:680px)]:py-1.5 text-left w-full ${state}`}
     >
-      {sticker && <Sticker name={sticker} size={46} rotate={selected ? 6 : -6} />}
+      {sticker && <span className='shrink-0 [@media(max-height:600px)]:hidden'><Sticker name={sticker} size={46} rotate={selected ? 6 : -6} /></span>}
       <span className='min-w-0'>
         <span className='block font-bold leading-tight text-plum text-base'>{label}</span>
         {sub && <span className='block text-xs font-medium text-slate-500 mt-0.5 leading-tight'>{sub}</span>}

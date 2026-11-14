@@ -53,19 +53,19 @@ export function HelpStep({ onNext }: { onNext: () => void }) {
       onCta={onNext}
       centered
     >
-      <ul className='space-y-3'>
+      <ul className='space-y-3 [@media(max-height:680px)]:space-y-1.5'>
         {POINTS.map((p, i) => (
           <motion.li
             key={p.title}
             initial={{ opacity: 0, y: 18, rotate: 0 }}
             animate={{ opacity: 1, y: 0, rotate: p.rot }}
             transition={{ type: 'spring', damping: 14, stiffness: 200, delay: 0.12 + i * 0.08 }}
-            className={`flex items-center gap-3 rounded-2xl border-[3px] border-plum shadow-hard px-3 py-2.5 ${p.bg}`}
+            className={`flex items-center gap-3 rounded-2xl border-[3px] border-plum shadow-hard px-3 py-2.5 [@media(max-height:680px)]:py-1.5 ${p.bg}`}
           >
             <span className='w-9 h-9 shrink-0 rounded-full bg-white border-[3px] border-plum flex items-center justify-center'>{p.icon}</span>
             <span className='min-w-0 flex-1 text-left'>
               <span className='block font-black text-plum text-sm leading-tight'>{p.title}</span>
-              <span className='block text-xs font-semibold text-plum/75 leading-snug'>{p.text}</span>
+              <span className='block text-xs font-semibold text-plum/75 leading-snug [@media(max-height:700px)]:hidden'>{p.text}</span>
             </span>
             <Sticker name={p.sticker} size={40} rotate={i % 2 ? 8 : -8} className='shrink-0' />
           </motion.li>

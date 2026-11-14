@@ -36,7 +36,7 @@ export function SingleStep<T extends string | number>({ options, value, onPick, 
 
   return (
     <StepFrame {...copy} cta='Continuer' onCta={onNext} ctaDisabled={value === null}>
-      <div className={`grid ${GRID[columns]} gap-3 pt-2 pb-1`}>
+      <div className={`grid ${GRID[columns]} gap-3 [@media(max-height:680px)]:gap-2 pt-2 pb-1`}>
         {options.map((o, i) => (
           <Choice key={String(o.value)} label={o.label} sub={o.sub} sticker={o.sticker} index={i}
             selected={value === o.value} onClick={() => pick(o.value)} />
@@ -66,7 +66,7 @@ export function MultiStep<T extends string>({
 
   return (
     <StepFrame {...copy} cta={values.length === 0 ? emptyCta : 'Continuer'} onCta={onNext}>
-      <div className={`grid ${GRID[columns]} gap-3 pt-2 pb-1`}>
+      <div className={`grid ${GRID[columns]} gap-3 [@media(max-height:680px)]:gap-2 pt-2 pb-1`}>
         {noneLabel && <Choice label={noneLabel} selected={values.length === 0} index={0} onClick={() => onChange([])} />}
         {options.map((o, i) => (
           <Choice key={o.value} label={o.label} sub={o.sub} sticker={o.sticker} index={i + 1}
