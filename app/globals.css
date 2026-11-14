@@ -338,16 +338,16 @@ h1, h2, h3 {
   .rcard-body { padding: 0.5rem 0.9rem; justify-content: center; }
 }
 
-/* === PAGE DÉCOUVRIR : hauteur minimale du paquet (la zone au-dessus défile, la carte ne s'écrase pas) === */
-.deck-area { min-height: clamp(396px, 52dvh, 480px); padding-bottom: 2.25rem; /* place des cartes qui dépassent derrière */ }
+/* === PAGE DÉCOUVRIR : hauteur minimale du paquet (jamais de scroll : le paquet prend la hauteur restante) === */
+.deck-area { min-height: 0; padding-bottom: 2.25rem; /* place des cartes qui dépassent derrière */ }
 @media (max-height: 700px) {
-  .deck-area { min-height: clamp(352px, 56dvh, 440px); padding-bottom: 1.75rem; }
+  .deck-area { min-height: 0; padding-bottom: 1.75rem; }
   .swipe-actions { padding-top: 0.25rem; padding-bottom: 0.5rem; }
   .swipe-actions .btn-round { width: 52px; height: 52px; box-shadow: 0 4px 0 var(--plum); }
   .swipe-actions .btn-round svg { width: 28px; height: 28px; }
 }
 @media (max-height: 500px) {
-  .deck-area { min-height: 176px; padding-top: 0.5rem; padding-bottom: 0.75rem; }
+  .deck-area { min-height: 0; padding-top: 0.5rem; padding-bottom: 0.75rem; }
   .swipe-actions { gap: 20px; }
   .swipe-actions .btn-round { width: 44px; height: 44px; box-shadow: 0 3px 0 var(--plum); }
   .swipe-actions .btn-round svg { width: 24px; height: 24px; }

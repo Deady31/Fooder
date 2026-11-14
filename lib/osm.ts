@@ -75,11 +75,17 @@ export function completeness(rec: OsmRecord): number {
   return (rec.c ? 2 : 0) + (hasHours(rec) ? 3 : 0) + (rec.w ? 2 : 0) + (rec.a ? 1 : 0) + (rec.t ? 1 : 0) + (rec.d ? 1 : 0);
 }
 
+/** Restauration collective non ouverte au public (entreprise, école, administration) : pas une sortie au resto. */
+const INSTITUTIONAL = /sodexo|elior|restauration scolaire|restaurant d['’]entreprise|restaurant universitaire|restaurant d['’]application|toulousaine de restauration|cantine (inrae|enfip)|^b[âa]timent \d|\blyc[ée]e\b|\bcollège\b|\bR\.?I\.?E\b/i;
+
 /**
  * Une fiche est « présentable » quand elle porte assez d'informations utiles
  * (cuisine, horaires, adresse, site, téléphone) : score d'au moins 4.
  */
 export function isPresentable(rec: OsmRecord): boolean {
+  if (INSTITUTIONAL.test(rec.n)) return false;
+  // Sans cuisine ni horaires lisibles, rien ne prouve que c'est un restaurant ouvert (éditeur de logiciel, bureau…).
+  if (!rec.c && !hasHours(rec)) return false;
   return completeness(rec) >= 4;
 }
 

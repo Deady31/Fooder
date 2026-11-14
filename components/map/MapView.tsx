@@ -207,6 +207,8 @@ export function MapView({ places, likedIds, selectedId, fitKey, onSelect, onStat
           clusterRadius: 56,
           clusterMaxZoom: 14,
         });
+        // Sans couche, MapLibre ne charge pas les tuiles de la source et querySourceFeatures reste vide.
+        current.addLayer({ id: `${SOURCE}-hit`, type: 'circle', source: SOURCE, paint: { 'circle-radius': 1, 'circle-opacity': 0 } });
         current.on('sourcedata', e => {
           if (e.sourceId === SOURCE && current.isSourceLoaded(SOURCE)) syncMarkers();
         });

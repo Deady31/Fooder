@@ -43,7 +43,6 @@ export default function SwipePage() {
   const [prefsReady, setPrefsReady] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const closeSheet = useCallback(() => setSheet(null), []);
-  const scroller = useRef<HTMLDivElement>(null);
   /** Carte du dessus : jamais retirée sous les doigts quand l'heure la fait passer « fermée ». */
   const topLock = useRef<{ id: string; version: number } | null>(null);
 
@@ -97,16 +96,6 @@ export default function SwipePage() {
     void loadMore();
   }, [isLoading, deckCards.length, deck.list.length, loadMore]);
 
-  // Petit écran ou paysage : l'entête secondaire défile, on garde la carte et les boutons dans le cadre.
-  useEffect(() => {
-    const el = scroller.current;
-    if (!el || isLoading) return;
-    const toDeck = () => { if (el.scrollHeight > el.clientHeight) el.scrollTop = el.scrollHeight; };
-    toDeck();
-    window.addEventListener('resize', toDeck);
-    return () => window.removeEventListener('resize', toDeck);
-  }, [isLoading]);
-
   const isDeckEmpty = deck.index < 0 && deck.list.length > 0;
   const noMatch = !isDeckEmpty && deck.list.length > 0 && deckCards.length === 0;
 
@@ -151,8 +140,8 @@ export default function SwipePage() {
     <div className='flex flex-col h-full overflow-hidden relative'>
       <DiscoverHeader moodLabel={moodLabel} onFilters={() => setSheet('filters')} onMood={() => setSheet('mood')} />
 
-      {/* Zone qui défile si la hauteur manque : l'entête secondaire se réduit, jamais la carte. */}
-      <div ref={scroller} className='flex-1 min-h-0 flex flex-col overflow-y-auto overscroll-contain no-scrollbar'>
+      {/* Jamais de scroll : le paquet prend la hauteur restante. */}
+      <div className='flex-1 min-h-0 flex flex-col overflow-hidden'>
         <PositionRow
           position={position}
           address={address}
@@ -175,7 +164,7 @@ export default function SwipePage() {
           />
         )}
 
-        <main className='deck-area flex-1 shrink-0 relative flex items-center justify-center pt-3'>
+        <main className='deck-area flex-1 min-h-0 relative flex items-center justify-center pt-3'>
           {isLoading ? (
             <DeckLoader />
           ) : isDeckEmpty ? (
