@@ -73,8 +73,6 @@ export function PositionRow({ position, address, onPosition, radius, onRadius }:
 }
 
 interface FilterChipsProps {
-  openNow: boolean;
-  onOpenNow: () => void;
   /** Ouvre la feuille de filtres (régimes, budget, cuisine, fermés). */
   onFilters: () => void;
   /** Nombre de filtres actifs dans la feuille (hors distance, qui a sa puce). */
@@ -86,20 +84,11 @@ interface FilterChipsProps {
   showCount: boolean;
 }
 
-/** Une seule ligne : puce « Ouvert », bouton « Filtres (n) », puis compteur de restos restants dans le rayon. */
-export function FilterChips({ openNow, onOpenNow, onFilters, activeCount, count, widenTo, onWiden, showCount }: FilterChipsProps) {
+/** Une seule ligne : bouton « Filtres (n) », puis compteur de restos restants dans le rayon. */
+export function FilterChips({ onFilters, activeCount, count, widenTo, onWiden, showCount }: FilterChipsProps) {
   return (
     <div className='shrink-0 px-4 pt-2 relative z-10'>
       <div className='flex items-center gap-2'>
-        <button
-          type='button'
-          onClick={onOpenNow}
-          aria-pressed={openNow}
-          className={`chip shrink-0 min-h-[44px] text-plum active:translate-y-0.5 transition-transform ${openNow ? 'bg-fooder-mint' : 'bg-white'}`}
-        >
-          <span className={`w-2 h-2 rounded-full border-[1.5px] border-plum ${openNow ? 'bg-white' : 'bg-fooder-mint'}`} />
-          Ouvert
-        </button>
         <button
           type='button'
           onClick={onFilters}

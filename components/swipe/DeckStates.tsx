@@ -79,15 +79,15 @@ export type BlockReason = 'radius' | 'closed' | 'diets' | 'openNow' | 'price';
 const COPY: Record<BlockReason, { title: (r: Radius) => string; text: string }> = {
   radius: { title: r => `Rien ${withinLabel(r)}`, text: 'Aucun resto restant dans ce rayon avec tes filtres.' },
   diets: { title: () => 'Pas encore de résultat', text: 'Peu de restos renseignés pour ce régime (selon OpenStreetMap).' },
-  closed: { title: () => 'Tout est fermé pour l’instant', text: 'Aucun resto de ta sélection n’est ouvert en ce moment.' },
-  openNow: { title: () => 'Rien d’ouvert (confirmé)', text: 'Aucun resto restant n’a d’horaires confirmés ouverts en ce moment.' },
+  closed: { title: () => 'Tout est fermé pour l’instant', text: 'Aucun resto de ta sélection n’est ouvert en ce moment (seuls les restos ouverts sont proposés).' },
+  openNow: { title: () => 'Rien d’ouvert pour l’instant', text: 'Aucun resto restant n’a d’horaires confirmés ouverts en ce moment.' },
   price: { title: () => 'Rien pour ce budget ou cette cuisine', text: 'Aucun resto restant ne correspond au budget ou à la cuisine choisis.' },
 };
 
 const FIX_LABEL: Record<Exclude<BlockReason, 'radius'>, string> = {
   diets: 'Retirer le filtre régime',
-  closed: 'Voir les fermés',
-  openNow: 'Retirer « Ouvert (confirmé) »',
+  closed: 'Voir aussi les fermés',
+  openNow: 'Voir aussi les fermés',
   price: 'Retirer budget et cuisine',
 };
 

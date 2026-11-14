@@ -5,8 +5,6 @@ import { FILTER_DIETS, dietsFromProfile, toggleDiet } from '../../lib/filters';
 import { DEFAULT_RADIUS_M, RADIUS_KEY, parseRadius, serializeRadius, type Radius } from '../../lib/geo/radius';
 import { readJson, writeJson } from '../../lib/store';
 
-const OPEN_NOW_KEY = 'fooder_open_now';
-const SHOW_CLOSED_KEY = 'fooder_show_closed';
 const DIET_FILTER_KEY = 'fooder_diet_filter';
 const BUDGET_FILTER_KEY = 'fooder_budget_filter';
 const CUISINE_FILTER_KEY = 'fooder_cuisine_filter';
@@ -16,9 +14,9 @@ const PREFS_KEY = 'fooder_preferences';
 export const BUDGET_MAX = 150;
 
 export interface DeckFilters {
-  /** « Ouvert (confirmé) » : exclut aussi les horaires inconnus. */
+  /** Toujours vrai sauf sortie de secours (`relaxOpen`) : seuls les restos confirmés ouverts sont proposés. */
   openNow: boolean;
-  /** Réglage « Afficher aussi les fermés » (désactivé par défaut) pour planifier. */
+  /** Vrai seulement après `relaxOpen` : les fermés et horaires inconnus reviennent (jusqu'au rechargement). */
   showClosed: boolean;
   diets: Diet[];
   radius: Radius;
@@ -30,8 +28,8 @@ export interface DeckFilters {
   ready: boolean;
   /** Incrémenté à chaque changement voulu par l'utilisateur (libère les cartes épinglées). */
   version: number;
-  toggleOpenNow: () => void;
-  setShowClosed: (show: boolean) => void;
+  /** Sortie de secours d'un paquet vide : afficher aussi les fermés et horaires inconnus, pour cette session. */
+  relaxOpen: () => void;
   toggleDietChip: (d: Diet) => void;
   /** Remplace tous les régimes d'un coup (feuille de filtres). */
   setDietList: (next: Diet[]) => void;
@@ -48,8 +46,8 @@ const budgetFromPrefs = (): number | null => {
 
 /** Filtres du deck, tous non destructifs et mémorisés (initialisés depuis le profil la première fois). */
 export function useDeckFilters(): DeckFilters {
-  const [openNow, setOpenNow] = useState(true);
-  const [showClosed, setShowClosedState] = useState(false);
+  // Les gens ne veulent voir que les restos ouverts : pas de réglage, pas de mémorisation. Seule issue : `relaxOpen`.
+  const [relaxed, setRelaxed] = useState(false);
   const [diets, setDiets] = useState<Diet[]>([]);
   const [radius, setRadiusState] = useState<Radius>(DEFAULT_RADIUS_M);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
@@ -60,9 +58,6 @@ export function useDeckFilters(): DeckFilters {
   const bump = () => setVersion(v => v + 1);
 
   useEffect(() => {
-    // Actif par défaut : on ne propose que des restos ouverts. Un choix déjà enregistré (désactivé) est respecté.
-    setOpenNow(readJson<boolean>(OPEN_NOW_KEY, true) !== false);
-    setShowClosedState(readJson<boolean>(SHOW_CLOSED_KEY, false) === true);
     const stored = readJson<unknown>(DIET_FILTER_KEY, null);
     if (Array.isArray(stored)) {
       setDiets(stored.filter((d): d is Diet => FILTER_DIETS.includes(d as Diet)));
@@ -84,15 +79,8 @@ export function useDeckFilters(): DeckFilters {
   }, []);
 
   // Écritures hors des fonctions de mise à jour d'état (pas d'effet de bord rejoué en StrictMode).
-  const toggleOpenNow = useCallback(() => {
-    writeJson(OPEN_NOW_KEY, !openNow);
-    setOpenNow(!openNow);
-    bump();
-  }, [openNow]);
-
-  const setShowClosed = useCallback((show: boolean) => {
-    writeJson(SHOW_CLOSED_KEY, show);
-    setShowClosedState(show);
+  const relaxOpen = useCallback(() => {
+    setRelaxed(true);
     bump();
   }, []);
 
@@ -127,10 +115,8 @@ export function useDeckFilters(): DeckFilters {
   const clearFilters = useCallback(() => {
     setDiets([]);
     writeJson(DIET_FILTER_KEY, []);
-    setOpenNow(false);
-    writeJson(OPEN_NOW_KEY, false);
     bump();
   }, []);
 
-  return { openNow, showClosed, diets, radius, maxPrice, cuisine, now, ready, version, toggleOpenNow, setShowClosed, toggleDietChip, setDietList, setRadius, setBudgetAndCuisine, clearFilters };
+  return { openNow: !relaxed, showClosed: relaxed, diets, radius, maxPrice, cuisine, now, ready, version, relaxOpen, toggleDietChip, setDietList, setRadius, setBudgetAndCuisine, clearFilters };
 }

@@ -128,14 +128,12 @@ export default function SwipePage() {
   const applySheet = (v: FilterValues) => {
     if (v.radius !== filters.radius) filters.setRadius(v.radius);
     filters.setBudgetAndCuisine(v.maxPrice, v.cuisine);
-    if (v.showClosed !== filters.showClosed) filters.setShowClosed(v.showClosed);
     filters.setDietList(v.diets);
   };
   const fixBlock = () => {
     const reason = blockingFilter(rem, opts);
-    if (reason === 'closed') filters.setShowClosed(true);
+    if (reason === 'closed' || reason === 'openNow') filters.relaxOpen();
     else if (reason === 'price') filters.setBudgetAndCuisine(null, null);
-    else if (reason === 'openNow') filters.toggleOpenNow();
     else if (reason === 'diets') filters.clearFilters();
   };
   const stateActions = { widenTo, onWiden: widen, canUndo: actions.lastSwipe !== null && !actions.exiting, onUndo: actions.undoLast };
@@ -156,10 +154,8 @@ export default function SwipePage() {
 
         {!isLoading && deck.list.length > 0 && (
           <FilterChips
-            openNow={filters.openNow}
-            onOpenNow={filters.toggleOpenNow}
             onFilters={() => setSheet('filters')}
-            activeCount={filters.diets.length + (filters.maxPrice !== null ? 1 : 0) + (filters.cuisine ? 1 : 0) + (filters.showClosed ? 1 : 0)}
+            activeCount={filters.diets.length + (filters.maxPrice !== null ? 1 : 0) + (filters.cuisine ? 1 : 0)}
             count={deckCards.length}
             widenTo={widenTo}
             onWiden={widen}
@@ -212,7 +208,7 @@ export default function SwipePage() {
 
       <FilterSheet
         isOpen={sheet === 'filters'}
-        values={{ radius: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine, showClosed: filters.showClosed, diets: filters.diets }}
+        values={{ radius: filters.radius, maxPrice: filters.maxPrice, cuisine: filters.cuisine, diets: filters.diets }}
         cuisines={cuisines}
         onApply={applySheet}
         onClose={closeSheet}
