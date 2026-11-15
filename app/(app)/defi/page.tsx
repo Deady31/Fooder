@@ -12,7 +12,7 @@ import { useSocial } from '../../../hooks/useSocial';
 import { decodePayload, readHashParam } from '../../../lib/social/codec';
 import { StoredDefi, parseDefi, saveDefi, updateDefi } from '../../../lib/social/defi';
 import { stickerFor } from '../../../lib/stickers';
-import { XP, awardXp, unlockAchievement } from '../../../lib/rewards';
+import { payDefiXp, unlockAchievement } from '../../../lib/rewards';
 import { timeAgo } from '../../../lib/feed';
 import { track } from '../../../lib/analytics';
 
@@ -120,7 +120,7 @@ export default function DefiPage() {
         onVisited={() => {
           if (!visiting) return;
           updateDefi(visiting.id, { done: true });
-          awardXp(XP.defiDone);
+          payDefiXp('done', visiting.id);
           unlockAchievement('defi_1');
         }}
       />
