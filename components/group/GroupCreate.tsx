@@ -91,7 +91,7 @@ export function GroupCreate({ onCreate, onCancel }: GroupCreateProps) {
                   >
                     <Sticker name={stickerFor(r.cuisine, r.id, r.name)} size={40} />
                     <span className='flex-1 min-w-0'>
-                      <span className='block font-bold text-sm text-plum truncate'>{r.name}</span>
+                      <span className='block font-bold text-sm text-plum leading-tight break-words'>{r.name}</span>
                       <span className='block text-[11px] font-bold text-plum/50 truncate'>{[r.cuisine, r.quartier].filter(Boolean).join(' · ')}</span>
                     </span>
                     <span className={`w-7 h-7 shrink-0 rounded-full border-[3px] border-plum flex items-center justify-center ${on ? 'bg-fooder-mint' : 'bg-white'}`}>

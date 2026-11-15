@@ -47,7 +47,7 @@ export function GroupPlay({ session, onDone }: GroupPlayProps) {
       <p className='text-center text-xs font-black text-plum/60 py-2'>
         {Math.min(done + 1, cards.length)} / {cards.length} · swipe à droite ce qui te tente
       </p>
-      <div className='flex-1 min-h-0 flex justify-center items-stretch'>
+      <div className='flex-1 min-h-0 flex justify-center items-stretch pb-5'>
         <SwipeDeck ref={deckRef} cards={cards.slice(0, index + 1)} onSwipe={swiped} onOpen={() => undefined} tapToOpen={false} />
       </div>
       <ActionButtons hidden={index < 0} onNope={() => deckRef.current?.swipe('left')} onLike={() => deckRef.current?.swipe('right')} />

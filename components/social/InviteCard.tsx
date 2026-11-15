@@ -100,12 +100,12 @@ export function InviteCard({ variant = 'full', showInstall = true, className = '
           </p>
         )}
 
-        <button onClick={share} className='duo-button w-full bg-bubblegum text-plum py-3 text-sm flex items-center justify-center gap-2'>
+        <button onClick={share} className='duo-button w-full bg-bubblegum text-plum py-3 px-3 text-sm whitespace-nowrap flex items-center justify-center gap-2'>
           <Share2 className='w-4 h-4' strokeWidth={2.5} /> Partager mon invitation
         </button>
 
         <div className='grid grid-cols-2 gap-2.5'>
-          <button onClick={copy} className='duo-button bg-white text-plum py-2.5 text-sm flex items-center justify-center gap-2'>
+          <button onClick={copy} className='duo-button bg-white text-plum py-2.5 px-2 text-sm whitespace-nowrap flex items-center justify-center gap-1.5'>
             <Copy className='w-4 h-4' strokeWidth={2.5} /> Copier le lien
           </button>
           <a
@@ -113,14 +113,14 @@ export function InviteCard({ variant = 'full', showInstall = true, className = '
             target='_blank'
             rel='noopener noreferrer'
             onClick={() => track('share', { kind: 'app' })}
-            className='duo-button bg-fooder-mint text-plum py-2.5 text-sm flex items-center justify-center gap-2'
+            className='duo-button bg-fooder-mint text-plum py-2.5 px-2 text-sm whitespace-nowrap flex items-center justify-center gap-1.5'
           >
             <MessageCircle className='w-4 h-4' strokeWidth={2.5} /> WhatsApp
           </a>
-          <button onClick={story} disabled={busy} className='duo-button bg-fooder-secondary text-plum py-2.5 text-sm flex items-center justify-center gap-2 disabled:opacity-60'>
+          <button onClick={story} disabled={busy} className='duo-button bg-fooder-secondary text-plum py-2.5 px-2 text-sm whitespace-nowrap flex items-center justify-center gap-1.5 disabled:opacity-60'>
             <ImageIcon className='w-4 h-4' strokeWidth={2.5} /> {busy ? 'Création…' : 'Story'}
           </button>
-          <button onClick={() => setQrOpen(o => !o)} aria-expanded={qrOpen} className='duo-button bg-white text-plum py-2.5 text-sm flex items-center justify-center gap-2'>
+          <button onClick={() => setQrOpen(o => !o)} aria-expanded={qrOpen} className='duo-button bg-white text-plum py-2.5 px-2 text-sm whitespace-nowrap flex items-center justify-center gap-1.5'>
             <QrIcon className='w-4 h-4' strokeWidth={2.5} /> QR code
           </button>
         </div>
