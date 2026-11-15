@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { m } from 'framer-motion';
 import { likesCount } from '../../lib/likes';
 import { Sticker } from '../ui/Sticker';
+import { stickerFor } from '../../lib/stickers';
+import { SwipeTally, tallyTotal } from './swipeTally';
 import { radiusLabel, withinLabel, type Radius } from '../../lib/geo/radius';
 
 export function DeckLoader() {
@@ -45,8 +47,35 @@ function UndoButton({ canUndo, onUndo }: Pick<ActionsProps, 'canUndo' | 'onUndo'
   );
 }
 
+const RECAP_MAX = 4;
+
+/** Récap du paquet : combien de MIAM / BOF, et les restos retenus (les plus récents d'abord). */
+function DeckRecap({ tally }: { tally: SwipeTally }) {
+  const recent = tally.liked.slice(-RECAP_MAX).reverse();
+  const more = tally.liked.length - recent.length;
+  return (
+    <section aria-label='Récap de ton paquet' className='w-full rounded-[22px] bg-lemon border-[3px] border-plum shadow-hard px-4 py-3 text-left'>
+      <div className='flex items-center justify-center gap-2 text-sm font-black text-plum'>
+        <span className='chip bg-fooder-mint'>{tally.liked.length} MIAM</span>
+        <span className='chip bg-white'>{tally.passed} BOF</span>
+      </div>
+      {recent.length > 0 && (
+        <ul className='mt-3 space-y-1.5'>
+          {recent.map(r => (
+            <li key={r.id} className='flex items-center gap-2 min-w-0'>
+              <Sticker name={stickerFor(r.cuisine, r.id, r.name)} size={28} />
+              <span className='flex-1 min-w-0 text-sm font-bold text-plum leading-tight break-words'>{r.name}</span>
+            </li>
+          ))}
+          {more > 0 && <li className='text-xs font-bold text-plum-muted pl-9'>+ {more} autre{more > 1 ? 's' : ''}</li>}
+        </ul>
+      )}
+    </section>
+  );
+}
+
 /** Fin de paquet : tout a été vu dans le rayon. */
-export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius: Radius; onMood: () => void }) {
+export function DeckEnd({ radius, onMood, tally, ...actions }: ActionsProps & { radius: Radius; onMood: () => void; tally?: SwipeTally }) {
   const [likes, setLikes] = useState<number | null>(null);
   useEffect(() => setLikes(likesCount()), []);
   return (
@@ -64,6 +93,7 @@ export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius:
           <p className='text-plum font-bold text-sm'>❤️ {likes} coup{likes > 1 ? 's' : ''} de cœur dans tes favoris</p>
         )}
       </div>
+      {tally && tallyTotal(tally) > 0 && <DeckRecap tally={tally} />}
       <div className='flex flex-col w-full gap-3'>
         <WidenButton {...actions} />
         <Link href='/wishlist' className='duo-button bg-white text-plum py-4 text-base text-center'>Voir mes coups de cœur</Link>

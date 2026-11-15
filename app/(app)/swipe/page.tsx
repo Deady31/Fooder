@@ -167,7 +167,7 @@ export default function SwipePage() {
           {isLoading ? (
             <DeckLoader />
           ) : isDeckEmpty ? (
-            <DeckEnd radius={filters.radius} onMood={() => setSheet('mood')} {...stateActions} />
+            <DeckEnd radius={filters.radius} onMood={() => setSheet('mood')} tally={actions.tally} {...stateActions} />
           ) : noMatch ? (
             <DeckNoMatch
               reason={blockingFilter(rem, opts)}

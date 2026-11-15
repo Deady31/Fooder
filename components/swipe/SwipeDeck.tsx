@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { AnimatePresence, animate, m, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { RestaurantCard } from './RestaurantCard';
@@ -73,8 +73,19 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
   const rotate = useTransform(x, [-220, 0, 220], [-14, 0, 14]);
   const likeOpacity = useTransform(x, [30, 130], [0, 1]);
   const nopeOpacity = useTransform(x, [-130, -30], [1, 0]);
-  const likeScale = useTransform(x, [30, 130], [0.6, 1.08]);
-  const nopeScale = useTransform(x, [-130, -30], [1.08, 0.6]);
+  // Le tampon grossit avec le doigt puis « claque » (surcroît de taille) une fois le seuil de validation franchi.
+  const likeScale = useTransform(x, [30, COMMIT_OFFSET, COMMIT_OFFSET + 40], [0.6, 1.08, 1.3]);
+  const nopeScale = useTransform(x, [-COMMIT_OFFSET - 40, -COMMIT_OFFSET, -30], [1.3, 1.08, 0.6]);
+  const armed = useRef(false);
+  useEffect(
+    () =>
+      x.on('change', v => {
+        const past = Math.abs(v) >= COMMIT_OFFSET;
+        if (past && !armed.current) buzz(12); // tic : si tu relâches maintenant, c'est validé
+        armed.current = past;
+      }),
+    [x]
+  );
 
   const dip = useMotionValue(0);
   const pressScale = useTransform(dip, d => 1 - 0.015 * d);
