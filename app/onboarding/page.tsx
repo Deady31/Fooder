@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { StepProgress } from '../../components/onboarding/StepProgress';
 import { WelcomeStep } from '../../components/onboarding/WelcomeStep';
@@ -129,20 +129,20 @@ export default function Onboarding() {
     <div className='flex flex-col h-[100dvh] overflow-hidden bg-cream max-w-md mx-auto relative border-x-[3px] border-plum'>
       <AnimatePresence>
         {step !== 'welcome' && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+          <m.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
             className='flex items-center gap-3 px-5 pt-10 pb-3 z-10 flex-shrink-0'>
             <button type='button' onClick={prev} aria-label='Retour'
               className='p-2 rounded-full hover:bg-white transition-colors flex-shrink-0'>
               <ArrowLeft className='w-5 h-5 text-slate-500' />
             </button>
             <StepProgress index={stepIdx - 1} total={steps.length - 1} />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       <div className='flex-1 overflow-hidden relative min-h-0'>
         <AnimatePresence mode='wait' custom={dir}>
-          <motion.div key={step} custom={dir} variants={slideVariants}
+          <m.div key={step} custom={dir} variants={slideVariants}
             initial='enter' animate='center' exit='exit'
             transition={{ type: 'tween', duration: 0.28, ease: 'easeInOut' }}
             className='absolute inset-0 flex flex-col'>
@@ -184,7 +184,7 @@ export default function Onboarding() {
                 termsAccepted={termsAccepted} onTermsChange={setTermsAccepted}
                 onGo={finish} />
             )}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </div>

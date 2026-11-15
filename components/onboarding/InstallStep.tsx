@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Check, Copy, PlusSquare, Share } from 'lucide-react';
 import { StepFrame } from './StepFrame';
 import { installCapture } from '../pwa/installCapture';
@@ -49,7 +49,7 @@ function IosSteps() {
   return (
     <ol className='space-y-3'>
       {rows.map((r, i) => (
-        <motion.li
+        <m.li
           key={r.n}
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ function IosSteps() {
           <span className='w-7 h-7 shrink-0 rounded-full bg-plum text-white text-sm font-black flex items-center justify-center' aria-hidden='true'>{r.n}</span>
           <span className='min-w-0 flex-1 text-left text-sm font-bold text-plum leading-snug'>{r.text}</span>
           {r.visual}
-        </motion.li>
+        </m.li>
       ))}
     </ol>
   );

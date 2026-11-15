@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { animate, motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
+import { animate, m, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
 import { Check, Heart, X } from 'lucide-react';
 import { StepFrame } from './StepFrame';
 import { Sticker } from '../ui/Sticker';
@@ -63,7 +63,7 @@ export function TutorialStep({ onNext }: { onNext: () => void }) {
     <StepFrame kicker='À toi de jouer' title={<>Essaie le swipe</>} cta="J'ai compris" onCta={onNext} ctaDisabled={!both} centered>
       <div className='flex flex-col items-center gap-3'>
         <div className='relative w-full max-w-[260px] h-[clamp(120px,26dvh,210px)]' aria-hidden={false}>
-          <motion.div
+          <m.div
             drag='x'
             dragElastic={0.9}
             onDragEnd={onDragEnd}
@@ -72,9 +72,9 @@ export function TutorialStep({ onNext }: { onNext: () => void }) {
           >
             <Sticker name='pizza' size={72} rotate={-6} />
             <p className='font-display text-lg text-plum leading-tight'>Carte d&apos;essai</p>
-            <motion.span style={{ opacity: likeOpacity }} className='absolute top-3 left-3 -rotate-12 rounded-lg border-[3px] border-success px-2 py-0.5 text-sm font-black text-success'>MIAM</motion.span>
-            <motion.span style={{ opacity: nopeOpacity }} className='absolute top-3 right-3 rotate-12 rounded-lg border-[3px] border-danger px-2 py-0.5 text-sm font-black text-danger'>BOF</motion.span>
-          </motion.div>
+            <m.span style={{ opacity: likeOpacity }} className='absolute top-3 left-3 -rotate-12 rounded-lg border-[3px] border-success px-2 py-0.5 text-sm font-black text-success'>MIAM</m.span>
+            <m.span style={{ opacity: nopeOpacity }} className='absolute top-3 right-3 rotate-12 rounded-lg border-[3px] border-danger px-2 py-0.5 text-sm font-black text-danger'>BOF</m.span>
+          </m.div>
         </div>
 
         <p role='status' className='text-sm font-black text-plum text-center'>{hint}</p>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Check, List, Map as MapIcon, Navigation, Share2, Star, Trash2, Users } from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -183,7 +183,7 @@ export default function WishlistPage() {
                             className={`relative z-10 min-h-[44px] py-2.5 rounded-full text-sm font-bold transition-colors ${activeTab === tab.id ? 'text-plum' : 'text-slate-muted'}`}
                         >
                             {activeTab === tab.id && (
-                                <motion.span
+                                <m.span
                                     layoutId='wishlist-pill'
                                     className='absolute inset-0 rounded-full bg-bubblegum -z-10'
                                     transition={{ type: 'spring', stiffness: 420, damping: 34 }}
@@ -259,7 +259,7 @@ export default function WishlistPage() {
 
                 <AnimatePresence mode='popLayout' initial={false}>
                     {activeList.map((rest, index) => (
-                        <motion.div
+                        <m.div
                             layout
                             key={`${activeTab}-${rest.id}`}
                             initial={{ opacity: 0, y: 24, scale: 0.96 }}
@@ -341,12 +341,12 @@ export default function WishlistPage() {
                                     </button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </m.div>
                     ))}
                 </AnimatePresence>
 
                 {activeList.length === 0 && (
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0, scale: 0.94 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className='py-14 text-center space-y-4 flex flex-col items-center'
@@ -359,7 +359,7 @@ export default function WishlistPage() {
                         <Link href='/swipe' className='inline-block duo-button bg-fooder-primary text-white px-8'>
                             Aller swiper
                         </Link>
-                    </motion.div>
+                    </m.div>
                 )}
             </div>
             )}

@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import type { StickerName } from '../../lib/stickers';
@@ -18,7 +18,7 @@ export function Choice({ label, sub, sticker, selected, index = 0, onClick }: Ch
   const state = selected ? 'bg-fooder-secondary translate-y-1' : 'bg-white shadow-hard';
 
   return (
-    <motion.button
+    <m.button
       type='button'
       role='checkbox'
       aria-checked={selected}
@@ -38,6 +38,6 @@ export function Choice({ label, sub, sticker, selected, index = 0, onClick }: Ch
           <Check className='w-3 h-3 text-white' strokeWidth={4} />
         </span>
       )}
-    </motion.button>
+    </m.button>
   );
 }

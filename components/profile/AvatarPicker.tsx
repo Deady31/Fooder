@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Lock, X, Check } from 'lucide-react';
 import {
   AVATARS,
@@ -53,9 +53,9 @@ export function AvatarPicker({ isOpen, current, level, onClose, onSave, onLocked
         </div>
 
         <div className='flex justify-center'>
-          <motion.div key={draft.id + draft.bg} initial={{ scale: 0.85, rotate: -6 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 400, damping: 18 }}>
+          <m.div key={draft.id + draft.bg} initial={{ scale: 0.85, rotate: -6 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 400, damping: 18 }}>
             <Avatar avatar={draft} size={104} />
-          </motion.div>
+          </m.div>
         </div>
 
         <div role='radiogroup' aria-label='Couleur de fond' className='flex justify-center gap-2 flex-wrap'>

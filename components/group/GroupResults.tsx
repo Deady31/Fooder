@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { MapPin, RotateCcw, Share2 } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import { stickerFor } from '../../lib/stickers';
@@ -34,7 +34,7 @@ export function GroupResults({ session, myId, onShare, onRevote }: GroupResultsP
       </section>
 
       {hasWinner && voters >= 2 && (
-        <motion.section
+        <m.section
           initial={{ scale: 0.9, rotate: -2, opacity: 0 }}
           animate={{ scale: 1, rotate: 0, opacity: 1 }}
           className='bg-bubblegum rounded-[28px] panel p-5 text-center space-y-2 relative overflow-hidden'
@@ -53,7 +53,7 @@ export function GroupResults({ session, myId, onShare, onRevote }: GroupResultsP
           >
             <MapPin className='w-4 h-4' /> On y va
           </a>
-        </motion.section>
+        </m.section>
       )}
 
       <ol className='space-y-2'>

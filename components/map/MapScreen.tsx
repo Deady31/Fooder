@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { LocateFixed, Search } from 'lucide-react';
 import type { Restaurant } from '../../data/mockRestaurants';
 import type { LocateFailure, LocateResult, MapStatus, MapViewHandle } from './MapView';
@@ -152,7 +152,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
                 className={`relative z-10 px-3 min-[360px]:px-4 min-h-[40px] rounded-full text-xs font-bold whitespace-nowrap transition-colors ${scope === s.id ? 'text-plum' : 'text-slate-muted'}`}
               >
                 {scope === s.id && (
-                  <motion.span
+                  <m.span
                     layoutId='map-scope-pill'
                     className='absolute inset-0 rounded-full bg-fooder-secondary -z-10'
                     transition={{ type: 'spring', stiffness: 420, damping: 34 }}
@@ -200,7 +200,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
 
         <AnimatePresence>
           {mapStatus === 'loading' && (
-            <motion.div
+            <m.div
               key='map-loading'
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -209,7 +209,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
             >
               <Sticker name='plate' size={72} rotate={-6} className='bob' />
               <p className='font-display text-xl text-plum'>Chargement de la carte…</p>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 
@@ -223,7 +223,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
 
         <AnimatePresence>
           {showEmptyLiked && mapStatus === 'ready' && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}
@@ -236,7 +236,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
                   ? 'Swipe à droite pour voir tes restos s’afficher ici.'
                   : 'Tes favoris n’ont pas de coordonnées : ils restent dans ta liste de Favoris.'}
               </p>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

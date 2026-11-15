@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion, useDragControls, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
+import { AnimatePresence, m, useDragControls, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
 import { DUR, SPRING, reducedMotion } from '../../lib/motion';
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -312,14 +312,14 @@ export function Sheet({
 
   if (!mounted) return null;
 
-  const m = sheetMotion(variant, reduced);
+  const motionProps = sheetMotion(variant, reduced);
   const canDrag = draggable && variant === 'bottom' && !reduced;
 
   return createPortal(
     <AnimatePresence>
       {open && (
-        <motion.div key='sheet' className={`fixed inset-0 flex ${CONTAINER[variant]}`} style={{ zIndex }}>
-          <motion.div
+        <m.div key='sheet' className={`fixed inset-0 flex ${CONTAINER[variant]}`} style={{ zIndex }}>
+          <m.div
             aria-hidden='true'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -330,17 +330,17 @@ export function Sheet({
             }}
             className='absolute inset-0 bg-plum/60 backdrop-blur-sm'
           />
-          <motion.div
+          <m.div
             ref={panelRef}
             role='dialog'
             aria-modal='true'
             aria-labelledby={labelledBy}
             aria-describedby={describedBy}
             tabIndex={-1}
-            initial={m.initial}
-            animate={m.animate}
-            exit={m.exit}
-            transition={m.transition}
+            initial={motionProps.initial}
+            animate={motionProps.animate}
+            exit={motionProps.exit}
+            transition={motionProps.transition}
             drag={canDrag ? 'y' : false}
             dragControls={dragControls}
             dragListener={false}
@@ -361,8 +361,8 @@ export function Sheet({
               </div>
             )}
             {children}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>,
     document.body,

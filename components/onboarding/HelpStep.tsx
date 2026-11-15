@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Camera, Heart, Trophy, Zap } from 'lucide-react';
 import { StepFrame } from './StepFrame';
 import { Sticker } from '../ui/Sticker';
@@ -55,7 +55,7 @@ export function HelpStep({ onNext }: { onNext: () => void }) {
     >
       <ul className='space-y-3 [@media(max-height:680px)]:space-y-1.5'>
         {POINTS.map((p, i) => (
-          <motion.li
+          <m.li
             key={p.title}
             initial={{ opacity: 0, y: 18, rotate: 0 }}
             animate={{ opacity: 1, y: 0, rotate: p.rot }}
@@ -68,7 +68,7 @@ export function HelpStep({ onNext }: { onNext: () => void }) {
               <span className='block text-xs font-semibold text-plum/75 leading-snug [@media(max-height:700px)]:hidden'>{p.text}</span>
             </span>
             <Sticker name={p.sticker} size={40} rotate={i % 2 ? 8 : -8} className='shrink-0' />
-          </motion.li>
+          </m.li>
         ))}
       </ul>
     </StepFrame>

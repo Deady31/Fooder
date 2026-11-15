@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { likesCount } from '../../lib/likes';
 import { Sticker } from '../ui/Sticker';
 import { radiusLabel, withinLabel, type Radius } from '../../lib/geo/radius';
@@ -50,7 +50,7 @@ export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius:
   const [likes, setLikes] = useState<number | null>(null);
   useEffect(() => setLikes(likesCount()), []);
   return (
-    <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} className='flex flex-col items-center text-center px-6 gap-5 w-full max-w-sm'>
+    <m.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} className='flex flex-col items-center text-center px-6 gap-5 w-full max-w-sm'>
       <div className='relative h-28 w-48' aria-hidden='true'>
         <div className='absolute left-0 top-2 bob' style={{ ['--r' as string]: '-12deg' }}><Sticker name='donut' size={80} rotate={-12} /></div>
         <div className='absolute right-0 top-0 bob' style={{ ['--r' as string]: '10deg', animationDelay: '0.5s' }}><Sticker name='icecream' size={88} rotate={10} /></div>
@@ -70,7 +70,7 @@ export function DeckEnd({ radius, onMood, ...actions }: ActionsProps & { radius:
         <button type='button' onClick={onMood} className='duo-button bg-white text-plum py-4 text-base'>Changer d&apos;envie</button>
         <UndoButton {...actions} />
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 

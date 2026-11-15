@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useId, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useMissions } from '../../hooks/useMissions';
 import type { Mission } from '../../lib/missions';
@@ -14,7 +14,7 @@ function Bar({ value, className = '' }: { value: number; className?: string }) {
   const v = Math.max(0, Math.min(1, value));
   return (
     <span className={`block h-2 overflow-hidden rounded-full border-2 border-plum bg-white ${className}`} aria-hidden='true'>
-      <motion.span
+      <m.span
         className='block h-full origin-left bg-mint'
         initial={false}
         animate={{ scaleX: v }}
@@ -85,7 +85,7 @@ export function MissionsChip({ className = '' }: MissionsChipProps) {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             id={panelId}
             role='region'
             aria-label='Missions du jour'
@@ -102,7 +102,7 @@ export function MissionsChip({ className = '' }: MissionsChipProps) {
             <ul className='mt-1 divide-y-2 divide-plum/10'>
               {missions.map(m => <MissionRow key={m.id} m={m} />)}
             </ul>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

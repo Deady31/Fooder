@@ -1,6 +1,6 @@
 'use client';
 import { forwardRef, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
-import { AnimatePresence, animate, motion, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { AnimatePresence, animate, m, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { RestaurantCard } from './RestaurantCard';
 import { MOVE_TOLERANCE, shouldOpenOnRelease } from './tapIntent';
@@ -132,7 +132,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
   const from = stackTarget(depth + 1, false);
 
   return (
-    <motion.div
+    <m.div
       className={`absolute inset-0 select-none ${isTop ? 'cursor-grab active:cursor-grabbing touch-pan-y' : 'pointer-events-none'}`}
       style={{ x, rotate, zIndex: 30 - depth, WebkitTouchCallout: 'none' }}
       drag={isTop ? 'x' : false}
@@ -147,16 +147,16 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
       variants={cardVariants}
       exit='exit'
     >
-      <motion.div
+      <m.div
         className='w-full h-full'
         initial={entering ? { ...from, opacity: 0 } : false}
         animate={{ ...target, opacity: 1 }}
         transition={{ ...STACK_SPRING, opacity: { duration: 0.25 } }}
       >
-        <motion.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
+        <m.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
           <RestaurantCard rest={rest} />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       {isTop && (
         <>
@@ -169,21 +169,21 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
           >
             Voir la fiche de {rest.name}
           </button>
-          <motion.div
+          <m.div
             className='absolute top-8 left-5 z-20 pointer-events-none'
             style={{ opacity: likeOpacity, scale: likeScale, rotate: -14 }}
           >
             <div className='stamp text-[#12B76A]'>MIAM !</div>
-          </motion.div>
-          <motion.div
+          </m.div>
+          <m.div
             className='absolute top-8 right-5 z-20 pointer-events-none'
             style={{ opacity: nopeOpacity, scale: nopeScale, rotate: 14 }}
           >
             <div className='stamp text-fooder-red'>BOF</div>
-          </motion.div>
+          </m.div>
         </>
       )}
-    </motion.div>
+    </m.div>
   );
 }
 

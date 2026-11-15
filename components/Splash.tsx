@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Logo } from './ui/Logo';
 
 const KEY = 'fooder_splash_seen';
@@ -31,7 +31,7 @@ export function Splash() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
+        <m.div
           key='splash'
           role='status'
           aria-label='Chargement de Fooder'
@@ -39,10 +39,10 @@ export function Splash() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div initial={{ scale: 0.8, rotate: -4 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 220, damping: 14 }}>
+          <m.div initial={{ scale: 0.8, rotate: -4 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 220, damping: 14 }}>
             <Logo className='w-[min(62vw,280px)]' />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );
