@@ -13,6 +13,7 @@ import { TutorialStep } from '../../components/onboarding/TutorialStep';
 import { InstallStep } from '../../components/onboarding/InstallStep';
 import { MultiStep, SingleStep } from '../../components/onboarding/ChoiceSteps';
 import { AGE_OPTIONS, DIET_OPTIONS, GENDER_OPTIONS } from '../../components/onboarding/options';
+import { endDemo } from '../../lib/demo';
 import { buildProfile, completeOnboarding, hasCompletedOnboarding, resetOnboardingForReplay, signupEmailProblem } from '../../lib/profile';
 import { EMPTY_ANSWERS, OnboardingAnswers, StepId, clearDraft, readDraft, stepAfter, stepBefore, visibleSteps, writeDraft } from '../../lib/onboardingDraft';
 import { createAcceptance, canFinishOnboarding } from '../../lib/legal';
@@ -60,6 +61,7 @@ export default function Onboarding() {
   useEffect(() => {
     const search = window.location.search;
     rememberRef(search);
+    endDemo(); // un visiteur en démo qui vient s'inscrire repart d'un profil vide
     if (wantsReplay(search)) {
       // Rejouer pour le test : on repart de l'accueil et on retire le paramètre pour éviter une boucle.
       resetOnboardingForReplay();
