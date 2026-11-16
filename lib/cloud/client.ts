@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { isDemo } from '../demoFlag';
 
 /**
  * Client Supabase côté navigateur. Retourne null tant que les variables d'environnement
@@ -17,7 +18,8 @@ const ANON = CLOUD_OFF ? '' : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
 let client: SupabaseClient | null = null;
 let loading: Promise<SupabaseClient | null> | null = null;
 
-export const isCloudEnabled = (): boolean => /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(URL_) && ANON.length > 20;
+/** Le cloud reste coupé en mode démo : aucun compte, aucune donnée envoyée. */
+export const isCloudEnabled = (): boolean => /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(URL_) && ANON.length > 20 && !isDemo();
 
 /** Charge (une seule fois) la bibliothèque Supabase et crée le client. Null si le cloud est coupé ou hors navigateur. */
 export function loadCloud(): Promise<SupabaseClient | null> {
