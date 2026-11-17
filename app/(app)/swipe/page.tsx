@@ -15,7 +15,8 @@ import { FlyingHeart } from '../../../components/swipe/FlyingHeart';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet, type FilterValues } from '../../../components/swipe/FilterSheet';
 import { DiscoverHeader, FilterChips, PositionRow } from '../../../components/swipe/DiscoverHeader';
-import { DeckDesert, DeckEnd, DeckLoader, DeckNoMatch } from '../../../components/swipe/DeckStates';
+import { DeckDesert, DeckEnd, DeckLoader, DeckNoBuffet, DeckNoMatch } from '../../../components/swipe/DeckStates';
+import { BUFFET_MOOD } from '../../../lib/buffets';
 import { useDeckFilters } from '../../../components/swipe/useDeckFilters';
 import { useDiscoverDeck } from '../../../components/swipe/useDiscoverDeck';
 import { useSwipeActions } from '../../../components/swipe/useSwipeActions';
@@ -187,6 +188,8 @@ export default function SwipePage() {
             <div className={`w-full h-full flex justify-center ${showHint ? 'card-wobble' : ''}`} style={showHint ? { animationIterationCount: 2 } : undefined}>
               <SwipeDeck ref={deckRef} cards={deckCards} onSwipe={onSwipe} onOpen={openDetails} />
             </div>
+          ) : moodId === BUFFET_MOOD ? (
+            <DeckNoBuffet onMood={() => setSheet('mood')} />
           ) : (
             <DeckDesert />
           )}

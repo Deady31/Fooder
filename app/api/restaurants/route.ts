@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import records from '../../../data/toulouse-places.json';
+import { isBuffet } from '../../../lib/buffets';
 import { completeness, formatMeters, haversine, isPresentable, OsmRecord, osmToRestaurant } from '../../../lib/osm';
 
 export const dynamic = 'force-dynamic';
@@ -46,7 +47,9 @@ export function GET(req: NextRequest) {
   const offset = num(p.get('offset'), 0, 0, 100_000);
   const kinds = new Set((p.get('kinds') ?? 'restaurant,fast_food').split(',').map(s => s.trim()));
 
-  const near = ALL.filter(r => kinds.has(r.k))
+  const buffetOnly = p.get('buffet') === '1';
+
+  const near = ALL.filter(r => kinds.has(r.k) && (!buffetOnly || isBuffet(r.id)))
     .map(r => ({ r, d: haversine(lat, lng, r.la, r.ln) }))
     .filter(x => x.d <= radius)
     .sort((a, b) => a.d - b.d - (completeness(a.r) - completeness(b.r)) * 150);

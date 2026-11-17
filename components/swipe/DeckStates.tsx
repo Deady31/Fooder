@@ -182,6 +182,20 @@ export function DeckNoMatch({ reason, radius, onFix, reopening, ...actions }: Ac
   );
 }
 
+/** Envie « Buffet à volonté » sans aucune carte : aucun buffet restant, ou tous déjà vus. */
+export function DeckNoBuffet({ onMood }: { onMood: () => void }) {
+  return (
+    <div className='flex flex-col items-center text-center px-6 gap-4 w-full max-w-sm'>
+      <div className='bob' style={{ ['--r' as string]: '-6deg' }} aria-hidden='true'><Sticker name='paella' size={96} rotate={-6} /></div>
+      <div className='space-y-2 rounded-[22px] bg-cream border-[3px] border-plum px-4 py-3'>
+        <h3 className='text-3xl text-plum'>Plus de buffet pour l’instant</h3>
+        <p className='text-plum-muted font-medium text-sm leading-relaxed'>Tu as vu tous les buffets à volonté ouverts que l’on connaît. On en ajoute au fil des vérifications.</p>
+      </div>
+      <button type='button' onClick={onMood} className='duo-button bg-bubblegum text-plum py-4 text-base'>Changer d&apos;envie</button>
+    </div>
+  );
+}
+
 export function DeckDesert() {
   return (
     <div className='text-center space-y-6 px-8'>

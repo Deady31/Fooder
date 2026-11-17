@@ -240,6 +240,7 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
             </div>
             <p className='text-plum-muted font-semibold text-xs'>
               {shown.cuisine}
+              {shown.buffet ? ' · Buffet à volonté' : ''}
               {shown.reviews ? ` · ${shown.reviews.toLocaleString('fr-FR')} avis` : ''}
               {shown.distance ? ` · ${shown.distance}` : ''}
             </p>

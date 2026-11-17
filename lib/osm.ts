@@ -1,3 +1,4 @@
+import { isBuffet } from './buffets';
 import { dishPhotoFor } from './dishes';
 import type { Diet, Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
@@ -134,6 +135,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     hours: parseOpeningHours(rec.h),
     dataSource: 'osm',
     ...(rec.dt?.length ? { diets: [...rec.dt] } : {}),
+    ...(isBuffet(rec.id) ? { buffet: true } : {}),
   };
   // Priorité : voir PHOTO_PRIORITY. Photo du restaurant seulement avec son consentement (lib/sitePhotos.ts).
   const illustrated = dish ? withBetterPhoto(card, { source: 'dish', images: [dish.src], credit: dish.author, license: dish.license, page: dish.page }) : card;
