@@ -24,9 +24,33 @@ describe('récap de fin de paquet', () => {
     expect(html).toContain('+ 2 autres');
   });
 
+  it('les sorties passent avant le récap (les boutons ne tombent pas sous la ligne de flottaison)', () => {
+    const t = addSwipe(EMPTY_TALLY, 'right', resto('a'));
+    const html = renderToStaticMarkup(createElement(DeckEnd, { ...base, tally: t, widenTo: 5000 as never }));
+    expect(html.indexOf('Élargir à')).toBeLessThan(html.indexOf('Récap de ton paquet'));
+    expect(html.indexOf('Voir mes coups de cœur')).toBeLessThan(html.indexOf('Récap de ton paquet'));
+  });
+
   it('sans swipe dans la session, pas de récap', () => {
     const html = renderToStaticMarkup(createElement(DeckEnd, { ...base, tally: EMPTY_TALLY }));
     expect(html).not.toContain('Récap de ton paquet');
     expect(html).toContain('Tu as tout swipé');
+  });
+
+  it('chaque resto retenu ouvre sa fiche (bouton nommé) quand onOpen est fourni', () => {
+    const t = addSwipe(EMPTY_TALLY, 'right', resto('a'));
+    const opened: string[] = [];
+    const html = renderToStaticMarkup(createElement(DeckEnd, { ...base, tally: t, onOpen: (r: Restaurant) => opened.push(r.id) }));
+    expect(html).toContain('Ouvrir la fiche de Resto a');
+    expect(html).toContain('Touche un resto pour ouvrir sa fiche');
+    expect(opened).toEqual([]);
+  });
+
+  it('sans onOpen, aucun resto n’est cliquable (fin de paquet en lecture seule)', () => {
+    const t = addSwipe(EMPTY_TALLY, 'right', resto('a'));
+    const html = renderToStaticMarkup(createElement(DeckEnd, { ...base, tally: t }));
+    expect(html).toContain('Resto a');
+    expect(html).not.toContain('Ouvrir la fiche de');
+    expect(html).not.toContain('Touche un resto pour ouvrir sa fiche');
   });
 });

@@ -167,7 +167,13 @@ export default function SwipePage() {
           {isLoading ? (
             <DeckLoader />
           ) : isDeckEmpty ? (
-            <DeckEnd radius={filters.radius} onMood={() => setSheet('mood')} tally={actions.tally} {...stateActions} />
+            <DeckEnd
+              radius={filters.radius}
+              onMood={() => setSheet('mood')}
+              tally={actions.tally}
+              onOpen={openDetails}
+              {...stateActions}
+            />
           ) : noMatch ? (
             <DeckNoMatch
               reason={blockingFilter(rem, opts)}
@@ -207,10 +213,15 @@ export default function SwipePage() {
       <DetailSheet
         rest={selectedRest}
         onClose={() => setSelectedRest(null)}
-        onVerdict={dir => {
-          setSelectedRest(null);
-          deckRef.current?.swipe(dir === 'right' ? 'right' : 'left');
-        }}
+        // Fiche ouverte depuis le récap de fin de paquet : plus aucune carte à swiper, le verdict s'enregistre directement.
+        onVerdict={
+          isDeckEmpty
+            ? undefined
+            : dir => {
+                setSelectedRest(null);
+                deckRef.current?.swipe(dir === 'right' ? 'right' : 'left');
+              }
+        }
       />
 
       <FilterSheet
