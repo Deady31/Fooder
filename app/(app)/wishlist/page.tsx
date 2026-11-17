@@ -262,6 +262,7 @@ export default function WishlistPage() {
                         <m.div
                             layout
                             key={`${activeTab}-${rest.id}`}
+                            data-tour={index === 0 ? 'fav-first' : undefined}
                             initial={{ opacity: 0, y: 24, scale: 0.96 }}
                             animate={{ opacity: 1, y: 0, scale: 1, transition: { delay: Math.min(index, 6) * 0.05, type: 'spring', stiffness: 300, damping: 26 } }}
                             exit={{ opacity: 0, x: -90, scale: 0.92, transition: { duration: 0.22 } }}

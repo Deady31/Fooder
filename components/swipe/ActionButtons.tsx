@@ -12,6 +12,7 @@ interface ActionButtonsProps {
 export function ActionButtons({ hidden, onNope, onLike, onUndo, canUndo = false }: ActionButtonsProps) {
   return (
     <div
+      data-tour='actions'
       className={`swipe-actions relative z-20 shrink-0 px-6 pb-3 pt-2 flex items-center justify-center gap-[clamp(18px,7vw,36px)] transition-opacity duration-300 ${hidden ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
     >
       {onUndo && (

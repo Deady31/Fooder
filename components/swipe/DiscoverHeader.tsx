@@ -23,6 +23,7 @@ export function DiscoverHeader({ moodLabel, onMood }: DiscoverHeaderProps) {
         <div className='flex items-center gap-2 justify-self-start'>
           <button
             type='button'
+            data-tour='mood'
             onClick={onMood}
             aria-label={`Mon envie : ${moodLabel}. Changer`}
             title={moodLabel}

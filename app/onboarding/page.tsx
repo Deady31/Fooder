@@ -8,31 +8,16 @@ import { StepProgress } from '../../components/onboarding/StepProgress';
 import { WelcomeStep } from '../../components/onboarding/WelcomeStep';
 import { PseudoStep } from '../../components/onboarding/PseudoStep';
 import { FinalStep } from '../../components/onboarding/FinalStep';
-import { HelpStep } from '../../components/onboarding/HelpStep';
-import { TutorialStep } from '../../components/onboarding/TutorialStep';
-import { InstallStep } from '../../components/onboarding/InstallStep';
-import { MultiStep, SingleStep } from '../../components/onboarding/ChoiceSteps';
-import { AGE_OPTIONS, DIET_OPTIONS, GENDER_OPTIONS } from '../../components/onboarding/options';
+import { MultiStep } from '../../components/onboarding/ChoiceSteps';
+import { DIET_OPTIONS } from '../../components/onboarding/options';
 import { endDemo } from '../../lib/demo';
 import { buildProfile, completeOnboarding, hasCompletedOnboarding, resetOnboardingForReplay, signupEmailProblem } from '../../lib/profile';
 import { EMPTY_ANSWERS, OnboardingAnswers, StepId, clearDraft, readDraft, stepAfter, stepBefore, visibleSteps, writeDraft } from '../../lib/onboardingDraft';
 import { createAcceptance, canFinishOnboarding } from '../../lib/legal';
-import { installCapture } from '../../components/pwa/installCapture';
-import { decideOnboardingInstall, isIosSafari, isStandalone } from '../../components/pwa/installLogic';
-import type { OnboardingInstallMode } from '../../components/pwa/installLogic';
+import { startTour } from '../../lib/tour';
 import { rememberRef, wantsReplay, withoutReplayParam } from '../../lib/refParam';
 
-/** Lit l'environnement du navigateur (hors rendu serveur) pour décider de l'étape « écran d'accueil ». */
-function readInstallMode(hasPrompt: boolean): OnboardingInstallMode {
-  const nav = navigator as Navigator & { standalone?: boolean };
-  const env = { ua: nav.userAgent, platform: nav.platform, maxTouchPoints: nav.maxTouchPoints };
-  return decideOnboardingInstall({
-    standalone: isStandalone({ displayModeStandalone: window.matchMedia('(display-mode: standalone)').matches, navigatorStandalone: nav.standalone }),
-    ua: nav.userAgent,
-    iosSafari: isIosSafari(env),
-    hasPrompt,
-  });
-}
+const STEPS = visibleSteps();
 
 const slideVariants = {
   enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
@@ -47,16 +32,6 @@ export default function Onboarding() {
   const [dir, setDir] = useState(1);
   const [draft, setDraft] = useState<OnboardingAnswers>(EMPTY_ANSWERS);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [installMode, setInstallMode] = useState<OnboardingInstallMode>('skip');
-
-  // Capture de l'invite d'installation dès l'arrivée (l'événement n'est émis qu'une fois) et suivi du mode.
-  useEffect(() => {
-    const capture = installCapture();
-    capture.start();
-    const sync = () => setInstallMode(readInstallMode(capture.get() !== null));
-    sync();
-    return capture.subscribe(sync);
-  }, []);
 
   useEffect(() => {
     const search = window.location.search;
@@ -90,7 +65,7 @@ export default function Onboarding() {
 
   const patch = (changes: Partial<OnboardingAnswers>) => setDraft(d => ({ ...d, ...changes }));
 
-  const steps = useMemo(() => visibleSteps(installMode !== 'skip'), [installMode]);
+  const steps = STEPS;
   const next = () => {
     setDir(1);
     setStep(s => stepAfter(s, steps));
@@ -99,11 +74,6 @@ export default function Onboarding() {
     setDir(-1);
     setStep(s => stepBefore(s, steps));
   };
-
-  // L'appli vient d'être installée (ou le mode a changé) pendant l'étape : on passe à la suite.
-  useEffect(() => {
-    if (step === 'install' && installMode === 'skip') setStep('final');
-  }, [step, installMode]);
 
   const profile = useMemo(() => buildProfile({ ...draft }), [draft]);
 
@@ -120,6 +90,7 @@ export default function Onboarding() {
     }
     completeOnboarding(final);
     clearDraft();
+    startTour();
     router.push('/swipe');
   };
 
@@ -155,30 +126,12 @@ export default function Onboarding() {
                 onNext={pseudo => { patch({ pseudo }); next(); }} />
             )}
 
-            {step === 'gender' && (
-              <SingleStep kicker='On fait connaissance' title={<>Tu es plutôt…</>}
-                subtitle='Pour mieux te parler. Aucun jugement sur ta commande de dessert.' sticker='boba'
-                options={GENDER_OPTIONS} value={draft.gender} onPick={gender => patch({ gender })} onNext={next} />
-            )}
-
-            {step === 'age' && (
-              <SingleStep kicker='Question indiscrète' title={<>Tu as quel âge ?</>}
-                subtitle='On garde le gâteau pour les bougies.' sticker='cupcake'
-                options={AGE_OPTIONS} value={draft.ageRange} onPick={ageRange => patch({ ageRange })} onNext={next} columns={2} />
-            )}
-
             {step === 'diet' && (
               <MultiStep kicker='Côté assiette' title={<>Un régime<br />particulier ?</>}
                 subtitle='On trie pour toi : plus de mauvaise surprise.' sticker='salad'
                 options={DIET_OPTIONS} values={draft.diets} onChange={diets => patch({ diets })}
                 onNext={next} columns={2} noneLabel='Aucun, je mange de tout' emptyCta='Continuer' />
             )}
-
-            {step === 'tuto' && <TutorialStep onNext={next} />}
-
-            {step === 'help' && <HelpStep onNext={next} />}
-
-            {step === 'install' && installMode !== 'skip' && <InstallStep mode={installMode} onNext={next} />}
 
             {step === 'final' && profile && (
               <FinalStep profile={profile} email={draft.contactEmail}

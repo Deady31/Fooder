@@ -24,29 +24,25 @@ function makeStorage() {
 }
 
 describe('parcours', () => {
-  it('accueil → pseudo → genre → âge → régime → aide → écran d’accueil → prêt', () => {
-    expect([...ONBOARDING_STEPS]).toEqual(['welcome', 'pseudo', 'gender', 'age', 'diet', 'tuto', 'help', 'install', 'final']);
+  it('parcours court : accueil → pseudo → régime → e-mail', () => {
+    expect([...ONBOARDING_STEPS]).toEqual(['welcome', 'pseudo', 'diet', 'final']);
+    expect(visibleSteps()).toEqual([...ONBOARDING_STEPS]);
   });
 
-  it('l’étape écran d’accueil disparaît du parcours si l’installation est impossible', () => {
-    expect(visibleSteps(false)).not.toContain('install');
-    expect(visibleSteps(false)).toHaveLength(8);
-    expect(visibleSteps(true)).toEqual([...ONBOARDING_STEPS]);
+  it('stepAfter / stepBefore suivent le parcours', () => {
+    const steps = visibleSteps();
+    expect(stepAfter('pseudo', steps)).toBe('diet');
+    expect(stepAfter('diet', steps)).toBe('final');
+    expect(stepAfter('final', steps)).toBe('final');
+    expect(stepBefore('final', steps)).toBe('diet');
+    expect(stepBefore('diet', steps)).toBe('pseudo');
+    expect(stepBefore('welcome', steps)).toBe('welcome');
   });
 
-  it('stepAfter / stepBefore suivent le parcours visible', () => {
-    expect(stepAfter('help', visibleSteps(true))).toBe('install');
-    expect(stepAfter('help', visibleSteps(false))).toBe('final');
-    expect(stepAfter('install', visibleSteps(false))).toBe('final');
-    expect(stepAfter('final', visibleSteps(true))).toBe('final');
-    expect(stepBefore('final', visibleSteps(true))).toBe('install');
-    expect(stepBefore('final', visibleSteps(false))).toBe('help');
-    expect(stepBefore('welcome', visibleSteps(true))).toBe('welcome');
-  });
-
-  it('les brouillons aux étapes « help » et « install » restent lisibles', () => {
-    expect(parseDraft({ step: 'help' })?.step).toBe('help');
-    expect(parseDraft({ step: 'install' })?.step).toBe('install');
+  it('un brouillon d’un ancien parcours reprend à l’étape actuelle la plus proche', () => {
+    expect(parseDraft({ step: 'gender' })?.step).toBe('diet');
+    expect(parseDraft({ step: 'age' })?.step).toBe('diet');
+    for (const old of ['tuto', 'help', 'install']) expect(parseDraft({ step: old })?.step, old).toBe('final');
   });
 });
 
@@ -112,9 +108,9 @@ describe('brouillon', () => {
   });
 
   it('survit au rechargement : étape et réponses relues à l’identique', () => {
-    expect(writeDraft('age', answers)).toBe(true);
+    expect(writeDraft('diet', answers)).toBe(true);
     expect(storage.getItem(ONBOARDING_DRAFT_KEY)).not.toBeNull();
-    expect(readDraft()).toEqual({ step: 'age', answers });
+    expect(readDraft()).toEqual({ step: 'diet', answers });
   });
 
   it('le dernier état écrit l’emporte', () => {
@@ -143,10 +139,10 @@ describe('brouillon', () => {
 
   it('parseDraft : nettoie les réponses douteuses', () => {
     const d = parseDraft({
-      step: 'gender',
+      step: 'diet',
       answers: { pseudo: 42, gender: 'alien', ageRange: '12', diets: ['vegan', 'vegan', 'carnivore'], contactEmail: { a: 1 } },
     })!;
-    expect(d.step).toBe('gender');
+    expect(d.step).toBe('diet');
     expect(d.answers).toEqual({ pseudo: '', gender: null, ageRange: null, diets: ['vegan'], contactEmail: '' });
   });
 

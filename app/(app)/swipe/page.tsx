@@ -17,6 +17,7 @@ import { FilterSheet, type FilterValues } from '../../../components/swipe/Filter
 import { DiscoverHeader, FilterChips, PositionRow } from '../../../components/swipe/DiscoverHeader';
 import { DeckDesert, DeckEnd, DeckLoader, DeckNoBuffet, DeckNoMatch } from '../../../components/swipe/DeckStates';
 import { BUFFET_MOOD } from '../../../lib/buffets';
+import { emitTour } from '../../../lib/tour';
 import { useDeckFilters } from '../../../components/swipe/useDeckFilters';
 import { useDiscoverDeck } from '../../../components/swipe/useDiscoverDeck';
 import { useSwipeActions } from '../../../components/swipe/useSwipeActions';
@@ -123,6 +124,7 @@ export default function SwipePage() {
     writeJson(PREFS_KEY, { ...readJson<Record<string, unknown>>(PREFS_KEY, {}), craving: id, cravingLabel: label });
     selectMood(id);
     actions.resetUndo();
+    emitTour({ type: 'mood' });
   };
 
   const widen = (r: Radius) => filters.setRadius(r);
@@ -164,7 +166,7 @@ export default function SwipePage() {
           />
         )}
 
-        <main className='deck-area flex-1 min-h-0 relative flex items-center justify-center pt-3'>
+        <main data-tour='deck' className='deck-area flex-1 min-h-0 relative flex items-center justify-center pt-3'>
           {isLoading ? (
             <DeckLoader />
           ) : isDeckEmpty ? (

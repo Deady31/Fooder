@@ -5,6 +5,7 @@ import { RitualsRunner } from '../../components/rituals/RitualsRunner';
 import { AuthProvider } from '../../components/auth/AuthProvider';
 import { TermsGate } from '../../components/legal/TermsGate';
 import { DemoBadge } from '../../components/nav/DemoBadge';
+import { TourHost } from '../../components/tour/TourHost';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <DemoBadge />
       <div className='flex-1 min-h-0 relative'>{children}</div>
       <TabBar />
+      <TourHost />
       <RitualsRunner />
       <CelebrationHost />
       <VisibilityPause />

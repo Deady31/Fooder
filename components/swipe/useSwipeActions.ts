@@ -6,6 +6,7 @@ import type { Deck } from '../../lib/deckStore';
 import { swipeIndex, undoIndex } from '../../lib/deckStore';
 import { DISLIKES_KEY, readDislikes, readLikes, removeDislike, toggleLike } from '../../lib/likes';
 import { writeJson } from '../../lib/store';
+import { emitTour } from '../../lib/tour';
 import { swipeProps } from '../../lib/usageProps';
 import { CHECKINS_KEY, queueCheckin, readCheckins } from '../../lib/visits';
 import { createRewardLedger } from './rewardLedger';
@@ -69,6 +70,7 @@ export function useSwipeActions(deck: Deck, setDeck: (u: (d: Deck) => Deck) => v
     exitTimer.current = setTimeout(() => setExiting(false), EXIT_ANIM_MS);
 
     track('swipe', { direction });
+    emitTour({ type: 'swipe', dir: direction });
     if (firstSwipe) track(direction === 'right' ? 'swipe_like' : 'swipe_pass', swipeProps(restaurant));
     const nextIndex = swipeIndex(deck, restaurant.id, deckIndex);
     setDeck(d => ({ ...d, index: swipeIndex(d, restaurant.id, deckIndex) }));

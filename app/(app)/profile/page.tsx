@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Share2, ChevronRight, Pencil, Flame, Users, Trophy } from 'lucide-react';
 import { useFoodDNA } from '../../../hooks/useFoodDNA';
 import { useGamification, ALL_ACHIEVEMENTS } from '../../../hooks/useGamification';
@@ -23,6 +24,7 @@ import { visitedQuartiers } from '../../../lib/visits';
 import { PERKS, bestTitle, contributorTitles, monthlyChallenges } from '../../../lib/rituals';
 import { FeedPost, POSTS_KEY } from '../../../lib/feed';
 import { readJson } from '../../../lib/store';
+import { startTour } from '../../../lib/tour';
 import { readDislikes, readLikes, subscribeLikes } from '../../../lib/likes';
 import { ScaleBar } from '../../../components/profile/ScaleBar';
 import { XpGauge } from '../../../components/profile/XpGauge';
@@ -60,6 +62,7 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 
 export default function ProfilePage() {
   const dna = useFoodDNA();
+  const router = useRouter();
   const { streak, xp, level, xpProgress, achievements, unlockedIds } = useGamification();
   const [activeTab, setActiveTab] = useState<TabId>('dna');
   const [stats, setStats] = useState<StoredStats>({ totalSwipes: 0 });
@@ -466,6 +469,13 @@ export default function ProfilePage() {
       </div>
 
       <footer className="mt-4 px-4 pb-6 pt-4 bg-cream border-t-[3px] border-plum">
+        <button
+          type="button"
+          onClick={() => { startTour(); router.push('/swipe'); }}
+          className="w-full mb-4 min-h-[44px] rounded-2xl bg-white border-[3px] border-plum shadow-hard-sm text-sm font-bold text-plum active:translate-y-0.5 transition-transform"
+        >
+          Revoir le tuto
+        </button>
         <InstallPrompt className="mb-4" />
         <LegalCenter />
       </footer>
