@@ -33,4 +33,4 @@ Direction artistique : « Bubbly Maximalism » (crème/prune, ombres dures, stic
 
 ## Backlog (au 17/11/2026)
 Historique des décisions et des chantiers faits : docs/DECISION_LOG.md. Audits : docs/audit/. Buffets : docs/BUFFETS.md.
-Reste : finitions du lot social (préciser « doubles XP »), filtre des coups de cœur par type de resto (liste et carte), pages légales (« [À COMPLÉTER] », reportées), e-mail de connexion (nom de domaine + service d'envoi), Play Store (TWA, test fermé 12 testeurs × 14 jours), photos des restaurateurs (`scripts/import-restaurant-photos.mjs`, originaux sur le PC du fondateur), nettoyage du code mort de l'ancien onboarding (SingleStep, options genre et âge).
+Reste : finitions du lot social (préciser « doubles XP »), pages légales (« [À COMPLÉTER] », reportées), e-mail de connexion (nom de domaine + service d'envoi), Play Store (TWA, test fermé 12 testeurs × 14 jours), photos des restaurateurs (`scripts/import-restaurant-photos.mjs`, originaux sur le PC du fondateur), nettoyage du code mort de l'ancien onboarding (SingleStep, options genre et âge).
