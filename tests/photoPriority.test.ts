@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { galleryFor, photoRank, viewerCredit, withBetterPhoto } from '../lib/photoPriority';
+import { extraGalleryFor, galleryFor, photoRank, viewerCredit, withBetterPhoto } from '../lib/photoPriority';
 import { DISH_PHOTO_TIP, needsRealDishPhoto, shouldInviteRealPhoto } from '../lib/photoInvite';
 import { osmToRestaurant } from '../lib/osm';
 import type { Restaurant } from '../data/mockRestaurants';
@@ -68,6 +68,22 @@ describe('galleryFor', () => {
   });
   it('une image Google n’entre jamais dans la galerie', () => {
     expect(galleryFor({ ...base, image: 'g.jpg', photoSource: 'google' as const }, [])).toEqual([]);
+  });
+});
+
+describe('extraGalleryFor', () => {
+  it('retire la photo du bandeau : la même image ne s’affiche pas deux fois dans la fiche', () => {
+    const r = { ...base, image: 'd.jpg', photoSource: 'restaurant' as const };
+    expect(galleryFor(r, [])).toEqual(['d.jpg']);
+    expect(extraGalleryFor(r, [])).toEqual([]);
+  });
+  it('garde les autres photos (site, plats typiques, communauté)', () => {
+    const r = { ...base, image: 'd.jpg', extraImages: ['d2.jpg'], photoSource: 'dish' as const };
+    expect(extraGalleryFor(r, ['c1.jpg'])).toEqual(['c1.jpg', 'd2.jpg']);
+  });
+  it('sans photo principale, la galerie ne change pas', () => {
+    const r = { ...base, image: '', extraImages: ['d2.jpg'], photoSource: 'dish' as const };
+    expect(extraGalleryFor(r, [])).toEqual(['d2.jpg']);
   });
 });
 

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useId, useRef, useState, type ReactNode, type R
 import { createPortal } from 'react-dom';
 import { AnimatePresence, m, useDragControls, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
 import { DUR, SPRING, reducedMotion } from '../../lib/motion';
+import { inertOutside } from '../../lib/inert';
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Logique pure (exportée pour les tests, aucune dépendance au DOM).
@@ -245,6 +246,8 @@ export function Sheet({
   const id = useId();
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  /** Portail de la feuille : le seul enfant de <body> laissé actif pendant qu'elle est ouverte. */
+  const rootRef = useRef<HTMLDivElement>(null);
   const guardRef = useRef<HistoryGuard | null>(null);
   const activeRef = useRef(false);
   const onCloseRef = useRef(onClose);
@@ -266,6 +269,8 @@ export function Sheet({
     openStack.push(id);
     scrollLock ??= createScrollLock(document.body);
     const unlock = scrollLock();
+    // Le deck et la barre d'onglets ne sont ni cliquables ni annoncés tant que la feuille est ouverte.
+    const restoreInert = inertOutside(rootRef.current);
 
     const panel = panelRef.current;
     const items = () => Array.from(panel?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []);
@@ -292,6 +297,7 @@ export function Sheet({
       const at = openStack.lastIndexOf(id);
       if (at >= 0) openStack.splice(at, 1);
       unlock();
+      restoreInert();
       guard.dispose();
       guardRef.current = null;
       previous?.focus?.();
@@ -318,7 +324,12 @@ export function Sheet({
   return createPortal(
     <AnimatePresence>
       {open && (
-        <m.div key='sheet' className={`fixed inset-0 flex ${CONTAINER[variant]}`} style={{ zIndex }}>
+        <m.div
+          key='sheet'
+          ref={rootRef}
+          className={`fixed inset-0 flex ${CONTAINER[variant]}`}
+          style={{ zIndex }}
+        >
           <m.div
             aria-hidden='true'
             initial={{ opacity: 0 }}

@@ -39,9 +39,11 @@ export function AchievementToast({ achievement, onDone, label = 'Trophée déblo
   }, [achievement, duration]);
 
   return (
+    // Le toast vit sous les feuilles modales (150) et la visionneuse (170) : il ne doit jamais
+    // recouvrir la fiche ouverte ni son bouton de fermeture.
     <AnimatePresence>
       {achievement && (
-        <div className='fixed top-3 inset-x-0 z-[300] flex justify-center px-4 pointer-events-none'>
+        <div className='fixed top-3 inset-x-0 z-[140] flex justify-center px-4 pointer-events-none'>
           <m.div
             role='status'
             key={achievement.id}
