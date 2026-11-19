@@ -28,7 +28,7 @@ describe('findPlaceById', () => {
 
 describe('resolvePhotoPreset', () => {
   it('retrouve nom et cuisine dans les données, pas dans l’URL', () => {
-    expect(resolvePhotoPreset(DB, 'osm-w2')).toEqual({ id: 'osm-w2', name: 'Deux', cuisine: 'Pizzeria' });
+    expect(resolvePhotoPreset(DB, 'osm-w2')).toEqual({ id: 'osm-w2', name: 'Deux', cuisine: 'Pizza' });
   });
   it('id forgé, inconnu ou absent => null', () => {
     expect(resolvePhotoPreset(DB, 'osm-n999')).toBeNull();

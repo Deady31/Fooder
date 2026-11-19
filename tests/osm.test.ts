@@ -52,7 +52,7 @@ describe('osm', () => {
   });
 
   it('traduit la cuisine', () => {
-    expect(cuisineLabel(rec)).toBe('Pizzeria');
+    expect(cuisineLabel(rec)).toBe('Pizza');
     expect(cuisineLabel({ c: '', k: 'fast_food', d: 0 })).toBe('Street & Fast');
     expect(cuisineLabel({ c: '', k: 'restaurant', d: 1 })).toBe('Végétarien');
   });

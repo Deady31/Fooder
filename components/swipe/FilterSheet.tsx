@@ -1,12 +1,17 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Search, X } from 'lucide-react';
 import { Sheet } from '../ui/Sheet';
 import { RadiusOptions } from '../geo/RadiusOptions';
 import type { Radius } from '../../lib/geo/radius';
 import type { Diet } from '../../data/mockRestaurants';
 import { DIET_LABEL } from '../../lib/diets';
 import { FILTER_DIETS } from '../../lib/filters';
+import { defaultCuisineList, matchesCuisineQuery } from '../../lib/categories';
+
+interface CatalogItem { label: string; count: number }
+/** Catalogue complet des cuisines (toutes les fiches de la métropole), chargé une fois par session. */
+let catalogCache: CatalogItem[] | null = null;
 
 /** Cran maximal du curseur de budget : « Sans limite ». */
 const BUDGET_MAX = 150;
@@ -39,7 +44,34 @@ export function FilterSheet({ isOpen, values, cuisines, onApply, onClose }: Filt
   }, [isOpen]);
 
   const budget = draft.maxPrice ?? BUDGET_MAX;
-  const options = draft.cuisine && !cuisines.includes(draft.cuisine) ? [draft.cuisine, ...cuisines] : cuisines;
+
+  const [catalog, setCatalog] = useState<CatalogItem[] | null>(catalogCache);
+  const [query, setQuery] = useState('');
+  useEffect(() => {
+    if (!isOpen) return;
+    setQuery('');
+    if (catalogCache) return;
+    let alive = true;
+    fetch('/api/cuisines')
+      .then(r => r.json())
+      .then((j: { success?: boolean; data?: CatalogItem[] }) => {
+        if (!j.success || !Array.isArray(j.data)) return;
+        catalogCache = j.data;
+        if (alive) setCatalog(j.data);
+      })
+      .catch(() => undefined); // hors ligne : on garde la liste de la pile
+    return () => { alive = false; };
+  }, [isOpen]);
+
+  const searching = query.trim() !== '';
+  const { options, matchCount } = useMemo(() => {
+    let list: string[];
+    if (!catalog) list = cuisines.filter(c => matchesCuisineQuery(c, query));
+    else if (searching) list = catalog.filter(c => matchesCuisineQuery(c.label, query)).map(c => c.label);
+    else list = defaultCuisineList(catalog, draft.cuisine);
+    return { options: draft.cuisine && !list.includes(draft.cuisine) ? [draft.cuisine, ...list] : list, matchCount: list.length };
+  }, [catalog, cuisines, query, searching, draft.cuisine]);
+  const hiddenCount = catalog && !searching ? Math.max(0, catalog.length - options.length) : 0;
 
   return (
     <Sheet open={isOpen} onClose={onClose} labelledBy='filtres-titre' className='bg-cream rounded-[32px] panel'>
@@ -102,8 +134,27 @@ export function FilterSheet({ isOpen, values, cuisines, onApply, onClose }: Filt
 
         <div className='space-y-3'>
           <p id='filtres-cuisine' className='text-sm font-bold text-plum-muted'>Envie de cuisine</p>
+          <div className='flex items-center gap-2 rounded-full border-[3px] border-plum bg-white pl-4 pr-1 min-h-[48px] focus-within:shadow-hard'>
+            <Search className='w-4 h-4 text-plum-muted shrink-0' strokeWidth={3} aria-hidden='true' />
+            <label htmlFor='filtres-recherche' className='sr-only'>Chercher une cuisine</label>
+            <input
+              id='filtres-recherche'
+              type='search'
+              value={query}
+              onChange={e => setQuery(e.target.value.slice(0, 40))}
+              placeholder='Pizza, sushi, poulet…'
+              autoComplete='off'
+              enterKeyHint='search'
+              className='flex-1 min-w-0 [&::-webkit-search-cancel-button]:appearance-none bg-transparent text-base font-medium text-plum placeholder:text-plum-muted outline-none'
+            />
+            {query && (
+              <button type='button' onClick={() => setQuery('')} aria-label='Effacer la recherche' className='w-11 h-11 shrink-0 rounded-full flex items-center justify-center text-plum'>
+                <X className='w-4 h-4' strokeWidth={3} />
+              </button>
+            )}
+          </div>
           <div role='radiogroup' aria-labelledby='filtres-cuisine' className='flex flex-wrap gap-2.5'>
-            {[null, ...options].map(c => {
+            {[...(searching ? [] : [null]), ...options].map(c => {
               const active = draft.cuisine === c;
               return (
                 <button
@@ -119,6 +170,10 @@ export function FilterSheet({ isOpen, values, cuisines, onApply, onClose }: Filt
               );
             })}
           </div>
+          {searching && matchCount === 0 && (
+            <p role='status' className='text-sm font-medium text-plum-muted'>Aucune cuisine ne correspond à « {query.trim()} ».</p>
+          )}
+          {hiddenCount > 0 && <p className='text-xs font-medium text-plum-muted'>Tape un nom pour voir les {hiddenCount} autres cuisines.</p>}
         </div>
 
         <button

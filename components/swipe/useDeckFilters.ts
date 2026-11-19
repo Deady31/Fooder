@@ -1,4 +1,5 @@
 'use client';
+import { currentCuisineLabel } from '../../lib/categories';
 import { useCallback, useEffect, useState } from 'react';
 import type { Diet } from '../../data/mockRestaurants';
 import { FILTER_DIETS, dietsFromProfile, toggleDiet } from '../../lib/filters';
@@ -72,7 +73,7 @@ export function useDeckFilters(): DeckFilters {
     const budget = readJson<unknown>(BUDGET_FILTER_KEY, undefined);
     setMaxPrice(budget === undefined ? budgetFromPrefs() : typeof budget === 'number' && budget < BUDGET_MAX ? budget : null);
     const c = readJson<unknown>(CUISINE_FILTER_KEY, null);
-    setCuisine(typeof c === 'string' && c !== '' ? c : null);
+    setCuisine(typeof c === 'string' && c !== '' ? currentCuisineLabel(c) : null);
     setReady(true);
     const tick = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(tick);

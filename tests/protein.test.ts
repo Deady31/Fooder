@@ -91,3 +91,55 @@ describe('GET /api/restaurants?cuisine=Protéines', () => {
     expect(new Set(json.data.map(r => r.cuisine)).size).toBeGreaterThan(3);
   });
 });
+
+import { FEATURED_CUISINES, PIZZA_LABEL, currentCuisineLabel, defaultCuisineList, matchesCuisineQuery } from '../lib/categories';
+
+describe('recherche de cuisine dans les filtres', () => {
+  it('trouve par morceau de mot, sans accents ni majuscules', () => {
+    expect(matchesCuisineQuery('Protéines', 'PROTE')).toBe(true);
+    expect(matchesCuisineQuery('Végétarien', 'vege')).toBe(true);
+    expect(matchesCuisineQuery('Japonais', 'sushi')).toBe(true);
+    expect(matchesCuisineQuery('Burger', 'sushi')).toBe(false);
+    expect(matchesCuisineQuery('Burger', '   ')).toBe(true);
+  });
+  it('« pizza » trouve Pizza et « poulet » trouve Protéines', () => {
+    expect(matchesCuisineQuery(PIZZA_LABEL, 'pizza')).toBe(true);
+    expect(matchesCuisineQuery(PIZZA_LABEL, 'pizzeria')).toBe(true);
+    expect(matchesCuisineQuery(PROTEIN_LABEL, 'poulet')).toBe(true);
+    expect(matchesCuisineQuery(PROTEIN_LABEL, 'crousty')).toBe(true);
+  });
+  it('propose Protéines et Pizza en tête, puis les plus fréquentes, 24 au plus', () => {
+    const catalog = Array.from({ length: 60 }, (_, i) => ({ label: `Cuisine ${String(i).padStart(2, '0')}`, count: 100 - i }));
+    const list = defaultCuisineList([...catalog, { label: PIZZA_LABEL, count: 1 }], null);
+    expect(list.slice(0, 2)).toEqual([...FEATURED_CUISINES]);
+    expect(list.length).toBe(24);
+    expect(list).toContain('Cuisine 00');
+    expect(list).not.toContain('Cuisine 59');
+  });
+  it('garde la catégorie choisie visible, une seule fois', () => {
+    const list = defaultCuisineList([{ label: 'Thaï', count: 3 }], 'Pizza');
+    expect(list.filter(l => l === 'Pizza').length).toBe(1);
+    expect(list[0]).toBe('Pizza');
+  });
+  it('convertit l’ancien libellé « Pizzeria » mémorisé dans le navigateur', () => {
+    expect(currentCuisineLabel('Pizzeria')).toBe('Pizza');
+    expect(currentCuisineLabel('Thaï')).toBe('Thaï');
+  });
+  it('les vraies fiches de pizza sont toutes sous « Pizza »', () => {
+    const labels = new Set(all.filter(r => (r.c ?? '').split(';')[0] === 'pizza' || (r.c ?? '').split(';')[0] === 'italian_pizza').map(r => cuisineLabel(r)));
+    expect(labels.has('Pizzeria')).toBe(false);
+    expect(labels.has(PIZZA_LABEL)).toBe(true);
+  });
+});
+
+describe('GET /api/cuisines', () => {
+  it('liste les catégories avec leur nombre de fiches, dont Pizza et Protéines', async () => {
+    const { GET } = await import('../app/api/cuisines/route');
+    const json = (await GET().json()) as { success: boolean; data: { label: string; count: number }[] };
+    expect(json.success).toBe(true);
+    const by = new Map(json.data.map(c => [c.label, c.count]));
+    expect(by.get(PIZZA_LABEL)).toBeGreaterThan(100);
+    expect(by.get(PROTEIN_LABEL)).toBeGreaterThan(30);
+    expect(by.has('Pizzeria')).toBe(false);
+  });
+});

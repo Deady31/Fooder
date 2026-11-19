@@ -24,7 +24,7 @@ import { RadiusSheet } from '../../../components/geo/RadiusSheet';
 import { openCardProps } from '../../../lib/usageProps';
 import { applyFilters, blockingFilter, reopeningLine, sinkClosed, type FilterOptions } from '../../../lib/filters';
 import { remaining } from '../../../lib/deckStore';
-import { PROTEIN_LABEL } from '../../../lib/categories';
+import { FEATURED_CUISINES } from '../../../lib/categories';
 import { usePosition } from '../../../lib/geo/usePosition';
 import { useUserAddress } from '../../../lib/geo/useAddress';
 import { nextRadiusWithResults, type Radius } from '../../../lib/geo/radius';
@@ -87,10 +87,11 @@ export default function SwipePage() {
   topLock.current = deckCards.length > 0 ? { id: deckCards[deckCards.length - 1].id, version: filters.version } : null;
   visible.current = deckCards.slice(-VISIBLE_DEPTH).map(r => r.id);
   const widenTo = nextRadiusWithResults(filters.radius, r => applyFilters(rem, { ...opts, radiusM: r }).length);
-  // « Protéines » est toujours proposée : ses restos sont chargés à la demande (la pile ne contient que les plus proches).
-  const cuisines = Array.from(new Set([PROTEIN_LABEL, ...rem.map(r => r.cuisine)])).sort((a, b) => a.localeCompare(b, 'fr'));
+  // Repli si le catalogue complet n'est pas encore chargé : catégories de la pile + mises en avant.
+  const cuisines = Array.from(new Set([...FEATURED_CUISINES, ...rem.map(r => r.cuisine)])).sort((a, b) => a.localeCompare(b, 'fr'));
+  // La pile ne contient que les restos les plus proches : la catégorie choisie est chargée à la demande.
   useEffect(() => {
-    if (filters.ready && filters.cuisine === PROTEIN_LABEL) void loadCuisine(PROTEIN_LABEL);
+    if (filters.ready && filters.cuisine) void loadCuisine(filters.cuisine);
   }, [filters.ready, filters.cuisine, loadCuisine]);
 
   // Peu de cartes dans le rayon : quelques pages de plus (plafonné).

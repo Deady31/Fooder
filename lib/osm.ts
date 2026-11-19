@@ -28,7 +28,7 @@ export interface OsmRecord {
 }
 
 const CUISINE_FR: Record<string, string> = {
-  pizza: 'Pizzeria', burger: 'Burger', kebab: 'Kebab', sushi: 'Japonais', japanese: 'Japonais',
+  pizza: 'Pizza', italian_pizza: 'Pizza', burger: 'Burger', kebab: 'Kebab', sushi: 'Japonais', japanese: 'Japonais',
   chinese: 'Chinois', thai: 'Thaï', vietnamese: 'Vietnamien', indian: 'Indien', italian: 'Italien',
   french: 'Français', regional: 'Terroir', mexican: 'Mexicain', lebanese: 'Libanais', greek: 'Grec',
   turkish: 'Turc', sandwich: 'Sandwich', coffee_shop: 'Café', crepe: 'Crêperie', vegetarian: 'Végétarien',
