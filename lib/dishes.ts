@@ -31,6 +31,7 @@ type Rule = [RegExp, string];
 
 /** Cuisine connue → clé de photo (le plus spécifique d'abord). */
 const CUISINE_RULES: Rule[] = [
+  [/proteine/, 'chicken'],
   // Plats nommés explicitement : une seule photo, celle du plat.
   [/cassoulet/, 'terroir_cassoulet'],
   [/tartare/, 'steak_tartare'],

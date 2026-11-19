@@ -53,8 +53,9 @@ export function seenIdsFrom(lists: readonly unknown[]): Set<string> {
 }
 
 /** Paramètres de /api/restaurants : coordonnées arrondies à 3 décimales (~100 m) au plus. */
-export function buildApiQuery(origin: Coords | null, offset: number): string {
+export function buildApiQuery(origin: Coords | null, offset: number, cuisine?: string | null): string {
   const qs = new URLSearchParams({ limit: String(PAGE_SIZE), radius: String(API_RADIUS_M), offset: String(offset) });
+  if (cuisine) qs.set('cuisine', cuisine);
   if (origin) {
     qs.set('lat', String(roundCoord(origin.lat, 3)));
     qs.set('lng', String(roundCoord(origin.lng, 3)));
@@ -70,9 +71,9 @@ export function parseApiPage(json: unknown): { items: Restaurant[]; total: numbe
   return { items: j.data as Restaurant[], total };
 }
 
-export async function fetchApiPage(origin: Coords | null, offset: number): Promise<{ items: Restaurant[]; total: number } | null> {
+export async function fetchApiPage(origin: Coords | null, offset: number, cuisine?: string | null): Promise<{ items: Restaurant[]; total: number } | null> {
   try {
-    const res = await fetch(`/api/restaurants?${buildApiQuery(origin, offset)}`);
+    const res = await fetch(`/api/restaurants?${buildApiQuery(origin, offset, cuisine)}`);
     return parseApiPage(await res.json());
   } catch {
     return null;

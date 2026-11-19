@@ -124,6 +124,8 @@ describe('chargement du deck', () => {
     expect(qs.get('lng')).toBe('1.444');
     expect(qs.get('offset')).toBe('50');
     expect(new URLSearchParams(buildApiQuery(null, 0)).has('lat')).toBe(false);
+    expect(new URLSearchParams(buildApiQuery(null, 0)).has('cuisine')).toBe(false);
+    expect(new URLSearchParams(buildApiQuery(null, 0, 'Protéines')).get('cuisine')).toBe('Protéines');
   });
 
   it('lecture defensive de la page API', () => {

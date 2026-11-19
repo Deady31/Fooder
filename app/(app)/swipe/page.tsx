@@ -24,6 +24,7 @@ import { RadiusSheet } from '../../../components/geo/RadiusSheet';
 import { openCardProps } from '../../../lib/usageProps';
 import { applyFilters, blockingFilter, reopeningLine, sinkClosed, type FilterOptions } from '../../../lib/filters';
 import { remaining } from '../../../lib/deckStore';
+import { PROTEIN_LABEL } from '../../../lib/categories';
 import { usePosition } from '../../../lib/geo/usePosition';
 import { useUserAddress } from '../../../lib/geo/useAddress';
 import { nextRadiusWithResults, type Radius } from '../../../lib/geo/radius';
@@ -64,7 +65,7 @@ export default function SwipePage() {
   const deckRef = useRef<SwipeDeckHandle>(null);
   const visible = useRef<string[]>([]);
   const getVisible = useCallback(() => visible.current, []);
-  const { deck, setDeck, isLoading, pinned, unpin, loadMore, selectMood } = useDiscoverDeck(position, moodId, filters.ready && prefsReady, getVisible);
+  const { deck, setDeck, isLoading, pinned, unpin, loadMore, loadCuisine, selectMood } = useDiscoverDeck(position, moodId, filters.ready && prefsReady, getVisible);
   const actions = useSwipeActions(deck, setDeck, { gainXP, unlock, missionProgress }, () => void loadMore());
 
   // Un changement de filtre voulu par l'utilisateur libère les cartes épinglées (la pile suit les filtres).
@@ -86,7 +87,11 @@ export default function SwipePage() {
   topLock.current = deckCards.length > 0 ? { id: deckCards[deckCards.length - 1].id, version: filters.version } : null;
   visible.current = deckCards.slice(-VISIBLE_DEPTH).map(r => r.id);
   const widenTo = nextRadiusWithResults(filters.radius, r => applyFilters(rem, { ...opts, radiusM: r }).length);
-  const cuisines = Array.from(new Set(rem.map(r => r.cuisine))).sort((a, b) => a.localeCompare(b, 'fr'));
+  // « Protéines » est toujours proposée : ses restos sont chargés à la demande (la pile ne contient que les plus proches).
+  const cuisines = Array.from(new Set([PROTEIN_LABEL, ...rem.map(r => r.cuisine)])).sort((a, b) => a.localeCompare(b, 'fr'));
+  useEffect(() => {
+    if (filters.ready && filters.cuisine === PROTEIN_LABEL) void loadCuisine(PROTEIN_LABEL);
+  }, [filters.ready, filters.cuisine, loadCuisine]);
 
   // Peu de cartes dans le rayon : quelques pages de plus (plafonné).
   const autoLoads = useRef(0);

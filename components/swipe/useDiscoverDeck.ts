@@ -39,6 +39,8 @@ export interface DiscoverDeck {
   pinned: ReadonlySet<string>;
   unpin: () => void;
   loadMore: () => Promise<void>;
+  /** Charge les restos d'une catégorie qui n'est pas encore dans la pile (ex. « Protéines »), une seule fois par catégorie. */
+  loadCuisine: (cuisine: string) => Promise<void>;
   selectMood: (moodId: string) => void;
 }
 
@@ -181,6 +183,25 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
     }
   }, [moodId]);
 
+  const cuisinesLoaded = useRef<Set<string>>(new Set());
+  const loadCuisine = useCallback(async (cuisine: string) => {
+    if (cuisinesLoaded.current.has(cuisine)) return;
+    cuisinesLoaded.current.add(cuisine);
+    const pos = posRef.current;
+    const res = await fetchApiPage(pos.coords, 0, cuisine);
+    if (!res) {
+      cuisinesLoaded.current.delete(cuisine); // réseau coupé : on pourra réessayer
+      return;
+    }
+    const have = new Set(all.current.map(r => r.id));
+    const seen = seenIds();
+    const fresh = withLocalCommunity(withDistances(res.items.filter(r => !have.has(r.id) && !seen.has(r.id)), pos.coords, pos.source));
+    if (fresh.length === 0) return;
+    all.current = [...all.current, ...fresh];
+    const add = orderDeck(fresh.filter(r => matchesMood(r, moodId)), pos.coords);
+    if (add.length > 0) setDeckState(d => appendBottom(d, add));
+  }, [moodId]);
+
   const selectMood = useCallback((nextMood: string) => {
     const pos = posRef.current;
     const pool = moodPool(orderDeck(all.current, pos.coords), nextMood);
@@ -190,5 +211,5 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
 
   const unpin = useCallback(() => setPinned(new Set()), []);
 
-  return { deck, setDeck, isLoading, pinned, unpin, loadMore, selectMood };
+  return { deck, setDeck, isLoading, pinned, unpin, loadMore, loadCuisine, selectMood };
 }

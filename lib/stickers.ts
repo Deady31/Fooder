@@ -33,6 +33,7 @@ type Rule = [RegExp, FoodSticker];
  * Faute d'icône dédiée, on prend la plus proche *honnêtement* (ex. libanais → mezze).
  */
 const CUISINE_RULES: Rule[] = [
+  [/proteine/, 'chicken'],
   [/pizz|panuozzo/, 'pizza'],
   [/hot.?dog/, 'hotdog'],
   [/french.?tacos|tacos|taco|mexic|empanada/, 'taco'],
