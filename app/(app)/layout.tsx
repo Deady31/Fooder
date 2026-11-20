@@ -4,13 +4,17 @@ import { CelebrationHost } from '../../components/celebrate/CelebrationHost';
 import { RitualsRunner } from '../../components/rituals/RitualsRunner';
 import { AuthProvider } from '../../components/auth/AuthProvider';
 import { TermsGate } from '../../components/legal/TermsGate';
+import { DemoBadge } from '../../components/nav/DemoBadge';
+import { TourHost } from '../../components/tour/TourHost';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
     <div className='flex flex-col h-full max-w-md mx-auto border-x-[3px] border-plum bg-cream doodle-bg overflow-hidden relative pt-[env(safe-area-inset-top)]'>
+      <DemoBadge />
       <div className='flex-1 min-h-0 relative'>{children}</div>
       <TabBar />
+      <TourHost />
       <RitualsRunner />
       <CelebrationHost />
       <VisibilityPause />

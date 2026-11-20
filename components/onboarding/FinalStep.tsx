@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import { EMAIL_MAX, signupEmailProblem } from '../../lib/profile';
@@ -41,10 +41,10 @@ export function FinalStep({ profile, email, onEmailChange, termsAccepted, onTerm
       <div className='flex-1 min-h-0 flex flex-col items-center justify-center gap-3 text-center'>
         <div className='flex justify-center items-end -space-x-3 [@media(max-height:640px)]:hidden'>
           {STICKERS.map((s, i) => (
-            <motion.span key={s} initial={{ scale: 0, y: 20 }} animate={{ scale: 1, y: 0 }}
+            <m.span key={s} initial={{ scale: 0, y: 20 }} animate={{ scale: 1, y: 0 }}
               transition={{ type: 'spring', damping: 10, stiffness: 220, delay: 0.1 + i * 0.07 }}>
               <Sticker name={s} size={60} rotate={(i % 2 ? 1 : -1) * (6 + i * 2)} />
-            </motion.span>
+            </m.span>
           ))}
         </div>
         <div className='space-y-1'>
@@ -102,12 +102,12 @@ export function FinalStep({ profile, email, onEmailChange, termsAccepted, onTerm
         </label>
       </div>
 
-      <motion.button type='button' onClick={go} disabled={!canFinish} whileTap={canFinish ? { scale: 0.97 } : undefined}
+      <m.button type='button' onClick={go} disabled={!canFinish} whileTap={canFinish ? { scale: 0.97 } : undefined}
         className={`w-full duo-button text-xl py-4 flex-shrink-0 flex items-center justify-center gap-2 ${
           canFinish ? 'bg-fooder-primary border-fooder-primary text-white' : 'bg-white border-slate-300 text-slate-400 cursor-not-allowed'
         }`}>
         C&apos;est parti ! <ChevronRight className='w-6 h-6' />
-      </motion.button>
+      </m.button>
     </div>
   );
 }

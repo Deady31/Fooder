@@ -20,7 +20,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   if (!rec) return { title: 'Restaurant introuvable - Fooder' };
   const r = osmToRestaurant(rec);
   const title = `${r.name} - Fooder`;
-  const description = `${shareText(r.name, r.cuisine)}. ${r.address}.`;
+  const description = r.address ? `${shareText(r.name, r.cuisine)}. ${r.address}.` : `${shareText(r.name, r.cuisine)}.`;
   return { title, description, openGraph: { title, description, type: 'website', locale: 'fr_FR' } };
 }
 
@@ -54,10 +54,12 @@ export default function RestoPublicPage({ params }: PageProps) {
           <p className='font-semibold text-slate-600'>{r.cuisine}</p>
         </header>
         <dl className='bg-white rounded-[22px] panel p-4 space-y-3 text-sm'>
-          <div>
-            <dt className='font-bold text-plum'>Adresse</dt>
-            <dd className='font-medium text-slate-700'>{r.address}</dd>
-          </div>
+          {r.address && (
+            <div>
+              <dt className='font-bold text-plum'>Adresse</dt>
+              <dd className='font-medium text-slate-700'>{r.address}</dd>
+            </div>
+          )}
           <div>
             <dt className='font-bold text-plum'>Horaires</dt>
             <dd className='font-medium text-slate-700'><HoursLine hours={rec.h} /></dd>

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Achievement } from '../hooks/useGamification';
 import { Sticker } from './ui/Sticker';
@@ -39,10 +39,12 @@ export function AchievementToast({ achievement, onDone, label = 'Trophée déblo
   }, [achievement, duration]);
 
   return (
+    // Le toast vit sous les feuilles modales (150) et la visionneuse (170) : il ne doit jamais
+    // recouvrir la fiche ouverte ni son bouton de fermeture.
     <AnimatePresence>
       {achievement && (
-        <div className='fixed top-3 inset-x-0 z-[300] flex justify-center px-4 pointer-events-none'>
-          <motion.div
+        <div className='fixed top-3 inset-x-0 z-[140] flex justify-center px-4 pointer-events-none'>
+          <m.div
             role='status'
             key={achievement.id}
             initial={reduce ? { opacity: 0 } : { y: -90, opacity: 0, scale: 0.85, rotate: -3 }}
@@ -52,14 +54,14 @@ export function AchievementToast({ achievement, onDone, label = 'Trophée déblo
             className='w-full max-w-xs pointer-events-auto text-left'
           >
             <div className='bg-fooder-secondary rounded-2xl px-4 py-3 flex items-center gap-3 panel'>
-              <motion.span
+              <m.span
                 className='flex-shrink-0'
                 initial={reduce ? false : { scale: 0.3, rotate: -30 }}
                 animate={reduce ? undefined : { scale: [0.3, 1.2, 1], rotate: [-30, 8, -8] }}
                 transition={{ duration: 0.5, delay: 0.08, ease: [0.34, 1.56, 0.64, 1] }}
               >
                 <Sticker name={sticker ?? badgeFor(achievement.id)} size={48} />
-              </motion.span>
+              </m.span>
               <div className='flex-1 min-w-0'>
                 <p className='text-[10px] font-black text-plum uppercase tracking-widest'>{label}</p>
                 {/* Texte en entier : il passe à la ligne, la police se réduit s'il est long, jamais de « … ». */}
@@ -78,7 +80,7 @@ export function AchievementToast({ achievement, onDone, label = 'Trophée déblo
                 <X className='w-5 h-5' strokeWidth={3} aria-hidden='true' />
               </button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       )}
     </AnimatePresence>

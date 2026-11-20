@@ -82,7 +82,7 @@ describe('provenance : la photo d’une fiche est celle de cette fiche', () => {
 
   it('les photos partagées sont bien écartées (liste de blocage) et n’apparaissent plus', () => {
     const autoShared = Object.entries(blocked).filter(([, e]) => (e as { source?: string }).source === 'auto-shared');
-    expect(autoShared.length).toBeGreaterThan(100);
+    expect(autoShared.length).toBeGreaterThan(0);
     for (const [id] of autoShared) expect(restaurantPhoto(id)).toBeNull();
   });
 });

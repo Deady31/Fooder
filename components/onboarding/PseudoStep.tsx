@@ -1,6 +1,6 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Dices } from 'lucide-react';
 import { StepFrame } from './StepFrame';
 import { PSEUDO_MAX, PSEUDO_MESSAGES, suggestPseudo, validatePseudo } from '../../lib/pseudo';
@@ -38,7 +38,7 @@ export function PseudoStep({ value, onChange, onNext }: PseudoStepProps) {
       centered
     >
       <form onSubmit={submit} className='space-y-3'>
-        <motion.div key={shake} animate={shake ? { x: [0, -10, 10, -8, 8, 0] } : undefined} transition={{ duration: 0.4 }}>
+        <m.div key={shake} animate={shake ? { x: [0, -10, 10, -8, 8, 0] } : undefined} transition={{ duration: 0.4 }}>
           <input
             value={value}
             onChange={e => { onChange(e.target.value); if (error) setError(null); }}
@@ -54,7 +54,7 @@ export function PseudoStep({ value, onChange, onNext }: PseudoStepProps) {
             aria-invalid={error !== null}
             className={`w-full rounded-2xl border-[3px] bg-white px-4 py-4 text-center text-2xl font-display text-plum placeholder:text-slate-300 shadow-hard focus:outline-none focus:bg-fooder-secondary/30 ${error ? 'border-fooder-red' : 'border-plum'}`}
           />
-        </motion.div>
+        </m.div>
         <div className='flex items-center justify-between text-xs font-semibold px-1 min-h-[2.25rem]'>
           <p role='alert' className={`flex-1 pr-3 ${error ? 'text-fooder-red' : 'text-slate-400'}`}>
             {error ?? '3 à 16 caractères : lettres, chiffres, . _ -'}

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { analyticsEnabled, getConsent, setConsent } from '../../lib/analytics';
 
 export function ConsentBanner() {
@@ -19,7 +19,7 @@ export function ConsentBanner() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
+        <m.div
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 40, opacity: 0 }}
@@ -38,7 +38,7 @@ export function ConsentBanner() {
             <button onClick={() => choose('denied')} className='duo-button flex-1 bg-white text-plum text-sm'>Refuser</button>
             <button onClick={() => choose('granted')} className='duo-button flex-1 bg-bubblegum text-plum text-sm'>Accepter</button>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

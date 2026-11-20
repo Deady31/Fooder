@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import type { StickerName } from '../../lib/stickers';
@@ -26,14 +26,14 @@ export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onC
     <div className='flex flex-col h-full px-5 pt-1 pb-6'>
       <div className='text-center space-y-1.5 flex-shrink-0 pb-4 [@media(max-height:680px)]:pb-2'>
         {sticker && (
-          <motion.div
+          <m.div
             className='flex justify-center -mb-1 [@media(max-height:680px)]:hidden'
             initial={{ scale: 0, rotate: -20 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', damping: 11, stiffness: 220, delay: 0.1 }}
           >
             <Sticker name={sticker} size={64} rotate={-8} />
-          </motion.div>
+          </m.div>
         )}
         <p className='text-xs font-black text-fooder-primary uppercase tracking-[0.2em]'>{kicker}</p>
         <h2 className='text-3xl font-black text-slate-900 tracking-tight leading-tight'>{title}</h2>
@@ -44,7 +44,7 @@ export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onC
         {children}
       </div>
 
-      <motion.button
+      <m.button
         type='button'
         onClick={onCta}
         disabled={ctaDisabled}
@@ -54,7 +54,7 @@ export function StepFrame({ kicker, title, subtitle, sticker, children, cta, onC
         }`}
       >
         {cta} <ChevronRight className='w-5 h-5' />
-      </motion.button>
+      </m.button>
       {secondary}
     </div>
   );

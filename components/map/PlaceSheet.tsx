@@ -1,6 +1,6 @@
 'use client';
 import { useRef } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Heart, Navigation, Star } from 'lucide-react';
 import type { Restaurant } from '../../data/mockRestaurants';
 import { FoodImage } from '../ui/FoodImage';
@@ -83,7 +83,7 @@ export function PlaceSheet({ rest, liked, onClose, onOpenDetail, onToggleLike }:
               >
                 Fiche
               </button>
-              <motion.button
+              <m.button
                 whileTap={{ scale: 0.82 }}
                 onClick={() => onToggleLike(shown)}
                 aria-label={liked ? 'Retirer des favoris' : 'Ajouter aux favoris'}
@@ -91,7 +91,7 @@ export function PlaceSheet({ rest, liked, onClose, onOpenDetail, onToggleLike }:
                 className={`chip justify-center !px-3 min-h-[44px] min-w-[44px] ${liked ? 'bg-bubblegum' : 'bg-white'} text-plum transition-colors`}
               >
                 <Heart className={`w-4 h-4 ${liked ? 'fill-plum' : ''}`} aria-hidden='true' />
-              </motion.button>
+              </m.button>
             </div>
           </div>
         </div>

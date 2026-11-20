@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 
 export interface ActionToastState {
   /** Change à chaque nouveau message : relance le minuteur même si le texte est identique. */
@@ -30,7 +30,7 @@ export function ActionToast({ toast, onDismiss, duration = 5000 }: ActionToastPr
   return (
     <AnimatePresence>
       {toast && (
-        <motion.div
+        <m.div
           key={toast.id}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ export function ActionToast({ toast, onDismiss, duration = 5000 }: ActionToastPr
               </button>
             )}
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

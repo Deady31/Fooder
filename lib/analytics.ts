@@ -1,4 +1,4 @@
-import { cloud, currentUserId, isCloudEnabled } from './cloud/client';
+import { loadCloud, currentUserId, isCloudEnabled } from './cloud/client';
 import { KeyValueStore, classifySendError, readOptIn, writeOptIn } from './usage';
 import { Tracker, TrackOptions, TrackProps, createTracker } from './tracking';
 import { detectDevice, deviceProps, readDeviceEnv } from './device';
@@ -97,7 +97,7 @@ export function getTracker(): Tracker | null {
     optedIn: () => readOptIn(safeStorage()),
     hasSession: async () => (await currentUserId()) !== null,
     send: async rows => {
-      const sb = cloud();
+      const sb = await loadCloud();
       if (!sb) return 'retry';
       const { error, status } = await sb.from('app_events').insert(rows);
       return error ? classifySendError({ status }) : 'ok';

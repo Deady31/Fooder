@@ -85,6 +85,14 @@ export function galleryFor(rest: Restaurant, community: string[]): string[] {
   return Array.from(new Set([...community, ...main, ...(rest.extraImages ?? [])].filter(Boolean)));
 }
 
+/**
+ * Photos à afficher en plus du bandeau de la fiche : la photo principale y est déjà,
+ * la remontrer sous « Plat typique » / « Le restaurant » fait un doublon évident.
+ */
+export function extraGalleryFor(rest: Restaurant, community: string[] = []): string[] {
+  return galleryFor(rest, community).filter(src => src !== rest.image);
+}
+
 /** Crédit affiché dans la visionneuse pour l'image `src` (null = aucun : communauté ou illustration). */
 export function viewerCredit(
   rest: Restaurant,

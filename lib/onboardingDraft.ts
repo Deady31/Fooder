@@ -2,13 +2,16 @@ import { readJson, writeJson } from './store';
 import { AGE_RANGES, DIETS, EMAIL_MAX, GENDERS, ONBOARDING_DRAFT_KEY } from './profile';
 import type { AgeRange, Diet, Gender } from './profile';
 
-/** Parcours : accueil, pseudo, genre, âge, régime, essai du swipe, « Tu nous aides », écran d'accueil (si pertinent), prêt. */
-export const ONBOARDING_STEPS = ['welcome', 'pseudo', 'gender', 'age', 'diet', 'tuto', 'help', 'install', 'final'] as const;
+/** Parcours court : accueil, pseudo, régime, e-mail. Le tuto se fait ensuite dans l'appli (lib/tour.ts). */
+export const ONBOARDING_STEPS = ['welcome', 'pseudo', 'diet', 'final'] as const;
 export type StepId = (typeof ONBOARDING_STEPS)[number];
 
-/** Étapes réellement parcourues : « install » seulement si l'appli peut être installée. */
-export function visibleSteps(showInstall: boolean): StepId[] {
-  return ONBOARDING_STEPS.filter(s => showInstall || s !== 'install');
+/** Anciennes étapes d'un brouillon déjà enregistré : on reprend à l'étape actuelle la plus proche. */
+const LEGACY_STEPS: Readonly<Record<string, StepId>> = { gender: 'diet', age: 'diet', tuto: 'final', help: 'final', install: 'final' };
+
+/** Étapes parcourues, dans l'ordre. */
+export function visibleSteps(): StepId[] {
+  return [...ONBOARDING_STEPS];
 }
 
 /** Étape suivante dans l'ordre du parcours, même si `step` n'est pas (ou plus) visible ; reste sur la dernière. */
@@ -54,7 +57,7 @@ function pick<T extends string>(allowed: readonly T[], v: unknown): T | null {
 /** Nettoie un brouillon lu du stockage ; null si l'étape est inconnue (ex. brouillon d'un ancien parcours). */
 export function parseDraft(raw: unknown): SavedDraft | null {
   if (!isRecord(raw)) return null;
-  const step = ONBOARDING_STEPS.find(s => s === raw.step);
+  const step = ONBOARDING_STEPS.find(s => s === raw.step) ?? (typeof raw.step === 'string' ? LEGACY_STEPS[raw.step] : undefined);
   if (!step) return null;
   const a = isRecord(raw.answers) ? raw.answers : {};
   const diets = Array.isArray(a.diets) ? DIETS.filter(d => (a.diets as unknown[]).includes(d)) : [];

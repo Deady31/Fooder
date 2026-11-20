@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Bell, ChevronRight, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useNotifications } from '../../hooks/useNotifications';
@@ -85,24 +85,24 @@ export function NotificationBell() {
 
   return (
     <>
-      <motion.button
+      <m.button
         whileTap={{ scale: 0.9 }}
         onClick={() => setOpen(true)}
         aria-label={unread > 0 ? `Notifications, ${unread} non lue${unread > 1 ? 's' : ''}` : 'Notifications'}
         aria-haspopup='dialog'
         className='relative w-11 h-11 bg-white border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 active:shadow-none transition-all'
       >
-        <motion.span
+        <m.span
           key={unread}
           animate={unread > 0 ? { rotate: [0, -16, 14, -10, 6, 0] } : {}}
           transition={{ duration: 0.6 }}
           className='flex'
         >
           <Bell aria-hidden='true' className='w-5 h-5 text-plum' strokeWidth={2.5} />
-        </motion.span>
+        </m.span>
         <AnimatePresence>
           {unread > 0 && (
-            <motion.span
+            <m.span
               aria-hidden='true'
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -111,10 +111,10 @@ export function NotificationBell() {
               className='absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-bubblegum border-[2.5px] border-plum text-[11px] font-black text-plum flex items-center justify-center leading-none'
             >
               {unread > 9 ? '9+' : unread}
-            </motion.span>
+            </m.span>
           )}
         </AnimatePresence>
-      </motion.button>
+      </m.button>
 
       <Sheet open={open} onClose={close} variant='top' labelledBy={TITLE_ID}
         className='bg-cream rounded-[28px] panel flex flex-col'>
@@ -155,7 +155,7 @@ export function NotificationBell() {
       {mounted && createPortal(
         <AnimatePresence>
           {undo && (
-            <motion.div
+            <m.div
               key='undo'
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -170,7 +170,7 @@ export function NotificationBell() {
                   Annuler
                 </button>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>,
         document.body,

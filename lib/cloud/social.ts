@@ -1,5 +1,5 @@
 import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
-import { cloud, photoUrl, PHOTO_BUCKET } from './client';
+import { loadCloud, photoUrl, PHOTO_BUCKET } from './client';
 import { ErrorLike, PublishOutcome, classifyPublishError, isDuplicateError, preparePhoto } from './photoUpload';
 import { FriendSnapshot, parseSnapshot } from '../social/snapshot';
 import { readFriends, upsertFriend } from '../social/friends';
@@ -37,7 +37,7 @@ export function cardFromProfile(row: ProfileRow): FriendSnapshot | null {
 
 /** Ajout réciproque côté serveur à partir du code d'ami contenu dans le lien. */
 export async function addFriendByCode(code: string): Promise<FriendSnapshot | null> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return null;
   const { data, error } = await sb.rpc('add_friend', { code });
   if (error || !Array.isArray(data) || data.length === 0) return null;
@@ -64,7 +64,7 @@ export async function reattachLocalFriends(max = 50): Promise<number> {
 
 /** Récupère les amis du compte et rafraîchit leurs cartes locales. */
 export async function refreshFriends(uid: string): Promise<number> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return 0;
   const { data: links, error } = await sb.from('friendships').select('friend_id').eq('user_id', uid).limit(500);
   if (error || !links?.length) return 0;
@@ -80,7 +80,7 @@ export async function refreshFriends(uid: string): Promise<number> {
 }
 
 export async function removeFriendCloud(friendId: string): Promise<void> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb || !/^[0-9a-f]{32}$/.test(friendId)) return;
   const uuid = `${friendId.slice(0, 8)}-${friendId.slice(8, 12)}-${friendId.slice(12, 16)}-${friendId.slice(16, 20)}-${friendId.slice(20)}`;
   await sb.rpc('remove_friend', { friend: uuid });
@@ -99,7 +99,7 @@ const toVote = (r: VoteRow): GroupVote => ({ voterId: r.user_id.replace(/-/g, ''
 
 /** Publie (ou rejoint) la session et y enregistre le vote de l'utilisateur. */
 export async function syncGroup(session: GroupSession, uid: string, myVote?: GroupVote): Promise<GroupSession> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return session;
   // Création si on est l'hôte ; sinon la session existe déjà (lien reçu).
   if (session.host.id === uid.replace(/-/g, '')) {
@@ -113,7 +113,7 @@ export async function syncGroup(session: GroupSession, uid: string, myVote?: Gro
 }
 
 export async function pullGroupVotes(session: GroupSession): Promise<GroupSession> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return session;
   const { data } = await sb.from('group_votes').select('user_id, name, likes, at').eq('group_id', session.id).limit(12);
   if (!data) return session;
@@ -124,14 +124,21 @@ export async function pullGroupVotes(session: GroupSession): Promise<GroupSessio
 
 /** Votes en direct : appelle onChange à chaque nouveau vote du groupe. */
 export function watchGroup(groupId: string, onChange: () => void): () => void {
-  const sb = cloud();
-  if (!sb) return () => undefined;
-  const channel: RealtimeChannel = sb
+  let stopped = false;
+  let teardown: (() => void) | null = null;
+  void loadCloud().then(sb => {
+    if (!sb || stopped) return;
+    const channel: RealtimeChannel = sb
     .channel(`group-${groupId}`)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'group_votes', filter: `group_id=eq.${groupId}` }, onChange)
     .subscribe();
+    teardown = () => {
+      sb.removeChannel(channel);
+    };
+  });
   return () => {
-    sb.removeChannel(channel);
+    stopped = true;
+    teardown?.();
   };
 }
 
@@ -148,7 +155,8 @@ export function watchGroup(groupId: string, onChange: () => void): () => void {
  * Avant ce correctif, la photo était convertie avec `fetch(dataUrl)` : la CSP (connect-src sans `data:`) le bloque,
  * l'exception était avalée par runWithSession et l'utilisateur voyait « pas encore en ligne ».
  */
-export async function publishCloudPost(post: FeedPost, uid: string, sb: SupabaseClient | null = cloud()): Promise<PublishOutcome> {
+export async function publishCloudPost(post: FeedPost, uid: string, sbArg?: SupabaseClient | null): Promise<PublishOutcome> {
+  const sb = sbArg === undefined ? await loadCloud() : sbArg;
   if (!sb) return { ok: false, reason: 'cloud_off' };
   try {
     const existing = await sb.from('posts').select('id').eq('id', post.id).maybeSingle();
@@ -222,7 +230,7 @@ interface AuthorRow {
 
 /** Derniers posts publics (fil de la ville). */
 export async function fetchCloudPosts(myUid: string | null, limit = 40): Promise<FeedPost[]> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return [];
   const { data: posts } = await sb
     .from('posts')
@@ -253,7 +261,7 @@ export async function fetchCloudPosts(myUid: string | null, limit = 40): Promise
 }
 
 export async function deleteCloudPost(postId: string): Promise<void> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return;
   const { data } = await sb.from('posts').select('photo_path').eq('id', postId).maybeSingle();
   if (data?.photo_path) await sb.storage.from(PHOTO_BUCKET).remove([data.photo_path]);
@@ -269,7 +277,7 @@ export async function fetchRestaurantPhotoDetails(
   withAuthors = false
 ): Promise<Map<string, CommunityPhoto[]>> {
   const out = new Map<string, CommunityPhoto[]>();
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb || restaurantIds.length === 0) return out;
   const { data } = await sb
     .from('posts')
@@ -332,7 +340,7 @@ export interface CommunityPhotoPost {
  * cœurs, pseudos et mes cœurs sont facultatifs : s'ils manquent, on affiche sans eux.
  */
 export async function fetchCommunityPhotoPosts(restaurantId: string, myUid: string | null, limit = 30): Promise<CommunityPhotoPost[]> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb || !restaurantId) return [];
   const { data, error } = await sb
     .from('posts')
@@ -371,7 +379,7 @@ export async function fetchCommunityPhotoPosts(restaurantId: string, myUid: stri
 
 /** Ajoute ou retire mon cœur sur un post publié. Échec silencieux : le cœur reste local. */
 export async function setCloudPostLike(postId: string, uid: string, liked: boolean): Promise<boolean> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return false;
   const { error } = liked
     ? await sb.from('post_likes').upsert({ post_id: postId, user_id: uid }, { onConflict: 'post_id,user_id', ignoreDuplicates: true })
@@ -380,7 +388,7 @@ export async function setCloudPostLike(postId: string, uid: string, liked: boole
 }
 
 export async function reportPost(postId: string, uid: string, reason: string): Promise<boolean> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return false;
   const { error } = await sb.from('reports').insert({ post_id: postId, reporter: uid, reason: reason.slice(0, 200) });
   return !error;
@@ -388,7 +396,7 @@ export async function reportPost(postId: string, uid: string, reason: string): P
 
 /** Suppression définitive du compte : photos, puis compte (les tables suivent en cascade). */
 export async function deleteAccount(uid: string): Promise<boolean> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return false;
   const { data: files } = await sb.storage.from(PHOTO_BUCKET).list(uid, { limit: 1000 });
   if (files?.length) await sb.storage.from(PHOTO_BUCKET).remove(files.map(f => `${uid}/${f.name}`));

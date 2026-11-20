@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Session } from '@supabase/supabase-js';
-import { cloud, isCloudEnabled } from '../../lib/cloud/client';
+import type { Session } from '@supabase/supabase-js';
+import { loadCloud, isCloudEnabled } from '../../lib/cloud/client';
 import { startSync, pushNow } from '../../lib/cloud/sync';
 import { refreshFriends, reattachLocalFriends } from '../../lib/cloud/social';
 import { AuthFailure, EnsureResult, FAILURE_MESSAGE, authMessage, classifyAuthError, ensureCloudSession } from '../../lib/cloud/session';
@@ -61,12 +61,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [sync, setSync] = useState<SyncStatus>('off');
 
   useEffect(() => {
-    const sb = cloud();
-    if (!sb) return;
+    if (!enabled) return;
     let cancelled = false;
-    sb.auth
-      .getSession()
-      .then(({ data }) => {
+    let unsubscribe: (() => void) | null = null;
+    loadCloud()
+      .then(async sb => {
+        if (!sb || cancelled) return;
+        const { data: sub } = sb.auth.onAuthStateChange((_event, s) => setSession(s));
+        unsubscribe = () => sub.subscription.unsubscribe();
+        const { data } = await sb.auth.getSession();
         if (!cancelled) setSession(data.session);
       })
       .catch(() => {
@@ -75,12 +78,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
-    const { data: sub } = sb.auth.onAuthStateChange((_event, s) => setSession(s));
     return () => {
       cancelled = true;
-      sub.subscription.unsubscribe();
+      unsubscribe?.();
     };
-  }, []);
+  }, [enabled]);
 
   const uid = session?.user.id ?? null;
   const anonymous = session?.user.is_anonymous === true;
@@ -103,7 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const ensureSession = useCallback((opts?: { captchaToken?: string }) => ensureCloudSession(opts), []);
 
   const sendCode = useCallback(async (email: string, captchaToken?: string): Promise<AuthResult> => {
-    const sb = cloud();
+    const sb = await loadCloud();
     if (!sb) return cloudOff();
     const clean = email.trim().toLowerCase();
     if (!EMAIL_RE.test(clean)) return fail('email_invalid');
@@ -118,7 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const verifyCode = useCallback(
     async (email: string, code: string): Promise<AuthResult> => {
-      const sb = cloud();
+      const sb = await loadCloud();
       if (!sb) return cloudOff();
       const token = parseCode(code);
       if (!token) return fail('code_invalid', 'Le code contient 6 chiffres.');
@@ -142,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   const sendUpgradeCode = useCallback(async (email: string): Promise<AuthResult> => {
-    const sb = cloud();
+    const sb = await loadCloud();
     if (!sb) return cloudOff();
     const clean = email.trim().toLowerCase();
     if (!EMAIL_RE.test(clean)) return fail('email_invalid');
@@ -152,7 +154,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const verifyUpgradeCode = useCallback(async (email: string, code: string): Promise<AuthResult> => {
-    const sb = cloud();
+    const sb = await loadCloud();
     if (!sb) return cloudOff();
     const token = parseCode(code);
     if (!token) return fail('code_invalid', 'Le code contient 6 chiffres.');
@@ -165,7 +167,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signOut = useCallback(async () => {
-    const sb = cloud();
+    const sb = await loadCloud();
     if (!sb) return;
     if (uid) await pushNow(uid).catch(() => undefined);
     await sb.auth.signOut();

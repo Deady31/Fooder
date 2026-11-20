@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseOpeningHours } from '../lib/openingHours';
-import { completeness, cuisineLabel, formatMeters, haversine, isPresentable, normalizePhone, osmToRestaurant, OsmRecord } from '../lib/osm';
+import { completeness, cuisineLabel, formatMeters, haversine, isPresentableBase, normalizePhone, osmToRestaurant, OsmRecord } from '../lib/osm';
 import { openStatus } from '../lib/hours';
 import { AVATARS, isUnlocked, lockReason } from '../lib/avatars';
 
@@ -72,13 +72,13 @@ describe('qualité des fiches', () => {
   const base: OsmRecord = { id: 'x', n: 'N', k: 'restaurant', c: '', la: 43.6, ln: 1.44, a: '', h: '', w: '', d: 0 };
 
   it('refuse une fiche sans information utile', () => {
-    expect(isPresentable(base)).toBe(false);
-    expect(isPresentable({ ...base, a: '1 rue X' })).toBe(false);
+    expect(isPresentableBase(base)).toBe(false);
+    expect(isPresentableBase({ ...base, a: '1 rue X' })).toBe(false);
   });
 
   it('accepte cuisine + adresse + téléphone, ou horaires + adresse', () => {
-    expect(isPresentable({ ...base, c: 'pizza', a: '1 rue X', t: '+33561000000' })).toBe(true);
-    expect(isPresentable({ ...base, h: 'Mo-Su 12:00-14:00', a: '1 rue X' })).toBe(true);
+    expect(isPresentableBase({ ...base, c: 'pizza', a: '1 rue X', t: '+33561000000' })).toBe(true);
+    expect(isPresentableBase({ ...base, h: 'Mo-Su 12:00-14:00', a: '1 rue X' })).toBe(true);
   });
 
   it('classe les fiches riches avant les pauvres', () => {

@@ -13,6 +13,17 @@
   "page": "https://www.lejardin-toulouse.fr/fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n10069114220": {
+  "src": "/restos/osm-n10069114220.webp",
+  "kind": "site",
+  "credit": "leshahidhaba.com",
+  "page": "https://leshahidhaba.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n10079492600": {
   "src": "/restos/osm-n10079492600.webp",
   "kind": "site",
@@ -52,8 +63,12 @@
   "src": "/restos/osm-n10270950575.webp",
   "kind": "site",
   "credit": "newschooltacos.fr",
-  "page": "https://www.newschooltacos.fr/restaurants/toulouse-rangueil",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.newschooltacos.fr/la-carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n10315814444": {
   "src": "/restos/osm-n10315814444.webp",
@@ -67,7 +82,22 @@
   "kind": "site",
   "credit": "amafolia.fr",
   "page": "https://www.amafolia.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "osm-n10575101048": {
+  "src": "/restos/osm-n10575101048.webp",
+  "kind": "site",
+  "credit": "le-chef-du-burger-restaurant-toulouse.eatbu.com",
+  "page": "https://le-chef-du-burger-restaurant-toulouse.eatbu.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n10608534925": {
   "src": "/restos/osm-n10608534925.webp",
@@ -81,7 +111,11 @@
   "kind": "site",
   "credit": "oradis-restaurant-cugnaux.eatbu.com",
   "page": "http://oradis-restaurant-cugnaux.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n10715715830": {
   "src": "/restos/osm-n10715715830.webp",
@@ -95,28 +129,44 @@
   "kind": "site",
   "credit": "pititto-toulouse.eatbu.com",
   "page": "https://pititto-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.75
+  }
  },
  "osm-n10830534023": {
   "src": "/restos/osm-n10830534023.webp",
   "kind": "site",
   "credit": "youco-toulouse.eatbu.com",
   "page": "https://youco-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n10832518155": {
   "src": "/restos/osm-n10832518155.webp",
   "kind": "site",
   "credit": "terra-mia-cugnaux.eatbu.com",
   "page": "https://terra-mia-cugnaux.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n10931161247": {
   "src": "/restos/osm-n10931161247.webp",
   "kind": "site",
   "credit": "o-restaurant-de-la-place-bruguieres.eatbu.com",
   "page": "https://o-restaurant-de-la-place-bruguieres.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n10931176322": {
   "src": "/restos/osm-n10931176322.webp",
@@ -151,14 +201,22 @@
   "kind": "site",
   "credit": "museaumusette.fr",
   "page": "https://www.museaumusette.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n11047173205": {
   "src": "/restos/osm-n11047173205.webp",
   "kind": "site",
   "credit": "pizzeria-vitano.fr",
   "page": "https://pizzeria-vitano.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n11068041875": {
   "src": "/restos/osm-n11068041875.webp",
@@ -172,21 +230,33 @@
   "kind": "site",
   "credit": "aloevega.fr",
   "page": "https://aloevega.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11087438884": {
   "src": "/restos/osm-n11087438884.webp",
   "kind": "site",
   "credit": "atelier-du-pecheur-savoyard.fr",
   "page": "https://atelier-du-pecheur-savoyard.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n11208935434": {
   "src": "/restos/osm-n11208935434.webp",
   "kind": "site",
   "credit": "japnwok.fr",
   "page": "https://www.japnwok.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n11212895687": {
   "src": "/restos/osm-n11212895687.webp",
@@ -199,15 +269,23 @@
   "src": "/restos/osm-n11258471020.webp",
   "kind": "site",
   "credit": "restaurantbarlesviolettes.fr",
-  "page": "http://www.restaurantbarlesviolettes.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.restaurantbarlesviolettes.fr/carte-menus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11296048677": {
   "src": "/restos/osm-n11296048677.webp",
   "kind": "site",
   "credit": "royalbuffet.fr",
   "page": "https://www.royalbuffet.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n11351955227": {
   "src": "/restos/osm-n11351955227.webp",
@@ -228,7 +306,22 @@
   "kind": "site",
   "credit": "le-brasier.eatbu.com",
   "page": "https://le-brasier.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n11395668590": {
+  "src": "/restos/osm-n11395668590.webp",
+  "kind": "site",
+  "credit": "thai-kafe.fr",
+  "page": "http://thai-kafe.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11429057191": {
   "src": "/restos/osm-n11429057191.webp",
@@ -242,7 +335,11 @@
   "kind": "site",
   "credit": "oki-uchi.eatbu.com",
   "page": "https://oki-uchi.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11459319200": {
   "src": "/restos/osm-n11459319200.webp",
@@ -262,15 +359,34 @@
   "src": "/restos/osm-n11521229865.webp",
   "kind": "site",
   "credit": "lebistrotdupecheur.fr",
-  "page": "https://www.lebistrotdupecheur.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.lebistrotdupecheur.fr/carte-nos-menus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n11524546268": {
+  "src": "/restos/osm-n11524546268.webp",
+  "kind": "site",
+  "credit": "pizzadutouch.fr",
+  "page": "http://www.pizzadutouch.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11533644977": {
   "src": "/restos/osm-n11533644977.webp",
   "kind": "site",
   "credit": "commandes-cheesis-snack-toulouse.fr",
   "page": "https://commandes-cheesis-snack-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11578388727": {
   "src": "/restos/osm-n11578388727.webp",
@@ -305,7 +421,11 @@
   "kind": "site",
   "credit": "noshi-sushi.fr",
   "page": "https://noshi-sushi.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n11704657457": {
   "src": "/restos/osm-n11704657457.webp",
@@ -319,7 +439,11 @@
   "kind": "site",
   "credit": "lelieutrattoria.com",
   "page": "https://www.lelieutrattoria.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n11736516720": {
   "src": "/restos/osm-n11736516720.webp",
@@ -333,14 +457,22 @@
   "kind": "site",
   "credit": "mademoiselle-soline.fr",
   "page": "https://www.mademoiselle-soline.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.75
+  }
  },
  "osm-n11775031052": {
   "src": "/restos/osm-n11775031052.webp",
   "kind": "site",
   "credit": "gioiapizza.fr",
   "page": "https://www.gioiapizza.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n1179397860": {
   "src": "/restos/osm-n1179397860.webp",
@@ -361,7 +493,11 @@
   "kind": "site",
   "credit": "chaletdesmoissons.com",
   "page": "http://www.chaletdesmoissons.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n11853270387": {
   "src": "/restos/osm-n11853270387.webp",
@@ -375,7 +511,11 @@
   "kind": "site",
   "credit": "chutguinguettetoulouse.fr",
   "page": "https://www.chutguinguettetoulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n11988991631": {
   "src": "/restos/osm-n11988991631.webp",
@@ -395,8 +535,12 @@
   "src": "/restos/osm-n12020008239.webp",
   "kind": "site",
   "credit": "optitzinc.fr",
-  "page": "http://optitzinc.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://optitzinc.fr/photos/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12040120093": {
   "src": "/restos/osm-n12040120093.webp",
@@ -417,14 +561,22 @@
   "kind": "site",
   "credit": "dreamsdonuts.com",
   "page": "https://www.dreamsdonuts.com/blog/store-locator/dreams-donuts-roques/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n12108664076": {
   "src": "/restos/osm-n12108664076.webp",
   "kind": "site",
   "credit": "restaurant-authentique.com",
   "page": "http://www.restaurant-authentique.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n12115148779": {
   "src": "/restos/osm-n12115148779.webp",
@@ -438,14 +590,22 @@
   "kind": "site",
   "credit": "kirthi.eatbu.com",
   "page": "https://kirthi.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12121954218": {
   "src": "/restos/osm-n12121954218.webp",
   "kind": "site",
   "credit": "lesepicuriennestraiteuses.com",
   "page": "http://www.lesepicuriennestraiteuses.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n12130829247": {
   "src": "/restos/osm-n12130829247.webp",
@@ -458,8 +618,12 @@
   "src": "/restos/osm-n12130829248.webp",
   "kind": "site",
   "credit": "toulouse.danslenoir.com",
-  "page": "https://toulouse.danslenoir.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://toulouse.danslenoir.com/fr_FR/eshop-toulouse/e-carte-cadeau-duo-formule-ivresse-des-sens",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12137922156": {
   "src": "/restos/osm-n12137922156.webp",
@@ -501,14 +665,22 @@
   "kind": "site",
   "credit": "levesuviotoulouse.fr",
   "page": "https://levesuviotoulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n12209610617": {
   "src": "/restos/osm-n12209610617.webp",
   "kind": "site",
   "credit": "libellules-papillons.com",
   "page": "http://www.libellules-papillons.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12211555645": {
   "src": "/restos/osm-n12211555645.webp",
@@ -522,21 +694,33 @@
   "kind": "site",
   "credit": "lelite-restaurant.fr",
   "page": "https://www.lelite-restaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n12301862128": {
   "src": "/restos/osm-n12301862128.webp",
   "kind": "site",
   "credit": "lebonsaintsimon.com",
-  "page": "https://lebonsaintsimon.com/fr",
-  "consentedAt": "2026-11-13"
+  "page": "https://lebonsaintsimon.com/toutes-nos-prestations-1",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12309515780": {
   "src": "/restos/osm-n12309515780.webp",
   "kind": "site",
   "credit": "tacosplana.eatbu.com",
   "page": "https://tacosplana.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n12309699789": {
   "src": "/restos/osm-n12309699789.webp",
@@ -559,6 +743,17 @@
   "page": "https://www.all4play.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n12391543631": {
+  "src": "/restos/osm-n12391543631.webp",
+  "kind": "site",
+  "credit": "novoburger-etatsunis.fr",
+  "page": "https://novoburger-etatsunis.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
  "osm-n12394725014": {
   "src": "/restos/osm-n12394725014.webp",
   "kind": "site",
@@ -570,15 +765,23 @@
   "src": "/restos/osm-n12453696815.webp",
   "kind": "site",
   "credit": "osasuke.fr",
-  "page": "https://osasuke.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://osasuke.fr/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12479550692": {
   "src": "/restos/osm-n12479550692.webp",
   "kind": "site",
   "credit": "pizzadimama.fr",
-  "page": "https://www.pizzadimama.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.pizzadimama.fr/menu",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.98
+  }
  },
  "osm-n12492193721": {
   "src": "/restos/osm-n12492193721.webp",
@@ -592,7 +795,11 @@
   "kind": "site",
   "credit": "yazcantine.com",
   "page": "https://www.yazcantine.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n12514902747": {
   "src": "/restos/osm-n12514902747.webp",
@@ -620,14 +827,22 @@
   "kind": "site",
   "credit": "leshallesdadrien.fr",
   "page": "https://www.leshallesdadrien.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n12572018154": {
   "src": "/restos/osm-n12572018154.webp",
   "kind": "site",
   "credit": "pitaya-thaistreetfood.com",
-  "page": "https://pitaya-thaistreetfood.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://pitaya-thaistreetfood.com/pitaya-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1259663318": {
   "src": "/restos/osm-n1259663318.webp",
@@ -636,33 +851,60 @@
   "page": "https://www.fratellirizzo.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n1261011953": {
+  "src": "/restos/osm-n1261011953.webp",
+  "kind": "site",
+  "credit": "les-caprices.fr",
+  "page": "https://www.les-caprices.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-n1261011964": {
   "src": "/restos/osm-n1261011964.webp",
   "kind": "site",
   "credit": "suke-sushi-quint-fonsegrives.eatbu.com",
   "page": "https://suke-sushi-quint-fonsegrives.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n1261011968": {
   "src": "/restos/osm-n1261011968.webp",
   "kind": "site",
   "credit": "lebistrodescopains.com",
-  "page": "https://www.lebistrodescopains.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.lebistrodescopains.com/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n1261012008": {
   "src": "/restos/osm-n1261012008.webp",
   "kind": "site",
   "credit": "en-pleine-nature.com",
-  "page": "https://www.en-pleine-nature.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.en-pleine-nature.com/cartes-cadeaux/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1261028280": {
   "src": "/restos/osm-n1261028280.webp",
   "kind": "site",
   "credit": "le-lioti.fr",
   "page": "https://le-lioti.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12617843058": {
   "src": "/restos/osm-n12617843058.webp",
@@ -670,6 +912,17 @@
   "credit": "mamashelter.com",
   "page": "https://mamashelter.com/toulouse/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n12628125955": {
+  "src": "/restos/osm-n12628125955.webp",
+  "kind": "site",
+  "credit": "miyama.byclickeat.fr",
+  "page": "https://miyama.byclickeat.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n12628742886": {
   "src": "/restos/osm-n12628742886.webp",
@@ -683,7 +936,22 @@
   "kind": "site",
   "credit": "lepicerierestaurant.fr",
   "page": "https://lepicerierestaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n12696454498": {
+  "src": "/restos/osm-n12696454498.webp",
+  "kind": "site",
+  "credit": "o-bistrotgourmand.fr",
+  "page": "http://www.o-bistrotgourmand.fr/a-la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n12802084801": {
   "src": "/restos/osm-n12802084801.webp",
@@ -697,7 +965,11 @@
   "kind": "site",
   "credit": "goodprotein.fr",
   "page": "https://goodprotein.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n1284060339": {
   "src": "/restos/osm-n1284060339.webp",
@@ -711,14 +983,22 @@
   "kind": "site",
   "credit": "kopicoffeeshop.com",
   "page": "https://kopicoffeeshop.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n1284920514": {
   "src": "/restos/osm-n1284920514.webp",
   "kind": "site",
   "credit": "pepponita.fr",
   "page": "https://www.pepponita.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n1285015953": {
   "src": "/restos/osm-n1285015953.webp",
@@ -732,7 +1012,22 @@
   "kind": "site",
   "credit": "himarisushi.com",
   "page": "http://www.himarisushi.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "osm-n12855149513": {
+  "src": "/restos/osm-n12855149513.webp",
+  "kind": "site",
+  "credit": "lemekong-thaifood.fr",
+  "page": "https://lemekong-thaifood.fr/fr/gallery",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n12886004804": {
   "src": "/restos/osm-n12886004804.webp",
@@ -774,7 +1069,11 @@
   "kind": "site",
   "credit": "bangkok-bol.fr",
   "page": "http://bangkok-bol.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n1300702679": {
   "src": "/restos/osm-n1300702679.webp",
@@ -788,21 +1087,44 @@
   "kind": "site",
   "credit": "yannickdelpech-acte2.fr",
   "page": "https://yannickdelpech-acte2.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n13105235916": {
   "src": "/restos/osm-n13105235916.webp",
   "kind": "site",
   "credit": "odomtoulouse.com",
   "page": "https://odomtoulouse.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n13131111260": {
   "src": "/restos/osm-n13131111260.webp",
   "kind": "site",
   "credit": "le-muang-thai.fr",
   "page": "https://le-muang-thai.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n13133064807": {
+  "src": "/restos/osm-n13133064807.webp",
+  "kind": "site",
+  "credit": "brunchandco.eatbu.com",
+  "page": "https://brunchandco.eatbu.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n13142496428": {
   "src": "/restos/osm-n13142496428.webp",
@@ -816,21 +1138,44 @@
   "kind": "site",
   "credit": "tinospizza-tournefeuille.fr",
   "page": "https://www.tinospizza-tournefeuille.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n13155638487": {
   "src": "/restos/osm-n13155638487.webp",
   "kind": "site",
   "credit": "lady-sushi.fr",
   "page": "https://lady-sushi.fr/restaurants/toulouse/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n13183953689": {
   "src": "/restos/osm-n13183953689.webp",
   "kind": "site",
   "credit": "foodkorner31.fr",
   "page": "https://foodkorner31.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "osm-n13188220686": {
+  "src": "/restos/osm-n13188220686.webp",
+  "kind": "site",
+  "credit": "peppinotoulouse.com",
+  "page": "https://peppinotoulouse.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n13204487648": {
   "src": "/restos/osm-n13204487648.webp",
@@ -838,6 +1183,17 @@
   "credit": "lachiva.fr",
   "page": "https://lachiva.fr/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n13227664001": {
+  "src": "/restos/osm-n13227664001.webp",
+  "kind": "site",
+  "credit": "restaurants-amone.com",
+  "page": "https://restaurants-amone.com/les-cordons-bleus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n13264505010": {
   "src": "/restos/osm-n13264505010.webp",
@@ -858,21 +1214,33 @@
   "kind": "site",
   "credit": "pizzapia.fr",
   "page": "https://pizzapia.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n13326155895": {
   "src": "/restos/osm-n13326155895.webp",
   "kind": "site",
   "credit": "tribalafrican-cugnaux.com",
   "page": "https://tribalafrican-cugnaux.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n13366416336": {
   "src": "/restos/osm-n13366416336.webp",
   "kind": "site",
   "credit": "lileauxdesserts.com",
   "page": "http://lileauxdesserts.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n13388749380": {
   "src": "/restos/osm-n13388749380.webp",
@@ -886,7 +1254,11 @@
   "kind": "site",
   "credit": "pizzeria-chez-bardito.eatbu.com",
   "page": "https://pizzeria-chez-bardito.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n13450341475": {
   "src": "/restos/osm-n13450341475.webp",
@@ -894,6 +1266,28 @@
   "credit": "hotel-lacourdesconsuls.com",
   "page": "https://www.hotel-lacourdesconsuls.com/deguster-restaurant-gastronomique-toulouse/bar-le-46-bar-hotel-toulouse/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n13460285489": {
+  "src": "/restos/osm-n13460285489.webp",
+  "kind": "site",
+  "credit": "aubureau.fr",
+  "page": "https://www.aubureau.fr/la-carte-au-bureau",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n1349563367": {
+  "src": "/restos/osm-n1349563367.webp",
+  "kind": "site",
+  "credit": "liledephuket.fr",
+  "page": "http://liledephuket.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n13507791525": {
   "src": "/restos/osm-n13507791525.webp",
@@ -913,8 +1307,12 @@
   "src": "/restos/osm-n1352295760.webp",
   "kind": "site",
   "credit": "tokami-labege.com",
-  "page": "https://tokami-labege.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://tokami-labege.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1352295783": {
   "src": "/restos/osm-n1352295783.webp",
@@ -937,26 +1335,49 @@
   "page": "https://restaurants.berliner-do.com/kebab-blagnac/?utm_source=facebook.com&utm_medium=referral&utm_campaign=social",
   "consentedAt": "2026-11-13"
  },
+ "osm-n13565672825": {
+  "src": "/restos/osm-n13565672825.webp",
+  "kind": "site",
+  "credit": "lestontonsviandards.fr",
+  "page": "https://lestontonsviandards.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
  "osm-n13566894209": {
   "src": "/restos/osm-n13566894209.webp",
   "kind": "site",
   "credit": "kumquat-cantine-vietnamienne.fr",
   "page": "https://kumquat-cantine-vietnamienne.fr/labege",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n13613040998": {
   "src": "/restos/osm-n13613040998.webp",
   "kind": "site",
   "credit": "japnwok.fr",
   "page": "http://www.japnwok.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n13619802846": {
   "src": "/restos/osm-n13619802846.webp",
   "kind": "site",
   "credit": "marrakech-restaurant.fr",
   "page": "https://www.marrakech-restaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n13626368620": {
   "src": "/restos/osm-n13626368620.webp",
@@ -972,6 +1393,17 @@
   "page": "https://lemetronum.fr/bistronum/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n13650166170": {
+  "src": "/restos/osm-n13650166170.webp",
+  "kind": "site",
+  "credit": "gustonapoli.fr",
+  "page": "https://gustonapoli.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
  "osm-n13671507087": {
   "src": "/restos/osm-n13671507087.webp",
   "kind": "site",
@@ -984,7 +1416,11 @@
   "kind": "site",
   "credit": "tacos-dream.fr",
   "page": "https://tacos-dream.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n1371907506": {
   "src": "/restos/osm-n1371907506.webp",
@@ -998,14 +1434,22 @@
   "kind": "site",
   "credit": "theflowerscafe.com",
   "page": "https://www.theflowerscafe.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n13769818412": {
   "src": "/restos/osm-n13769818412.webp",
   "kind": "site",
   "credit": "theatregaronne.com",
   "page": "https://www.theatregaronne.com/information/bistro-garonne",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n13873681600": {
   "src": "/restos/osm-n13873681600.webp",
@@ -1021,6 +1465,17 @@
   "page": "https://www.bigsmash.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n13893817643": {
+  "src": "/restos/osm-n13893817643.webp",
+  "kind": "site",
+  "credit": "laguinguette-enlair.fr",
+  "page": "https://laguinguette-enlair.fr/midi/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n13901434721": {
   "src": "/restos/osm-n13901434721.webp",
   "kind": "site",
@@ -1028,19 +1483,71 @@
   "page": "https://crepeat.com/restaurant/crepeat-toulouse-portet/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n13943632227": {
+  "src": "/restos/osm-n13943632227.webp",
+  "kind": "site",
+  "credit": "chezlancien.fr",
+  "page": "https://chezlancien.fr/le-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n13953678139": {
   "src": "/restos/osm-n13953678139.webp",
   "kind": "site",
   "credit": "laperledesantillestoulouse.eatbu.com",
   "page": "https://laperledesantillestoulouse.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n13997379076": {
+  "src": "/restos/osm-n13997379076.webp",
+  "kind": "site",
+  "credit": "fornogusto.com",
+  "page": "https://www.fornogusto.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1400792693": {
   "src": "/restos/osm-n1400792693.webp",
   "kind": "site",
   "credit": "romarin-pizza.fr",
   "page": "https://romarin-pizza.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n1401908715": {
+  "src": "/restos/osm-n1401908715.webp",
+  "kind": "site",
+  "credit": "pepere-restaurant.fr",
+  "page": "https://www.pepere-restaurant.fr/menu",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n14061002867": {
+  "src": "/restos/osm-n14061002867.webp",
+  "kind": "site",
+  "credit": "roquetteetsucrine.fr",
+  "page": "https://roquetteetsucrine.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n14098888269": {
   "src": "/restos/osm-n14098888269.webp",
@@ -1068,21 +1575,55 @@
   "kind": "site",
   "credit": "osakafusion.fr",
   "page": "https://osakafusion.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1414801645": {
   "src": "/restos/osm-n1414801645.webp",
   "kind": "site",
   "credit": "carrementpizza.fr",
-  "page": "http://www.carrementpizza.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.carrementpizza.fr/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n14172592264": {
   "src": "/restos/osm-n14172592264.webp",
   "kind": "site",
   "credit": "beldifusion.fr",
   "page": "https://beldifusion.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
+ "osm-n14258150729": {
+  "src": "/restos/osm-n14258150729.webp",
+  "kind": "site",
+  "credit": "lesaffranchis.eu",
+  "page": "https://www.lesaffranchis.eu/toutes-nos-prestations-1",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n1429268112": {
+  "src": "/restos/osm-n1429268112.webp",
+  "kind": "site",
+  "credit": "bigfernand.com",
+  "page": "https://bigfernand.com/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1432189802": {
   "src": "/restos/osm-n1432189802.webp",
@@ -1103,7 +1644,22 @@
   "kind": "site",
   "credit": "kumquat-cantine-vietnamienne.fr",
   "page": "https://kumquat-cantine-vietnamienne.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n14366866801": {
+  "src": "/restos/osm-n14366866801.webp",
+  "kind": "site",
+  "credit": "la-grand-pizzeria.fr",
+  "page": "https://la-grand-pizzeria.fr/fr/gallery",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1450492062": {
   "src": "/restos/osm-n1450492062.webp",
@@ -1111,6 +1667,39 @@
   "credit": "creperie-le-menhir-31.com",
   "page": "https://www.creperie-le-menhir-31.com/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n1457631032": {
+  "src": "/restos/osm-n1457631032.webp",
+  "kind": "site",
+  "credit": "manel-toulouse.eatbu.com",
+  "page": "https://manel-toulouse.eatbu.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n1480282071": {
+  "src": "/restos/osm-n1480282071.webp",
+  "kind": "site",
+  "credit": "entrecote.fr",
+  "page": "https://www.entrecote.fr/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n1532506322": {
+  "src": "/restos/osm-n1532506322.webp",
+  "kind": "site",
+  "credit": "leptitlouis.fr",
+  "page": "https://leptitlouis.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1532525832": {
   "src": "/restos/osm-n1532525832.webp",
@@ -1124,7 +1713,22 @@
   "kind": "site",
   "credit": "mordus-resto.fr",
   "page": "https://www.mordus-resto.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n1532857725": {
+  "src": "/restos/osm-n1532857725.webp",
+  "kind": "site",
+  "credit": "makesushi31000.fr",
+  "page": "https://www.makesushi31000.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1544903747": {
   "src": "/restos/osm-n1544903747.webp",
@@ -1147,12 +1751,27 @@
   "page": "http://lacuisinedejean.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n1667118809": {
+  "src": "/restos/osm-n1667118809.webp",
+  "kind": "site",
+  "credit": "valentinosmashhouse.fr",
+  "page": "https://valentinosmashhouse.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-n1667118812": {
   "src": "/restos/osm-n1667118812.webp",
   "kind": "site",
   "credit": "heretoulouse.com",
   "page": "https://www.heretoulouse.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n1667118846": {
   "src": "/restos/osm-n1667118846.webp",
@@ -1187,7 +1806,22 @@
   "kind": "site",
   "credit": "heroescoffee.fr",
   "page": "http://www.heroescoffee.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n1771321029": {
+  "src": "/restos/osm-n1771321029.webp",
+  "kind": "site",
+  "credit": "indian-bowl.com",
+  "page": "https://indian-bowl.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1773479146": {
   "src": "/restos/osm-n1773479146.webp",
@@ -1236,7 +1870,11 @@
   "kind": "site",
   "credit": "jipoonthai.com",
   "page": "http://jipoonthai.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n1875049781": {
   "src": "/restos/osm-n1875049781.webp",
@@ -1264,7 +1902,11 @@
   "kind": "site",
   "credit": "casadupuy.fr",
   "page": "https://www.casadupuy.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n1972155352": {
   "src": "/restos/osm-n1972155352.webp",
@@ -1272,6 +1914,17 @@
   "credit": "lemamagayo.fr",
   "page": "https://www.lemamagayo.fr/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n1976765780": {
+  "src": "/restos/osm-n1976765780.webp",
+  "kind": "site",
+  "credit": "auburon.fr",
+  "page": "https://www.auburon.fr/shop/category/8",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n1976765814": {
   "src": "/restos/osm-n1976765814.webp",
@@ -1292,7 +1945,11 @@
   "kind": "site",
   "credit": "tantinadelaplaya.com",
   "page": "https://tantinadelaplaya.com/restaurant-poisson-toulouse/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2010420223": {
   "src": "/restos/osm-n2010420223.webp",
@@ -1308,26 +1965,60 @@
   "page": "https://cafe-oz.com/toulouse.html",
   "consentedAt": "2026-11-13"
  },
+ "osm-n2054159590": {
+  "src": "/restos/osm-n2054159590.webp",
+  "kind": "site",
+  "credit": "speed-burger.com",
+  "page": "https://www.speed-burger.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n2054262988": {
   "src": "/restos/osm-n2054262988.webp",
   "kind": "site",
   "credit": "lataqueriatoulouse.fr",
-  "page": "https://lataqueriatoulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://lataqueriatoulouse.fr/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2081650657": {
   "src": "/restos/osm-n2081650657.webp",
   "kind": "site",
   "credit": "lepetitvictor.fr",
   "page": "https://www.lepetitvictor.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2081650658": {
   "src": "/restos/osm-n2081650658.webp",
   "kind": "site",
   "credit": "barbaquevictorhugo.com",
   "page": "https://www.barbaquevictorhugo.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n2118637047": {
+  "src": "/restos/osm-n2118637047.webp",
+  "kind": "site",
+  "credit": "zenquint.fr",
+  "page": "https://zenquint.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2121457812": {
   "src": "/restos/osm-n2121457812.webp",
@@ -1341,14 +2032,33 @@
   "kind": "site",
   "credit": "monsieur-burger.com",
   "page": "https://monsieur-burger.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2165543146": {
   "src": "/restos/osm-n2165543146.webp",
   "kind": "site",
   "credit": "glaces-moustache.fr",
   "page": "https://www.glaces-moustache.fr/glaciers/moustache-toulouse/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
+ "osm-n2167568967": {
+  "src": "/restos/osm-n2167568967.webp",
+  "kind": "site",
+  "credit": "restaurant-le-nem-tournefeuille.jimdofree.com",
+  "page": "https://restaurant-le-nem-tournefeuille.jimdofree.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2172317285": {
   "src": "/restos/osm-n2172317285.webp",
@@ -1376,56 +2086,99 @@
   "kind": "site",
   "credit": "bapz.fr",
   "page": "https://www.bapz.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2246315729": {
   "src": "/restos/osm-n2246315729.webp",
   "kind": "site",
   "credit": "poketeria.fr",
   "page": "https://www.poketeria.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n2264803582": {
   "src": "/restos/osm-n2264803582.webp",
   "kind": "site",
   "credit": "chezmagda.fr",
   "page": "https://www.chezmagda.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2278391917": {
   "src": "/restos/osm-n2278391917.webp",
   "kind": "site",
   "credit": "theflowerscafe.com",
   "page": "https://www.theflowerscafe.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n2288216721": {
+  "src": "/restos/osm-n2288216721.webp",
+  "kind": "site",
+  "credit": "perfect-fried-chicken.fr",
+  "page": "https://perfect-fried-chicken.fr/menu",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2288240308": {
   "src": "/restos/osm-n2288240308.webp",
   "kind": "site",
   "credit": "foodstar.fr",
   "page": "https://foodstar.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2288246548": {
   "src": "/restos/osm-n2288246548.webp",
   "kind": "site",
   "credit": "kongbapjustice.fr",
   "page": "https://kongbapjustice.fr/order/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2288384497": {
   "src": "/restos/osm-n2288384497.webp",
   "kind": "site",
   "credit": "koboon-resto.fr",
   "page": "https://www.koboon-resto.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2294604973": {
   "src": "/restos/osm-n2294604973.webp",
   "kind": "site",
   "credit": "hotel-ariane-toulouse.fr",
   "page": "https://www.hotel-ariane-toulouse.fr/fr/page/la-table-d-ariane",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2296504345": {
   "src": "/restos/osm-n2296504345.webp",
@@ -1438,8 +2191,12 @@
   "src": "/restos/osm-n2330455415.webp",
   "kind": "site",
   "credit": "lepavedesminimes.com",
-  "page": "https://lepavedesminimes.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://lepavedesminimes.com/photos/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2338325953": {
   "src": "/restos/osm-n2338325953.webp",
@@ -1453,14 +2210,33 @@
   "kind": "site",
   "credit": "binks-kitchen.com",
   "page": "https://binks-kitchen.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n2351308489": {
+  "src": "/restos/osm-n2351308489.webp",
+  "kind": "site",
+  "credit": "ofreropizza.com",
+  "page": "https://www.ofreropizza.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2356855691": {
   "src": "/restos/osm-n2356855691.webp",
   "kind": "site",
   "credit": "lejardindelana.fr",
   "page": "https://lejardindelana.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2371653332": {
   "src": "/restos/osm-n2371653332.webp",
@@ -1474,28 +2250,55 @@
   "kind": "site",
   "credit": "theblacklion.fr",
   "page": "https://www.theblacklion.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2375992921": {
   "src": "/restos/osm-n2375992921.webp",
   "kind": "site",
   "credit": "tompouce-cafe.com",
   "page": "https://www.tompouce-cafe.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2434942590": {
   "src": "/restos/osm-n2434942590.webp",
   "kind": "site",
   "credit": "wagyuya.fr",
   "page": "https://wagyuya.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2439030955": {
   "src": "/restos/osm-n2439030955.webp",
   "kind": "site",
   "credit": "traditionpizza.fr",
   "page": "https://traditionpizza.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
+ "osm-n2444345516": {
+  "src": "/restos/osm-n2444345516.webp",
+  "kind": "site",
+  "credit": "tastycrousty.io",
+  "page": "https://tastycrousty.io",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2444345525": {
   "src": "/restos/osm-n2444345525.webp",
@@ -1509,7 +2312,11 @@
   "kind": "site",
   "credit": "antidot-burger.fr",
   "page": "https://antidot-burger.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2444345546": {
   "src": "/restos/osm-n2444345546.webp",
@@ -1537,7 +2344,11 @@
   "kind": "site",
   "credit": "odelicesdemilie.fr",
   "page": "https://odelicesdemilie.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n2445153711": {
   "src": "/restos/osm-n2445153711.webp",
@@ -1558,21 +2369,33 @@
   "kind": "site",
   "credit": "bokaitaliankitchen.com",
   "page": "https://www.bokaitaliankitchen.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n2446506278": {
   "src": "/restos/osm-n2446506278.webp",
   "kind": "site",
   "credit": "restaurants.pokawa.com",
   "page": "https://restaurants.pokawa.com/poke-bowl-toulouse/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2446506282": {
   "src": "/restos/osm-n2446506282.webp",
   "kind": "site",
   "credit": "restaurant-leparisien.fr",
   "page": "https://restaurant-leparisien.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2447064482": {
   "src": "/restos/osm-n2447064482.webp",
@@ -1593,14 +2416,22 @@
   "kind": "site",
   "credit": "sashimifood.my.canva.site",
   "page": "https://sashimifood.my.canva.site/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2447719410": {
   "src": "/restos/osm-n2447719410.webp",
   "kind": "site",
   "credit": "restaurant-hinode.fr",
   "page": "https://www.restaurant-hinode.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2447719430": {
   "src": "/restos/osm-n2447719430.webp",
@@ -1620,8 +2451,12 @@
   "src": "/restos/osm-n2450406575.webp",
   "kind": "site",
   "credit": "chezjeannot-restaurant.fr",
-  "page": "https://www.chezjeannot-restaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.chezjeannot-restaurant.fr/fr/carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2450406636": {
   "src": "/restos/osm-n2450406636.webp",
@@ -1635,7 +2470,11 @@
   "kind": "site",
   "credit": "sushishop.fr",
   "page": "https://www.sushishop.fr/fr/restaurant/toulouse-wilson",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2457312513": {
   "src": "/restos/osm-n2457312513.webp",
@@ -1665,12 +2504,27 @@
   "page": "https://hello-tea-toulouse.eatbu.com/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n2457312680": {
+  "src": "/restos/osm-n2457312680.webp",
+  "kind": "site",
+  "credit": "otzatziki.fr",
+  "page": "https://otzatziki.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n2457312699": {
   "src": "/restos/osm-n2457312699.webp",
   "kind": "site",
   "credit": "sunset-food.eatbu.com",
   "page": "https://sunset-food.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2457312718": {
   "src": "/restos/osm-n2457312718.webp",
@@ -1684,7 +2538,33 @@
   "kind": "site",
   "credit": "restaurants.tacos-avenue.com",
   "page": "https://restaurants.tacos-avenue.com/toulouse-saint-pierre/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n2457772044": {
+  "src": "/restos/osm-n2457772044.webp",
+  "kind": "site",
+  "credit": "tacos-corner.fr",
+  "page": "https://tacos-corner.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n2457772065": {
+  "src": "/restos/osm-n2457772065.webp",
+  "kind": "site",
+  "credit": "les-illustres.fr",
+  "page": "https://www.les-illustres.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n2457772078": {
   "src": "/restos/osm-n2457772078.webp",
@@ -1746,15 +2626,23 @@
   "src": "/restos/osm-n2459885033.webp",
   "kind": "site",
   "credit": "lacendree.com",
-  "page": "https://www.lacendree.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.lacendree.com/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2459885077": {
   "src": "/restos/osm-n2459885077.webp",
   "kind": "site",
   "credit": "restaurantatrium.fr",
   "page": "https://restaurantatrium.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2459885366": {
   "src": "/restos/osm-n2459885366.webp",
@@ -1775,35 +2663,77 @@
   "kind": "site",
   "credit": "les-delices-toulouse.fr",
   "page": "https://les-delices-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2460246687": {
   "src": "/restos/osm-n2460246687.webp",
   "kind": "site",
   "credit": "la-cuisine-de-kine-toulouse.eatbu.com",
   "page": "https://la-cuisine-de-kine-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n2460246697": {
+  "src": "/restos/osm-n2460246697.webp",
+  "kind": "site",
+  "credit": "la-perse-restaurant-toulouse.fr",
+  "page": "https://la-perse-restaurant-toulouse.fr/fr/gallery",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n2460246700": {
+  "src": "/restos/osm-n2460246700.webp",
+  "kind": "site",
+  "credit": "ofenogusto.com",
+  "page": "https://ofenogusto.com/menu",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2460954119": {
   "src": "/restos/osm-n2460954119.webp",
   "kind": "site",
   "credit": "quanpho83.github.io",
   "page": "https://quanpho83.github.io/QUAN-PHO-83/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2460954126": {
   "src": "/restos/osm-n2460954126.webp",
   "kind": "site",
   "credit": "madamebovary31.com",
   "page": "https://madamebovary31.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2460954128": {
   "src": "/restos/osm-n2460954128.webp",
   "kind": "site",
   "credit": "restaurant-semiramis.com",
   "page": "https://restaurant-semiramis.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2460954162": {
   "src": "/restos/osm-n2460954162.webp",
@@ -1811,6 +2741,17 @@
   "credit": "yujoramen.com",
   "page": "https://www.yujoramen.com/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n2463356564": {
+  "src": "/restos/osm-n2463356564.webp",
+  "kind": "site",
+  "credit": "les-filous.fr",
+  "page": "https://les-filous.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2464788537": {
   "src": "/restos/osm-n2464788537.webp",
@@ -1824,14 +2765,22 @@
   "kind": "site",
   "credit": "miam-miam-toulouse.eatbu.com",
   "page": "https://miam-miam-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2464788571": {
   "src": "/restos/osm-n2464788571.webp",
   "kind": "site",
   "credit": "airdefamilletoulouse.fr",
   "page": "https://airdefamilletoulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2464788588": {
   "src": "/restos/osm-n2464788588.webp",
@@ -1847,12 +2796,27 @@
   "page": "https://www.zen-sai.com/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n2465993964": {
+  "src": "/restos/osm-n2465993964.webp",
+  "kind": "site",
+  "credit": "lebombaytoulouse.fr",
+  "page": "https://lebombaytoulouse.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-n2465993971": {
   "src": "/restos/osm-n2465993971.webp",
   "kind": "site",
   "credit": "caminito-toulouse.fr",
   "page": "https://caminito-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2465994034": {
   "src": "/restos/osm-n2465994034.webp",
@@ -1866,7 +2830,22 @@
   "kind": "site",
   "credit": "larajasthani.fr",
   "page": "https://www.larajasthani.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n2465994066": {
+  "src": "/restos/osm-n2465994066.webp",
+  "kind": "site",
+  "credit": "amore-mia.fr",
+  "page": "https://amore-mia.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2465994174": {
   "src": "/restos/osm-n2465994174.webp",
@@ -1875,19 +2854,38 @@
   "page": "https://cafe-lesinfiltres.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n2471591456": {
+  "src": "/restos/osm-n2471591456.webp",
+  "kind": "site",
+  "credit": "woktowalk.com",
+  "page": "https://www.woktowalk.com/fr/notre-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n2474616483": {
   "src": "/restos/osm-n2474616483.webp",
   "kind": "site",
   "credit": "lacafeteriatoulouse.fr",
   "page": "https://www.lacafeteriatoulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n247685861": {
   "src": "/restos/osm-n247685861.webp",
   "kind": "site",
   "credit": "le-chai-saint-sauveur-toulouse.fr",
-  "page": "https://le-chai-saint-sauveur-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://le-chai-saint-sauveur-toulouse.fr/cuisine-saveurs/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2478393302": {
   "src": "/restos/osm-n2478393302.webp",
@@ -1901,21 +2899,33 @@
   "kind": "site",
   "credit": "coupdebambou.fr",
   "page": "https://coupdebambou.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2478393342": {
   "src": "/restos/osm-n2478393342.webp",
   "kind": "site",
   "credit": "ekylibre-toulouse.fr",
   "page": "https://www.ekylibre-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2478393362": {
   "src": "/restos/osm-n2478393362.webp",
   "kind": "site",
   "credit": "anaelaboireamanger.fr",
   "page": "https://anaelaboireamanger.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2478393365": {
   "src": "/restos/osm-n2478393365.webp",
@@ -1929,7 +2939,11 @@
   "kind": "site",
   "credit": "oppabistro.fr",
   "page": "https://www.oppabistro.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2478393527": {
   "src": "/restos/osm-n2478393527.webp",
@@ -1957,21 +2971,33 @@
   "kind": "site",
   "credit": "leroll.fr",
   "page": "https://www.leroll.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2525414016": {
   "src": "/restos/osm-n2525414016.webp",
   "kind": "site",
   "credit": "auxpiedssouslatable.fr",
   "page": "https://auxpiedssouslatable.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2525414074": {
   "src": "/restos/osm-n2525414074.webp",
   "kind": "site",
   "credit": "lakasbah.fr",
-  "page": "https://www.lakasbah.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.lakasbah.fr/restaurant-couscous-toulouse-carte/toulouse-couscous-entrees/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2525414093": {
   "src": "/restos/osm-n2525414093.webp",
@@ -1985,7 +3011,11 @@
   "kind": "site",
   "credit": "restaurants.pokawa.com",
   "page": "https://restaurants.pokawa.com/poke-bowls-toulouse-compans-caffarelli/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2525414102": {
   "src": "/restos/osm-n2525414102.webp",
@@ -1999,21 +3029,33 @@
   "kind": "site",
   "credit": "yokosushi.fr",
   "page": "https://www.yokosushi.fr/#/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2534829582": {
   "src": "/restos/osm-n2534829582.webp",
   "kind": "site",
   "credit": "restaurant-ag-toulouse.fr",
-  "page": "https://www.restaurant-ag-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.restaurant-ag-toulouse.fr/la-carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2547949097": {
   "src": "/restos/osm-n2547949097.webp",
   "kind": "site",
   "credit": "pizz-art.net",
-  "page": "https://pizz-art.net/",
-  "consentedAt": "2026-11-13"
+  "page": "https://pizz-art.net/carte-emporter/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2554000383": {
   "src": "/restos/osm-n2554000383.webp",
@@ -2035,6 +3077,17 @@
   "credit": "cafeginette.com",
   "page": "https://cafeginette.com/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n259419396": {
+  "src": "/restos/osm-n259419396.webp",
+  "kind": "site",
+  "credit": "aux-delices.com",
+  "page": "http://aux-delices.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n2638335529": {
   "src": "/restos/osm-n2638335529.webp",
@@ -2062,7 +3115,11 @@
   "kind": "site",
   "credit": "italianspizza.fr",
   "page": "http://www.italianspizza.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n2670561095": {
   "src": "/restos/osm-n2670561095.webp",
@@ -2076,7 +3133,11 @@
   "kind": "site",
   "credit": "courtepaille.com",
   "page": "https://www.courtepaille.com/restaurant/courtepaille-toulouse-aeroport/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n2736345424": {
   "src": "/restos/osm-n2736345424.webp",
@@ -2106,6 +3167,17 @@
   "page": "https://www.py-r.com/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n2872061456": {
+  "src": "/restos/osm-n2872061456.webp",
+  "kind": "site",
+  "credit": "pizzeriasanlorenzo.fr",
+  "page": "https://pizzeriasanlorenzo.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n29047143": {
   "src": "/restos/osm-n29047143.webp",
   "kind": "site",
@@ -2127,6 +3199,17 @@
   "page": "https://cafelafiancee.com/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n29681754": {
+  "src": "/restos/osm-n29681754.webp",
+  "kind": "site",
+  "credit": "restaurant-linstant.fr",
+  "page": "https://restaurant-linstant.fr/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n2969315016": {
   "src": "/restos/osm-n2969315016.webp",
   "kind": "site",
@@ -2139,7 +3222,11 @@
   "kind": "site",
   "credit": "cotesushi.com",
   "page": "https://cotesushi.com/restaurants/86",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n2993590527": {
   "src": "/restos/osm-n2993590527.webp",
@@ -2195,7 +3282,11 @@
   "kind": "site",
   "credit": "lacouleurdelaculotte.com",
   "page": "https://www.lacouleurdelaculotte.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.98
+  }
  },
  "osm-n3379477784": {
   "src": "/restos/osm-n3379477784.webp",
@@ -2218,6 +3309,28 @@
   "page": "http://www.nearindex.com/fr/toulouse/restaurants/district-amidonniers-caffarelli",
   "consentedAt": "2026-11-13"
  },
+ "osm-n3440754923": {
+  "src": "/restos/osm-n3440754923.webp",
+  "kind": "site",
+  "credit": "restaurants.chickenstreet.fr",
+  "page": "https://restaurants.chickenstreet.fr/toulouse-jean-d",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "osm-n3440754930": {
+  "src": "/restos/osm-n3440754930.webp",
+  "kind": "site",
+  "credit": "must-tacos.com",
+  "page": "https://www.must-tacos.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n3492012044": {
   "src": "/restos/osm-n3492012044.webp",
   "kind": "site",
@@ -2230,7 +3343,11 @@
   "kind": "site",
   "credit": "pizzaontime.fr",
   "page": "http://www.pizzaontime.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n3493129050": {
   "src": "/restos/osm-n3493129050.webp",
@@ -2257,15 +3374,34 @@
   "src": "/restos/osm-n3553704056.webp",
   "kind": "site",
   "credit": "gruppomimo.com",
-  "page": "https://www.gruppomimo.com/nos-restaurants/gruppomimo-toulouse",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.gruppomimo.com/nos-restaurants",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n356783375": {
+  "src": "/restos/osm-n356783375.webp",
+  "kind": "site",
+  "credit": "lesasiatides.com",
+  "page": "http://www.lesasiatides.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n3569221534": {
   "src": "/restos/osm-n3569221534.webp",
   "kind": "site",
   "credit": "restaurant-ventsdest.fr",
   "page": "https://www.restaurant-ventsdest.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n359193883": {
   "src": "/restos/osm-n359193883.webp",
@@ -2279,21 +3415,33 @@
   "kind": "site",
   "credit": "opaisible.fr",
   "page": "https://www.opaisible.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n365269997": {
   "src": "/restos/osm-n365269997.webp",
   "kind": "site",
   "credit": "buffalo-grill.fr",
-  "page": "https://www.buffalo-grill.fr/nos-restaurants/toulouse-roques-sur-garonne",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.buffalo-grill.fr/la-carte/menus",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n3669185803": {
   "src": "/restos/osm-n3669185803.webp",
   "kind": "site",
   "credit": "shinyaramen.fr",
   "page": "https://shinyaramen.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n3669185806": {
   "src": "/restos/osm-n3669185806.webp",
@@ -2321,14 +3469,22 @@
   "kind": "site",
   "credit": "mazzolina.fr",
   "page": "https://mazzolina.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n3751077603": {
   "src": "/restos/osm-n3751077603.webp",
   "kind": "site",
   "credit": "galinette-rotisserie.fr",
   "page": "https://www.galinette-rotisserie.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n3752239652": {
   "src": "/restos/osm-n3752239652.webp",
@@ -2356,7 +3512,11 @@
   "kind": "site",
   "credit": "casapepi.fr",
   "page": "http://casapepi.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n3919124733": {
   "src": "/restos/osm-n3919124733.webp",
@@ -2370,7 +3530,11 @@
   "kind": "site",
   "credit": "restaurants.subwayfrance.fr",
   "page": "https://restaurants.subwayfrance.fr/fr/occitanie/haute-garonne/blagnac/subway-blagnac-185",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n3955224806": {
   "src": "/restos/osm-n3955224806.webp",
@@ -2419,14 +3583,22 @@
   "kind": "site",
   "credit": "pizzazio.fr",
   "page": "http://pizzazio.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n423867111": {
   "src": "/restos/osm-n423867111.webp",
   "kind": "site",
   "credit": "pizzafelix.com",
   "page": "https://www.pizzafelix.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n4241777239": {
   "src": "/restos/osm-n4241777239.webp",
@@ -2447,7 +3619,11 @@
   "kind": "site",
   "credit": "leronddeserviette-rivegauche.fr",
   "page": "https://www.leronddeserviette-rivegauche.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4285279180": {
   "src": "/restos/osm-n4285279180.webp",
@@ -2456,12 +3632,27 @@
   "page": "https://www.blastodice.com/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n4314907757": {
+  "src": "/restos/osm-n4314907757.webp",
+  "kind": "site",
+  "credit": "hortus-toulouse.fr",
+  "page": "https://hortus-toulouse.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
  "osm-n4318691181": {
   "src": "/restos/osm-n4318691181.webp",
   "kind": "site",
   "credit": "la-trattoria-lunion.eatbu.com",
   "page": "https://la-trattoria-lunion.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4329279134": {
   "src": "/restos/osm-n4329279134.webp",
@@ -2482,21 +3673,33 @@
   "kind": "site",
   "credit": "chez-david-ramonville.fr",
   "page": "https://www.chez-david-ramonville.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n435610058": {
   "src": "/restos/osm-n435610058.webp",
   "kind": "site",
   "credit": "brasserie-lebristol-toulouse.eatbu.com",
   "page": "https://brasserie-lebristol-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4361346558": {
   "src": "/restos/osm-n4361346558.webp",
   "kind": "site",
   "credit": "llum-toulouse.fr",
-  "page": "https://www.llum-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.llum-toulouse.fr/carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4391765186": {
   "src": "/restos/osm-n4391765186.webp",
@@ -2510,14 +3713,33 @@
   "kind": "site",
   "credit": "restaurant-capland.fr",
   "page": "https://restaurant-capland.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n4413138394": {
+  "src": "/restos/osm-n4413138394.webp",
+  "kind": "site",
+  "credit": "wizzup.fr",
+  "page": "https://wizzup.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n4418074223": {
   "src": "/restos/osm-n4418074223.webp",
   "kind": "site",
   "credit": "lady-sushi.fr",
   "page": "https://lady-sushi.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n4418074237": {
   "src": "/restos/osm-n4418074237.webp",
@@ -2544,8 +3766,12 @@
   "src": "/restos/osm-n445763897.webp",
   "kind": "site",
   "credit": "marins-eau-douce.com",
-  "page": "https://www.marins-eau-douce.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.marins-eau-douce.com/menus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4485665928": {
   "src": "/restos/osm-n4485665928.webp",
@@ -2572,8 +3798,12 @@
   "src": "/restos/osm-n450171441.webp",
   "kind": "site",
   "credit": "restaurant-emile.com",
-  "page": "https://www.restaurant-emile.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.restaurant-emile.com/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n450531283": {
   "src": "/restos/osm-n450531283.webp",
@@ -2608,7 +3838,11 @@
   "kind": "site",
   "credit": "optit-garonnais.fr",
   "page": "https://www.optit-garonnais.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n455444973": {
   "src": "/restos/osm-n455444973.webp",
@@ -2616,6 +3850,17 @@
   "credit": "lecafedetoulouse.fr",
   "page": "https://lecafedetoulouse.fr/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n4561796393": {
+  "src": "/restos/osm-n4561796393.webp",
+  "kind": "site",
+  "credit": "woktowalk.com",
+  "page": "https://www.woktowalk.com/fr/notre-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4593927910": {
   "src": "/restos/osm-n4593927910.webp",
@@ -2629,7 +3874,11 @@
   "kind": "site",
   "credit": "restaurant-brut.fr",
   "page": "https://www.restaurant-brut.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n460338227": {
   "src": "/restos/osm-n460338227.webp",
@@ -2650,7 +3899,11 @@
   "kind": "site",
   "credit": "le-detaillant.fr",
   "page": "http://le-detaillant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n4644365690": {
   "src": "/restos/osm-n4644365690.webp",
@@ -2664,7 +3917,11 @@
   "kind": "site",
   "credit": "mami-wata.com",
   "page": "https://mami-wata.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4703955392": {
   "src": "/restos/osm-n4703955392.webp",
@@ -2692,21 +3949,33 @@
   "kind": "site",
   "credit": "diva-pizza.fr",
   "page": "http://diva-pizza.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n4856973221": {
   "src": "/restos/osm-n4856973221.webp",
   "kind": "site",
   "credit": "rajpoot-restaurant-blagnac.eatbu.com",
   "page": "https://rajpoot-restaurant-blagnac.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n4907716555": {
   "src": "/restos/osm-n4907716555.webp",
   "kind": "site",
   "credit": "lerichedesaveurs.com",
-  "page": "https://www.lerichedesaveurs.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.lerichedesaveurs.com/category/equipements-de-cuisine/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4921117322": {
   "src": "/restos/osm-n4921117322.webp",
@@ -2727,7 +3996,11 @@
   "kind": "site",
   "credit": "candelu-pizza.fr",
   "page": "http://candelu-pizza.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4953587105": {
   "src": "/restos/osm-n4953587105.webp",
@@ -2748,7 +4021,11 @@
   "kind": "site",
   "credit": "le-bistrot-du-port-toulouse.eatbu.com",
   "page": "https://le-bistrot-du-port-toulouse.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n4994562467": {
   "src": "/restos/osm-n4994562467.webp",
@@ -2771,33 +4048,71 @@
   "page": "https://pizzerias.tutti-pizza.com/12-tutti-pizza-pechbonnieu",
   "consentedAt": "2026-11-13"
  },
+ "osm-n5050467093": {
+  "src": "/restos/osm-n5050467093.webp",
+  "kind": "site",
+  "credit": "stadetoulousain.fr",
+  "page": "http://www.stadetoulousain.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
+ "osm-n5075018122": {
+  "src": "/restos/osm-n5075018122.webp",
+  "kind": "site",
+  "credit": "unetableadeux.fr",
+  "page": "https://www.unetableadeux.fr/menus-2/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-n5124543439": {
   "src": "/restos/osm-n5124543439.webp",
   "kind": "site",
   "credit": "tutti-pizza.com",
-  "page": "https://www.tutti-pizza.com/fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.tutti-pizza.com/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n5140225073": {
   "src": "/restos/osm-n5140225073.webp",
   "kind": "site",
   "credit": "pitcholina.fr",
-  "page": "https://www.pitcholina.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.pitcholina.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n5141769737": {
   "src": "/restos/osm-n5141769737.webp",
   "kind": "site",
   "credit": "cafe-paul.fr",
   "page": "http://www.cafe-paul.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n5178327321": {
   "src": "/restos/osm-n5178327321.webp",
   "kind": "site",
   "credit": "newschooltacos.fr",
-  "page": "http://www.newschooltacos.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.newschooltacos.fr/la-carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n5191825353": {
   "src": "/restos/osm-n5191825353.webp",
@@ -2832,7 +4147,11 @@
   "kind": "site",
   "credit": "tajindianfr.com",
   "page": "https://tajindianfr.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n5526097102": {
   "src": "/restos/osm-n5526097102.webp",
@@ -2866,8 +4185,12 @@
   "src": "/restos/osm-n5611437742.webp",
   "kind": "site",
   "credit": "newschooltacos.fr",
-  "page": "https://www.newschooltacos.fr/restaurants/toulouse-minimes",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.newschooltacos.fr/la-carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n5614820521": {
   "src": "/restos/osm-n5614820521.webp",
@@ -2888,14 +4211,22 @@
   "kind": "site",
   "credit": "bistrotdeletoile.fr",
   "page": "https://www.bistrotdeletoile.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n563700603": {
   "src": "/restos/osm-n563700603.webp",
   "kind": "site",
   "credit": "burgernco.fr",
-  "page": "https://www.burgernco.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.burgernco.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n5639320721": {
   "src": "/restos/osm-n5639320721.webp",
@@ -2909,7 +4240,11 @@
   "kind": "site",
   "credit": "ozenasianfood.fr",
   "page": "https://www.ozenasianfood.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n5673025275": {
   "src": "/restos/osm-n5673025275.webp",
@@ -2923,7 +4258,22 @@
   "kind": "site",
   "credit": "thaithaisushi.wordpress.com",
   "page": "https://thaithaisushi.wordpress.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n5688659785": {
+  "src": "/restos/osm-n5688659785.webp",
+  "kind": "site",
+  "credit": "eatsushi.fr",
+  "page": "https://www.eatsushi.fr/cartes-et-menus",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n5695040461": {
   "src": "/restos/osm-n5695040461.webp",
@@ -2939,19 +4289,38 @@
   "page": "https://thecoffee.jp/shortcut/france/toulouse/the-coffee-capitole",
   "consentedAt": "2026-11-13"
  },
+ "osm-n573392053": {
+  "src": "/restos/osm-n573392053.webp",
+  "kind": "site",
+  "credit": "restaurantoselfou.fr",
+  "page": "https://restaurantoselfou.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-n5777635253": {
   "src": "/restos/osm-n5777635253.webp",
   "kind": "site",
   "credit": "chefchuan.fr",
-  "page": "https://www.chefchuan.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.chefchuan.fr/la-cuisine-sichuanaise",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n579944581": {
   "src": "/restos/osm-n579944581.webp",
   "kind": "site",
   "credit": "restaurant-lapampa.eatbu.com",
   "page": "https://restaurant-lapampa.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n5806362689": {
   "src": "/restos/osm-n5806362689.webp",
@@ -2964,8 +4333,12 @@
   "src": "/restos/osm-n5954090092.webp",
   "kind": "site",
   "credit": "lechinafastfood.fr",
-  "page": "https://lechinafastfood.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://lechinafastfood.fr/gallery.html",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n5963250085": {
   "src": "/restos/osm-n5963250085.webp",
@@ -2979,21 +4352,33 @@
   "kind": "site",
   "credit": "chezlena.fr",
   "page": "https://www.chezlena.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n5981076038": {
   "src": "/restos/osm-n5981076038.webp",
   "kind": "site",
   "credit": "chez-teta.com",
   "page": "https://www.chez-teta.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n5981079077": {
   "src": "/restos/osm-n5981079077.webp",
   "kind": "site",
   "credit": "lecorce.com",
   "page": "https://www.lecorce.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n5981082884": {
   "src": "/restos/osm-n5981082884.webp",
@@ -3007,35 +4392,66 @@
   "kind": "site",
   "credit": "lebibent.com",
   "page": "https://lebibent.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n5981295336": {
   "src": "/restos/osm-n5981295336.webp",
   "kind": "site",
   "credit": "sushishop.fr",
   "page": "https://www.sushishop.fr/fr//restaurant/toulouse-boulbonne",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n5983315539": {
   "src": "/restos/osm-n5983315539.webp",
   "kind": "site",
   "credit": "bonopandas.com",
   "page": "https://www.bonopandas.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n6000894749": {
   "src": "/restos/osm-n6000894749.webp",
   "kind": "site",
   "credit": "laverriere-toulouse.fr",
   "page": "https://www.laverriere-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n6030055603": {
+  "src": "/restos/osm-n6030055603.webp",
+  "kind": "site",
+  "credit": "lhoustalet.fr",
+  "page": "https://lhoustalet.fr/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6032265548": {
   "src": "/restos/osm-n6032265548.webp",
   "kind": "site",
   "credit": "lepetitsanseb.com",
   "page": "https://lepetitsanseb.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n6032272329": {
   "src": "/restos/osm-n6032272329.webp",
@@ -3043,6 +4459,17 @@
   "credit": "victor-hugo.rosa-negra.fr",
   "page": "https://victor-hugo.rosa-negra.fr/la-rosa-cote-victor-hugo",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n6032290655": {
+  "src": "/restos/osm-n6032290655.webp",
+  "kind": "site",
+  "credit": "pitaya-thaistreetfood.com",
+  "page": "https://pitaya-thaistreetfood.com/pitaya-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6036473876": {
   "src": "/restos/osm-n6036473876.webp",
@@ -3055,29 +4482,45 @@
   "src": "/restos/osm-n6083598709.webp",
   "kind": "site",
   "credit": "di-nando-pizza-toulouse.eatbu.com",
-  "page": "https://di-nando-pizza-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://di-nando-pizza-toulouse.eatbu.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n610534138": {
   "src": "/restos/osm-n610534138.webp",
   "kind": "site",
   "credit": "restaurant-lacouleurdurenard.fr",
-  "page": "https://www.restaurant-lacouleurdurenard.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.restaurant-lacouleurdurenard.fr/carte-cadeau-1",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6119042511": {
   "src": "/restos/osm-n6119042511.webp",
   "kind": "site",
   "credit": "boheme.primafamily.fr",
   "page": "https://boheme.primafamily.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6128563758": {
   "src": "/restos/osm-n6128563758.webp",
   "kind": "site",
   "credit": "royalbuffet.fr",
   "page": "https://royalbuffet.fr/toulouse-atlanta/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n615204677": {
   "src": "/restos/osm-n615204677.webp",
@@ -3098,7 +4541,11 @@
   "kind": "site",
   "credit": "chez-sylvain.com",
   "page": "https://chez-sylvain.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n6263888458": {
   "src": "/restos/osm-n6263888458.webp",
@@ -3119,14 +4566,22 @@
   "kind": "site",
   "credit": "larbreasushi.eatbu.com",
   "page": "https://larbreasushi.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6295898285": {
   "src": "/restos/osm-n6295898285.webp",
   "kind": "site",
   "credit": "restaurant-daebak.fr",
   "page": "https://www.restaurant-daebak.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6297802789": {
   "src": "/restos/osm-n6297802789.webp",
@@ -3135,19 +4590,38 @@
   "page": "https://pizzerias.tutti-pizza.com/29-tutti-pizza-blagnac?utm_source=facebook",
   "consentedAt": "2026-11-13"
  },
+ "osm-n630662469": {
+  "src": "/restos/osm-n630662469.webp",
+  "kind": "site",
+  "credit": "vivants-toulouse.com",
+  "page": "https://vivants-toulouse.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
  "osm-n631754994": {
   "src": "/restos/osm-n631754994.webp",
   "kind": "site",
   "credit": "yokosushi.fr",
   "page": "https://www.yokosushi.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n631755001": {
   "src": "/restos/osm-n631755001.webp",
   "kind": "site",
   "credit": "saignant-restaurant.fr",
   "page": "https://www.saignant-restaurant.fr/fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n632704752": {
   "src": "/restos/osm-n632704752.webp",
@@ -3161,21 +4635,33 @@
   "kind": "site",
   "credit": "saveursbasilic.com",
   "page": "https://www.saveursbasilic.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6355346673": {
   "src": "/restos/osm-n6355346673.webp",
   "kind": "site",
   "credit": "tinospizza.eatbu.com",
   "page": "https://tinospizza.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6363237006": {
   "src": "/restos/osm-n6363237006.webp",
   "kind": "site",
   "credit": "asian-orchidee.fr",
   "page": "https://www.asian-orchidee.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n636914874": {
   "src": "/restos/osm-n636914874.webp",
@@ -3196,14 +4682,44 @@
   "kind": "site",
   "credit": "blockout.fr",
   "page": "https://www.blockout.fr/bo-toulouse/restaurant",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "osm-n6402665987": {
+  "src": "/restos/osm-n6402665987.webp",
+  "kind": "site",
+  "credit": "jifu-restaurant.fr",
+  "page": "https://www.jifu-restaurant.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6443229854": {
   "src": "/restos/osm-n6443229854.webp",
   "kind": "site",
   "credit": "halledelamachine.fr",
   "page": "https://www.halledelamachine.fr/minotaure-cafe/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n644841655": {
+  "src": "/restos/osm-n644841655.webp",
+  "kind": "site",
+  "credit": "molette-restaurant.fr",
+  "page": "https://www.molette-restaurant.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6462478792": {
   "src": "/restos/osm-n6462478792.webp",
@@ -3217,7 +4733,11 @@
   "kind": "site",
   "credit": "thebakerycorner.fr",
   "page": "https://thebakerycorner.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6465299490": {
   "src": "/restos/osm-n6465299490.webp",
@@ -3252,35 +4772,55 @@
   "kind": "site",
   "credit": "barricot.fr",
   "page": "https://www.barricot.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n6612634105": {
   "src": "/restos/osm-n6612634105.webp",
   "kind": "site",
   "credit": "bao-house.fr",
   "page": "https://www.bao-house.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6612644830": {
   "src": "/restos/osm-n6612644830.webp",
   "kind": "site",
   "credit": "elcanaille.wordpress.com",
-  "page": "https://elcanaille.wordpress.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://elcanaille.wordpress.com/les-plateaux-de-charcuterie/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6612995963": {
   "src": "/restos/osm-n6612995963.webp",
   "kind": "site",
   "credit": "sham-restaurant-toulouse.eatbu.com",
   "page": "https://sham-restaurant-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6637178324": {
   "src": "/restos/osm-n6637178324.webp",
   "kind": "site",
   "credit": "eatsalad.fr",
-  "page": "https://eatsalad.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://eatsalad.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6679522413": {
   "src": "/restos/osm-n6679522413.webp",
@@ -3294,7 +4834,33 @@
   "kind": "site",
   "credit": "gusto-pizza.net",
   "page": "https://www.gusto-pizza.net/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n6696868022": {
+  "src": "/restos/osm-n6696868022.webp",
+  "kind": "site",
+  "credit": "guoguoji.fr",
+  "page": "https://guoguoji.fr/fr/gallery",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n6703500309": {
+  "src": "/restos/osm-n6703500309.webp",
+  "kind": "site",
+  "credit": "pizzarena.fr",
+  "page": "https://pizzarena.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n674058208": {
   "src": "/restos/osm-n674058208.webp",
@@ -3303,12 +4869,27 @@
   "page": "https://www.maisonduvelotoulouse.com/restaurant_le_velo_sentimental_10.php",
   "consentedAt": "2026-11-13"
  },
+ "osm-n6778273970": {
+  "src": "/restos/osm-n6778273970.webp",
+  "kind": "site",
+  "credit": "royal-buffet-toulouse.com",
+  "page": "https://www.royal-buffet-toulouse.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-n6841189507": {
   "src": "/restos/osm-n6841189507.webp",
   "kind": "site",
   "credit": "abuelorestaurant.fr",
   "page": "https://www.abuelorestaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6855499235": {
   "src": "/restos/osm-n6855499235.webp",
@@ -3322,14 +4903,22 @@
   "kind": "site",
   "credit": "pizza-autrement.com",
   "page": "http://pizza-autrement.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n6898849186": {
   "src": "/restos/osm-n6898849186.webp",
   "kind": "site",
   "credit": "lavieenrose-restaurant.com",
   "page": "http://www.lavieenrose-restaurant.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n6915495563": {
   "src": "/restos/osm-n6915495563.webp",
@@ -3357,7 +4946,11 @@
   "kind": "site",
   "credit": "sorami-burger.fr",
   "page": "https://www.sorami-burger.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n7042261555": {
   "src": "/restos/osm-n7042261555.webp",
@@ -3378,21 +4971,33 @@
   "kind": "site",
   "credit": "focafoca.fr",
   "page": "https://focafoca.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7147293808": {
   "src": "/restos/osm-n7147293808.webp",
   "kind": "site",
   "credit": "leshallesdelatransition.com",
   "page": "https://www.leshallesdelatransition.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7148688367": {
   "src": "/restos/osm-n7148688367.webp",
   "kind": "site",
   "credit": "ankka.fr",
-  "page": "https://ankka.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://ankka.fr/offre-b-to-b/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n730717579": {
   "src": "/restos/osm-n730717579.webp",
@@ -3413,14 +5018,22 @@
   "kind": "site",
   "credit": "restaurants.bioburger.fr",
   "page": "https://restaurants.bioburger.fr/fr/restaurant-burger-bio/rue-des-filatiers-toulouse/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7369021466": {
   "src": "/restos/osm-n7369021466.webp",
   "kind": "site",
   "credit": "banhmiviet-tls.fr",
-  "page": "https://www.banhmiviet-tls.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.banhmiviet-tls.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7369021467": {
   "src": "/restos/osm-n7369021467.webp",
@@ -3434,21 +5047,44 @@
   "kind": "site",
   "credit": "chezgardel.fr",
   "page": "https://chezgardel.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7383272442": {
   "src": "/restos/osm-n7383272442.webp",
   "kind": "site",
   "credit": "lacuisineameme.fr",
   "page": "https://www.lacuisineameme.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
+ "osm-n7383272448": {
+  "src": "/restos/osm-n7383272448.webp",
+  "kind": "site",
+  "credit": "le-marocain.fr",
+  "page": "https://le-marocain.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7383272455": {
   "src": "/restos/osm-n7383272455.webp",
   "kind": "site",
   "credit": "saokopatisserie.com",
   "page": "https://www.saokopatisserie.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7383274386": {
   "src": "/restos/osm-n7383274386.webp",
@@ -3462,49 +5098,88 @@
   "kind": "site",
   "credit": "freshnanburger.com",
   "page": "https://freshnanburger.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7416692883": {
   "src": "/restos/osm-n7416692883.webp",
   "kind": "site",
   "credit": "levenitien-cugnaux.eatbu.com",
-  "page": "https://levenitien-cugnaux.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://levenitien-cugnaux.eatbu.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n7419099449": {
   "src": "/restos/osm-n7419099449.webp",
   "kind": "site",
   "credit": "don-vincenzo-restaurant-toulouse.eatbu.com",
   "page": "https://don-vincenzo-restaurant-toulouse.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n7434970641": {
+  "src": "/restos/osm-n7434970641.webp",
+  "kind": "site",
+  "credit": "lebreaktoulouse.com",
+  "page": "https://lebreaktoulouse.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7437388574": {
   "src": "/restos/osm-n7437388574.webp",
   "kind": "site",
   "credit": "aubergedebeauzelle.fr",
   "page": "https://www.aubergedebeauzelle.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.98
+  }
  },
  "osm-n7444866056": {
   "src": "/restos/osm-n7444866056.webp",
   "kind": "site",
   "credit": "chickenwizz.fr",
   "page": "https://www.chickenwizz.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n7445425887": {
   "src": "/restos/osm-n7445425887.webp",
   "kind": "site",
   "credit": "pizzeria-cugnaux.com",
   "page": "https://pizzeria-cugnaux.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7460784290": {
   "src": "/restos/osm-n7460784290.webp",
   "kind": "site",
   "credit": "lebaratie.com",
   "page": "https://www.lebaratie.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7460784291": {
   "src": "/restos/osm-n7460784291.webp",
@@ -3525,28 +5200,44 @@
   "kind": "site",
   "credit": "lecomptoir-gourmand.com",
   "page": "https://www.lecomptoir-gourmand.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-n7468452177": {
   "src": "/restos/osm-n7468452177.webp",
   "kind": "site",
   "credit": "pizza-maestra-toulouse.eatbu.com",
   "page": "http://pizza-maestra-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7468452178": {
   "src": "/restos/osm-n7468452178.webp",
   "kind": "site",
   "credit": "fratellirizzo.fr",
   "page": "https://www.fratellirizzo.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7468452182": {
   "src": "/restos/osm-n7468452182.webp",
   "kind": "site",
   "credit": "elmexicanotoulouse.fr",
-  "page": "https://elmexicanotoulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://elmexicanotoulouse.fr/pages/tout-nos-produits",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7468652039": {
   "src": "/restos/osm-n7468652039.webp",
@@ -3554,6 +5245,17 @@
   "credit": "restaurants-carson.com",
   "page": "https://www.restaurants-carson.com/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n7598070521": {
+  "src": "/restos/osm-n7598070521.webp",
+  "kind": "site",
+  "credit": "bistrotcombustible.com",
+  "page": "https://www.bistrotcombustible.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7623293212": {
   "src": "/restos/osm-n7623293212.webp",
@@ -3581,7 +5283,11 @@
   "kind": "site",
   "credit": "stephie-romeo.fr",
   "page": "https://www.stephie-romeo.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7667921856": {
   "src": "/restos/osm-n7667921856.webp",
@@ -3597,6 +5303,17 @@
   "page": "https://www.officinagusto.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-n7678080739": {
+  "src": "/restos/osm-n7678080739.webp",
+  "kind": "site",
+  "credit": "o-petits-patons.eatbu.com",
+  "page": "https://o-petits-patons.eatbu.com/?lang=fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n7678080743": {
   "src": "/restos/osm-n7678080743.webp",
   "kind": "site",
@@ -3608,15 +5325,23 @@
   "src": "/restos/osm-n768339957.webp",
   "kind": "site",
   "credit": "beyrouth.eatbu.com",
-  "page": "https://beyrouth.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://beyrouth.eatbu.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n768543390": {
   "src": "/restos/osm-n768543390.webp",
   "kind": "site",
   "credit": "circus.primafamily.fr",
   "page": "https://circus.primafamily.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7700436658": {
   "src": "/restos/osm-n7700436658.webp",
@@ -3672,7 +5397,11 @@
   "kind": "site",
   "credit": "aishi-ramen.com",
   "page": "https://aishi-ramen.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n772675883": {
   "src": "/restos/osm-n772675883.webp",
@@ -3686,21 +5415,33 @@
   "kind": "site",
   "credit": "lova.primafamily.fr",
   "page": "https://lova.primafamily.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n772727301": {
   "src": "/restos/osm-n772727301.webp",
   "kind": "site",
   "credit": "latchappe.fr",
-  "page": "https://latchappe.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://latchappe.fr/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n772727737": {
   "src": "/restos/osm-n772727737.webp",
   "kind": "site",
   "credit": "gueuleton.fr",
   "page": "https://www.gueuleton.fr/le-gueuleton-toulouse/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n772899311": {
   "src": "/restos/osm-n772899311.webp",
@@ -3708,6 +5449,28 @@
   "credit": "cafe-maison-blanche.com",
   "page": "https://cafe-maison-blanche.com/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-n773935821": {
+  "src": "/restos/osm-n773935821.webp",
+  "kind": "site",
+  "credit": "momone-toulouse.fr",
+  "page": "https://www.momone-toulouse.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n774480442": {
+  "src": "/restos/osm-n774480442.webp",
+  "kind": "site",
+  "credit": "tourneflam.wordpress.com",
+  "page": "https://tourneflam.wordpress.com/galerie/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n775287913": {
   "src": "/restos/osm-n775287913.webp",
@@ -3735,14 +5498,22 @@
   "kind": "site",
   "credit": "restaurant-laubrac.fr",
   "page": "https://www.restaurant-laubrac.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7779400398": {
   "src": "/restos/osm-n7779400398.webp",
   "kind": "site",
   "credit": "ohmangezmoi.eatbu.com",
   "page": "https://ohmangezmoi.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7809245642": {
   "src": "/restos/osm-n7809245642.webp",
@@ -3770,7 +5541,11 @@
   "kind": "site",
   "credit": "maisondafrique-restaurant.fr",
   "page": "https://maisondafrique-restaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7887218958": {
   "src": "/restos/osm-n7887218958.webp",
@@ -3779,26 +5554,60 @@
   "page": "https://sites.google.com/view/sevendaystacosblagnac",
   "consentedAt": "2026-11-13"
  },
+ "osm-n7922729785": {
+  "src": "/restos/osm-n7922729785.webp",
+  "kind": "site",
+  "credit": "eatsushi.fr",
+  "page": "http://www.eatsushi.fr/cartes-et-menus",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-n7922730185": {
   "src": "/restos/osm-n7922730185.webp",
   "kind": "site",
   "credit": "deedeethaisushi.metro.bar",
   "page": "https://deedeethaisushi.metro.bar/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n792684426": {
   "src": "/restos/osm-n792684426.webp",
   "kind": "site",
   "credit": "table-des-merville.fr",
   "page": "http://www.table-des-merville.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n7962626873": {
   "src": "/restos/osm-n7962626873.webp",
   "kind": "site",
   "credit": "winefood.fr",
   "page": "https://www.winefood.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
+ "osm-n7964914775": {
+  "src": "/restos/osm-n7964914775.webp",
+  "kind": "site",
+  "credit": "washokutournefeuille.com",
+  "page": "https://www.washokutournefeuille.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n7968621467": {
   "src": "/restos/osm-n7968621467.webp",
@@ -3812,7 +5621,22 @@
   "kind": "site",
   "credit": "lady-sushi.fr",
   "page": "https://lady-sushi.fr/restaurants/tournefeuille/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n8017003985": {
+  "src": "/restos/osm-n8017003985.webp",
+  "kind": "site",
+  "credit": "restaurant-lecenacle.com",
+  "page": "https://www.restaurant-lecenacle.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n803366820": {
   "src": "/restos/osm-n803366820.webp",
@@ -3826,35 +5650,66 @@
   "kind": "site",
   "credit": "kyoto.eatbu.com",
   "page": "http://kyoto.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n803388816": {
   "src": "/restos/osm-n803388816.webp",
   "kind": "site",
   "credit": "restaurant-binaire.fr",
   "page": "http://www.restaurant-binaire.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n803403794": {
   "src": "/restos/osm-n803403794.webp",
   "kind": "site",
   "credit": "redstar-pizza.fr",
-  "page": "http://www.redstar-pizza.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.redstar-pizza.fr/specialites-italiennes.php",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n803404335": {
   "src": "/restos/osm-n803404335.webp",
   "kind": "site",
   "credit": "ravigote.fr",
   "page": "http://www.ravigote.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-n803725007": {
+  "src": "/restos/osm-n803725007.webp",
+  "kind": "site",
+  "credit": "brasserielesbeauxarts.fr",
+  "page": "https://brasserielesbeauxarts.fr/les-menus2/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n8151492086": {
   "src": "/restos/osm-n8151492086.webp",
   "kind": "site",
   "credit": "hwaban.fr",
   "page": "https://www.hwaban.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n8152094832": {
   "src": "/restos/osm-n8152094832.webp",
@@ -3903,14 +5758,22 @@
   "kind": "site",
   "credit": "caveabieretoulouse.com",
   "page": "http://caveabieretoulouse.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n843097451": {
   "src": "/restos/osm-n843097451.webp",
   "kind": "site",
   "credit": "legentymagre.com",
   "page": "https://www.legentymagre.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n843097459": {
   "src": "/restos/osm-n843097459.webp",
@@ -3924,7 +5787,11 @@
   "kind": "site",
   "credit": "cantine-gamelle.fr",
   "page": "http://cantine-gamelle.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n8454152563": {
   "src": "/restos/osm-n8454152563.webp",
@@ -3938,7 +5805,11 @@
   "kind": "site",
   "credit": "pickles-salad-bar.fr",
   "page": "https://pickles-salad-bar.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n8523398283": {
   "src": "/restos/osm-n8523398283.webp",
@@ -3959,7 +5830,11 @@
   "kind": "site",
   "credit": "restaurantfifteen.fr",
   "page": "https://www.restaurantfifteen.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n8621185039": {
   "src": "/restos/osm-n8621185039.webp",
@@ -3972,8 +5847,23 @@
   "src": "/restos/osm-n868727675.webp",
   "kind": "site",
   "credit": "terra-tolosa.fr",
-  "page": "https://www.terra-tolosa.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.terra-tolosa.fr/photos/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
+ "osm-n868727687": {
+  "src": "/restos/osm-n868727687.webp",
+  "kind": "site",
+  "credit": "chez-navarre.fr",
+  "page": "https://www.chez-navarre.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n8722382209": {
   "src": "/restos/osm-n8722382209.webp",
@@ -3987,28 +5877,44 @@
   "kind": "site",
   "credit": "latabledelaurent.com",
   "page": "https://latabledelaurent.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n884419123": {
   "src": "/restos/osm-n884419123.webp",
   "kind": "site",
   "credit": "restaurants.subwayfrance.fr",
   "page": "https://restaurants.subwayfrance.fr/fr/occitanie/haute-garonne/toulouse/subway-toulouse-montaudran-191",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n886603040": {
   "src": "/restos/osm-n886603040.webp",
   "kind": "site",
   "credit": "brasserie-armurier.fr",
   "page": "https://brasserie-armurier.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n8881021127": {
   "src": "/restos/osm-n8881021127.webp",
   "kind": "site",
   "credit": "rougecomptoir.fr",
   "page": "https://www.rougecomptoir.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n8887615960": {
   "src": "/restos/osm-n8887615960.webp",
@@ -4029,7 +5935,11 @@
   "kind": "site",
   "credit": "momspizzaguilhemery.fr",
   "page": "https://momspizzaguilhemery.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n8928398861": {
   "src": "/restos/osm-n8928398861.webp",
@@ -4042,8 +5952,12 @@
   "src": "/restos/osm-n8933030545.webp",
   "kind": "site",
   "credit": "newschooltacos.fr",
-  "page": "https://www.newschooltacos.fr/restaurants/toulouse-purpan",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.newschooltacos.fr/la-carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n894533411": {
   "src": "/restos/osm-n894533411.webp",
@@ -4071,28 +5985,55 @@
   "kind": "site",
   "credit": "latopina.com",
   "page": "https://latopina.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n894579361": {
   "src": "/restos/osm-n894579361.webp",
   "kind": "site",
   "credit": "restaurant-lhemicycle-toulouse.com",
-  "page": "http://www.restaurant-lhemicycle-toulouse.com/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.restaurant-lhemicycle-toulouse.com/menu-restaurant/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n8955038583": {
+  "src": "/restos/osm-n8955038583.webp",
+  "kind": "site",
+  "credit": "pitaya-thaistreetfood.com",
+  "page": "https://pitaya-thaistreetfood.com/pitaya-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9001705757": {
   "src": "/restos/osm-n9001705757.webp",
   "kind": "site",
   "credit": "serenapizza.com",
   "page": "https://serenapizza.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9038125752": {
   "src": "/restos/osm-n9038125752.webp",
   "kind": "site",
   "credit": "lagragnaguette.com",
-  "page": "https://lagragnaguette.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://lagragnaguette.com/menu.html",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9062901217": {
   "src": "/restos/osm-n9062901217.webp",
@@ -4113,21 +6054,33 @@
   "kind": "site",
   "credit": "labonita.fr",
   "page": "https://www.labonita.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n917433312": {
   "src": "/restos/osm-n917433312.webp",
   "kind": "site",
   "credit": "restaurant-lemagret.com",
   "page": "http://www.restaurant-lemagret.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n918228481": {
   "src": "/restos/osm-n918228481.webp",
   "kind": "site",
   "credit": "volfoni.fr",
   "page": "https://www.volfoni.fr/nos-restaurants/volfoni-toulouse",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-n9218705875": {
   "src": "/restos/osm-n9218705875.webp",
@@ -4141,35 +6094,55 @@
   "kind": "site",
   "credit": "delicosy-toulouse.eatbu.com",
   "page": "https://delicosy-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9349337917": {
   "src": "/restos/osm-n9349337917.webp",
   "kind": "site",
   "credit": "dcadei.fr",
-  "page": "http://www.dcadei.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.dcadei.fr/table-bistronomique/menus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9415426729": {
   "src": "/restos/osm-n9415426729.webp",
   "kind": "site",
   "credit": "le-trefle-restaurant.fr",
   "page": "http://le-trefle-restaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n9550508378": {
   "src": "/restos/osm-n9550508378.webp",
   "kind": "site",
   "credit": "ca-se-mange-comme-ca-cornebarrieu.eatbu.com",
   "page": "http://ca-se-mange-comme-ca-cornebarrieu.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9590453617": {
   "src": "/restos/osm-n9590453617.webp",
   "kind": "site",
   "credit": "avitar.fr",
   "page": "http://www.avitar.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n9609050633": {
   "src": "/restos/osm-n9609050633.webp",
@@ -4190,14 +6163,22 @@
   "kind": "site",
   "credit": "lemulsion.fr",
   "page": "https://lemulsion.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9732736365": {
   "src": "/restos/osm-n9732736365.webp",
   "kind": "site",
   "credit": "purpan.hoppymonkey.fr",
   "page": "https://purpan.hoppymonkey.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n9740841888": {
   "src": "/restos/osm-n9740841888.webp",
@@ -4211,21 +6192,44 @@
   "kind": "site",
   "credit": "la-cantine-des-canailles.eatbu.com",
   "page": "https://la-cantine-des-canailles.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
+ "osm-n9828713343": {
+  "src": "/restos/osm-n9828713343.webp",
+  "kind": "site",
+  "credit": "pitaya-thaistreetfood.com",
+  "page": "https://pitaya-thaistreetfood.com/pitaya-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n9836338738": {
   "src": "/restos/osm-n9836338738.webp",
   "kind": "site",
   "credit": "pickles-salad-bar.fr",
-  "page": "https://pickles-salad-bar.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://pickles-salad-bar.fr/index.php/nos-buffets/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-n987401747": {
   "src": "/restos/osm-n987401747.webp",
   "kind": "site",
   "credit": "kouadiopatrice.site-solocal.com",
   "page": "https://kouadiopatrice.site-solocal.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9891593217": {
   "src": "/restos/osm-n9891593217.webp",
@@ -4239,28 +6243,55 @@
   "kind": "site",
   "credit": "laubergedelaforge.com",
   "page": "https://laubergedelaforge.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9959849652": {
   "src": "/restos/osm-n9959849652.webp",
   "kind": "site",
   "credit": "assoiffes-toulouse.com",
   "page": "http://www.assoiffes-toulouse.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-n9959849654": {
   "src": "/restos/osm-n9959849654.webp",
   "kind": "site",
   "credit": "mazzolina.fr",
   "page": "https://www.mazzolina.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-n9987000280": {
   "src": "/restos/osm-n9987000280.webp",
   "kind": "site",
   "credit": "poketeria.fr",
   "page": "https://www.poketeria.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-n9988440195": {
+  "src": "/restos/osm-n9988440195.webp",
+  "kind": "site",
+  "credit": "obali.fr",
+  "page": "https://obali.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-w1007478963": {
   "src": "/restos/osm-w1007478963.webp",
@@ -4269,12 +6300,38 @@
   "page": "http://flashbackcafe.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-w1028802619": {
+  "src": "/restos/osm-w1028802619.webp",
+  "kind": "site",
+  "credit": "burgerking.fr",
+  "page": "https://www.burgerking.fr/restaurant/toulouse-colomiers-perget",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-w1159629715": {
+  "src": "/restos/osm-w1159629715.webp",
+  "kind": "site",
+  "credit": "aubureau.fr",
+  "page": "https://www.aubureau.fr/restaurant-brasserie/au-bureau-fenouillet",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-w1159632172": {
   "src": "/restos/osm-w1159632172.webp",
   "kind": "site",
   "credit": "hippopotamus.fr",
   "page": "https://www.hippopotamus.fr/nos-restaurants/hippopotamus-toulouse-fenouillet",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w1185655522": {
   "src": "/restos/osm-w1185655522.webp",
@@ -4288,14 +6345,33 @@
   "kind": "site",
   "credit": "restaurantmonsieurjules.com",
   "page": "https://www.restaurantmonsieurjules.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-w123577250": {
+  "src": "/restos/osm-w123577250.webp",
+  "kind": "site",
+  "credit": "zensaveurs.fr",
+  "page": "https://zensaveurs.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w1282041678": {
   "src": "/restos/osm-w1282041678.webp",
   "kind": "site",
   "credit": "signorizza.com",
   "page": "https://www.signorizza.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w1492736147": {
   "src": "/restos/osm-w1492736147.webp",
@@ -4323,35 +6399,55 @@
   "kind": "site",
   "credit": "restaurants.tacos-avenue.com",
   "page": "https://restaurants.tacos-avenue.com/tacos-toulouse-borderouge/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w197727235": {
   "src": "/restos/osm-w197727235.webp",
   "kind": "site",
   "credit": "koboon-resto.fr",
-  "page": "https://www.koboon-resto.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.koboon-resto.fr/carte-reims.php",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w231992755": {
   "src": "/restos/osm-w231992755.webp",
   "kind": "site",
   "credit": "pois-gourmand.fr",
-  "page": "https://pois-gourmand.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://pois-gourmand.fr/les-menus",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w244339692": {
   "src": "/restos/osm-w244339692.webp",
   "kind": "site",
   "credit": "quick.fr",
   "page": "https://www.quick.fr/restaurants/roques-sur-garonne",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w244339694": {
   "src": "/restos/osm-w244339694.webp",
   "kind": "site",
   "credit": "restaurants.hippopotamus.fr",
   "page": "https://restaurants.hippopotamus.fr/france/occitanie/haute-garonne/roques/toulouse-roques",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w260639188": {
   "src": "/restos/osm-w260639188.webp",
@@ -4365,7 +6461,11 @@
   "kind": "site",
   "credit": "yammysushi.fr",
   "page": "https://yammysushi.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "osm-w289127993": {
   "src": "/restos/osm-w289127993.webp",
@@ -4374,33 +6474,71 @@
   "page": "https://biergarten-montaudran.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-w313165558": {
+  "src": "/restos/osm-w313165558.webp",
+  "kind": "site",
+  "credit": "maisonpellestorveyrier.com",
+  "page": "https://maisonpellestorveyrier.com/carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
  "osm-w328060306": {
   "src": "/restos/osm-w328060306.webp",
   "kind": "site",
   "credit": "o-cent-couverts.fr",
   "page": "http://www.o-cent-couverts.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-w362212753": {
   "src": "/restos/osm-w362212753.webp",
   "kind": "site",
   "credit": "lescanotiers.fr",
   "page": "https://lescanotiers.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w386504708": {
   "src": "/restos/osm-w386504708.webp",
   "kind": "site",
   "credit": "pitaya-thaistreetfood.com",
-  "page": "https://pitaya-thaistreetfood.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://pitaya-thaistreetfood.com/pitaya-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
+ "osm-w386504709": {
+  "src": "/restos/osm-w386504709.webp",
+  "kind": "site",
+  "credit": "cotesushi.com",
+  "page": "https://cotesushi.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w386504714": {
   "src": "/restos/osm-w386504714.webp",
   "kind": "site",
   "credit": "restaurants.berliner-do.com",
   "page": "https://restaurants.berliner-do.com/kebab-labege-2/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "osm-w386510805": {
   "src": "/restos/osm-w386510805.webp",
@@ -4441,8 +6579,12 @@
   "src": "/restos/osm-w612754511.webp",
   "kind": "site",
   "credit": "mamys.fr",
-  "page": "http://www.mamys.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.mamys.fr/menu.html",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w61832927": {
   "src": "/restos/osm-w61832927.webp",
@@ -4455,8 +6597,23 @@
   "src": "/restos/osm-w64000062.webp",
   "kind": "site",
   "credit": "masdedardagna.com",
-  "page": "http://www.masdedardagna.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.masdedardagna.com/au-dejeuner-et-au-diner-menu-petit-plaisir/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-w64109979": {
+  "src": "/restos/osm-w64109979.webp",
+  "kind": "site",
+  "credit": "lesfeuillantines.fr",
+  "page": "https://www.lesfeuillantines.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w64183692": {
   "src": "/restos/osm-w64183692.webp",
@@ -4464,6 +6621,17 @@
   "credit": "le-mas-restaurant-toulouse.com",
   "page": "https://www.le-mas-restaurant-toulouse.com/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-w64404131": {
+  "src": "/restos/osm-w64404131.webp",
+  "kind": "site",
+  "credit": "pub-jacques.fr",
+  "page": "https://pub-jacques.fr/blagnac/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w64411902": {
   "src": "/restos/osm-w64411902.webp",
@@ -4484,21 +6652,33 @@
   "kind": "site",
   "credit": "bistrot-du-grand-noble.fr",
   "page": "https://www.bistrot-du-grand-noble.fr/reservation/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-w64418237": {
   "src": "/restos/osm-w64418237.webp",
   "kind": "site",
   "credit": "brasserie-cebely-blagnac.eatbu.com",
   "page": "https://brasserie-cebely-blagnac.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w64420681": {
   "src": "/restos/osm-w64420681.webp",
   "kind": "site",
   "credit": "ltmodernes.fr",
   "page": "https://www.ltmodernes.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w64424129": {
   "src": "/restos/osm-w64424129.webp",
@@ -4521,12 +6701,27 @@
   "page": "https://www.privateaser.com/lieu/63483-potiche",
   "consentedAt": "2026-11-13"
  },
+ "osm-w646704721": {
+  "src": "/restos/osm-w646704721.webp",
+  "kind": "site",
+  "credit": "aubureau.fr",
+  "page": "https://www.aubureau.fr/la-carte-au-bureau",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-w64850497": {
   "src": "/restos/osm-w64850497.webp",
   "kind": "site",
   "credit": "lescopains.fr",
   "page": "https://www.lescopains.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w67893209": {
   "src": "/restos/osm-w67893209.webp",
@@ -4534,6 +6729,28 @@
   "credit": "hippopotamus.fr",
   "page": "https://www.hippopotamus.fr/nos-restaurants/hippopotamus-labege",
   "consentedAt": "2026-11-13"
+ },
+ "osm-w67893691": {
+  "src": "/restos/osm-w67893691.webp",
+  "kind": "site",
+  "credit": "aubureau.fr",
+  "page": "https://www.aubureau.fr/la-carte-au-bureau",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-w70495554": {
+  "src": "/restos/osm-w70495554.webp",
+  "kind": "site",
+  "credit": "lescale-cugnaux.eatbu.com",
+  "page": "https://lescale-cugnaux.eatbu.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w71203082": {
   "src": "/restos/osm-w71203082.webp",
@@ -4554,7 +6771,11 @@
   "kind": "site",
   "credit": "restauranthuongviet.com",
   "page": "https://restauranthuongviet.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "osm-w74301628": {
   "src": "/restos/osm-w74301628.webp",
@@ -4595,15 +6816,34 @@
   "src": "/restos/osm-w76330585.webp",
   "kind": "site",
   "credit": "ojardingourmand.com",
-  "page": "https://www.ojardingourmand.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.ojardingourmand.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w81402399": {
   "src": "/restos/osm-w81402399.webp",
   "kind": "site",
   "credit": "la-rotisserie-muret.eatbu.com",
   "page": "https://la-rotisserie-muret.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "osm-w81402684": {
+  "src": "/restos/osm-w81402684.webp",
+  "kind": "site",
+  "credit": "restaurant-nagoya.fr",
+  "page": "https://www.restaurant-nagoya.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w827365092": {
   "src": "/restos/osm-w827365092.webp",
@@ -4612,19 +6852,38 @@
   "page": "https://tokami-gramont.com/",
   "consentedAt": "2026-11-13"
  },
+ "osm-w827375332": {
+  "src": "/restos/osm-w827375332.webp",
+  "kind": "site",
+  "credit": "ledynastie-toulouse.fr",
+  "page": "https://www.ledynastie-toulouse.fr/menus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "osm-w84371758": {
   "src": "/restos/osm-w84371758.webp",
   "kind": "site",
   "credit": "landrea-portet-sur-garonne.eatbu.com",
   "page": "https://landrea-portet-sur-garonne.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w844724377": {
   "src": "/restos/osm-w844724377.webp",
   "kind": "site",
   "credit": "tichayabistrot-thai.eatbu.com",
   "page": "https://tichayabistrot-thai.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "osm-w844724378": {
   "src": "/restos/osm-w844724378.webp",
@@ -4633,12 +6892,34 @@
   "page": "https://leribouldingue.fr/",
   "consentedAt": "2026-11-13"
  },
+ "osm-w846677303": {
+  "src": "/restos/osm-w846677303.webp",
+  "kind": "site",
+  "credit": "kioskfoodcourt.com",
+  "page": "http://kioskfoodcourt.com/#tommystexmex",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "osm-w85789098": {
   "src": "/restos/osm-w85789098.webp",
   "kind": "site",
   "credit": "lebus111.fr",
   "page": "https://lebus111.fr/",
   "consentedAt": "2026-11-13"
+ },
+ "osm-w892355619": {
+  "src": "/restos/osm-w892355619.webp",
+  "kind": "site",
+  "credit": "allopizzatournefeuille.com",
+  "page": "http://allopizzatournefeuille.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "osm-w921058477": {
   "src": "/restos/osm-w921058477.webp",
@@ -4659,7 +6940,11 @@
   "kind": "site",
   "credit": "capodimonte.fr",
   "page": "http://www.capodimonte.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-0119c5ab-e2c1-4781": {
   "src": "/restos/ovt-0119c5ab-e2c1-4781.webp",
@@ -4667,6 +6952,17 @@
   "credit": "julienguinet.com",
   "page": "http://www.julienguinet.com/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-0127e752-332d-49ae": {
+  "src": "/restos/ovt-0127e752-332d-49ae.webp",
+  "kind": "site",
+  "credit": "pizza-fratelli.fr",
+  "page": "http://www.pizza-fratelli.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-0149466c-5c5d-4964": {
   "src": "/restos/ovt-0149466c-5c5d-4964.webp",
@@ -4680,7 +6976,11 @@
   "kind": "site",
   "credit": "mamachawarma.com",
   "page": "https://mamachawarma.com/order/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-02741d3b-e455-4c5c": {
   "src": "/restos/ovt-02741d3b-e455-4c5c.webp",
@@ -4689,12 +6989,27 @@
   "page": "https://www.restaurant-ag-toulouse.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-0285c056-1668-4c64": {
+  "src": "/restos/ovt-0285c056-1668-4c64.webp",
+  "kind": "site",
+  "credit": "restaurant-montfuji.com",
+  "page": "http://www.restaurant-montfuji.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "ovt-03016497-1978-40b4": {
   "src": "/restos/ovt-03016497-1978-40b4.webp",
   "kind": "site",
   "credit": "pizza-magatelli.eatbu.com",
   "page": "https://pizza-magatelli.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-030390a0-37cf-493d": {
   "src": "/restos/ovt-030390a0-37cf-493d.webp",
@@ -4708,7 +7023,11 @@
   "kind": "site",
   "credit": "aucoeurdetunis-lesminimes.com",
   "page": "https://aucoeurdetunis-lesminimes.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-036c9675-e517-417f": {
   "src": "/restos/ovt-036c9675-e517-417f.webp",
@@ -4736,14 +7055,22 @@
   "kind": "site",
   "credit": "libere-mets-sens.fr",
   "page": "https://libere-mets-sens.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-05dddc17-ef7a-45a4": {
   "src": "/restos/ovt-05dddc17-ef7a-45a4.webp",
   "kind": "site",
   "credit": "le-mikadali-restaurant-montberon.eatbu.com",
   "page": "https://le-mikadali-restaurant-montberon.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-05f618e3-a848-4ccb": {
   "src": "/restos/ovt-05f618e3-a848-4ccb.webp",
@@ -4752,12 +7079,27 @@
   "page": "http://www.cabasetprovisions.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-0647a8d0-7a0f-4356": {
+  "src": "/restos/ovt-0647a8d0-7a0f-4356.webp",
+  "kind": "site",
+  "credit": "antalyakebab-food.fr",
+  "page": "https://antalyakebab-food.fr/portet",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "ovt-06db17bd-985b-43ea": {
   "src": "/restos/ovt-06db17bd-985b-43ea.webp",
   "kind": "site",
   "credit": "pointburger.fr",
   "page": "https://www.pointburger.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-06dc1cee-f7d8-4025": {
   "src": "/restos/ovt-06dc1cee-f7d8-4025.webp",
@@ -4799,7 +7141,11 @@
   "kind": "site",
   "credit": "jobastre-restaurant.com",
   "page": "https://jobastre-restaurant.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-095da5fd-1bc3-4770": {
   "src": "/restos/ovt-095da5fd-1bc3-4770.webp",
@@ -4829,12 +7175,27 @@
   "page": "http://www.repaircafecolomiers.org/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-09d34a3a-ce79-4ba4": {
+  "src": "/restos/ovt-09d34a3a-ce79-4ba4.webp",
+  "kind": "site",
+  "credit": "le-carrousel-balma.fr",
+  "page": "https://le-carrousel-balma.fr/fr/gallery",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
  "ovt-0b7552ce-210f-448d": {
   "src": "/restos/ovt-0b7552ce-210f-448d.webp",
   "kind": "site",
   "credit": "diamond-cuisine.eatbu.com",
   "page": "http://diamond-cuisine.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-0c1cf70f-e934-47c7": {
   "src": "/restos/ovt-0c1cf70f-e934-47c7.webp",
@@ -4848,14 +7209,22 @@
   "kind": "site",
   "credit": "chickenbens.fr",
   "page": "http://www.chickenbens.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-0d278811-7a09-4dba": {
   "src": "/restos/ovt-0d278811-7a09-4dba.webp",
   "kind": "site",
   "credit": "lapanuquera.eatbu.com",
   "page": "https://lapanuquera.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-0db8b0c0-ccf1-48dd": {
   "src": "/restos/ovt-0db8b0c0-ccf1-48dd.webp",
@@ -4897,7 +7266,11 @@
   "kind": "site",
   "credit": "aromatic-restaurant.com",
   "page": "http://aromatic-restaurant.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-12ba7922-c5b7-4978": {
   "src": "/restos/ovt-12ba7922-c5b7-4978.webp",
@@ -4918,7 +7291,11 @@
   "kind": "site",
   "credit": "le-first-restaurant-cugnaux.eatbu.com",
   "page": "https://le-first-restaurant-cugnaux.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-14dfc750-e272-448a": {
   "src": "/restos/ovt-14dfc750-e272-448a.webp",
@@ -4939,7 +7316,11 @@
   "kind": "site",
   "credit": "indiancanteen.fr",
   "page": "https://indiancanteen.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-176522c0-baf6-4e66": {
   "src": "/restos/ovt-176522c0-baf6-4e66.webp",
@@ -5037,14 +7418,22 @@
   "kind": "site",
   "credit": "leparchemin-toulouse.fr",
   "page": "https://leparchemin-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-1fff36b0-1179-4b7d": {
   "src": "/restos/ovt-1fff36b0-1179-4b7d.webp",
   "kind": "site",
   "credit": "brasserie-6nations-31.com",
   "page": "http://www.brasserie-6nations-31.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-20b99a3c-f4a3-4b91": {
   "src": "/restos/ovt-20b99a3c-f4a3-4b91.webp",
@@ -5072,28 +7461,44 @@
   "kind": "site",
   "credit": "pizzapia.fr",
   "page": "https://pizzapia.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-24d8cd8f-6146-4d0a": {
   "src": "/restos/ovt-24d8cd8f-6146-4d0a.webp",
   "kind": "site",
   "credit": "cheri-guapito.fr",
   "page": "https://cheri-guapito.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-2691d328-1df7-43c8": {
   "src": "/restos/ovt-2691d328-1df7-43c8.webp",
   "kind": "site",
   "credit": "vi-long-roques.eatbu.com",
   "page": "https://vi-long-roques.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-27e6ede8-6548-4105": {
   "src": "/restos/ovt-27e6ede8-6548-4105.webp",
   "kind": "site",
   "credit": "pickles-salad-bar.fr",
   "page": "https://pickles-salad-bar.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-28c71b90-8cb5-45b6": {
   "src": "/restos/ovt-28c71b90-8cb5-45b6.webp",
@@ -5109,12 +7514,27 @@
   "page": "http://www.finesushi.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-2a4ff12c-d0a3-4c66": {
+  "src": "/restos/ovt-2a4ff12c-d0a3-4c66.webp",
+  "kind": "site",
+  "credit": "masalapalace.fr",
+  "page": "https://masalapalace.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-2aad2dc5-71da-4719": {
   "src": "/restos/ovt-2aad2dc5-71da-4719.webp",
   "kind": "site",
   "credit": "ofuzion.fr",
   "page": "http://ofuzion.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-2aaf32b8-e272-4bf8": {
   "src": "/restos/ovt-2aaf32b8-e272-4bf8.webp",
@@ -5128,7 +7548,11 @@
   "kind": "site",
   "credit": "restaurant-lesensoriel.fr",
   "page": "http://www.restaurant-lesensoriel.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-2bace6b0-475e-404f": {
   "src": "/restos/ovt-2bace6b0-475e-404f.webp",
@@ -5176,8 +7600,12 @@
   "src": "/restos/ovt-2ed44267-1310-42e2.webp",
   "kind": "site",
   "credit": "monsieurgeorges.fr",
-  "page": "http://www.monsieurgeorges.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.monsieurgeorges.fr/galerie.html",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-2f16b8ad-a41b-445f": {
   "src": "/restos/ovt-2f16b8ad-a41b-445f.webp",
@@ -5198,7 +7626,11 @@
   "kind": "site",
   "credit": "lemarijy-restaurant-toulouse.eatbu.com",
   "page": "https://lemarijy-restaurant-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-3091ae20-9ab5-48e2": {
   "src": "/restos/ovt-3091ae20-9ab5-48e2.webp",
@@ -5212,21 +7644,33 @@
   "kind": "site",
   "credit": "myfluffypancakes.com",
   "page": "http://www.myfluffypancakes.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-31c7bc1d-7b11-4a18": {
   "src": "/restos/ovt-31c7bc1d-7b11-4a18.webp",
   "kind": "site",
   "credit": "boheme.primafamily.fr",
   "page": "https://boheme.primafamily.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-32471e34-3548-449f": {
   "src": "/restos/ovt-32471e34-3548-449f.webp",
   "kind": "site",
   "credit": "asador.fr",
   "page": "http://www.asador.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-324dc723-bb0f-4a2a": {
   "src": "/restos/ovt-324dc723-bb0f-4a2a.webp",
@@ -5246,8 +7690,12 @@
   "src": "/restos/ovt-3321428a-0d3e-4ac3.webp",
   "kind": "site",
   "credit": "maisonnonnalucia.fr",
-  "page": "http://maisonnonnalucia.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://maisonnonnalucia.fr/restaurant",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-333a168e-20cc-4154": {
   "src": "/restos/ovt-333a168e-20cc-4154.webp",
@@ -5260,8 +7708,12 @@
   "src": "/restos/ovt-34146143-8111-4dc8.webp",
   "kind": "site",
   "credit": "buffalo-grill.fr",
-  "page": "https://www.buffalo-grill.fr/nos-restaurants/toulouse-basso-cambo",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.buffalo-grill.fr/la-carte/menus",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-35175772-8855-473e": {
   "src": "/restos/ovt-35175772-8855-473e.webp",
@@ -5275,7 +7727,11 @@
   "kind": "site",
   "credit": "bretzelstory.com",
   "page": "http://www.bretzelstory.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-368d6e14-df3c-4ebd": {
   "src": "/restos/ovt-368d6e14-df3c-4ebd.webp",
@@ -5310,7 +7766,11 @@
   "kind": "site",
   "credit": "lebonvivre.com",
   "page": "http://www.lebonvivre.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-3b45610c-5854-4280": {
   "src": "/restos/ovt-3b45610c-5854-4280.webp",
@@ -5330,8 +7790,12 @@
   "src": "/restos/ovt-3be8947f-34a9-4042.webp",
   "kind": "site",
   "credit": "restaurant-lessalesgosses.fr",
-  "page": "http://www.restaurant-lessalesgosses.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.restaurant-lessalesgosses.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-3d1390b5-e53e-428d": {
   "src": "/restos/ovt-3d1390b5-e53e-428d.webp",
@@ -5345,7 +7809,11 @@
   "kind": "site",
   "credit": "pizzalatoque.fr",
   "page": "http://www.pizzalatoque.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-3dbe4e6e-6c78-41f9": {
   "src": "/restos/ovt-3dbe4e6e-6c78-41f9.webp",
@@ -5353,6 +7821,17 @@
   "credit": "royals.com",
   "page": "http://www.royals.com/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-3e8deead-0a41-4ff2": {
+  "src": "/restos/ovt-3e8deead-0a41-4ff2.webp",
+  "kind": "site",
+  "credit": "liledephuket.fr",
+  "page": "http://liledephuket.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-3ecb5409-63fe-4a31": {
   "src": "/restos/ovt-3ecb5409-63fe-4a31.webp",
@@ -5373,7 +7852,22 @@
   "kind": "site",
   "credit": "mamishe-toulouse.fr",
   "page": "https://mamishe-toulouse.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "ovt-4024b573-1ba5-420c": {
+  "src": "/restos/ovt-4024b573-1ba5-420c.webp",
+  "kind": "site",
+  "credit": "aufourdesaintjean.com",
+  "page": "https://www.aufourdesaintjean.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-406d4bd7-fbb6-40a8": {
   "src": "/restos/ovt-406d4bd7-fbb6-40a8.webp",
@@ -5393,8 +7887,12 @@
   "src": "/restos/ovt-4223b08a-3b04-4fdb.webp",
   "kind": "site",
   "credit": "buffalo-grill.fr",
-  "page": "https://www.buffalo-grill.fr/nos-restaurants/fenouillet",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.buffalo-grill.fr/la-carte/menus",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-42365f53-cb17-47a1": {
   "src": "/restos/ovt-42365f53-cb17-47a1.webp",
@@ -5408,7 +7906,11 @@
   "kind": "site",
   "credit": "lacaravane.eatbu.com",
   "page": "https://lacaravane.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-430bc800-570e-41b6": {
   "src": "/restos/ovt-430bc800-570e-41b6.webp",
@@ -5449,36 +7951,56 @@
   "src": "/restos/ovt-450cd76d-bfd6-4def.webp",
   "kind": "site",
   "credit": "tutti-pizza.com",
-  "page": "http://www.tutti-pizza.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.tutti-pizza.com/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-45e9a755-8aa0-4753": {
   "src": "/restos/ovt-45e9a755-8aa0-4753.webp",
   "kind": "site",
   "credit": "wok-sushi-colomiers.fr",
   "page": "https://wok-sushi-colomiers.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-46952a6c-6b41-4dd0": {
   "src": "/restos/ovt-46952a6c-6b41-4dd0.webp",
   "kind": "site",
   "credit": "jungastreetfood.fr",
   "page": "https://jungastreetfood.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-48fa55ad-5a3e-49e4": {
   "src": "/restos/ovt-48fa55ad-5a3e-49e4.webp",
   "kind": "site",
   "credit": "leclubdutacos.com",
   "page": "http://leclubdutacos.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-4a00dab0-569e-44ac": {
   "src": "/restos/ovt-4a00dab0-569e-44ac.webp",
   "kind": "site",
   "credit": "minakin.eatbu.com",
   "page": "https://minakin.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-4af90682-c04b-4d2b": {
   "src": "/restos/ovt-4af90682-c04b-4d2b.webp",
@@ -5499,7 +8021,11 @@
   "kind": "site",
   "credit": "srkbokit.com",
   "page": "https://srkbokit.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-4cfd3122-c34b-4d8d": {
   "src": "/restos/ovt-4cfd3122-c34b-4d8d.webp",
@@ -5522,6 +8048,17 @@
   "page": "https://lecamioncolibri.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-4dff5e4b-b0de-439c": {
+  "src": "/restos/ovt-4dff5e4b-b0de-439c.webp",
+  "kind": "site",
+  "credit": "lepicurieux.net",
+  "page": "https://www.lepicurieux.net/carte-gourmande",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-4e725360-0b5f-4936": {
   "src": "/restos/ovt-4e725360-0b5f-4936.webp",
   "kind": "site",
@@ -5534,7 +8071,11 @@
   "kind": "site",
   "credit": "onimegiri.com",
   "page": "http://onimegiri.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-4fc32222-654f-45ac": {
   "src": "/restos/ovt-4fc32222-654f-45ac.webp",
@@ -5542,6 +8083,17 @@
   "credit": "sushidaily.com",
   "page": "https://sushidaily.com/gb-en/find-us/pibrac-vitrine/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-5005773e-4483-4679": {
+  "src": "/restos/ovt-5005773e-4483-4679.webp",
+  "kind": "site",
+  "credit": "pitaya-thaistreetfood.com",
+  "page": "https://pitaya-thaistreetfood.com/pitaya-menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-508f3735-9610-40ea": {
   "src": "/restos/ovt-508f3735-9610-40ea.webp",
@@ -5564,19 +8116,38 @@
   "page": "http://www.tacostorens.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-517bebf9-fc38-44fb": {
+  "src": "/restos/ovt-517bebf9-fc38-44fb.webp",
+  "kind": "site",
+  "credit": "traiteur-reception-toulouse.fr",
+  "page": "http://www.traiteur-reception-toulouse.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "ovt-5213ea8f-30ca-4ec1": {
   "src": "/restos/ovt-5213ea8f-30ca-4ec1.webp",
   "kind": "site",
   "credit": "hoppymonkey.fr",
   "page": "https://www.hoppymonkey.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-52b4c238-9839-4f3e": {
   "src": "/restos/ovt-52b4c238-9839-4f3e.webp",
   "kind": "site",
   "credit": "leporcdeplaisance.eatbu.com",
-  "page": "https://leporcdeplaisance.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://leporcdeplaisance.eatbu.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-52bd21b1-c593-4266": {
   "src": "/restos/ovt-52bd21b1-c593-4266.webp",
@@ -5590,14 +8161,22 @@
   "kind": "site",
   "credit": "opho.fr",
   "page": "http://opho.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-535a2bd4-9068-4dde": {
   "src": "/restos/ovt-535a2bd4-9068-4dde.webp",
   "kind": "site",
   "credit": "brasseriedecandie.fr",
   "page": "https://brasseriedecandie.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-53e91d39-0b37-4cb4": {
   "src": "/restos/ovt-53e91d39-0b37-4cb4.webp",
@@ -5613,19 +8192,38 @@
   "page": "https://www.martino-pizza.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-5463a924-8e62-4bc1": {
+  "src": "/restos/ovt-5463a924-8e62-4bc1.webp",
+  "kind": "site",
+  "credit": "standgrill-toulouse.eatbu.com",
+  "page": "https://standgrill-toulouse.eatbu.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
+ },
  "ovt-549657ce-78c4-4f0f": {
   "src": "/restos/ovt-549657ce-78c4-4f0f.webp",
   "kind": "site",
   "credit": "sawana-launaguet.eatbu.com",
   "page": "https://sawana-launaguet.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-5496c04b-5e2a-437c": {
   "src": "/restos/ovt-5496c04b-5e2a-437c.webp",
   "kind": "site",
   "credit": "le-toboss-burger.eatbu.com",
   "page": "https://le-toboss-burger.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-549b8dc1-4c3b-4398": {
   "src": "/restos/ovt-549b8dc1-4c3b-4398.webp",
@@ -5648,6 +8246,17 @@
   "page": "https://www.latelier-pizzeriafine.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-5625320f-5da5-4c5d": {
+  "src": "/restos/ovt-5625320f-5da5-4c5d.webp",
+  "kind": "site",
+  "credit": "brueggers.com",
+  "page": "http://www.brueggers.com/menu/bagels-cream-cheese/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-564257f3-474e-4194": {
   "src": "/restos/ovt-564257f3-474e-4194.webp",
   "kind": "site",
@@ -5660,21 +8269,33 @@
   "kind": "site",
   "credit": "lorchidee31.fr",
   "page": "https://lorchidee31.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-568e299a-99ed-4e44": {
   "src": "/restos/ovt-568e299a-99ed-4e44.webp",
   "kind": "site",
   "credit": "pizzeriabufalino.fr",
   "page": "https://pizzeriabufalino.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-57a80c6c-d747-4ef7": {
   "src": "/restos/ovt-57a80c6c-d747-4ef7.webp",
   "kind": "site",
   "credit": "lepalaisduparadis.com",
   "page": "http://www.lepalaisduparadis.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.98
+  }
  },
  "ovt-5805837f-121d-42b0": {
   "src": "/restos/ovt-5805837f-121d-42b0.webp",
@@ -5688,7 +8309,11 @@
   "kind": "site",
   "credit": "chezmagda.fr",
   "page": "http://www.chezmagda.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-58b5bf71-d4bd-44be": {
   "src": "/restos/ovt-58b5bf71-d4bd-44be.webp",
@@ -5730,7 +8355,22 @@
   "kind": "site",
   "credit": "restaurants.pokawa.com",
   "page": "https://restaurants.pokawa.com/poke-bowl-intermarche-pamiers/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "ovt-5dd8b3f1-6fe9-4cbf": {
+  "src": "/restos/ovt-5dd8b3f1-6fe9-4cbf.webp",
+  "kind": "site",
+  "credit": "casa-del-tacos.fr",
+  "page": "https://casa-del-tacos.fr/nos-salades/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-5e23ed1e-cf66-492c": {
   "src": "/restos/ovt-5e23ed1e-cf66-492c.webp",
@@ -5772,35 +8412,66 @@
   "kind": "site",
   "credit": "lepetitbistrot-blagnac.fr",
   "page": "http://lepetitbistrot-blagnac.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-64a85f3b-885b-429c": {
   "src": "/restos/ovt-64a85f3b-885b-429c.webp",
   "kind": "site",
   "credit": "lapicadaloca.com",
   "page": "http://www.lapicadaloca.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-64db9d0f-c2f7-4901": {
   "src": "/restos/ovt-64db9d0f-c2f7-4901.webp",
   "kind": "site",
   "credit": "restaurant-top-notch.eatbu.com",
   "page": "https://restaurant-top-notch.eatbu.com/?lang=en",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "ovt-664258b9-f016-4da5": {
+  "src": "/restos/ovt-664258b9-f016-4da5.webp",
+  "kind": "site",
+  "credit": "lacroissanterie.fr",
+  "page": "https://www.lacroissanterie.fr/nos-actus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-67075dba-ad8d-4357": {
   "src": "/restos/ovt-67075dba-ad8d-4357.webp",
   "kind": "site",
   "credit": "fraicheur-livraison.com",
   "page": "http://fraicheur-livraison.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-67922edd-00d5-41c8": {
   "src": "/restos/ovt-67922edd-00d5-41c8.webp",
   "kind": "site",
   "credit": "istanbul-aucamville.fr",
   "page": "https://istanbul-aucamville.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-6a4f6179-326f-47c5": {
   "src": "/restos/ovt-6a4f6179-326f-47c5.webp",
@@ -5842,14 +8513,44 @@
   "kind": "site",
   "credit": "lescoudes-surlatable.fr",
   "page": "http://www.lescoudes-surlatable.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "ovt-6f11778b-6ace-4cdd": {
+  "src": "/restos/ovt-6f11778b-6ace-4cdd.webp",
+  "kind": "site",
+  "credit": "pizzatassoni.fr",
+  "page": "https://pizzatassoni.fr/nos-pizzas-pizza-gratentour/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "ovt-70836419-420c-49ee": {
+  "src": "/restos/ovt-70836419-420c-49ee.webp",
+  "kind": "site",
+  "credit": "lescale-a-pizza.odoo.com",
+  "page": "https://lescale-a-pizza.odoo.com/about-us",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-71ce7d16-66dc-45be": {
   "src": "/restos/ovt-71ce7d16-66dc-45be.webp",
   "kind": "site",
   "credit": "lepetitbacchustoulouse.wordpress.com",
-  "page": "https://lepetitbacchustoulouse.wordpress.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://lepetitbacchustoulouse.wordpress.com/galerie/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-736834bf-5896-438f": {
   "src": "/restos/ovt-736834bf-5896-438f.webp",
@@ -5857,6 +8558,17 @@
   "credit": "terroir-frenchpapilles.com",
   "page": "https://terroir-frenchpapilles.com/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-74966a9c-7f9e-4447": {
+  "src": "/restos/ovt-74966a9c-7f9e-4447.webp",
+  "kind": "site",
+  "credit": "levirgil.fr",
+  "page": "https://www.levirgil.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-76f65d6e-2e60-470b": {
   "src": "/restos/ovt-76f65d6e-2e60-470b.webp",
@@ -5877,14 +8589,22 @@
   "kind": "site",
   "credit": "pokai.fr",
   "page": "https://pokai.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-78fb61d2-a963-4585": {
   "src": "/restos/ovt-78fb61d2-a963-4585.webp",
   "kind": "site",
   "credit": "pizzanicoramonville.fr",
-  "page": "http://www.pizzanicoramonville.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.pizzanicoramonville.fr/nos-pizzas/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-799adfaa-c294-48ce": {
   "src": "/restos/ovt-799adfaa-c294-48ce.webp",
@@ -5940,14 +8660,22 @@
   "kind": "site",
   "credit": "lafrichegourmandetoulouse.com",
   "page": "https://www.lafrichegourmandetoulouse.com/lafrichegramont",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-7d90f26b-3ea6-476b": {
   "src": "/restos/ovt-7d90f26b-3ea6-476b.webp",
   "kind": "site",
   "credit": "riceforlife.fr",
   "page": "http://riceforlife.fr/?utm_source=gmb&utm_medium=referral",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.98
+  }
  },
  "ovt-7d9b2cad-2203-42ca": {
   "src": "/restos/ovt-7d9b2cad-2203-42ca.webp",
@@ -5961,7 +8689,11 @@
   "kind": "site",
   "credit": "pizzayoyo.fr",
   "page": "https://www.pizzayoyo.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-7e5cda5a-bc77-4d33": {
   "src": "/restos/ovt-7e5cda5a-bc77-4d33.webp",
@@ -5975,7 +8707,11 @@
   "kind": "site",
   "credit": "myfluffypancakes.com",
   "page": "http://www.myfluffypancakes.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-7f4d0f26-b516-41b4": {
   "src": "/restos/ovt-7f4d0f26-b516-41b4.webp",
@@ -5988,8 +8724,12 @@
   "src": "/restos/ovt-7f54215a-b200-4cab.webp",
   "kind": "site",
   "credit": "chezmoi.fr",
-  "page": "http://www.chezmoi.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.chezmoi.fr/order",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-803c7a0e-7bc8-4fe1": {
   "src": "/restos/ovt-803c7a0e-7bc8-4fe1.webp",
@@ -6017,7 +8757,11 @@
   "kind": "site",
   "credit": "comptoirdesvignes.fr",
   "page": "http://comptoirdesvignes.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-81d1d862-a3e8-4f3c": {
   "src": "/restos/ovt-81d1d862-a3e8-4f3c.webp",
@@ -6030,8 +8774,12 @@
   "src": "/restos/ovt-82755809-2962-4778.webp",
   "kind": "site",
   "credit": "lesjardinsdelolympe.com",
-  "page": "https://www.lesjardinsdelolympe.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.lesjardinsdelolympe.com/carte/manger/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-830be255-a622-42f0": {
   "src": "/restos/ovt-830be255-a622-42f0.webp",
@@ -6059,7 +8807,22 @@
   "kind": "site",
   "credit": "pizzahelena.fr",
   "page": "http://www.pizzahelena.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
+ },
+ "ovt-847287e2-26dc-4c52": {
+  "src": "/restos/ovt-847287e2-26dc-4c52.webp",
+  "kind": "site",
+  "credit": "okinawa-toulouse.com",
+  "page": "http://www.okinawa-toulouse.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-849ee666-7f93-4ddc": {
   "src": "/restos/ovt-849ee666-7f93-4ddc.webp",
@@ -6067,6 +8830,17 @@
   "credit": "haagen-dazs.global",
   "page": "https://www.haagen-dazs.global/fr-fr/fr-55/labege/gaumont-labege",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-851b1678-24d9-4c11": {
+  "src": "/restos/ovt-851b1678-24d9-4c11.webp",
+  "kind": "site",
+  "credit": "newdelhi-toulouse.com",
+  "page": "http://www.newdelhi-toulouse.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-856a43fe-ea68-4828": {
   "src": "/restos/ovt-856a43fe-ea68-4828.webp",
@@ -6087,14 +8861,22 @@
   "kind": "site",
   "credit": "lehustler.fr",
   "page": "https://lehustler.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-866a4c19-5b2f-4d68": {
   "src": "/restos/ovt-866a4c19-5b2f-4d68.webp",
   "kind": "site",
   "credit": "taglio2point0.com",
-  "page": "https://taglio2point0.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://taglio2point0.com/order",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-8773d01d-d02b-41c6": {
   "src": "/restos/ovt-8773d01d-d02b-41c6.webp",
@@ -6129,7 +8911,11 @@
   "kind": "site",
   "credit": "le-rhino.fr",
   "page": "https://le-rhino.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-8a008e61-8742-4c75": {
   "src": "/restos/ovt-8a008e61-8742-4c75.webp",
@@ -6137,6 +8923,17 @@
   "credit": "pizzerias.tutti-pizza.com",
   "page": "http://pizzerias.tutti-pizza.com/8188-tutti-pizza-aucamville",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-8ac6cec8-bdd2-43fc": {
+  "src": "/restos/ovt-8ac6cec8-bdd2-43fc.webp",
+  "kind": "site",
+  "credit": "casinosbarriere.com",
+  "page": "https://www.casinosbarriere.com/fr/toulouse/le-samourai-lounge-bar.html",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-8af041c9-1010-45fe": {
   "src": "/restos/ovt-8af041c9-1010-45fe.webp",
@@ -6170,8 +8967,12 @@
   "src": "/restos/ovt-8b8abab9-4605-4de0.webp",
   "kind": "site",
   "credit": "restaurantlesmuriers.com",
-  "page": "https://www.restaurantlesmuriers.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.restaurantlesmuriers.com/photos/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-8c387c20-3249-43e1": {
   "src": "/restos/ovt-8c387c20-3249-43e1.webp",
@@ -6185,7 +8986,11 @@
   "kind": "site",
   "credit": "delicity.com",
   "page": "https://delicity.com/king-chicken-toulouse",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-8dcad828-8240-429e": {
   "src": "/restos/ovt-8dcad828-8240-429e.webp",
@@ -6199,14 +9004,33 @@
   "kind": "site",
   "credit": "lesoleildasie.fr",
   "page": "http://www.lesoleildasie.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-8e7e0d56-2a94-45d7": {
   "src": "/restos/ovt-8e7e0d56-2a94-45d7.webp",
   "kind": "site",
   "credit": "alimentation-toulouse.com",
-  "page": "http://www.alimentation-toulouse.com/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.alimentation-toulouse.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
+ "ovt-8ea31ea6-c493-45ba": {
+  "src": "/restos/ovt-8ea31ea6-c493-45ba.webp",
+  "kind": "site",
+  "credit": "les-saveursdaubin.com",
+  "page": "https://www.les-saveursdaubin.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-8ea998ff-97be-4f70": {
   "src": "/restos/ovt-8ea998ff-97be-4f70.webp",
@@ -6227,7 +9051,11 @@
   "kind": "site",
   "credit": "burgerbeerandco.fr",
   "page": "https://burgerbeerandco.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-8f1f5a02-777a-403b": {
   "src": "/restos/ovt-8f1f5a02-777a-403b.webp",
@@ -6255,14 +9083,22 @@
   "kind": "site",
   "credit": "lesturgeon31.com",
   "page": "https://www.lesturgeon31.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-9002733b-fa3b-455a": {
   "src": "/restos/ovt-9002733b-fa3b-455a.webp",
   "kind": "site",
   "credit": "bangkok-bol.fr",
-  "page": "http://bangkok-bol.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://bangkok-bol.fr/menu/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-904eff93-9ca1-4514": {
   "src": "/restos/ovt-904eff93-9ca1-4514.webp",
@@ -6290,7 +9126,11 @@
   "kind": "site",
   "credit": "lecaboulot.fr",
   "page": "http://lecaboulot.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-90d6f887-f625-4376": {
   "src": "/restos/ovt-90d6f887-f625-4376.webp",
@@ -6304,7 +9144,11 @@
   "kind": "site",
   "credit": "laschicas.fr",
   "page": "https://laschicas.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-91d2b586-e097-455f": {
   "src": "/restos/ovt-91d2b586-e097-455f.webp",
@@ -6313,12 +9157,27 @@
   "page": "https://au-gourmet-vietnam.eatbu.com/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-91e10eec-49b2-4545": {
+  "src": "/restos/ovt-91e10eec-49b2-4545.webp",
+  "kind": "site",
+  "credit": "frenchcoffeeshop.com",
+  "page": "http://www.frenchcoffeeshop.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-96e894d5-f3f0-46f2": {
   "src": "/restos/ovt-96e894d5-f3f0-46f2.webp",
   "kind": "site",
   "credit": "santacruz31270.eatbu.com",
   "page": "https://santacruz31270.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-978c747a-f0f8-41b1": {
   "src": "/restos/ovt-978c747a-f0f8-41b1.webp",
@@ -6332,7 +9191,11 @@
   "kind": "site",
   "credit": "zenitude-hotel-residences.com",
   "page": "http://zenitude-hotel-residences.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-99e57b48-c253-4278": {
   "src": "/restos/ovt-99e57b48-c253-4278.webp",
@@ -6381,14 +9244,22 @@
   "kind": "site",
   "credit": "chezlescopains.fr",
   "page": "https://chezlescopains.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-9e274b52-72dd-490e": {
   "src": "/restos/ovt-9e274b52-72dd-490e.webp",
   "kind": "site",
   "credit": "solides.fr",
   "page": "http://www.solides.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-9e59ace7-74f0-4474": {
   "src": "/restos/ovt-9e59ace7-74f0-4474.webp",
@@ -6416,14 +9287,22 @@
   "kind": "site",
   "credit": "texasgrill-toulouse.eatbu.com",
   "page": "https://texasgrill-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-9f5deb21-8f4d-4fef": {
   "src": "/restos/ovt-9f5deb21-8f4d-4fef.webp",
   "kind": "site",
   "credit": "bistrotlesmarots.fr",
   "page": "https://www.bistrotlesmarots.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-9ff7ce52-794d-4a3c": {
   "src": "/restos/ovt-9ff7ce52-794d-4a3c.webp",
@@ -6443,22 +9322,45 @@
   "src": "/restos/ovt-a0d3658e-7bf3-4beb.webp",
   "kind": "site",
   "credit": "sushiswok31.fr",
-  "page": "https://www.sushiswok31.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.sushiswok31.fr/carte",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-a139e94e-41a3-4b77": {
   "src": "/restos/ovt-a139e94e-41a3-4b77.webp",
   "kind": "site",
   "credit": "quandclaudine.fr",
   "page": "https://www.quandclaudine.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
+ "ovt-a238e04e-29d9-464d": {
+  "src": "/restos/ovt-a238e04e-29d9-464d.webp",
+  "kind": "site",
+  "credit": "flunch.fr",
+  "page": "http://flunch.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-a24426a7-8b49-4b88": {
   "src": "/restos/ovt-a24426a7-8b49-4b88.webp",
   "kind": "site",
   "credit": "grandvatel.com",
   "page": "https://www.grandvatel.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-a2537dff-75bc-4af1": {
   "src": "/restos/ovt-a2537dff-75bc-4af1.webp",
@@ -6479,7 +9381,11 @@
   "kind": "site",
   "credit": "pizzerialeprenom.wordpress.com",
   "page": "https://pizzerialeprenom.wordpress.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-a615f11c-b7f0-4bca": {
   "src": "/restos/ovt-a615f11c-b7f0-4bca.webp",
@@ -6487,6 +9393,17 @@
   "credit": "pizzerias.tutti-pizza.com",
   "page": "https://pizzerias.tutti-pizza.com/99-tutti-pizza-roquettes?utm_source=facebook",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-a6470f38-7213-4226": {
+  "src": "/restos/ovt-a6470f38-7213-4226.webp",
+  "kind": "site",
+  "credit": "restaurant-balma-chezyvonne.com",
+  "page": "https://restaurant-balma-chezyvonne.com/carte-du-restaurant/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-a6579abc-361c-496e": {
   "src": "/restos/ovt-a6579abc-361c-496e.webp",
@@ -6501,6 +9418,28 @@
   "credit": "lebiergarten.fr",
   "page": "https://lebiergarten.fr/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-a6a77054-03b1-436f": {
+  "src": "/restos/ovt-a6a77054-03b1-436f.webp",
+  "kind": "site",
+  "credit": "brasserieopera.com",
+  "page": "http://www.brasserieopera.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
+ },
+ "ovt-a87522c3-f4bb-4176": {
+  "src": "/restos/ovt-a87522c3-f4bb-4176.webp",
+  "kind": "site",
+  "credit": "pizzeria-dremil.eatbu.com",
+  "page": "http://pizzeria-dremil.eatbu.com/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-a894587f-82e0-4b20": {
   "src": "/restos/ovt-a894587f-82e0-4b20.webp",
@@ -6521,7 +9460,11 @@
   "kind": "site",
   "credit": "croustynaan31.fr",
   "page": "https://www.croustynaan31.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-a9eb8816-f520-4b6d": {
   "src": "/restos/ovt-a9eb8816-f520-4b6d.webp",
@@ -6570,14 +9513,22 @@
   "kind": "site",
   "credit": "medina-fall-food-restaurant.eatbu.com",
   "page": "http://medina-fall-food-restaurant.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-ae2614ef-ecfe-4322": {
   "src": "/restos/ovt-ae2614ef-ecfe-4322.webp",
   "kind": "site",
   "credit": "tutti-pizza.com",
-  "page": "http://www.tutti-pizza.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.tutti-pizza.com/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-ae4786a7-ac50-4653": {
   "src": "/restos/ovt-ae4786a7-ac50-4653.webp",
@@ -6591,7 +9542,11 @@
   "kind": "site",
   "credit": "pizzeria-450.fr",
   "page": "https://pizzeria-450.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-aea5d71e-e944-4c8a": {
   "src": "/restos/ovt-aea5d71e-e944-4c8a.webp",
@@ -6611,29 +9566,45 @@
   "src": "/restos/ovt-afe38bb1-765d-4208.webp",
   "kind": "site",
   "credit": "lespetitsplatsdeclemence.com",
-  "page": "https://lespetitsplatsdeclemence.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://lespetitsplatsdeclemence.com/galeries",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-b10da916-c2b3-4fa2": {
   "src": "/restos/ovt-b10da916-c2b3-4fa2.webp",
   "kind": "site",
   "credit": "bestfood-31120.com",
   "page": "https://bestfood-31120.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-b1d642ca-0919-48ab": {
   "src": "/restos/ovt-b1d642ca-0919-48ab.webp",
   "kind": "site",
   "credit": "labelleliegeoise.com",
-  "page": "http://www.labelleliegeoise.com/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.labelleliegeoise.com/nos-gaufres-liegeoises",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-b2770c67-125c-4f1f": {
   "src": "/restos/ovt-b2770c67-125c-4f1f.webp",
   "kind": "site",
   "credit": "lorchidee31.fr",
   "page": "http://www.lorchidee31.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-b2ec14aa-1182-4c5e": {
   "src": "/restos/ovt-b2ec14aa-1182-4c5e.webp",
@@ -6668,7 +9639,11 @@
   "kind": "site",
   "credit": "restaurant-wok888-toulouse.eatbu.com",
   "page": "https://restaurant-wok888-toulouse.eatbu.com/?lang=fr",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-b6ad43fe-628a-4d9e": {
   "src": "/restos/ovt-b6ad43fe-628a-4d9e.webp",
@@ -6696,7 +9671,11 @@
   "kind": "site",
   "credit": "lapadeno.com",
   "page": "http://www.lapadeno.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.97
+  }
  },
  "ovt-ba7561da-93e4-47d5": {
   "src": "/restos/ovt-ba7561da-93e4-47d5.webp",
@@ -6704,6 +9683,17 @@
   "credit": "tempete-bar.com",
   "page": "http://tempete-bar.com/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-ba8c8829-353a-4baa": {
+  "src": "/restos/ovt-ba8c8829-353a-4baa.webp",
+  "kind": "site",
+  "credit": "lacroissanterie.fr",
+  "page": "https://www.lacroissanterie.fr/nos-actus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-bb8c5182-7ecb-4265": {
   "src": "/restos/ovt-bb8c5182-7ecb-4265.webp",
@@ -6717,7 +9707,11 @@
   "kind": "site",
   "credit": "lesmidisdemamiesuzette-foodtruck.eatbu.com",
   "page": "https://lesmidisdemamiesuzette-foodtruck.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-be40c63d-d3ca-4f52": {
   "src": "/restos/ovt-be40c63d-d3ca-4f52.webp",
@@ -6751,15 +9745,23 @@
   "src": "/restos/ovt-bef099cb-42ea-4460.webp",
   "kind": "site",
   "credit": "tipolino-restaurant.fr",
-  "page": "http://tipolino-restaurant.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://tipolino-restaurant.fr/la-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-bf578d02-d0c0-4eb0": {
   "src": "/restos/ovt-bf578d02-d0c0-4eb0.webp",
   "kind": "site",
   "credit": "clubbbbb.com",
   "page": "http://www.clubbbbb.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-c070cc53-04e5-4355": {
   "src": "/restos/ovt-c070cc53-04e5-4355.webp",
@@ -6780,7 +9782,11 @@
   "kind": "site",
   "credit": "bibimpop.fr",
   "page": "https://www.bibimpop.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-c14cafee-7a26-4f9b": {
   "src": "/restos/ovt-c14cafee-7a26-4f9b.webp",
@@ -6822,7 +9828,11 @@
   "kind": "site",
   "credit": "restaurants.pokawa.com",
   "page": "https://restaurants.pokawa.com/poke-bowl-intermarche-garidech/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-c1f4d37c-583d-471e": {
   "src": "/restos/ovt-c1f4d37c-583d-471e.webp",
@@ -6857,14 +9867,22 @@
   "kind": "site",
   "credit": "les-crulottes.com",
   "page": "http://www.les-crulottes.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-c466da2e-86f0-47cd": {
   "src": "/restos/ovt-c466da2e-86f0-47cd.webp",
   "kind": "site",
   "credit": "casatoto.fr",
-  "page": "http://www.casatoto.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "http://www.casatoto.fr",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-c4dc6885-1b93-4c24": {
   "src": "/restos/ovt-c4dc6885-1b93-4c24.webp",
@@ -6885,7 +9903,11 @@
   "kind": "site",
   "credit": "rotisserie-cugnaux.fr",
   "page": "http://rotisserie-cugnaux.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-c64baf8e-6bce-4b62": {
   "src": "/restos/ovt-c64baf8e-6bce-4b62.webp",
@@ -6899,7 +9921,11 @@
   "kind": "site",
   "credit": "lesabra.fr",
   "page": "http://lesabra.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-c72f0622-855a-48fc": {
   "src": "/restos/ovt-c72f0622-855a-48fc.webp",
@@ -6921,6 +9947,17 @@
   "credit": "labelleitalienne.eatbu.com",
   "page": "http://labelleitalienne.eatbu.com/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-ca123f51-9aa0-4207": {
+  "src": "/restos/ovt-ca123f51-9aa0-4207.webp",
+  "kind": "site",
+  "credit": "chezhoa.fr",
+  "page": "https://chezhoa.fr/menus/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-ca178fe8-da29-4794": {
   "src": "/restos/ovt-ca178fe8-da29-4794.webp",
@@ -6950,12 +9987,34 @@
   "page": "https://pizzerias.tutti-pizza.com/29-tutti-pizza-blagnac",
   "consentedAt": "2026-11-13"
  },
+ "ovt-cda6f31f-f58b-4816": {
+  "src": "/restos/ovt-cda6f31f-f58b-4816.webp",
+  "kind": "site",
+  "credit": "les-acolytes.fr",
+  "page": "http://www.les-acolytes.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-cdd4312e-e32e-4248": {
   "src": "/restos/ovt-cdd4312e-e32e-4248.webp",
   "kind": "site",
   "credit": "privateaser.com",
   "page": "https://www.privateaser.com/lieu/48959-terese-toulouse",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-ce187de1-1db0-468e": {
+  "src": "/restos/ovt-ce187de1-1db0-468e.webp",
+  "kind": "site",
+  "credit": "chinatown31.fr",
+  "page": "https://chinatown31.fr/notre-carte/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-ce5bc6fe-258a-4413": {
   "src": "/restos/ovt-ce5bc6fe-258a-4413.webp",
@@ -6997,7 +10056,22 @@
   "kind": "site",
   "credit": "naanberliner.fr",
   "page": "http://www.naanberliner.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
+ "ovt-d2fca2d3-de31-4da4": {
+  "src": "/restos/ovt-d2fca2d3-de31-4da4.webp",
+  "kind": "site",
+  "credit": "restaurant-lemaquis.fr",
+  "page": "https://www.restaurant-lemaquis.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-d3e65902-d457-40c3": {
   "src": "/restos/ovt-d3e65902-d457-40c3.webp",
@@ -7011,14 +10085,22 @@
   "kind": "site",
   "credit": "aligot-traiteur-toulouse.eatbu.com",
   "page": "http://aligot-traiteur-toulouse.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-d4c12fbe-fab6-4aff": {
   "src": "/restos/ovt-d4c12fbe-fab6-4aff.webp",
   "kind": "site",
   "credit": "pizzeria-massimo.com",
   "page": "http://www.pizzeria-massimo.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-d5089903-d3f1-4f6d": {
   "src": "/restos/ovt-d5089903-d3f1-4f6d.webp",
@@ -7046,7 +10128,11 @@
   "kind": "site",
   "credit": "pizza-seven.com",
   "page": "http://www.pizza-seven.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-d7481f66-2c67-46c7": {
   "src": "/restos/ovt-d7481f66-2c67-46c7.webp",
@@ -7088,14 +10174,22 @@
   "kind": "site",
   "credit": "lerajnagar.com",
   "page": "http://lerajnagar.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-d9e589c7-6037-4837": {
   "src": "/restos/ovt-d9e589c7-6037-4837.webp",
   "kind": "site",
   "credit": "leffiloch.fr",
   "page": "http://leffiloch.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-da0528c4-9e72-4907": {
   "src": "/restos/ovt-da0528c4-9e72-4907.webp",
@@ -7109,14 +10203,22 @@
   "kind": "site",
   "credit": "taudoc.fr",
   "page": "http://www.taudoc.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-dae5174b-a369-4017": {
   "src": "/restos/ovt-dae5174b-a369-4017.webp",
   "kind": "site",
   "credit": "bobine-aligot.fr",
   "page": "https://bobine-aligot.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
  },
  "ovt-db4de5be-ed0b-48eb": {
   "src": "/restos/ovt-db4de5be-ed0b-48eb.webp",
@@ -7139,12 +10241,27 @@
   "page": "http://www.lotusroses.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-dd1c7a3d-5a34-4f19": {
+  "src": "/restos/ovt-dd1c7a3d-5a34-4f19.webp",
+  "kind": "site",
+  "credit": "fradianopizza.fr",
+  "page": "https://fradianopizza.fr/nos-desserts/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-de5a22c4-1b68-4a57": {
   "src": "/restos/ovt-de5a22c4-1b68-4a57.webp",
   "kind": "site",
   "credit": "speedrabbitpizza.com",
-  "page": "https://www.speedrabbitpizza.com/",
-  "consentedAt": "2026-11-13"
+  "page": "https://www.speedrabbitpizza.com",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-de6b4de9-0941-42ce": {
   "src": "/restos/ovt-de6b4de9-0941-42ce.webp",
@@ -7153,12 +10270,27 @@
   "page": "https://www.restaurantlepicsaintloup.com/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-debce148-9244-43f0": {
+  "src": "/restos/ovt-debce148-9244-43f0.webp",
+  "kind": "site",
+  "credit": "stephwatters31.wixsite.com",
+  "page": "https://stephwatters31.wixsite.com/my-site-2",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-df2d8473-9269-4ba0": {
   "src": "/restos/ovt-df2d8473-9269-4ba0.webp",
   "kind": "site",
   "credit": "lauberge31.fr",
   "page": "https://www.lauberge31.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-df36b1d0-0905-4736": {
   "src": "/restos/ovt-df36b1d0-0905-4736.webp",
@@ -7181,6 +10313,17 @@
   "page": "https://le-bistrot-libanais-toulouse.eatbu.com/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-e25d294f-52da-4cfc": {
+  "src": "/restos/ovt-e25d294f-52da-4cfc.webp",
+  "kind": "site",
+  "credit": "vellarosa.fr",
+  "page": "https://www.vellarosa.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
+ },
  "ovt-e59f27e3-053b-4364": {
   "src": "/restos/ovt-e59f27e3-053b-4364.webp",
   "kind": "site",
@@ -7200,14 +10343,22 @@
   "kind": "site",
   "credit": "commandes-bnwburger-toulouse.com",
   "page": "https://commandes-bnwburger-toulouse.com/order/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-e6c73eb7-4ba8-4547": {
   "src": "/restos/ovt-e6c73eb7-4ba8-4547.webp",
   "kind": "site",
   "credit": "alimentation-toulouse.com",
   "page": "http://www.alimentation-toulouse.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-e6e222b9-1478-40a4": {
   "src": "/restos/ovt-e6e222b9-1478-40a4.webp",
@@ -7228,7 +10379,11 @@
   "kind": "site",
   "credit": "la-muse-bouche-restaurant-st-alban.eatbu.com",
   "page": "http://la-muse-bouche-restaurant-st-alban.eatbu.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-e7609795-8820-4ff7": {
   "src": "/restos/ovt-e7609795-8820-4ff7.webp",
@@ -7251,6 +10406,17 @@
   "page": "http://burgerking.fr/",
   "consentedAt": "2026-11-13"
  },
+ "ovt-e9e449d4-b1f0-4fc1": {
+  "src": "/restos/ovt-e9e449d4-b1f0-4fc1.webp",
+  "kind": "site",
+  "credit": "urbex-restaurant.fr",
+  "page": "https://urbex-restaurant.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.85
+  }
+ },
  "ovt-eb4aed07-d062-4fb0": {
   "src": "/restos/ovt-eb4aed07-d062-4fb0.webp",
   "kind": "site",
@@ -7270,7 +10436,11 @@
   "kind": "site",
   "credit": "saveursdeleverest-toulouse.com",
   "page": "https://saveursdeleverest-toulouse.com/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-ebf8aebe-71ea-446b": {
   "src": "/restos/ovt-ebf8aebe-71ea-446b.webp",
@@ -7298,7 +10468,11 @@
   "kind": "site",
   "credit": "cme-courtcircuit.fr",
   "page": "https://www.cme-courtcircuit.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-ed63e9dc-a180-4509": {
   "src": "/restos/ovt-ed63e9dc-a180-4509.webp",
@@ -7375,21 +10549,33 @@
   "kind": "site",
   "credit": "haagen-dazs.global",
   "page": "https://www.haagen-dazs.global/fr-fr/fr-55/deyme/dyneff-toulouse-sud-sud",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-f35f4ed3-eb61-425f": {
   "src": "/restos/ovt-f35f4ed3-eb61-425f.webp",
   "kind": "site",
   "credit": "pizzatime.fr",
   "page": "http://pizzatime.fr/",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.8
+  }
  },
  "ovt-f37dd4a0-303f-4463": {
   "src": "/restos/ovt-f37dd4a0-303f-4463.webp",
   "kind": "site",
   "credit": "zelift.com",
   "page": "https://zelift.com/brolenda-coffee-shop-toulouse",
-  "consentedAt": "2026-11-13"
+  "consentedAt": "2026-11-13",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-f3a73975-6e74-4ed4": {
   "src": "/restos/ovt-f3a73975-6e74-4ed4.webp",
@@ -7439,6 +10625,17 @@
   "credit": "tito-mojito.eatbu.com",
   "page": "http://tito-mojito.eatbu.com/",
   "consentedAt": "2026-11-13"
+ },
+ "ovt-f548312c-626d-41c7": {
+  "src": "/restos/ovt-f548312c-626d-41c7.webp",
+  "kind": "site",
+  "credit": "saikyo.fr",
+  "page": "http://saikyo.fr/",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.95
+  }
  },
  "ovt-f5c82452-7bd0-4fc9": {
   "src": "/restos/ovt-f5c82452-7bd0-4fc9.webp",
@@ -7507,8 +10704,12 @@
   "src": "/restos/ovt-fd0187fb-4b1f-468b.webp",
   "kind": "site",
   "credit": "almabistro.fr",
-  "page": "https://almabistro.fr/",
-  "consentedAt": "2026-11-13"
+  "page": "https://almabistro.fr/menu",
+  "consentedAt": "2026-11-20",
+  "vision": {
+   "classe": "plat",
+   "confiance": 0.9
+  }
  },
  "ovt-fd2ff0e3-07cc-468c": {
   "src": "/restos/ovt-fd2ff0e3-07cc-468c.webp",

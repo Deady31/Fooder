@@ -14,6 +14,12 @@ export default function CreditsPage() {
           Adresses, sites web et téléphones : <a href='https://overturemaps.org'>Overture Maps Foundation</a>, jeu de données Places, licence CDLA Permissive 2.0.
         </li>
         <li>
+          Adresses vérifiées : <a href='https://adresse.data.gouv.fr'>Base Adresse Nationale</a> et <a href='https://recherche-entreprises.api.gouv.fr'>API Recherche d&apos;entreprises</a> (INSEE, SIRENE), Licence Ouverte v2.0 (Etalab).
+        </li>
+        <li>
+          Quartiers de Toulouse : contours des grands quartiers © Mairie de Toulouse, jeu de données « Recensement population 2011 - Grands quartiers - Logement » sur <a href='https://data.toulouse-metropole.fr'>data.toulouse-metropole.fr</a>, <a href='https://www.etalab.gouv.fr/licence-ouverte-open-licence/'>Licence Ouverte v2.0 (Etalab)</a>, récupéré le 20 novembre 2026. Seuls le nom et le contour sont utilisés.
+        </li>
+        <li>
           Fond de carte : <a href='https://openfreemap.org'>OpenFreeMap</a>, données OpenStreetMap, rendu MapLibre GL.
         </li>
         <li>Photos des restaurants : fournies par les utilisateurs et, à terme, par les restaurateurs, sous leur responsabilité.</li>

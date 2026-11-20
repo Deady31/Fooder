@@ -1,7 +1,8 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Share2, ChevronRight, Pencil, Flame, Users, Trophy } from 'lucide-react';
 import { useFoodDNA } from '../../../hooks/useFoodDNA';
 import { useGamification, ALL_ACHIEVEMENTS } from '../../../hooks/useGamification';
@@ -23,6 +24,7 @@ import { visitedQuartiers } from '../../../lib/visits';
 import { PERKS, bestTitle, contributorTitles, monthlyChallenges } from '../../../lib/rituals';
 import { FeedPost, POSTS_KEY } from '../../../lib/feed';
 import { readJson } from '../../../lib/store';
+import { startTour } from '../../../lib/tour';
 import { readDislikes, readLikes, subscribeLikes } from '../../../lib/likes';
 import { ScaleBar } from '../../../components/profile/ScaleBar';
 import { XpGauge } from '../../../components/profile/XpGauge';
@@ -60,6 +62,7 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 
 export default function ProfilePage() {
   const dna = useFoodDNA();
+  const router = useRouter();
   const { streak, xp, level, xpProgress, achievements, unlockedIds } = useGamification();
   const [activeTab, setActiveTab] = useState<TabId>('dna');
   const [stats, setStats] = useState<StoredStats>({ totalSwipes: 0 });
@@ -257,7 +260,7 @@ export default function ProfilePage() {
       <div id="profile-panel" role="tabpanel" aria-labelledby={`profile-tab-${activeTab}`}>
         <AnimatePresence mode="wait">
           {activeTab === 'dna' && (
-            <motion.div key="dna" {...fade} className="p-4 space-y-4">
+            <m.div key="dna" {...fade} className="p-4 space-y-4">
               <div className={`relative rounded-[28px] p-5 ${dna.tint} panel overflow-hidden`}>
                 <div className="absolute -right-2 -top-2 bob" style={{ ['--r' as string]: '8deg' }}>
                   <Sticker name={dna.archetypeSticker} size={104} rotate={8} />
@@ -307,11 +310,11 @@ export default function ProfilePage() {
                   <p className="text-plum-muted text-sm font-medium">Ton Food DNA se révèle à travers tes likes.</p>
                 </div>
               )}
-            </motion.div>
+            </m.div>
           )}
 
           {activeTab === 'achievements' && (
-            <motion.div key="ach" {...fade} className="p-4 space-y-3">
+            <m.div key="ach" {...fade} className="p-4 space-y-3">
               <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-3">
                 <Label>Défis du mois</Label>
                 {challenges.map(c => (
@@ -382,11 +385,11 @@ export default function ProfilePage() {
                   );
                 })}
               </div>
-            </motion.div>
+            </m.div>
           )}
 
           {activeTab === 'wrapped' && (
-            <motion.div key="wrapped" {...fade} className="p-4 space-y-4">
+            <m.div key="wrapped" {...fade} className="p-4 space-y-4">
               <div className="bg-fooder-primary rounded-[28px] p-5 text-white panel space-y-4">
                 <h2 className="text-3xl leading-none">Ton Fooder Wrapped</h2>
                 <div className="grid grid-cols-2 gap-3">
@@ -417,11 +420,11 @@ export default function ProfilePage() {
                 <Share2 className="w-4 h-4" />
                 Partager mon Wrapped
               </button>
-            </motion.div>
+            </m.div>
           )}
 
           {activeTab === 'map' && (
-            <motion.div key="map" {...fade} className="p-4 space-y-4">
+            <m.div key="map" {...fade} className="p-4 space-y-4">
               <div className="bg-white rounded-2xl p-4 border-[3px] border-plum space-y-2">
                 <div className="flex justify-between items-center">
                   <p className="font-display text-xl text-plum">Ma Toulouse</p>
@@ -439,7 +442,7 @@ export default function ProfilePage() {
                 {TOULOUSE_QUARTIERS.map(q => {
                   const unlocked = unlockedQuartiers.has(q.name);
                   return (
-                    <motion.div
+                    <m.div
                       key={q.name}
                       whileTap={{ scale: 0.93 }}
                       className={`rounded-2xl p-2.5 flex flex-col items-center gap-1 border-[3px] border-plum ${
@@ -452,7 +455,7 @@ export default function ProfilePage() {
                       <span className={`text-xs font-bold text-center leading-tight break-words max-w-full ${unlocked ? 'text-plum' : 'text-plum-muted'}`}>
                         {q.name}
                       </span>
-                    </motion.div>
+                    </m.div>
                   );
                 })}
               </div>
@@ -460,12 +463,19 @@ export default function ProfilePage() {
               <div className="bg-white rounded-2xl p-4 border-[3px] border-dashed border-plum text-center space-y-1">
                 <p className="text-plum-muted text-sm font-bold">Chaque visite confirmée colore son quartier. 5 quartiers = titre de Cartographe.</p>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>
 
       <footer className="mt-4 px-4 pb-6 pt-4 bg-cream border-t-[3px] border-plum">
+        <button
+          type="button"
+          onClick={() => { startTour(); router.push('/swipe'); }}
+          className="w-full mb-4 min-h-[44px] rounded-2xl bg-white border-[3px] border-plum shadow-hard-sm text-sm font-bold text-plum active:translate-y-0.5 transition-transform"
+        >
+          Revoir le tuto
+        </button>
         <InstallPrompt className="mb-4" />
         <LegalCenter />
       </footer>
@@ -481,7 +491,7 @@ export default function ProfilePage() {
       <ActionToast toast={toast} onDismiss={dismissToast} />
       <AnimatePresence>
         {lockedHint && pickerOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -490,7 +500,7 @@ export default function ProfilePage() {
             <span className="chip bg-lemon text-plum text-xs !px-4 !py-2">
               {`Se débloque au ${lockedHint.toLowerCase()}`}
             </span>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

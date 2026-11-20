@@ -68,6 +68,12 @@ function Badges({ rest }: { rest: Restaurant }) {
     <div className='rcard-chips flex flex-wrap gap-1.5 mt-1.5 max-h-[62px] overflow-hidden shrink-0 min-w-0'>
       {rest.price > 0 && <span className='chip shrink-0 bg-fooder-secondary text-plum'>{rest.price}€</span>}
       <span className='chip min-w-0 max-w-full bg-fooder-primary text-white'><span className='truncate'>{rest.cuisine}</span></span>
+      {rest.buffet && (
+        <span className='chip shrink-0 !text-[11px] !px-2 !py-0.5 bg-lemon text-plum'>
+          <Sticker name='paella' size={16} />
+          À volonté
+        </span>
+      )}
       {shown.map(d => (
         <span key={d} className='chip shrink-0 !text-[11px] !px-2 !py-0.5 bg-white text-plum' title={`${DIET_LABEL[d]} (${DIET_SOURCE_NOTE})`}>
           {DIET_SHORT_LABEL[d]}

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Layers, Heart, User, Users } from 'lucide-react';
 import { likesCount, subscribeLikes } from '../../lib/likes';
 import { badgeLabel, isTabActive, tabIndexAfter } from '../../lib/shell';
@@ -57,13 +57,13 @@ export function TabBar() {
             className='relative flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 py-1.5 rounded-2xl'
           >
             {active && (
-              <motion.span
+              <m.span
                 layoutId='tab-pill'
                 className='absolute inset-0 rounded-2xl bg-fooder-secondary border-[3px] border-plum shadow-hard'
                 transition={{ type: 'spring', stiffness: 420, damping: 32 }}
               />
             )}
-            <motion.span
+            <m.span
               className='relative z-10 flex flex-col items-center gap-0.5'
               whileTap={{ scale: 0.88 }}
               animate={{ y: active ? -1 : 0 }}
@@ -73,7 +73,7 @@ export function TabBar() {
                 <Icon aria-hidden='true' className={`w-6 h-6 ${active ? 'text-plum' : 'text-plum-soft'}`} strokeWidth={2.5} />
                 <AnimatePresence>
                   {showBadge && (
-                    <motion.span
+                    <m.span
                       key={badge}
                       aria-hidden='true'
                       initial={{ scale: 0.3, opacity: 0 }}
@@ -83,12 +83,12 @@ export function TabBar() {
                       className='absolute -top-1.5 -right-3 min-w-[18px] h-[18px] px-1 rounded-full bg-bubblegum border-2 border-plum text-[10px] font-black text-plum flex items-center justify-center'
                     >
                       {badge}
-                    </motion.span>
+                    </m.span>
                   )}
                 </AnimatePresence>
               </span>
               <span className={`text-[10px] min-[360px]:text-[11px] font-bold ${active ? 'text-plum' : 'text-plum-soft'}`}>{label}</span>
-            </motion.span>
+            </m.span>
           </Link>
         );
       })}

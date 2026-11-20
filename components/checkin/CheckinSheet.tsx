@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { Camera, Flame, X } from 'lucide-react';
 import Link from 'next/link';
 import { Sticker } from '../ui/Sticker';
@@ -333,14 +333,14 @@ export function CheckinSheet({ target: incoming, mode, onClose, onVisited }: Che
 
           {step === 'done' && done && (
             <div className='space-y-3 text-center'>
-              <motion.div
+              <m.div
                 initial={reduce ? false : { scale: 0, rotate: -30 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: 'spring', stiffness: 380, damping: 14 }}
                 className='flex justify-center'
               >
                 <Sticker name={sticker} size={88} rotate={6} />
-              </motion.div>
+              </m.div>
               {done.xp > 0 ? (
                 <p role='status' className='font-display text-5xl text-plum'>
                   <XpCounter value={done.xp} />
@@ -350,14 +350,14 @@ export function CheckinSheet({ target: incoming, mode, onClose, onVisited }: Che
               )}
               <p className='text-sm font-medium text-plum-muted'>Merci, ton avis aide les prochains foodies à choisir.</p>
               <div className='inline-flex items-center gap-2 chip bg-fooder-orange text-plum !px-4 !py-2 text-sm'>
-                <motion.span
+                <m.span
                   initial={reduce ? false : { scale: 0 }}
                   animate={{ scale: done.newWeek && !reduce ? [0, 1.4, 1] : 1 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className='inline-flex'
                 >
                   <Flame className={`w-4 h-4 ${done.newWeek ? 'fill-lemon' : ''}`} strokeWidth={2.5} />
-                </motion.span>
+                </m.span>
                 {done.streak > 0 ? `Série : ${done.streak} semaine${done.streak > 1 ? 's' : ''}` : 'Série lancée !'}
               </div>
               {onlinePostId && <UploadNotice status={uploads.statuses[onlinePostId]} onRetry={() => uploads.retry(onlinePostId)} />}

@@ -8,7 +8,7 @@ import { Sheet } from '../ui/Sheet';
 import { Lightbox } from '../ui/Lightbox';
 import { CommunityPhotos } from './CommunityPhotos';
 import { stickerFor } from '../../lib/stickers';
-import { galleryFor, viewerCredit } from '../../lib/photoPriority';
+import { extraGalleryFor, galleryFor, viewerCredit } from '../../lib/photoPriority';
 import { FetchedPhoto, fetchGooglePhotos } from '../../lib/placePhotosClient';
 import { outcomeLabel, shareLink } from '../../lib/share';
 import { isSharable, restoUrl, shareText } from '../../lib/restoShare';
@@ -161,6 +161,8 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
 
   // Photos de la communauté : section dédiée ; ici seulement les photos du resto ou de son site.
   const gallery = shown && shown.photoSource !== 'community' ? galleryFor(shown, []) : [];
+  /** Galerie hors photo du bandeau : la même image deux fois dans la fiche, non. */
+  const extraGallery = shown ? extraGalleryFor(shown) : [];
   const viewerImages = shown ? [...(shown.image ? [shown.image] : []), ...gallery.filter(g => g !== shown.image), ...(google ? [google.url] : [])] : [];
   const openViewer = (src: string) => {
     const i = viewerImages.indexOf(src);
@@ -237,6 +239,7 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
             </div>
             <p className='text-plum-muted font-semibold text-xs'>
               {shown.cuisine}
+              {shown.buffet ? ' · Buffet à volonté' : ''}
               {shown.reviews ? ` · ${shown.reviews.toLocaleString('fr-FR')} avis` : ''}
               {shown.distance ? ` · ${shown.distance}` : ''}
             </p>
@@ -300,22 +303,22 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
 
             <CommunityPhotos rest={shown} />
 
-            {gallery.length > 0 && (
+            {extraGallery.length > 0 && (
               <section>
                 <SectionTitle>{galleryTitle(shown)}</SectionTitle>
                 <ul className='flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5'>
-                  {gallery.map((img, i) => (
+                  {extraGallery.map((img, i) => (
                     <li key={img} className='shrink-0'>
                       <button
                         type='button'
                         onClick={() => openViewer(img)}
-                        aria-label={`Agrandir la photo ${i + 1} sur ${gallery.length} : ${shown.name}`}
+                        aria-label={`Agrandir la photo ${i + 1} sur ${extraGallery.length} : ${shown.name}`}
                         className='block rounded-[26px] cursor-zoom-in'
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={img}
-                          alt={`${galleryTitle(shown)} chez ${shown.name}, photo ${i + 1} sur ${gallery.length}`}
+                          alt={`${galleryTitle(shown)} chez ${shown.name}, photo ${i + 1} sur ${extraGallery.length}`}
                           width={208}
                           height={208}
                           loading='lazy'

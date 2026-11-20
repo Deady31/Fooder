@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Heart, MessageCircle, Send, Trash2 } from 'lucide-react';
 import { FeedPost, MAX_COMMENT, VERDICTS, timeAgo } from '../../lib/feed';
 import { CommentItem } from './CommentItem';
@@ -39,7 +39,7 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
   };
 
   return (
-    <motion.article
+    <m.article
       layout='position'
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
@@ -102,18 +102,18 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
       </div>
 
       <div className='flex items-center gap-1 px-2 py-1'>
-        <motion.button
+        <m.button
           whileTap={{ scale: 0.88 }}
           onClick={() => onLike(post.id)}
           aria-pressed={liked}
           aria-label={liked ? 'Retirer mon miam' : 'Miam'}
           className='flex items-center gap-1.5 min-h-[44px] px-3 text-sm font-bold text-plum'
         >
-          <motion.span key={String(liked)} initial={{ scale: 0.6 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 12 }}>
+          <m.span key={String(liked)} initial={{ scale: 0.6 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 12 }}>
             <Heart className={`w-5 h-5 ${liked ? 'fill-bubblegum' : ''}`} strokeWidth={2.5} />
-          </motion.span>
+          </m.span>
           {!isDemo && count}
-        </motion.button>
+        </m.button>
         <button
           onClick={() => setOpen(o => !o)}
           aria-expanded={open}
@@ -132,7 +132,7 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
 
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -169,12 +169,12 @@ export function PostCard({ post, liked, count, comments, onLike, onDelete, onCom
                 <Send className='w-4 h-4 text-plum' strokeWidth={3} />
               </button>
             </form>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
       {zoom && post.photo && (
         <Lightbox images={[post.photo]} index={0} alt={`Photo de ${post.restaurantName}`} onIndexChange={() => undefined} onClose={() => setZoom(false)} />
       )}
-    </motion.article>
+    </m.article>
   );
 }

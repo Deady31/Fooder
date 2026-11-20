@@ -40,6 +40,10 @@ export interface Restaurant {
   photoPage?: string;
   updatedAt?: string;
   sponsored?: boolean;
+  /** Formule à volonté confirmée (voir data/buffets.json) : alimente l'envie « Buffet à volonté ». */
+  buffet?: boolean;
+  /** Quartier officiel de Toulouse (contours de la Mairie), calculé à la construction des données ; absent hors de Toulouse. */
+  quartier?: string;
   sponsorLabel?: string;
 }
 

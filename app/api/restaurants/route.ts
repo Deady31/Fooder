@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import records from '../../../data/toulouse-places.json';
+import { isBuffet } from '../../../lib/buffets';
 import { completeness, cuisineLabel, formatMeters, haversine, isPresentable, OsmRecord, osmToRestaurant } from '../../../lib/osm';
 
 export const dynamic = 'force-dynamic';
@@ -48,7 +49,9 @@ export function GET(req: NextRequest) {
   // Catégorie exacte (ex. « Protéines ») : le tri par distance se fait dans cette catégorie seulement.
   const cuisine = (p.get('cuisine') ?? '').trim().slice(0, 40);
 
-  const near = ALL.filter(r => kinds.has(r.k) && (!cuisine || cuisineLabel(r) === cuisine))
+  const buffetOnly = p.get('buffet') === '1';
+
+  const near = ALL.filter(r => kinds.has(r.k) && (!cuisine || cuisineLabel(r) === cuisine) && (!buffetOnly || isBuffet(r.id)))
     .map(r => ({ r, d: haversine(lat, lng, r.la, r.ln) }))
     .filter(x => x.d <= radius)
     .sort((a, b) => a.d - b.d - (completeness(a.r) - completeness(b.r)) * 150);

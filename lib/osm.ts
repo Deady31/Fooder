@@ -1,8 +1,9 @@
+import { verifiedAddress, verifiedEntry } from './addresses';
+import { isBuffet } from './buffets';
 import { PROTEIN_LABEL } from './categories';
 import type { Diet, Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
 import { parseOpeningHours } from './openingHours';
-import { quartierFor } from './quartiers';
 import { withBetterPhoto } from './photoPriority';
 import { safeWebUrl } from './safeUrl';
 import { restaurantPhoto } from './sitePhotos';
@@ -105,15 +106,21 @@ export function completeness(rec: OsmRecord): number {
 const INSTITUTIONAL = /sodexo|elior|restauration scolaire|restaurant d['’]entreprise|restaurant universitaire|restaurant d['’]application|toulousaine de restauration|cantine (inrae|enfip)|^b[âa]timent \d|\blyc[ée]e\b|\bcollège\b|\bR\.?I\.?E\b/i;
 
 /**
- * Une fiche est « présentable » quand elle porte assez d'informations utiles
- * (cuisine, horaires, adresse, site, téléphone) : score d'au moins 4.
+ * Critères d'information d'une fiche, sans la barrière d'adresse vérifiée : assez d'informations utiles
+ * (cuisine, horaires, adresse, site, téléphone), score d'au moins 4. Sert aussi aux scripts de vérification des adresses.
  */
-export function isPresentable(rec: OsmRecord): boolean {
+export function isPresentableBase(rec: OsmRecord): boolean {
   if (INSTITUTIONAL.test(rec.n)) return false;
   // Sans cuisine ni horaires lisibles, rien ne prouve que c'est un restaurant ouvert (éditeur de logiciel, bureau…).
   if (!rec.c && !hasHours(rec)) return false;
   return completeness(rec) >= 4;
 }
+
+/**
+ * Fiche servie par l'appli : assez d'informations (voir isPresentableBase) ET une adresse vérifiée (lib/addresses.ts).
+ * Mieux vaut une fiche absente qu'une fiche à l'adresse fausse ou inventée.
+ */
+export const isPresentable = (rec: OsmRecord): boolean => isPresentableBase(rec) && verifiedAddress(rec.id) !== null;
 
 /** Numéro au format international (+33…), ou undefined si illisible. */
 export function normalizePhone(raw: string | undefined): string | undefined {
@@ -139,7 +146,8 @@ function describe(rec: OsmRecord, cuisine: string, quartier: string | null, dist
 export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: number }): Restaurant {
   const dist = origin ? haversine(origin.lat, origin.lng, rec.la, rec.ln) : undefined;
   const cuisine = cuisineLabel(rec);
-  const quartier = quartierFor(rec.la, rec.ln);
+  // Quartier calculé à la construction des données (point-dans-polygone, scripts/verify-addresses.mjs) : jamais deviné à l'affichage.
+  const quartier = verifiedEntry(rec.id)?.q ?? null;
   const distance = dist !== undefined ? formatMeters(dist) : undefined;
   const card: Restaurant = {
     id: rec.id,
@@ -150,7 +158,8 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     distanceMeters: dist !== undefined ? Math.round(dist) : undefined,
     cuisine,
     image: '',
-    address: rec.a || (quartier ? `Quartier ${quartier}, Toulouse` : 'Toulouse'),
+    // Adresse vérifiée seulement : jamais l'adresse brute des sources, jamais un repli « Quartier X » présenté comme une adresse.
+    address: verifiedAddress(rec.id) ?? '',
     lat: rec.la,
     lng: rec.ln,
     description: describe(rec, cuisine, quartier, distance),
@@ -158,7 +167,9 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     phone: normalizePhone(rec.t),
     hours: parseOpeningHours(rec.h),
     dataSource: 'osm',
+    ...(quartier ? { quartier } : {}),
     ...(rec.dt?.length ? { diets: [...rec.dt] } : {}),
+    ...(isBuffet(rec.id) ? { buffet: true } : {}),
   };
   // Photo de CET établissement seulement (consentie, ni bloquée ni partagée avec une autre fiche : lib/sitePhotos.ts).
   // Aucune photo générique « de la cuisine » : sans photo vérifiée, la carte montre l'illustration Fooder.

@@ -7,11 +7,10 @@ import { Sticker } from '../ui/Sticker';
 import { stickerFor } from '../../lib/stickers';
 import { readJson, randomId } from '../../lib/store';
 import { getMe } from '../../lib/identity';
-import { quartierFor } from '../../lib/quartiers';
 import { Defi, MAX_HINT } from '../../lib/social/defi';
 import { encodePayload } from '../../lib/social/codec';
 import { outcomeLabel, shareLink } from '../../lib/share';
-import { XP, awardXp } from '../../lib/rewards';
+import { payDefiXp } from '../../lib/rewards';
 import { track } from '../../lib/analytics';
 
 interface DefiComposerProps {
@@ -22,7 +21,7 @@ interface DefiComposerProps {
 }
 
 const autoHint = (r: Restaurant): string => {
-  const q = r.lat !== undefined && r.lng !== undefined ? quartierFor(r.lat, r.lng) : null;
+  const q = r.quartier ?? null;
   return [r.cuisine, q ? `quartier ${q}` : null, r.price > 0 ? `~${r.price} €` : null].filter(Boolean).join(' · ');
 };
 
@@ -54,7 +53,7 @@ export function DefiComposer({ isOpen, friendName, onClose, onToast }: DefiCompo
       restId: picked.id,
       name: picked.name,
       cuisine: picked.cuisine,
-      quartier: picked.lat !== undefined && picked.lng !== undefined ? quartierFor(picked.lat, picked.lng) ?? '' : '',
+      quartier: picked.quartier ?? '',
       hint: hint.trim().slice(0, MAX_HINT),
       lat: picked.lat,
       lng: picked.lng,
@@ -67,7 +66,7 @@ export function DefiComposer({ isOpen, friendName, onClose, onToast }: DefiCompo
       url,
     });
     if (outcome === 'shared' || outcome === 'copied') {
-      awardXp(XP.defiSent);
+      payDefiXp('sent', defi.id);
       track('defi_sent', { outcome });
       onClose();
     }

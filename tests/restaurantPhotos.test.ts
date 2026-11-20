@@ -44,7 +44,7 @@ describe('accord général, retrait et blocage', () => {
   it('données réelles : photo servie en WebP, aucune entrée bloquée exposée', () => {
     const table = require('../data/photos-consented.json');
     const blocked = require('../data/photo-blocklist.json').blocked;
-    const ids = Object.keys(table);
+    const ids = Object.keys(table).filter((id) => !blocked[id]);
     expect(ids.length).toBeGreaterThan(0);
     for (const id of ids.filter(i => !blocked[i]).slice(0, 50)) expect(restaurantPhoto(id)?.src).toMatch(/^\/restos\/.+\.webp$/);
     for (const id of Object.keys(blocked)) expect(restaurantPhoto(id)).toBeNull();
@@ -83,9 +83,12 @@ describe('consentement', () => {
     expect(consentedPhotoFor('osm-n1', { 'osm-n1': { ...photo, kind: 'x' as any } }, consent(['osm-n1']))).toBeNull();
   });
   it('osmToRestaurant : photo du site (accord général), rien pour un id sans photo', () => {
+    const tbl = require('../data/photos-consented.json');
+    const bl = require('../data/photo-blocklist.json').blocked;
+    const sampleId = Object.keys(tbl).find((id) => !bl[id] && tbl[id].kind === 'site') as string;
     const mk = (id: string) => osmToRestaurant({ id, n: 'Test', k: 'restaurant', c: 'french', la: 43.6, ln: 1.44, a: '', h: '', w: '', d: 0 });
-    expect(mk('osm-n250665866').photoSource).toBe('site');
-    expect(mk('osm-n250665866').image).toMatch(/^\/restos\/.+\.webp$/);
+    expect(mk(sampleId).photoSource).toBe('site');
+    expect(mk(sampleId).image).toMatch(/^\/restos\/.+\.webp$/);
     const r = mk('osm-n0-sans-photo');
     expect(r.photoSource === 'site' || r.photoSource === 'restaurant').toBe(false);
   });

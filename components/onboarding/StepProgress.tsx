@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Sticker } from '../ui/Sticker';
 
 interface StepProgressProps {
@@ -30,7 +30,7 @@ function Burst() {
   return (
     <>
       {items.map((p, i) => (
-        <motion.span
+        <m.span
           key={i}
           className='absolute left-1/2 top-1/2 -ml-2 -mt-2 pointer-events-none'
           initial={{ x: 0, y: 0, scale: 0.2, opacity: 1, rotate: 0 }}
@@ -38,7 +38,7 @@ function Burst() {
           transition={{ duration: 0.7, delay: p.delay, ease: [0.16, 1, 0.3, 1] }}
         >
           <Sticker name='sparkle' size={p.size} />
-        </motion.span>
+        </m.span>
       ))}
     </>
   );
@@ -57,7 +57,7 @@ export function StepProgress({ index, total }: StepProgressProps) {
       aria-label={`Étape ${index + 1} sur ${total}`}
     >
       <div className='absolute inset-0 rounded-full bg-white border-[3px] border-plum overflow-hidden'>
-        <motion.div
+        <m.div
           className='h-full bg-bubblegum stripes'
           initial={false}
           animate={{ width: `${pct}%` }}
@@ -72,24 +72,24 @@ export function StepProgress({ index, total }: StepProgressProps) {
         ))}
       </div>
 
-      <motion.div
+      <m.div
         className='absolute top-1/2 z-10'
         initial={false}
         animate={{ left: `${pct}%` }}
         transition={SPRING}
       >
         <div className='relative w-[34px] h-[34px] -translate-x-1/2 -translate-y-1/2'>
-          <motion.div
+          <m.div
             animate={{ rotate: [0, 90, 180], scale: [1, 1.22, 1] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           >
             <Sticker name='sparkle' size={34} />
-          </motion.div>
+          </m.div>
           <AnimatePresence>
             <Burst key={index} />
           </AnimatePresence>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { MapPin, RotateCcw, Share2 } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import { stickerFor } from '../../lib/stickers';
@@ -34,7 +34,7 @@ export function GroupResults({ session, myId, onShare, onRevote }: GroupResultsP
       </section>
 
       {hasWinner && voters >= 2 && (
-        <motion.section
+        <m.section
           initial={{ scale: 0.9, rotate: -2, opacity: 0 }}
           animate={{ scale: 1, rotate: 0, opacity: 1 }}
           className='bg-bubblegum rounded-[28px] panel p-5 text-center space-y-2 relative overflow-hidden'
@@ -53,7 +53,7 @@ export function GroupResults({ session, myId, onShare, onRevote }: GroupResultsP
           >
             <MapPin className='w-4 h-4' /> On y va
           </a>
-        </motion.section>
+        </m.section>
       )}
 
       <ol className='space-y-2'>
@@ -62,7 +62,7 @@ export function GroupResults({ session, myId, onShare, onRevote }: GroupResultsP
             <span className='w-7 text-center font-display text-lg text-plum'>{i + 1}</span>
             <Sticker name={stickerFor(r.resto.cuisine, r.resto.id, r.resto.name)} size={36} />
             <span className='flex-1 min-w-0'>
-              <span className='block font-bold text-sm text-plum truncate'>{r.resto.name}</span>
+              <span className='block font-bold text-sm text-plum leading-tight break-words'>{r.resto.name}</span>
               <span className='block text-[11px] font-bold text-plum/50 truncate'>{r.voters.length > 0 ? r.voters.join(', ') : 'personne'}</span>
             </span>
             <span className='chip !px-2 text-xs bg-cream text-plum'>{r.likes}/{voters}</span>
@@ -70,11 +70,11 @@ export function GroupResults({ session, myId, onShare, onRevote }: GroupResultsP
         ))}
       </ol>
 
-      <div className='grid grid-cols-[1fr_2fr] gap-2.5'>
-        <button onClick={onRevote} className='duo-button bg-white text-plum py-3.5 text-sm flex items-center justify-center gap-1.5'>
+      <div className='grid grid-cols-1 min-[360px]:grid-cols-[1fr_2fr] gap-2.5'>
+        <button onClick={onRevote} className='duo-button bg-white text-plum py-3.5 px-3 text-sm whitespace-nowrap flex items-center justify-center gap-1.5'>
           <RotateCcw className='w-4 h-4' /> {voted ? 'Revoter' : 'Voter'}
         </button>
-        <button onClick={onShare} className='duo-button bg-fooder-secondary text-plum py-3.5 text-sm flex items-center justify-center gap-2'>
+        <button onClick={onShare} className='duo-button bg-fooder-secondary text-plum py-3.5 px-3 text-sm whitespace-nowrap order-first min-[360px]:order-none flex items-center justify-center gap-2'>
           <Share2 className='w-4 h-4' strokeWidth={2.5} /> Envoyer au groupe
         </button>
       </div>

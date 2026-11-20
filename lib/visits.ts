@@ -1,6 +1,5 @@
 import { Restaurant } from '../data/mockRestaurants';
 import { Verdict } from './feed';
-import { quartierFor } from './quartiers';
 import { readJson, writeJson } from './store';
 
 /** Une visite confirmée par l'utilisateur (« J'y suis allé »). */
@@ -20,6 +19,8 @@ export interface Checkin {
   cuisine: string;
   lat?: number;
   lng?: number;
+  /** Quartier de la fiche au moment du like (servi avec elle) ; absent pour les anciens likes. */
+  quartier?: string | null;
   dueAt: number;
   status: 'pending' | 'done' | 'dismissed';
 }
@@ -49,6 +50,7 @@ export function queueCheckin(rest: Restaurant, now: number = Date.now()): void {
     cuisine: rest.cuisine,
     lat: rest.lat,
     lng: rest.lng,
+    quartier: rest.quartier ?? null,
     dueAt: now + CHECKIN_DELAY,
     status: 'pending',
   };
@@ -75,6 +77,8 @@ export interface VisitInput {
   cuisine: string;
   lat?: number;
   lng?: number;
+  /** Quartier officiel de la fiche, servi avec elle (jamais recalculé ici : les contours restent côté serveur). */
+  quartier?: string | null;
 }
 
 /** Enregistre une visite. Retourne la liste à jour (une visite par resto et par jour au maximum). */
@@ -82,7 +86,7 @@ export function addVisit(input: VisitInput, verdict: Verdict, now: number = Date
   const visits = readVisits();
   const day = new Date(now).toDateString();
   if (visits.some(v => v.restId === input.restId && new Date(v.at).toDateString() === day)) return visits;
-  const quartier = input.lat !== undefined && input.lng !== undefined ? quartierFor(input.lat, input.lng) : null;
+  const quartier = input.quartier ?? null;
   const next = [...visits, { restId: input.restId, name: input.name, cuisine: input.cuisine, quartier, at: now, verdict }];
   writeJson(VISITS_KEY, next);
   updateCheckin(input.restId, { status: 'done' });
