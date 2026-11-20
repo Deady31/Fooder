@@ -37,7 +37,7 @@ Relancer : `node scripts/fetch-restaurant-photos.mjs --stage=discover` puis les 
 | 404 / 403 / robots | 479 | page morte, anti-bot, ou crawl interdit |
 | Pas de site du tout | 2 013 | rien à scraper |
 
-Les restaurants sans photo gardent le plat typique (Wikimedia) ou l'illustration : aucun trou visuel.
+Les restaurants sans photo vérifiée gardent l'illustration Fooder. Il n'y a plus de photo « plat typique » : une image ne s'affiche que si elle est celle de l'établissement exact (décision du 2026-11-20). `node scripts/flag-shared-photos.mjs` écarte toute image partagée entre plusieurs fiches (à relancer après chaque import).
 
 ## Branchement (fait le 13/11/2026)
 
@@ -49,7 +49,7 @@ typique (1). Un resto avec une photo de son site n'affiche donc plus une illustr
 | `lib/sitePhotos.ts` | **nouveau** — expose `SITE_PHOTOS` depuis `data/photos-local.json` |
 | `data/mockRestaurants.ts` | `photoSource` accepte `'site'` |
 | `lib/photoPriority.ts` | `RANK` = community 3, site 2, dish 1, google 0 ; `galleryFor` garde la photo `site` |
-| `lib/osm.ts` | `osmToRestaurant` applique la photo du site avant le plat typique |
+| `lib/osm.ts` | `osmToRestaurant` applique la photo vérifiée de la fiche, sinon aucune image (illustration) |
 | `lib/photoInvite.ts` | plus d'invite « pas encore de vraie photo » quand une photo du site existe |
 | `components/ui/lightboxMath.ts` | crédit « Photo du restaurant · <domaine> » |
 | `components/swipe/RestaurantCard.tsx` | badge « Photo du restaurant » |
@@ -141,5 +141,5 @@ Redimensionnement : `sharp` s'il est installé, sinon `ffmpeg`. Une photo `plat`
 
 ### Priorité d'affichage (`PHOTO_PRIORITY` dans `lib/photoPriority.ts`)
 
-plat du restaurant > photo d'un foodie > photo du site (consentie) > plat typique (Wikimedia) > illustration.
+plat du restaurant > photo d'un foodie > photo du site (consentie, non partagée) > illustration.
 Google n'apparaît jamais sur la carte.

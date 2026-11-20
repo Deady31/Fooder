@@ -57,12 +57,12 @@ describe('osm', () => {
     expect(cuisineLabel({ c: '', k: 'restaurant', d: 1 })).toBe('Végétarien');
   });
 
-  it('n’invente ni note ni prix, et signale la photo comme illustration', () => {
+  it('n’invente ni note ni prix, ni photo générique', () => {
     const r = osmToRestaurant(rec, { lat: 43.6045, lng: 1.4442 });
     expect(r.rating).toBe(0);
     expect(r.price).toBe(0);
-    expect(r.image).toMatch(/^\/dishes\/pizza[a-z_]*\.webp$/);
-    expect(r.photoSource).toBe('dish');
+    expect(r.image).toBe('');
+    expect(r.photoSource).toBeUndefined();
     expect(r.dataSource).toBe('osm');
     expect(r.hours).toBeDefined();
   });

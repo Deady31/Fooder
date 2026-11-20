@@ -124,8 +124,7 @@ describe('photoCreditLine', () => {
     expect(photoCreditLine('google')).toBe('Photo Google Maps');
   });
   it('plat typique : auteur et licence', () => {
-    expect(photoCreditLine('dish', 'Jean', 'CC BY-SA 4.0')).toBe('Plat typique · Jean, CC BY-SA 4.0');
-    expect(photoCreditLine('dish')).toBe('Plat typique');
+    expect(photoCreditLine('dish', 'Jean', 'CC BY-SA 4.0')).toBeNull(); // l'ancienne source « plat typique » n'existe plus
   });
   it('communauté / inconnu : aucun crédit', () => {
     expect(photoCreditLine('community', 'x')).toBeNull();

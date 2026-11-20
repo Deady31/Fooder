@@ -4,7 +4,6 @@ import places from '../data/toulouse-places.json';
 import { PROTEIN_LABEL } from '../lib/categories';
 import { cuisineLabel, isPresentable, isProteinFirst, type OsmRecord } from '../lib/osm';
 import { matchSticker, stickerFor } from '../lib/stickers';
-import { dishPhotoFor } from '../lib/dishes';
 
 const all = places as unknown as OsmRecord[];
 const byId = (id: string) => all.find(r => r.id === id) as OsmRecord;
@@ -56,10 +55,9 @@ describe('catégorie « Protéines »', () => {
     expect(isProteinFirst(rec('Chicken Cook', 'burger'))).toBe(true);
   });
 
-  it('donne l’icône poulet et une photo de plat typique à la catégorie', () => {
+  it('donne l’icône poulet à la catégorie (illustration, jamais une photo générique)', () => {
     expect(matchSticker(PROTEIN_LABEL, '')).toBe('chicken');
     expect(stickerFor(PROTEIN_LABEL, 'x', 'Good Protein')).toBe('chicken');
-    expect(dishPhotoFor(PROTEIN_LABEL, 'Good Protein', 'osm-n12828437770')).not.toBeNull();
   });
 
   it('garde un volume plausible sur les vraies données (ni vide, ni envahissant)', () => {

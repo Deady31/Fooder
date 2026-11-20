@@ -84,9 +84,5 @@ export function photoCreditLine(
 ): string | null {
   if (source === 'google') return credit ? `Photo Google Maps · ${credit}` : 'Photo Google Maps';
   if (source === 'site' || source === 'restaurant') return credit || 'Photo du restaurant';
-  if (source === 'dish') {
-    const who = [credit, license].filter(Boolean).join(', ');
-    return who ? `Plat typique · ${who}` : 'Plat typique';
-  }
   return null;
 }

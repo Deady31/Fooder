@@ -9,24 +9,24 @@ const base: Restaurant = {
 };
 
 describe('photoRank', () => {
-  it('communauté > plat typique > illustration ; Google n’est jamais une image de carte', () => {
-    expect(photoRank('community')).toBeGreaterThan(photoRank('dish'));
-    expect(photoRank('dish')).toBeGreaterThan(photoRank(undefined));
+  it('communauté > photo du site > illustration ; Google n’est jamais une image de carte', () => {
+    expect(photoRank('community')).toBeGreaterThan(photoRank('site'));
+    expect(photoRank('site')).toBeGreaterThan(photoRank(undefined));
     expect(photoRank('google')).toBe(0);
   });
 });
 
 describe('withBetterPhoto', () => {
-  it('Google ne remplace jamais une illustration ni un plat typique', () => {
+  it('Google ne remplace jamais une illustration ni une photo du restaurant', () => {
     const ill = { ...base, image: 'ill.jpg' };
     expect(withBetterPhoto(ill, { source: 'google', images: ['g.jpg'] })).toBe(ill);
-    const dish = { ...base, image: 'd.jpg', photoSource: 'dish' as const };
-    expect(withBetterPhoto(dish, { source: 'google', images: ['g.jpg'], credit: 'Ann' })).toBe(dish);
+    const siteRest = { ...base, image: 'd.jpg', photoSource: 'site' as const };
+    expect(withBetterPhoto(siteRest, { source: 'google', images: ['g.jpg'], credit: 'Ann' })).toBe(siteRest);
   });
 
-  it('un plat typique remplace une illustration', () => {
-    const r = withBetterPhoto(base, { source: 'dish', images: ['d.jpg'], credit: 'Bob' });
-    expect(r.photoSource).toBe('dish');
+  it('une photo du restaurant remplace une illustration', () => {
+    const r = withBetterPhoto(base, { source: 'site', images: ['d.jpg'], credit: 'Bob' });
+    expect(r.photoSource).toBe('site');
     expect(r.image).toBe('d.jpg');
     expect(r.photoCredit).toBe('Bob');
   });
@@ -36,8 +36,8 @@ describe('withBetterPhoto', () => {
     expect(withBetterPhoto(comm, { source: 'google', images: ['g.jpg'] })).toBe(comm);
   });
 
-  it('la communauté passe devant le plat typique et efface son crédit', () => {
-    const d = { ...base, image: 'd.jpg', photoSource: 'dish' as const, photoCredit: 'Ann', photoPage: 'p' };
+  it('la communauté passe devant la photo du site et efface son crédit', () => {
+    const d = { ...base, image: 'd.jpg', photoSource: 'site' as const, photoCredit: 'Ann', photoPage: 'p' };
     const r = withBetterPhoto(d, { source: 'community', images: ['c1.jpg', 'c2.jpg'] });
     expect(r.photoSource).toBe('community');
     expect(r.image).toBe('c1.jpg');
@@ -49,18 +49,19 @@ describe('withBetterPhoto', () => {
   it('candidat vide : fiche inchangée ; ne mute pas', () => {
     const frozen = Object.freeze({ ...base });
     expect(withBetterPhoto(frozen, { source: 'community', images: [] })).toBe(frozen);
-    expect(withBetterPhoto(frozen, { source: 'dish', images: ['d.jpg'] })).not.toBe(frozen);
+    expect(withBetterPhoto(frozen, { source: 'site', images: ['d.jpg'] })).not.toBe(frozen);
   });
 
-  it('osmToRestaurant utilise la priorité (plat typique par défaut)', () => {
+  it('osmToRestaurant : sans photo vérifiée du restaurant, aucune image (illustration Fooder), jamais une photo générique', () => {
     const r = osmToRestaurant({ id: 'osm-n9', n: 'Pizza Roma', k: 'restaurant', c: 'pizza', la: 43.6, ln: 1.44, a: '', h: '', w: '', d: 0 });
-    expect(r.photoSource === 'dish' || r.photoSource === undefined).toBe(true);
+    expect(r.image).toBe('');
+    expect(r.photoSource).toBeUndefined();
   });
 });
 
 describe('galleryFor', () => {
-  it('photos des foodies d’abord, puis le plat typique, sans doublon', () => {
-    const r = { ...base, image: 'd.jpg', extraImages: ['c1.jpg', 'd2.jpg'], photoSource: 'dish' as const };
+  it('photos des foodies d’abord, puis la photo du restaurant, sans doublon', () => {
+    const r = { ...base, image: 'd.jpg', extraImages: ['c1.jpg', 'd2.jpg'], photoSource: 'site' as const };
     expect(galleryFor(r, ['c1.jpg'])).toEqual(['c1.jpg', 'd.jpg', 'd2.jpg']);
   });
   it('illustration : pas d’image dans la galerie', () => {
@@ -72,16 +73,16 @@ describe('galleryFor', () => {
 });
 
 describe('viewerCredit', () => {
-  const dish = { ...base, image: 'd.jpg', photoSource: 'dish' as const, photoCredit: 'Bob', photoLicense: 'CC BY' };
+  const siteRest = { ...base, image: 'd.jpg', photoSource: 'site' as const, photoCredit: 'Bob', photoLicense: 'CC BY' };
   const g = { url: 'https://g/x.jpg', author: 'Ann' };
   it('communauté : aucun crédit', () => {
-    expect(viewerCredit(dish, 'c.jpg', ['c.jpg'], g)).toBeNull();
+    expect(viewerCredit(siteRest, 'c.jpg', ['c.jpg'], g)).toBeNull();
   });
-  it('plat typique : crédit du plat', () => {
-    expect(viewerCredit(dish, 'd.jpg', [], g)).toBe('Plat typique · Bob, CC BY');
+  it('photo du restaurant : crédit de la source', () => {
+    expect(viewerCredit(siteRest, 'd.jpg', [], g)).toBe('Bob');
   });
   it('photo Google : crédit Google avec l’auteur', () => {
-    expect(viewerCredit(dish, 'https://g/x.jpg', [], g)).toBe('Photo Google Maps · Ann');
+    expect(viewerCredit(siteRest, 'https://g/x.jpg', [], g)).toBe('Photo Google Maps · Ann');
   });
   it('illustration : aucun crédit', () => {
     expect(viewerCredit(base, 'ill.jpg', [], null)).toBeNull();

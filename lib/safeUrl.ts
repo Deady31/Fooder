@@ -21,13 +21,3 @@ export function safeWebUrl(raw: string | null | undefined): string | undefined {
   }
 }
 
-/** Page de crédit photo : uniquement https://commons.wikimedia.org/. */
-export function safeCommonsPage(raw: string | null | undefined): string | undefined {
-  if (typeof raw !== 'string') return undefined;
-  try {
-    const u = new URL(raw.trim());
-    return u.protocol === 'https:' && u.hostname === 'commons.wikimedia.org' ? u.href : undefined;
-  } catch {
-    return undefined;
-  }
-}

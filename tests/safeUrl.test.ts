@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { safeCommonsPage, safeWebUrl } from '../lib/safeUrl';
+import { safeWebUrl } from '../lib/safeUrl';
 import { OsmRecord, osmToRestaurant } from '../lib/osm';
 
 describe('safeWebUrl', () => {
@@ -30,16 +30,6 @@ describe('safeWebUrl', () => {
   });
 });
 
-describe('safeCommonsPage', () => {
-  it('n accepte que commons.wikimedia.org en https', () => {
-    expect(safeCommonsPage('https://commons.wikimedia.org/wiki/File:Pizza.jpg')).toBe('https://commons.wikimedia.org/wiki/File:Pizza.jpg');
-    expect(safeCommonsPage('http://commons.wikimedia.org/wiki/File:Pizza.jpg')).toBeUndefined();
-    expect(safeCommonsPage('https://commons.wikimedia.org.evil.com/x')).toBeUndefined();
-    expect(safeCommonsPage('https://evil.com/https://commons.wikimedia.org/')).toBeUndefined();
-    expect(safeCommonsPage('javascript:alert(1)')).toBeUndefined();
-    expect(safeCommonsPage(undefined)).toBeUndefined();
-  });
-});
 
 describe('osmToRestaurant website', () => {
   const rec = (w: string): OsmRecord => ({ id: 'osm-n1', n: 'Chez Test', k: 'restaurant', c: 'french', la: 43.6, ln: 1.44, a: '', h: '', w, d: 0 });

@@ -39,11 +39,10 @@ describe('richness', () => {
     expect(richness(make('a', { hours: Array.from({ length: 7 }, () => []) }))).toBe(0);
   });
 
-  it('une vraie photo vaut plus qu’un plat typique', () => {
-    const dish = richness(make('a', { image: 'd.jpg', photoSource: 'dish' }));
-    const real = richness(make('a', { image: 'g.jpg', photoSource: 'google' }));
-    expect(real).toBeGreaterThan(dish);
-    expect(dish).toBeGreaterThan(0);
+  it('une vraie photo de l’établissement vaut plus qu’une illustration', () => {
+    const none = richness(make('a', {}));
+    const real = richness(make('a', { image: 's.jpg', photoSource: 'site' }));
+    expect(real).toBeGreaterThan(none);
   });
 });
 

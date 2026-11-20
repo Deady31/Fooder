@@ -19,15 +19,6 @@ const MAX_DIET_BADGES = 2;
 
 function PhotoCredit({ rest }: { rest: Restaurant }) {
   const base = 'rcard-credit absolute bottom-2 left-3 z-10 max-w-[68%] chip !text-[10px] !px-2 !py-0.5 bg-white/90 text-plum';
-  if (rest.photoSource === 'dish') {
-    return (
-      <div className={base}>
-        <Camera className='w-3 h-3 shrink-0' strokeWidth={2.5} />
-        {/* Le crédit complet (auteur Wikimedia) reste dans la fiche et la visionneuse. */}
-        <span className='truncate'>Plat typique</span>
-      </div>
-    );
-  }
   if (rest.photoSource === 'site' || rest.photoSource === 'restaurant') {
     return (
       <div className={base}>

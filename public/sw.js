@@ -1,5 +1,5 @@
 // Service worker minimal : assets en cache, pages en réseau d'abord, jamais l'API ni les tuiles.
-const VERSION = 'fooder-v1';
+const VERSION = 'fooder-v2';
 const STATIC = [/^\/stickers\//, /^\/avatars\//, /^\/logo\//, /^\/icons\//, /^\/_next\/static\//];
 
 self.addEventListener('install', () => self.skipWaiting());

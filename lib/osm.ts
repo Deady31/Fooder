@@ -1,5 +1,4 @@
 import { PROTEIN_LABEL } from './categories';
-import { dishPhotoFor } from './dishes';
 import type { Diet, Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
 import { parseOpeningHours } from './openingHours';
@@ -142,7 +141,6 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
   const cuisine = cuisineLabel(rec);
   const quartier = quartierFor(rec.la, rec.ln);
   const distance = dist !== undefined ? formatMeters(dist) : undefined;
-  const dish = dishPhotoFor(cuisine, rec.n, rec.id);
   const card: Restaurant = {
     id: rec.id,
     name: rec.n,
@@ -162,10 +160,8 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     dataSource: 'osm',
     ...(rec.dt?.length ? { diets: [...rec.dt] } : {}),
   };
-  // Priorité : voir PHOTO_PRIORITY. Photo du restaurant seulement avec son consentement (lib/sitePhotos.ts).
-  const illustrated = dish ? withBetterPhoto(card, { source: 'dish', images: [dish.src], credit: dish.author, license: dish.license, page: dish.page }) : card;
+  // Photo de CET établissement seulement (consentie, ni bloquée ni partagée avec une autre fiche : lib/sitePhotos.ts).
+  // Aucune photo générique « de la cuisine » : sans photo vérifiée, la carte montre l'illustration Fooder.
   const own = restaurantPhoto(rec.id);
-  return own
-    ? withBetterPhoto(illustrated, { source: own.kind === 'dish' ? 'restaurant' : 'site', images: [own.src], credit: own.credit })
-    : illustrated;
+  return own ? withBetterPhoto(card, { source: own.kind === 'dish' ? 'restaurant' : 'site', images: [own.src], credit: own.credit }) : card;
 }

@@ -27,8 +27,8 @@ describe('sameVenue', () => {
 });
 
 describe('pickBestMatch', () => {
-  it('accepte un candidat « identifiant seul » (déjà borné par la zone de recherche)', () => {
-    expect(pickBestMatch([{ id: 'ChIJabc123def' }], ours)).toBe('ChIJabc123def');
+  it('refuse un candidat « identifiant seul » : sans nom ni position, l’établissement n’est pas identifié', () => {
+    expect(pickBestMatch([{ id: 'ChIJabc123def' }], ours)).toBeNull();
   });
 
   it('vérifie nom et distance quand les champs sont fournis', () => {
@@ -39,10 +39,21 @@ describe('pickBestMatch', () => {
     expect(pickBestMatch([other, far], ours)).toBeNull();
   });
 
-  it('préfère le candidat le plus proche parmi les valides', () => {
-    const a = { id: 'ChIJaaaaaaaa1', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.6055, longitude: 1.4442 } };
-    const b = { id: 'ChIJbbbbbbbb1', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.6046, longitude: 1.4442 } };
-    expect(pickBestMatch([a, b], ours)).toBe('ChIJbbbbbbbb1');
+  it('plusieurs candidats valides proches : ambigu, aucune photo', () => {
+    const a = { id: 'ChIJaaaaaaaa1', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.6050, longitude: 1.4442 } }; // ~55 m
+    const b = { id: 'ChIJbbbbbbbb1', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.6046, longitude: 1.4442 } }; // ~11 m
+    expect(pickBestMatch([a, b], ours)).toBeNull();
+  });
+
+  it('deux candidats : on garde celui qui est quasi sur place ET nettement plus proche', () => {
+    const near = { id: 'ChIJnear00002', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.60452, longitude: 1.4442 } }; // ~2 m
+    const farther = { id: 'ChIJfar000002', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.6057, longitude: 1.4442 } }; // ~130 m
+    expect(pickBestMatch([farther, near], ours)).toBe('ChIJnear00002');
+  });
+
+  it('un établissement à plus de 150 m n’est pas le bon, même avec le même nom (autre agence d’une chaîne)', () => {
+    const otherBranch = { id: 'ChIJbranch001', displayName: { text: 'Pizza Lola' }, location: { latitude: 43.6066, longitude: 1.4442 } }; // ~230 m
+    expect(pickBestMatch([otherBranch], ours)).toBeNull();
   });
 
   it('rejette liste vide, undefined et identifiants suspects', () => {
@@ -53,24 +64,18 @@ describe('pickBestMatch', () => {
 });
 
 describe('construction des requêtes', () => {
-  it('recherche gratuite : field mask places.id seul, zone ±250 m, 1 résultat', () => {
-    const r = buildSearchRequest(ours, false);
+  it('recherche : nom + position toujours demandés (identification exacte), zone ±150 m, plusieurs candidats', () => {
+    const r = buildSearchRequest(ours);
     expect(r.url).toBe('https://places.googleapis.com/v1/places:searchText');
-    expect(r.headers['X-Goog-FieldMask']).toBe('places.id');
+    expect(r.headers['X-Goog-FieldMask']).toBe('places.id,places.displayName,places.location');
     const body = r.body as { textQuery: string; maxResultCount: number; locationRestriction: { rectangle: { low: { latitude: number }; high: { latitude: number } } } };
     expect(body.textQuery).toContain('Pizza Lola');
-    expect(body.maxResultCount).toBe(1);
+    expect(body.maxResultCount).toBeGreaterThan(1);
     const { low, high } = body.locationRestriction.rectangle;
     expect(low.latitude).toBeLessThan(ours.lat);
     expect(high.latitude).toBeGreaterThan(ours.lat);
-    expect((high.latitude - low.latitude) * 111_320).toBeGreaterThan(450);
-    expect((high.latitude - low.latitude) * 111_320).toBeLessThan(550);
-  });
-
-  it('mode vérification : demande nom + position (plus cher) avec plusieurs candidats', () => {
-    const r = buildSearchRequest(ours, true);
-    expect(r.headers['X-Goog-FieldMask']).toBe('places.id,places.displayName,places.location');
-    expect((r.body as { maxResultCount: number }).maxResultCount).toBeGreaterThan(1);
+    expect((high.latitude - low.latitude) * 111_320).toBeGreaterThan(270);
+    expect((high.latitude - low.latitude) * 111_320).toBeLessThan(330);
   });
 
   it('détails : uniquement le champ photos', () => {

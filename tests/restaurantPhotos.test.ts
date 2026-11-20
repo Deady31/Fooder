@@ -46,7 +46,7 @@ describe('accord général, retrait et blocage', () => {
     const blocked = require('../data/photo-blocklist.json').blocked;
     const ids = Object.keys(table);
     expect(ids.length).toBeGreaterThan(0);
-    for (const id of ids.slice(0, 50)) expect(restaurantPhoto(id)?.src).toMatch(/^\/restos\/.+\.webp$/);
+    for (const id of ids.filter(i => !blocked[i]).slice(0, 50)) expect(restaurantPhoto(id)?.src).toMatch(/^\/restos\/.+\.webp$/);
     for (const id of Object.keys(blocked)) expect(restaurantPhoto(id)).toBeNull();
   });
 });
@@ -92,12 +92,11 @@ describe('consentement', () => {
 });
 
 describe('priorité d’affichage', () => {
-  it('constante : plat du resto > communauté > site > plat typique', () => {
-    expect(PHOTO_PRIORITY).toEqual(['restaurant', 'community', 'site', 'dish']);
+  it('constante : plat du resto > communauté > site (plus de photo générique)', () => {
+    expect(PHOTO_PRIORITY).toEqual(['restaurant', 'community', 'site']);
     expect(photoRank('restaurant')).toBeGreaterThan(photoRank('community'));
     expect(photoRank('community')).toBeGreaterThan(photoRank('site'));
-    expect(photoRank('site')).toBeGreaterThan(photoRank('dish'));
-    expect(photoRank('dish')).toBeGreaterThan(photoRank(undefined));
+    expect(photoRank('site')).toBeGreaterThan(photoRank(undefined));
     expect(photoRank('google')).toBe(0);
   });
   it('chaque source ne remplace que plus bas qu’elle', () => {
@@ -105,8 +104,8 @@ describe('priorité d’affichage', () => {
     expect(withBetterPhoto(comm, { source: 'site', images: ['s.jpg'] })).toBe(comm);
     expect(withBetterPhoto(comm, { source: 'restaurant', images: ['r.jpg'] }).photoSource).toBe('restaurant');
     const site = { ...base, image: 's.jpg', photoSource: 'site' as const };
-    expect(withBetterPhoto(site, { source: 'dish', images: ['d.jpg'] })).toBe(site);
-    expect(withBetterPhoto({ ...base, image: 'd.jpg', photoSource: 'dish' as const }, { source: 'site', images: ['s.jpg'] }).photoSource).toBe('site');
+    expect(withBetterPhoto(site, { source: 'google', images: ['g.jpg'] })).toBe(site);
+    expect(withBetterPhoto(base, { source: 'site', images: ['s.jpg'] }).photoSource).toBe('site');
   });
   it('la galerie contient la photo du resto', () => {
     expect(galleryFor({ ...base, image: 'r.jpg', photoSource: 'restaurant' }, [])).toEqual(['r.jpg']);
@@ -122,7 +121,7 @@ describe('crédits', () => {
     expect(photoCreditLine('restaurant', RESTAURANT_PHOTO_CREDIT)).toBe('Photo fournie par le restaurant');
     expect(photoCreditLine('site', RESTAURANT_PHOTO_CREDIT)).toBe('Photo fournie par le restaurant');
     expect(photoCreditLine('site')).toBe('Photo du restaurant');
-    expect(photoCreditLine('dish', 'Jean', 'CC BY')).toBe('Plat typique · Jean, CC BY');
+    expect(photoCreditLine('dish', 'Jean', 'CC BY')).toBeNull(); // source « plat typique » supprimée
   });
   it('visionneuse : crédit sur l’image principale', () => {
     const r: Restaurant = { ...base, image: 'r.jpg', photoSource: 'restaurant', photoCredit: RESTAURANT_PHOTO_CREDIT };

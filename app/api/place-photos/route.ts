@@ -6,7 +6,6 @@ import { PLACE_ID_RE } from '../../../lib/google/placeIdCache';
 export const dynamic = 'force-dynamic';
 
 const KEY = process.env.GOOGLE_PLACES_API_KEY ?? '';
-const VERIFY_NAME = process.env.GOOGLE_PHOTOS_VERIFY_NAME === '1';
 // Plafond d'appels payants (média) par jour de Paris. Compteur en mémoire de l'instance : approximatif en serverless
 // multi-instances ; le vrai plafond sûr est le quota journalier de la console Google.
 const counter = createDailyCounter(parseDailyCap(process.env.GOOGLE_PHOTOS_DAILY_CAP));
@@ -52,7 +51,6 @@ export async function GET(req: NextRequest) {
 
   const out = await fetchPlacePhoto({ name, lat, lng }, KEY, {
     placeId,
-    verifyName: VERIFY_NAME,
     allowPaidCall: () => counter.tryConsume(new Date()),
   });
 

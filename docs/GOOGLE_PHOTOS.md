@@ -1,11 +1,11 @@
 # Vraie photo des restaurants (Google Places API (New))
 
-Base : `docs/GOOGLE_PLACES_TERMS_COUT.md` (recherche du 2026-11-13). Sans clé, l'appli fonctionne comme avant (plat typique / illustration). Avec la clé, la **fiche** d'un resto (jamais la carte) affiche UNE photo Google Maps dans une section distincte « Le lieu · Google Maps ».
+Base : `docs/GOOGLE_PLACES_TERMS_COUT.md` (recherche du 2026-11-13). Sans clé, l'appli fonctionne comme avant (photos vérifiées / illustration). Avec la clé, la **fiche** d'un resto (jamais la carte) affiche UNE photo Google Maps dans une section distincte « Le lieu · Google Maps ».
 
 ## Rôle (décision produit)
-- La carte qui se swipe montre un plat qui donne envie, jamais une façade. Priorité de la carte : photo communautaire (vrai plat posté) > photo de plat typique > illustration. **Google n'est jamais l'image principale de la carte.**
+- La carte qui se swipe montre un plat qui donne envie, jamais une façade. Priorité de la carte : photo du restaurant ou communautaire > illustration (plus de plat typique). **Google n'est jamais l'image principale de la carte.**
 - **Aucun préchargement** : le paquet de cartes n'appelle plus `/api/place-photos`. Seule l'ouverture d'une fiche déclenche UN appel (cache mémoire de session 30 min dans `lib/placePhotosClient.ts`, donc rouvrir la même fiche ne repaie pas).
-- Ordre de la fiche : photos des foodies, plat typique (avec crédit), puis « Le lieu · Google Maps » (auteur + lien obligatoires ; rien d'affiché si pas de photo ou service désactivé).
+- Ordre de la fiche : photos des foodies, photo du restaurant, puis « Le lieu · Google Maps » (auteur + lien obligatoires ; rien d'affiché si pas de photo ou service désactivé).
 - Fiche sans photo communautaire : bloc « Pas encore de photo du vrai plat. Tu y es allé ? » vers le flux de publication (aucune récompense XP en plus).
 - **Pourquoi on ne stocke pas** : ces photos appartiennent à des tiers ; aucune licence ne nous autorise à les copier ou les héberger. Elles ne servent qu'à l'affichage à la demande. On construit à la place notre propre bibliothèque de vraies photos de plats via les utilisateurs.
 
@@ -17,7 +17,7 @@ Séquence serveur, la moins chère d'après la recherche :
 
 L'étape 3 n'est lancée qu'à l'ouverture d'une fiche : jamais de préchargement ni pendant le swipe. Si le `place_id` du resto est déjà connu du navigateur, l'étape 1 est sautée.
 
-Vérification de correspondance : en mode gratuit, la recherche est restreinte à ±250 m et le nom du resto est la requête ; le **nom renvoyé n'est pas contrôlé** (le nom est un champ de palier supérieur). Option : `GOOGLE_PHOTOS_VERIFY_NAME=1` demande nom + position et contrôle « nom proche et distance ≤ 250 m », mais la recherche passe alors au palier Pro de Text Search (32 $/1000, 5 000 gratuits/mois selon la recherche, à confirmer). Par défaut : désactivé.
+Identification de l'établissement : la recherche demande TOUJOURS nom + position (palier Pro de Text Search, coût à confirmer dans `docs/GOOGLE_PLACES_TERMS_COUT.md`) et n'accepte un lieu que si le nom correspond ET que la position est à moins de 150 m. Plusieurs candidats valides = ambigu = aucune photo (sauf un candidat à moins de 40 m et à 80 m ou plus du suivant). Un identifiant seul est refusé. L'ancienne variable `GOOGLE_PHOTOS_VERIFY_NAME` n'existe plus. Côté navigateur, la liste d'identifiants mémorisés est `fooder_place_ids_v2` (l'ancienne, non vérifiée, est supprimée).
 
 ## Conformité : ce qui est stocké ou non
 | Donnée | Stockée ? | Pourquoi |

@@ -5,7 +5,6 @@ import records from '../../../data/toulouse-places.json';
 import { OsmRecord, osmToRestaurant } from '../../../lib/osm';
 import { HoursLine } from '../../../components/resto/HoursLine';
 import { findPlaceById, shareText } from '../../../lib/restoShare';
-import { safeCommonsPage } from '../../../lib/safeUrl';
 
 // Page mise en cache 5 min ; l'état Ouvert/Fermé est calculé côté navigateur (HoursLine).
 export const revalidate = 300;
@@ -38,7 +37,7 @@ export default function RestoPublicPage({ params }: PageProps) {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={r.image}
-            alt={r.photoSource === 'site' || r.photoSource === 'restaurant' ? `Photo de ${r.name}` : `Plat typique : ${r.cuisine}`}
+            alt={`Photo de ${r.name}`}
             className='w-full h-full object-cover'
           />
         ) : null}
@@ -48,18 +47,6 @@ export default function RestoPublicPage({ params }: PageProps) {
           <p className='text-[11px] font-medium text-slate-500'>
             {r.photoCredit || 'Photo du restaurant'}
             {r.photoSource === 'site' ? ' : elle montre le restaurant, pas forcément un plat.' : '.'}
-          </p>
-        )}
-        {r.photoSource === 'dish' && (
-          <p className='text-[11px] font-medium text-slate-500'>
-            Photo d&apos;un plat typique, pas de ce restaurant. Photo : {r.photoCredit}, {r.photoLicense}
-            {safeCommonsPage(r.photoPage) && (
-              <>
-                {', '}
-                <a href={safeCommonsPage(r.photoPage)} target='_blank' rel='noopener noreferrer' className='underline'>Wikimedia Commons</a>
-              </>
-            )}
-            .
           </p>
         )}
         <header className='space-y-1'>

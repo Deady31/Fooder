@@ -16,7 +16,11 @@ export interface PlacePhoto {
 
 const API = 'https://places.googleapis.com/v1';
 const TIMEOUT_MS = 6000;
-const MAX_DISTANCE_M = 250;
+/** Même établissement : le nom ET une position à moins de 150 m. Au-delà, ce n'est pas lui (ou on n'en est pas sûr). */
+const MAX_DISTANCE_M = 150;
+/** Deux candidats valides : on ne garde le plus proche que s'il est quasi sur place et nettement plus proche que l'autre. */
+const AMBIGUITY_BEST_M = 40;
+const AMBIGUITY_GAP_M = 80;
 const MEDIA_WIDTH_PX = 800;
 const M_PER_DEG = 111_320;
 
@@ -56,26 +60,27 @@ export interface SearchCandidate {
 }
 
 /**
- * Choisit le meilleur candidat. Un candidat « identifiant seul » (sans nom ni position) est accepté tel quel :
- * la recherche est déjà bornée géographiquement. Sinon : même nom et distance <= 250 m, le plus proche l'emporte.
+ * Identifie l'établissement EXACT. Un candidat n'est retenu que si son nom correspond ET que sa position est à
+ * moins de 150 m ; un candidat sans nom ou sans position est refusé (jamais « identifiant seul »).
+ * Plusieurs candidats valides : ambigu, donc aucune photo, sauf si l'un est quasi sur place et nettement plus proche.
  */
 export function pickBestMatch(candidates: readonly SearchCandidate[] | undefined, ours: PhotoQuery): string | null {
-  let best: { id: string; dist: number } | null = null;
+  const valid: { id: string; dist: number }[] = [];
   for (const c of candidates ?? []) {
     if (!c.id || !PLACE_ID_RE.test(c.id)) continue;
     const lat = c.location?.latitude;
     const lng = c.location?.longitude;
-    const hasDetails = c.displayName !== undefined || c.location !== undefined;
-    let dist = 0;
-    if (hasDetails) {
-      if (!sameVenue(ours.name, c.displayName?.text ?? '')) continue;
-      if (typeof lat !== 'number' || typeof lng !== 'number') continue;
-      dist = haversine(ours.lat, ours.lng, lat, lng);
-      if (dist > MAX_DISTANCE_M) continue;
-    }
-    if (!best || dist < best.dist) best = { id: c.id, dist };
+    if (typeof lat !== 'number' || typeof lng !== 'number') continue;
+    if (!sameVenue(ours.name, c.displayName?.text ?? '')) continue;
+    const dist = haversine(ours.lat, ours.lng, lat, lng);
+    if (dist > MAX_DISTANCE_M) continue;
+    valid.push({ id: c.id, dist });
   }
-  return best?.id ?? null;
+  if (valid.length === 0) return null;
+  valid.sort((x, y) => x.dist - y.dist);
+  if (valid.length === 1) return valid[0].id;
+  const [best, second] = valid;
+  return best.dist <= AMBIGUITY_BEST_M && second.dist - best.dist >= AMBIGUITY_GAP_M ? best.id : null;
 }
 
 export interface BuiltRequest {
@@ -84,23 +89,20 @@ export interface BuiltRequest {
   body?: unknown;
 }
 
-/**
- * Text Search. `verify=false` : field mask `places.id` seul (IDs Only), zone ±250 m, 1 résultat.
- * `verify=true` : ajoute nom + position pour contrôler le nom (palier payant de Text Search, à confirmer).
- */
-export function buildSearchRequest(q: PhotoQuery, verify: boolean): BuiltRequest {
+/** Text Search avec nom + position (obligatoires : sans eux l'établissement ne peut pas être identifié), zone ±150 m, 5 candidats. */
+export function buildSearchRequest(q: PhotoQuery): BuiltRequest {
   const dLat = MAX_DISTANCE_M / M_PER_DEG;
   const dLng = MAX_DISTANCE_M / (M_PER_DEG * Math.cos((q.lat * Math.PI) / 180));
   return {
     url: `${API}/places:searchText`,
     headers: {
       'Content-Type': 'application/json',
-      'X-Goog-FieldMask': verify ? 'places.id,places.displayName,places.location' : 'places.id',
+      'X-Goog-FieldMask': 'places.id,places.displayName,places.location',
     },
     body: {
       textQuery: `${q.name} Toulouse`,
       languageCode: 'fr',
-      maxResultCount: verify ? 5 : 1,
+      maxResultCount: 5,
       locationRestriction: {
         rectangle: {
           low: { latitude: q.lat - dLat, longitude: q.lng - dLng },
@@ -176,8 +178,8 @@ export type PhotoOutcome =
   | { status: 'budget'; placeId: string };
 
 export interface FetchOptions {
+  /** Identifiant déjà validé pour CET établissement (jamais celui d'une recherche non vérifiée). */
   placeId?: string;
-  verifyName?: boolean;
   /** Appelé juste avant l'unique appel payant ; false = plafond atteint. */
   allowPaidCall: () => boolean;
 }
@@ -195,7 +197,7 @@ export async function fetchPlacePhoto(q: PhotoQuery, key: string, opts: FetchOpt
   }
 
   if (!placeId) {
-    const s = buildSearchRequest(q, opts.verifyName === true);
+    const s = buildSearchRequest(q);
     const search = await call<{ places?: SearchCandidate[] }>(s.url, key, { method: 'POST', headers: s.headers, body: JSON.stringify(s.body) });
     const id = pickBestMatch(search?.places, q);
     if (!id) return { status: 'none' };

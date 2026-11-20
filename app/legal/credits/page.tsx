@@ -1,5 +1,4 @@
 import { LegalPage } from '../../../components/legal/LegalPage';
-import { allDishPhotos } from '../../../lib/dishes';
 
 export const metadata = { title: 'Licences et crédits - Fooder' };
 
@@ -19,19 +18,6 @@ export default function CreditsPage() {
         </li>
         <li>Photos des restaurants : fournies par les utilisateurs et, à terme, par les restaurateurs, sous leur responsabilité.</li>
         <li>Photos Google Maps : affichées via l&apos;API Google Places, avec le nom de leur auteur sur la carte.</li>
-        <li>Photos de plats typiques : liste ci-dessous.</li>
-      </ul>
-      <h2>Photos de plats typiques</h2>
-      <p>
-        Ces photos illustrent un type de plat et non un restaurant précis. Elles proviennent de Wikimedia Commons et sont utilisées selon leur licence
-        (redimensionnées pour l&apos;affichage).
-      </p>
-      <ul>
-        {allDishPhotos().map(d => (
-          <li key={d.key}>
-            {d.key} : <a href={d.page}>{d.title}</a> par {d.author}, {d.licenseUrl ? <a href={d.licenseUrl}>{d.license}</a> : d.license}.
-          </li>
-        ))}
       </ul>
       <h2>Typographies</h2>
       <ul>

@@ -14,10 +14,10 @@ const hasRealAddress = (address: string | undefined): boolean => !!address && /\
 
 function photoScore(r: Restaurant): number {
   if (!r.image) return 0;
-  return r.photoSource === 'dish' ? 1 : 2;
+  return 2;
 }
 
-/** Richesse d'une fiche : horaires (3), cuisine précise (2), site (2), photo (1 plat typique, 2 vraie), adresse (1). */
+/** Richesse d'une fiche : horaires (3), cuisine précise (2), site (2), photo (2 si vraie photo de l'établissement), adresse (1). */
 export function richness(r: Restaurant): number {
   return (
     (hasHours(r) ? 3 : 0) +

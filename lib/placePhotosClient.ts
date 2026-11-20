@@ -9,10 +9,21 @@ export interface FetchedPhoto {
   googleMapsUri?: string;
 }
 
-const PLACE_IDS_KEY = 'fooder_place_ids';
+// v2 : l'ancienne liste pouvait contenir des identifiants issus d'une recherche non vérifiée (mauvais établissement). Elle est abandonnée.
+const PLACE_IDS_KEY = 'fooder_place_ids_v2';
+const LEGACY_PLACE_IDS_KEY = 'fooder_place_ids';
 const TTL = 30 * 60_000; // les URL de Google sont temporaires : mémoire de session seulement, jamais de stockage durable
 const session = new Map<string, { at: number; photos: FetchedPhoto[] }>();
 const inflight = new Map<string, Promise<FetchedPhoto[]>>();
+
+/** Supprime l'ancienne liste d'identifiants (non vérifiés) une seule fois par navigateur. */
+function dropLegacyPlaceIds(): void {
+  try {
+    localStorage.removeItem(LEGACY_PLACE_IDS_KEY);
+  } catch {
+    /* stockage indisponible */
+  }
+}
 
 function rememberPlaceId(restoId: string, placeId: unknown): void {
   if (typeof placeId !== 'string') return;
@@ -33,6 +44,7 @@ export function fetchGooglePhotos(rest: Pick<Restaurant, 'id' | 'name' | 'lat' |
   const pending = inflight.get(rest.id);
   if (pending) return pending;
 
+  dropLegacyPlaceIds();
   const qs = new URLSearchParams({ name: rest.name, lat: String(rest.lat), lng: String(rest.lng) });
   const known = findPlaceId(readJson<PlaceIdEntry[]>(PLACE_IDS_KEY, []), rest.id);
   if (known) qs.set('placeId', known);

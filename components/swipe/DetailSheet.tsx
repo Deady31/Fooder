@@ -12,7 +12,7 @@ import { galleryFor, viewerCredit } from '../../lib/photoPriority';
 import { FetchedPhoto, fetchGooglePhotos } from '../../lib/placePhotosClient';
 import { outcomeLabel, shareLink } from '../../lib/share';
 import { isSharable, restoUrl, shareText } from '../../lib/restoShare';
-import { safeCommonsPage, safeWebUrl } from '../../lib/safeUrl';
+import { safeWebUrl } from '../../lib/safeUrl';
 import { DAY_LABELS, WeekHours, formatDay, openStatus, todayIndex } from '../../lib/hours';
 import { track } from '../../lib/analytics';
 import { REPORT_LABEL, reportPlace, type ReportReason } from '../../lib/reports';
@@ -91,9 +91,8 @@ function HoursSection({ hours }: { hours?: WeekHours }) {
 const ROUND_BTN =
   'w-11 h-11 bg-white border-[3px] border-plum rounded-full flex items-center justify-center shadow-hard active:translate-y-0.5 transition-transform';
 
-/** Photo « plat typique » / restaurant / site (les photos de la communauté ont leur propre section). */
+/** Photo restaurant / site (les photos de la communauté ont leur propre section). */
 function galleryTitle(rest: Restaurant): string {
-  if (rest.photoSource === 'dish') return 'Plat typique';
   if (rest.photoSource === 'restaurant') return 'Le plat du restaurant';
   if (rest.photoSource === 'site') return 'Le restaurant';
   return 'Photos des plats';
@@ -160,7 +159,7 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restId]);
 
-  // Photos de la communauté : section dédiée ; ici seulement les photos du resto, du site ou du plat typique.
+  // Photos de la communauté : section dédiée ; ici seulement les photos du resto ou de son site.
   const gallery = shown && shown.photoSource !== 'community' ? galleryFor(shown, []) : [];
   const viewerImages = shown ? [...(shown.image ? [shown.image] : []), ...gallery.filter(g => g !== shown.image), ...(google ? [google.url] : [])] : [];
   const openViewer = (src: string) => {
@@ -332,13 +331,6 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
                   <p className='text-xs font-medium text-plum-muted'>
                     {shown.photoCredit || 'Photo du restaurant'}
                     {shown.photoSource === 'site' ? ' : elle montre le restaurant, pas forcément ton plat.' : '.'}
-                  </p>
-                )}
-                {shown.photoSource === 'dish' && safeCommonsPage(shown.photoPage) && (
-                  <p className='text-xs font-medium text-plum-muted'>
-                    Photo : {shown.photoCredit}, {shown.photoLicense},{' '}
-                    <a href={safeCommonsPage(shown.photoPage)} target='_blank' rel='noopener noreferrer' className='underline'>Wikimedia Commons</a>.
-                    Elle illustre un plat typique, pas ce restaurant.
                   </p>
                 )}
               </section>
