@@ -5,11 +5,11 @@ export type PhotoSource = NonNullable<Restaurant['photoSource']>;
 
 /**
  * Priorité d'affichage de la CARTE, de la plus haute à la plus basse (modifier cette liste suffit à changer l'ordre) :
- * plat envoyé par le restaurateur ('restaurant') > photo d'un foodie ('community') > photo du site consentie ('site')
+ * plat envoyé par le restaurateur ('restaurant') > photo d'un foodie ('community') > photo du site consentie ('site') > photo de secours de l'établissement ('ambiance' : façade, intérieur, logo)
  * > illustration Fooder (aucune source). Aucune photo générique de cuisine ou de marque : l'image doit être celle de l'établissement.
  * Google vaut 0 : jamais image principale de la carte (il n'apparaît que dans la fiche, à la demande).
  */
-export const PHOTO_PRIORITY: readonly PhotoSource[] = ['restaurant', 'community', 'site'];
+export const PHOTO_PRIORITY: readonly PhotoSource[] = ['restaurant', 'community', 'site', 'ambiance'];
 
 export function photoRank(source: Restaurant['photoSource'] | undefined): number {
   const i = source ? PHOTO_PRIORITY.indexOf(source) : -1;
@@ -81,7 +81,7 @@ export function photoLikesLine(photo: Pick<CommunityPhoto, 'likes' | 'author'>):
 
 /** Galerie de la fiche : photos des foodies, puis celle de l'établissement (jamais une illustration ni une image Google). */
 export function galleryFor(rest: Restaurant, community: string[]): string[] {
-  const main = (rest.photoSource === 'community' || rest.photoSource === 'restaurant' || rest.photoSource === 'site') && rest.image ? [rest.image] : [];
+  const main = (rest.photoSource === 'community' || rest.photoSource === 'restaurant' || rest.photoSource === 'site' || rest.photoSource === 'ambiance') && rest.image ? [rest.image] : [];
   return Array.from(new Set([...community, ...main, ...(rest.extraImages ?? [])].filter(Boolean)));
 }
 

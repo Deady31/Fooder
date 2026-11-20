@@ -1,0 +1,934 @@
+{
+ "osm-n10068236192": {
+  "src": "/restos/osm-n10068236192.webp",
+  "classe": "interieur"
+ },
+ "osm-n10083341955": {
+  "src": "/restos/osm-n10083341955.webp",
+  "classe": "facade"
+ },
+ "osm-n10089619900": {
+  "src": "/restos/osm-n10089619900.webp",
+  "classe": "interieur"
+ },
+ "osm-n10315814444": {
+  "src": "/restos/osm-n10315814444.webp",
+  "classe": "facade"
+ },
+ "osm-n10608534925": {
+  "src": "/restos/osm-n10608534925.webp",
+  "classe": "interieur"
+ },
+ "osm-n10931176322": {
+  "src": "/restos/osm-n10931176322.webp",
+  "classe": "facade"
+ },
+ "osm-n10931213143": {
+  "src": "/restos/osm-n10931213143.webp",
+  "classe": "logo"
+ },
+ "osm-n10936426904": {
+  "src": "/restos/osm-n10936426904.webp",
+  "classe": "interieur"
+ },
+ "osm-n11212895687": {
+  "src": "/restos/osm-n11212895687.webp",
+  "classe": "interieur"
+ },
+ "osm-n11578388727": {
+  "src": "/restos/osm-n11578388727.webp",
+  "classe": "interieur"
+ },
+ "osm-n11586545769": {
+  "src": "/restos/osm-n11586545769.webp",
+  "classe": "interieur"
+ },
+ "osm-n11736516720": {
+  "src": "/restos/osm-n11736516720.webp",
+  "classe": "interieur"
+ },
+ "osm-n11795259130": {
+  "src": "/restos/osm-n11795259130.webp",
+  "classe": "logo"
+ },
+ "osm-n11853270387": {
+  "src": "/restos/osm-n11853270387.webp",
+  "classe": "interieur"
+ },
+ "osm-n12007633354": {
+  "src": "/restos/osm-n12007633354.webp",
+  "classe": "facade"
+ },
+ "osm-n12040120093": {
+  "src": "/restos/osm-n12040120093.webp",
+  "classe": "facade"
+ },
+ "osm-n12115148779": {
+  "src": "/restos/osm-n12115148779.webp",
+  "classe": "facade"
+ },
+ "osm-n12130829247": {
+  "src": "/restos/osm-n12130829247.webp",
+  "classe": "interieur"
+ },
+ "osm-n1215767134": {
+  "src": "/restos/osm-n1215767134.webp",
+  "classe": "facade"
+ },
+ "osm-n12183637872": {
+  "src": "/restos/osm-n12183637872.webp",
+  "classe": "interieur"
+ },
+ "osm-n12376308318": {
+  "src": "/restos/osm-n12376308318.webp",
+  "classe": "logo"
+ },
+ "osm-n12394725014": {
+  "src": "/restos/osm-n12394725014.webp",
+  "classe": "interieur"
+ },
+ "osm-n12492193721": {
+  "src": "/restos/osm-n12492193721.webp",
+  "classe": "logo"
+ },
+ "osm-n12514902747": {
+  "src": "/restos/osm-n12514902747.webp",
+  "classe": "interieur"
+ },
+ "osm-n12516784501": {
+  "src": "/restos/osm-n12516784501.webp",
+  "classe": "interieur"
+ },
+ "osm-n12617843058": {
+  "src": "/restos/osm-n12617843058.webp",
+  "classe": "facade"
+ },
+ "osm-n12896793401": {
+  "src": "/restos/osm-n12896793401.webp",
+  "classe": "facade"
+ },
+ "osm-n12948951394": {
+  "src": "/restos/osm-n12948951394.webp",
+  "classe": "interieur"
+ },
+ "osm-n13388749380": {
+  "src": "/restos/osm-n13388749380.webp",
+  "classe": "facade"
+ },
+ "osm-n13450341475": {
+  "src": "/restos/osm-n13450341475.webp",
+  "classe": "interieur"
+ },
+ "osm-n13507791525": {
+  "src": "/restos/osm-n13507791525.webp",
+  "classe": "interieur"
+ },
+ "osm-n13626704360": {
+  "src": "/restos/osm-n13626704360.webp",
+  "classe": "facade"
+ },
+ "osm-n13873681600": {
+  "src": "/restos/osm-n13873681600.webp",
+  "classe": "interieur"
+ },
+ "osm-n1432189802": {
+  "src": "/restos/osm-n1432189802.webp",
+  "classe": "interieur"
+ },
+ "osm-n1450492062": {
+  "src": "/restos/osm-n1450492062.webp",
+  "classe": "interieur"
+ },
+ "osm-n1802117519": {
+  "src": "/restos/osm-n1802117519.webp",
+  "classe": "interieur"
+ },
+ "osm-n1972155352": {
+  "src": "/restos/osm-n1972155352.webp",
+  "classe": "facade"
+ },
+ "osm-n1976765814": {
+  "src": "/restos/osm-n1976765814.webp",
+  "classe": "facade"
+ },
+ "osm-n2001291179": {
+  "src": "/restos/osm-n2001291179.webp",
+  "classe": "interieur"
+ },
+ "osm-n2010420223": {
+  "src": "/restos/osm-n2010420223.webp",
+  "classe": "interieur"
+ },
+ "osm-n2121457812": {
+  "src": "/restos/osm-n2121457812.webp",
+  "classe": "interieur"
+ },
+ "osm-n2172317285": {
+  "src": "/restos/osm-n2172317285.webp",
+  "classe": "interieur"
+ },
+ "osm-n2444345525": {
+  "src": "/restos/osm-n2444345525.webp",
+  "classe": "interieur"
+ },
+ "osm-n2444345706": {
+  "src": "/restos/osm-n2444345706.webp",
+  "classe": "facade"
+ },
+ "osm-n2445153711": {
+  "src": "/restos/osm-n2445153711.webp",
+  "classe": "facade"
+ },
+ "osm-n2445585717": {
+  "src": "/restos/osm-n2445585717.webp",
+  "classe": "facade"
+ },
+ "osm-n2447064482": {
+  "src": "/restos/osm-n2447064482.webp",
+  "classe": "facade"
+ },
+ "osm-n2447719430": {
+  "src": "/restos/osm-n2447719430.webp",
+  "classe": "facade"
+ },
+ "osm-n2447719438": {
+  "src": "/restos/osm-n2447719438.webp",
+  "classe": "interieur"
+ },
+ "osm-n2457312513": {
+  "src": "/restos/osm-n2457312513.webp",
+  "classe": "facade"
+ },
+ "osm-n2457312595": {
+  "src": "/restos/osm-n2457312595.webp",
+  "classe": "interieur"
+ },
+ "osm-n2457312671": {
+  "src": "/restos/osm-n2457312671.webp",
+  "classe": "interieur"
+ },
+ "osm-n2459884569": {
+  "src": "/restos/osm-n2459884569.webp",
+  "classe": "facade"
+ },
+ "osm-n2459884617": {
+  "src": "/restos/osm-n2459884617.webp",
+  "classe": "interieur"
+ },
+ "osm-n2459884741": {
+  "src": "/restos/osm-n2459884741.webp",
+  "classe": "interieur"
+ },
+ "osm-n2459885366": {
+  "src": "/restos/osm-n2459885366.webp",
+  "classe": "facade"
+ },
+ "osm-n2459885495": {
+  "src": "/restos/osm-n2459885495.webp",
+  "classe": "facade"
+ },
+ "osm-n2464788588": {
+  "src": "/restos/osm-n2464788588.webp",
+  "classe": "interieur"
+ },
+ "osm-n2464788593": {
+  "src": "/restos/osm-n2464788593.webp",
+  "classe": "interieur"
+ },
+ "osm-n2465994034": {
+  "src": "/restos/osm-n2465994034.webp",
+  "classe": "interieur"
+ },
+ "osm-n250665866": {
+  "src": "/restos/osm-n250665866.webp",
+  "classe": "facade"
+ },
+ "osm-n2525414093": {
+  "src": "/restos/osm-n2525414093.webp",
+  "classe": "interieur"
+ },
+ "osm-n2525414102": {
+  "src": "/restos/osm-n2525414102.webp",
+  "classe": "facade"
+ },
+ "osm-n2554000383": {
+  "src": "/restos/osm-n2554000383.webp",
+  "classe": "logo"
+ },
+ "osm-n2592840712": {
+  "src": "/restos/osm-n2592840712.webp",
+  "classe": "interieur"
+ },
+ "osm-n2638335529": {
+  "src": "/restos/osm-n2638335529.webp",
+  "classe": "facade"
+ },
+ "osm-n2655593858": {
+  "src": "/restos/osm-n2655593858.webp",
+  "classe": "interieur"
+ },
+ "osm-n2670561095": {
+  "src": "/restos/osm-n2670561095.webp",
+  "classe": "facade"
+ },
+ "osm-n2742267394": {
+  "src": "/restos/osm-n2742267394.webp",
+  "classe": "facade"
+ },
+ "osm-n29047143": {
+  "src": "/restos/osm-n29047143.webp",
+  "classe": "interieur"
+ },
+ "osm-n2969315016": {
+  "src": "/restos/osm-n2969315016.webp",
+  "classe": "interieur"
+ },
+ "osm-n2993590527": {
+  "src": "/restos/osm-n2993590527.webp",
+  "classe": "interieur"
+ },
+ "osm-n3044160133": {
+  "src": "/restos/osm-n3044160133.webp",
+  "classe": "interieur"
+ },
+ "osm-n306128879": {
+  "src": "/restos/osm-n306128879.webp",
+  "classe": "logo"
+ },
+ "osm-n313982682": {
+  "src": "/restos/osm-n313982682.webp",
+  "classe": "interieur"
+ },
+ "osm-n3389502088": {
+  "src": "/restos/osm-n3389502088.webp",
+  "classe": "interieur"
+ },
+ "osm-n354676791": {
+  "src": "/restos/osm-n354676791.webp",
+  "classe": "facade"
+ },
+ "osm-n3749511642": {
+  "src": "/restos/osm-n3749511642.webp",
+  "classe": "interieur"
+ },
+ "osm-n3752239652": {
+  "src": "/restos/osm-n3752239652.webp",
+  "classe": "interieur"
+ },
+ "osm-n3753343385": {
+  "src": "/restos/osm-n3753343385.webp",
+  "classe": "interieur"
+ },
+ "osm-n3760244344": {
+  "src": "/restos/osm-n3760244344.webp",
+  "classe": "facade"
+ },
+ "osm-n3919124733": {
+  "src": "/restos/osm-n3919124733.webp",
+  "classe": "facade"
+ },
+ "osm-n4078169210": {
+  "src": "/restos/osm-n4078169210.webp",
+  "classe": "logo"
+ },
+ "osm-n4241777239": {
+  "src": "/restos/osm-n4241777239.webp",
+  "classe": "logo"
+ },
+ "osm-n4255203480": {
+  "src": "/restos/osm-n4255203480.webp",
+  "classe": "interieur"
+ },
+ "osm-n4418075038": {
+  "src": "/restos/osm-n4418075038.webp",
+  "classe": "logo"
+ },
+ "osm-n450161415": {
+  "src": "/restos/osm-n450161415.webp",
+  "classe": "facade"
+ },
+ "osm-n450165917": {
+  "src": "/restos/osm-n450165917.webp",
+  "classe": "interieur"
+ },
+ "osm-n455444973": {
+  "src": "/restos/osm-n455444973.webp",
+  "classe": "logo"
+ },
+ "osm-n4593927910": {
+  "src": "/restos/osm-n4593927910.webp",
+  "classe": "facade"
+ },
+ "osm-n4612661190": {
+  "src": "/restos/osm-n4612661190.webp",
+  "classe": "interieur"
+ },
+ "osm-n4644365690": {
+  "src": "/restos/osm-n4644365690.webp",
+  "classe": "interieur"
+ },
+ "osm-n4921117322": {
+  "src": "/restos/osm-n4921117322.webp",
+  "classe": "facade"
+ },
+ "osm-n4953587105": {
+  "src": "/restos/osm-n4953587105.webp",
+  "classe": "facade"
+ },
+ "osm-n4955048658": {
+  "src": "/restos/osm-n4955048658.webp",
+  "classe": "interieur"
+ },
+ "osm-n5191825353": {
+  "src": "/restos/osm-n5191825353.webp",
+  "classe": "facade"
+ },
+ "osm-n5592180378": {
+  "src": "/restos/osm-n5592180378.webp",
+  "classe": "interieur"
+ },
+ "osm-n5614820521": {
+  "src": "/restos/osm-n5614820521.webp",
+  "classe": "facade"
+ },
+ "osm-n5615079694": {
+  "src": "/restos/osm-n5615079694.webp",
+  "classe": "interieur"
+ },
+ "osm-n5639320721": {
+  "src": "/restos/osm-n5639320721.webp",
+  "classe": "facade"
+ },
+ "osm-n5673025275": {
+  "src": "/restos/osm-n5673025275.webp",
+  "classe": "interieur"
+ },
+ "osm-n5695040461": {
+  "src": "/restos/osm-n5695040461.webp",
+  "classe": "interieur"
+ },
+ "osm-n5727590721": {
+  "src": "/restos/osm-n5727590721.webp",
+  "classe": "facade"
+ },
+ "osm-n5806362689": {
+  "src": "/restos/osm-n5806362689.webp",
+  "classe": "interieur"
+ },
+ "osm-n5954090092": {
+  "src": "/restos/osm-n5954090092.webp",
+  "classe": "interieur"
+ },
+ "osm-n5981082884": {
+  "src": "/restos/osm-n5981082884.webp",
+  "classe": "interieur"
+ },
+ "osm-n615204677": {
+  "src": "/restos/osm-n615204677.webp",
+  "classe": "facade"
+ },
+ "osm-n632704752": {
+  "src": "/restos/osm-n632704752.webp",
+  "classe": "facade"
+ },
+ "osm-n637945273": {
+  "src": "/restos/osm-n637945273.webp",
+  "classe": "interieur"
+ },
+ "osm-n6462478792": {
+  "src": "/restos/osm-n6462478792.webp",
+  "classe": "facade"
+ },
+ "osm-n6499796885": {
+  "src": "/restos/osm-n6499796885.webp",
+  "classe": "facade"
+ },
+ "osm-n6579962302": {
+  "src": "/restos/osm-n6579962302.webp",
+  "classe": "interieur"
+ },
+ "osm-n674058208": {
+  "src": "/restos/osm-n674058208.webp",
+  "classe": "interieur"
+ },
+ "osm-n6855499235": {
+  "src": "/restos/osm-n6855499235.webp",
+  "classe": "interieur"
+ },
+ "osm-n6915495563": {
+  "src": "/restos/osm-n6915495563.webp",
+  "classe": "interieur"
+ },
+ "osm-n7383274386": {
+  "src": "/restos/osm-n7383274386.webp",
+  "classe": "facade"
+ },
+ "osm-n7416692883": {
+  "src": "/restos/osm-n7416692883.webp",
+  "classe": "interieur"
+ },
+ "osm-n7464957550": {
+  "src": "/restos/osm-n7464957550.webp",
+  "classe": "interieur"
+ },
+ "osm-n7639743090": {
+  "src": "/restos/osm-n7639743090.webp",
+  "classe": "logo"
+ },
+ "osm-n7667921856": {
+  "src": "/restos/osm-n7667921856.webp",
+  "classe": "facade"
+ },
+ "osm-n7678077824": {
+  "src": "/restos/osm-n7678077824.webp",
+  "classe": "interieur"
+ },
+ "osm-n772727737": {
+  "src": "/restos/osm-n772727737.webp",
+  "classe": "facade"
+ },
+ "osm-n7809245642": {
+  "src": "/restos/osm-n7809245642.webp",
+  "classe": "interieur"
+ },
+ "osm-n785505727": {
+  "src": "/restos/osm-n785505727.webp",
+  "classe": "interieur"
+ },
+ "osm-n7962626873": {
+  "src": "/restos/osm-n7962626873.webp",
+  "classe": "interieur"
+ },
+ "osm-n7968621467": {
+  "src": "/restos/osm-n7968621467.webp",
+  "classe": "interieur"
+ },
+ "osm-n8017003985": {
+  "src": "/restos/osm-n8017003985.webp",
+  "classe": "interieur"
+ },
+ "osm-n803366820": {
+  "src": "/restos/osm-n803366820.webp",
+  "classe": "facade"
+ },
+ "osm-n8523398283": {
+  "src": "/restos/osm-n8523398283.webp",
+  "classe": "facade"
+ },
+ "osm-n8621185039": {
+  "src": "/restos/osm-n8621185039.webp",
+  "classe": "interieur"
+ },
+ "osm-n868727687": {
+  "src": "/restos/osm-n868727687.webp",
+  "classe": "interieur"
+ },
+ "osm-n886603040": {
+  "src": "/restos/osm-n886603040.webp",
+  "classe": "interieur"
+ },
+ "osm-n8887615960": {
+  "src": "/restos/osm-n8887615960.webp",
+  "classe": "interieur"
+ },
+ "osm-n8928398861": {
+  "src": "/restos/osm-n8928398861.webp",
+  "classe": "interieur"
+ },
+ "osm-n894533411": {
+  "src": "/restos/osm-n894533411.webp",
+  "classe": "logo"
+ },
+ "osm-n9062901217": {
+  "src": "/restos/osm-n9062901217.webp",
+  "classe": "interieur"
+ },
+ "osm-n9218705875": {
+  "src": "/restos/osm-n9218705875.webp",
+  "classe": "logo"
+ },
+ "osm-n9893335091": {
+  "src": "/restos/osm-n9893335091.webp",
+  "classe": "interieur"
+ },
+ "osm-n9988440195": {
+  "src": "/restos/osm-n9988440195.webp",
+  "classe": "interieur"
+ },
+ "osm-w1007478963": {
+  "src": "/restos/osm-w1007478963.webp",
+  "classe": "interieur"
+ },
+ "osm-w1028802619": {
+  "src": "/restos/osm-w1028802619.webp",
+  "classe": "logo"
+ },
+ "osm-w1159629715": {
+  "src": "/restos/osm-w1159629715.webp",
+  "classe": "interieur"
+ },
+ "osm-w289127993": {
+  "src": "/restos/osm-w289127993.webp",
+  "classe": "interieur"
+ },
+ "osm-w386510811": {
+  "src": "/restos/osm-w386510811.webp",
+  "classe": "interieur"
+ },
+ "osm-w54411368": {
+  "src": "/restos/osm-w54411368.webp",
+  "classe": "interieur"
+ },
+ "osm-w64183692": {
+  "src": "/restos/osm-w64183692.webp",
+  "classe": "interieur"
+ },
+ "osm-w64411902": {
+  "src": "/restos/osm-w64411902.webp",
+  "classe": "facade"
+ },
+ "osm-w64416261": {
+  "src": "/restos/osm-w64416261.webp",
+  "classe": "logo"
+ },
+ "osm-w64501657": {
+  "src": "/restos/osm-w64501657.webp",
+  "classe": "interieur"
+ },
+ "osm-w71203082": {
+  "src": "/restos/osm-w71203082.webp",
+  "classe": "facade"
+ },
+ "osm-w74301628": {
+  "src": "/restos/osm-w74301628.webp",
+  "classe": "interieur"
+ },
+ "osm-w74574866": {
+  "src": "/restos/osm-w74574866.webp",
+  "classe": "interieur"
+ },
+ "osm-w76299596": {
+  "src": "/restos/osm-w76299596.webp",
+  "classe": "interieur"
+ },
+ "osm-w827365092": {
+  "src": "/restos/osm-w827365092.webp",
+  "classe": "interieur"
+ },
+ "osm-w844724378": {
+  "src": "/restos/osm-w844724378.webp",
+  "classe": "interieur"
+ },
+ "osm-w85789098": {
+  "src": "/restos/osm-w85789098.webp",
+  "classe": "interieur"
+ },
+ "ovt-02741d3b-e455-4c5c": {
+  "src": "/restos/ovt-02741d3b-e455-4c5c.webp",
+  "classe": "interieur"
+ },
+ "ovt-06dc1cee-f7d8-4025": {
+  "src": "/restos/ovt-06dc1cee-f7d8-4025.webp",
+  "classe": "facade"
+ },
+ "ovt-095da5fd-1bc3-4770": {
+  "src": "/restos/ovt-095da5fd-1bc3-4770.webp",
+  "classe": "interieur"
+ },
+ "ovt-09614c37-05d5-4fb8": {
+  "src": "/restos/ovt-09614c37-05d5-4fb8.webp",
+  "classe": "logo"
+ },
+ "ovt-16331e81-6ad5-487f": {
+  "src": "/restos/ovt-16331e81-6ad5-487f.webp",
+  "classe": "interieur"
+ },
+ "ovt-1852c19c-4065-4b47": {
+  "src": "/restos/ovt-1852c19c-4065-4b47.webp",
+  "classe": "facade"
+ },
+ "ovt-1978f22e-359b-40e5": {
+  "src": "/restos/ovt-1978f22e-359b-40e5.webp",
+  "classe": "facade"
+ },
+ "ovt-1c8fc861-9a32-4882": {
+  "src": "/restos/ovt-1c8fc861-9a32-4882.webp",
+  "classe": "facade"
+ },
+ "ovt-1d50aaee-f243-40ca": {
+  "src": "/restos/ovt-1d50aaee-f243-40ca.webp",
+  "classe": "facade"
+ },
+ "ovt-1efecbba-803c-4031": {
+  "src": "/restos/ovt-1efecbba-803c-4031.webp",
+  "classe": "interieur"
+ },
+ "ovt-2c4bfb66-7363-4de6": {
+  "src": "/restos/ovt-2c4bfb66-7363-4de6.webp",
+  "classe": "interieur"
+ },
+ "ovt-324dc723-bb0f-4a2a": {
+  "src": "/restos/ovt-324dc723-bb0f-4a2a.webp",
+  "classe": "interieur"
+ },
+ "ovt-3b45610c-5854-4280": {
+  "src": "/restos/ovt-3b45610c-5854-4280.webp",
+  "classe": "interieur"
+ },
+ "ovt-3ecb5409-63fe-4a31": {
+  "src": "/restos/ovt-3ecb5409-63fe-4a31.webp",
+  "classe": "interieur"
+ },
+ "ovt-406d4bd7-fbb6-40a8": {
+  "src": "/restos/ovt-406d4bd7-fbb6-40a8.webp",
+  "classe": "facade"
+ },
+ "ovt-430bc800-570e-41b6": {
+  "src": "/restos/ovt-430bc800-570e-41b6.webp",
+  "classe": "interieur"
+ },
+ "ovt-442361cf-53ce-4184": {
+  "src": "/restos/ovt-442361cf-53ce-4184.webp",
+  "classe": "interieur"
+ },
+ "ovt-44d97a45-2347-490e": {
+  "src": "/restos/ovt-44d97a45-2347-490e.webp",
+  "classe": "logo"
+ },
+ "ovt-4501f06b-0f84-462d": {
+  "src": "/restos/ovt-4501f06b-0f84-462d.webp",
+  "classe": "interieur"
+ },
+ "ovt-4db32d44-bccc-446e": {
+  "src": "/restos/ovt-4db32d44-bccc-446e.webp",
+  "classe": "facade"
+ },
+ "ovt-5107604e-2320-4c90": {
+  "src": "/restos/ovt-5107604e-2320-4c90.webp",
+  "classe": "facade"
+ },
+ "ovt-52bd21b1-c593-4266": {
+  "src": "/restos/ovt-52bd21b1-c593-4266.webp",
+  "classe": "interieur"
+ },
+ "ovt-549b8dc1-4c3b-4398": {
+  "src": "/restos/ovt-549b8dc1-4c3b-4398.webp",
+  "classe": "facade"
+ },
+ "ovt-564257f3-474e-4194": {
+  "src": "/restos/ovt-564257f3-474e-4194.webp",
+  "classe": "facade"
+ },
+ "ovt-568e299a-99ed-4e44": {
+  "src": "/restos/ovt-568e299a-99ed-4e44.webp",
+  "classe": "interieur"
+ },
+ "ovt-5805837f-121d-42b0": {
+  "src": "/restos/ovt-5805837f-121d-42b0.webp",
+  "classe": "logo"
+ },
+ "ovt-59df7f68-5c50-4e2c": {
+  "src": "/restos/ovt-59df7f68-5c50-4e2c.webp",
+  "classe": "facade"
+ },
+ "ovt-6a4f6179-326f-47c5": {
+  "src": "/restos/ovt-6a4f6179-326f-47c5.webp",
+  "classe": "interieur"
+ },
+ "ovt-6be72bb7-b2f1-4f99": {
+  "src": "/restos/ovt-6be72bb7-b2f1-4f99.webp",
+  "classe": "interieur"
+ },
+ "ovt-799adfaa-c294-48ce": {
+  "src": "/restos/ovt-799adfaa-c294-48ce.webp",
+  "classe": "interieur"
+ },
+ "ovt-79d262c7-f621-4e11": {
+  "src": "/restos/ovt-79d262c7-f621-4e11.webp",
+  "classe": "interieur"
+ },
+ "ovt-83437344-89bd-4623": {
+  "src": "/restos/ovt-83437344-89bd-4623.webp",
+  "classe": "interieur"
+ },
+ "ovt-8824d2ed-117d-4f58": {
+  "src": "/restos/ovt-8824d2ed-117d-4f58.webp",
+  "classe": "facade"
+ },
+ "ovt-8874721a-b65c-4c19": {
+  "src": "/restos/ovt-8874721a-b65c-4c19.webp",
+  "classe": "facade"
+ },
+ "ovt-8ac6cec8-bdd2-43fc": {
+  "src": "/restos/ovt-8ac6cec8-bdd2-43fc.webp",
+  "classe": "interieur"
+ },
+ "ovt-8c387c20-3249-43e1": {
+  "src": "/restos/ovt-8c387c20-3249-43e1.webp",
+  "classe": "facade"
+ },
+ "ovt-8dcad828-8240-429e": {
+  "src": "/restos/ovt-8dcad828-8240-429e.webp",
+  "classe": "interieur"
+ },
+ "ovt-8ed0b37f-b6cb-4361": {
+  "src": "/restos/ovt-8ed0b37f-b6cb-4361.webp",
+  "classe": "interieur"
+ },
+ "ovt-904eff93-9ca1-4514": {
+  "src": "/restos/ovt-904eff93-9ca1-4514.webp",
+  "classe": "interieur"
+ },
+ "ovt-90d0789e-8b50-443e": {
+  "src": "/restos/ovt-90d0789e-8b50-443e.webp",
+  "classe": "interieur"
+ },
+ "ovt-96e894d5-f3f0-46f2": {
+  "src": "/restos/ovt-96e894d5-f3f0-46f2.webp",
+  "classe": "facade"
+ },
+ "ovt-978c747a-f0f8-41b1": {
+  "src": "/restos/ovt-978c747a-f0f8-41b1.webp",
+  "classe": "interieur"
+ },
+ "ovt-9948bdc8-4148-46ca": {
+  "src": "/restos/ovt-9948bdc8-4148-46ca.webp",
+  "classe": "interieur"
+ },
+ "ovt-9a234bc3-7219-475f": {
+  "src": "/restos/ovt-9a234bc3-7219-475f.webp",
+  "classe": "interieur"
+ },
+ "ovt-9d25d6b0-658f-4ed6": {
+  "src": "/restos/ovt-9d25d6b0-658f-4ed6.webp",
+  "classe": "facade"
+ },
+ "ovt-9e59ace7-74f0-4474": {
+  "src": "/restos/ovt-9e59ace7-74f0-4474.webp",
+  "classe": "facade"
+ },
+ "ovt-9f049052-4b7c-4512": {
+  "src": "/restos/ovt-9f049052-4b7c-4512.webp",
+  "classe": "interieur"
+ },
+ "ovt-9f5deb21-8f4d-4fef": {
+  "src": "/restos/ovt-9f5deb21-8f4d-4fef.webp",
+  "classe": "facade"
+ },
+ "ovt-a894587f-82e0-4b20": {
+  "src": "/restos/ovt-a894587f-82e0-4b20.webp",
+  "classe": "interieur"
+ },
+ "ovt-a9eb8816-f520-4b6d": {
+  "src": "/restos/ovt-a9eb8816-f520-4b6d.webp",
+  "classe": "interieur"
+ },
+ "ovt-b3fc4571-b66b-4fdc": {
+  "src": "/restos/ovt-b3fc4571-b66b-4fdc.webp",
+  "classe": "facade"
+ },
+ "ovt-ba7561da-93e4-47d5": {
+  "src": "/restos/ovt-ba7561da-93e4-47d5.webp",
+  "classe": "logo"
+ },
+ "ovt-be47778e-596e-4e6e": {
+  "src": "/restos/ovt-be47778e-596e-4e6e.webp",
+  "classe": "interieur"
+ },
+ "ovt-be66b9f4-6ce5-43fd": {
+  "src": "/restos/ovt-be66b9f4-6ce5-43fd.webp",
+  "classe": "interieur"
+ },
+ "ovt-c070cc53-04e5-4355": {
+  "src": "/restos/ovt-c070cc53-04e5-4355.webp",
+  "classe": "interieur"
+ },
+ "ovt-c1768fb6-89f3-4f38": {
+  "src": "/restos/ovt-c1768fb6-89f3-4f38.webp",
+  "classe": "facade"
+ },
+ "ovt-c3776b6b-caf7-47e2": {
+  "src": "/restos/ovt-c3776b6b-caf7-47e2.webp",
+  "classe": "interieur"
+ },
+ "ovt-c5c453c4-f286-4446": {
+  "src": "/restos/ovt-c5c453c4-f286-4446.webp",
+  "classe": "interieur"
+ },
+ "ovt-c72f0622-855a-48fc": {
+  "src": "/restos/ovt-c72f0622-855a-48fc.webp",
+  "classe": "interieur"
+ },
+ "ovt-cdd4312e-e32e-4248": {
+  "src": "/restos/ovt-cdd4312e-e32e-4248.webp",
+  "classe": "interieur"
+ },
+ "ovt-d119cb69-97f6-46f1": {
+  "src": "/restos/ovt-d119cb69-97f6-46f1.webp",
+  "classe": "interieur"
+ },
+ "ovt-d161b603-d1db-4a25": {
+  "src": "/restos/ovt-d161b603-d1db-4a25.webp",
+  "classe": "interieur"
+ },
+ "ovt-d1a0302b-60a4-4ee5": {
+  "src": "/restos/ovt-d1a0302b-60a4-4ee5.webp",
+  "classe": "facade"
+ },
+ "ovt-d3e65902-d457-40c3": {
+  "src": "/restos/ovt-d3e65902-d457-40c3.webp",
+  "classe": "interieur"
+ },
+ "ovt-d8397cb7-2277-4a58": {
+  "src": "/restos/ovt-d8397cb7-2277-4a58.webp",
+  "classe": "interieur"
+ },
+ "ovt-db4de5be-ed0b-48eb": {
+  "src": "/restos/ovt-db4de5be-ed0b-48eb.webp",
+  "classe": "logo"
+ },
+ "ovt-dca6510e-af86-43e7": {
+  "src": "/restos/ovt-dca6510e-af86-43e7.webp",
+  "classe": "interieur"
+ },
+ "ovt-de6b4de9-0941-42ce": {
+  "src": "/restos/ovt-de6b4de9-0941-42ce.webp",
+  "classe": "interieur"
+ },
+ "ovt-df36b1d0-0905-4736": {
+  "src": "/restos/ovt-df36b1d0-0905-4736.webp",
+  "classe": "interieur"
+ },
+ "ovt-dffc279f-5cef-463f": {
+  "src": "/restos/ovt-dffc279f-5cef-463f.webp",
+  "classe": "logo"
+ },
+ "ovt-e59f27e3-053b-4364": {
+  "src": "/restos/ovt-e59f27e3-053b-4364.webp",
+  "classe": "facade"
+ },
+ "ovt-e9989180-9405-4b9c": {
+  "src": "/restos/ovt-e9989180-9405-4b9c.webp",
+  "classe": "facade"
+ },
+ "ovt-ec1a3d33-d78d-4db8": {
+  "src": "/restos/ovt-ec1a3d33-d78d-4db8.webp",
+  "classe": "interieur"
+ },
+ "ovt-ed31df32-1853-4462": {
+  "src": "/restos/ovt-ed31df32-1853-4462.webp",
+  "classe": "interieur"
+ },
+ "ovt-ef773cc0-f73b-4dda": {
+  "src": "/restos/ovt-ef773cc0-f73b-4dda.webp",
+  "classe": "interieur"
+ },
+ "ovt-f518d820-82cb-4fcf": {
+  "src": "/restos/ovt-f518d820-82cb-4fcf.webp",
+  "classe": "interieur"
+ },
+ "ovt-fc1e070f-777d-4e27": {
+  "src": "/restos/ovt-fc1e070f-777d-4e27.webp",
+  "classe": "facade"
+ }
+}

@@ -83,6 +83,6 @@ export function photoCreditLine(
   license?: string,
 ): string | null {
   if (source === 'google') return credit ? `Photo Google Maps · ${credit}` : 'Photo Google Maps';
-  if (source === 'site' || source === 'restaurant') return credit || 'Photo du restaurant';
+  if (source === 'site' || source === 'restaurant' || source === 'ambiance') return credit || 'Photo du restaurant';
   return null;
 }

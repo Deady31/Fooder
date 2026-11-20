@@ -6,7 +6,7 @@ import { formatMeters, haversine } from './geo';
 import { parseOpeningHours } from './openingHours';
 import { withBetterPhoto } from './photoPriority';
 import { safeWebUrl } from './safeUrl';
-import { restaurantPhoto } from './sitePhotos';
+import { restaurantFallbackPhoto, restaurantPhoto } from './sitePhotos';
 
 export { formatMeters, haversine };
 
@@ -174,5 +174,8 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
   // Photo de CET établissement seulement (consentie, ni bloquée ni partagée avec une autre fiche : lib/sitePhotos.ts).
   // Aucune photo générique « de la cuisine » : sans photo vérifiée, la carte montre l'illustration Fooder.
   const own = restaurantPhoto(rec.id);
-  return own ? withBetterPhoto(card, { source: own.kind === 'dish' ? 'restaurant' : 'site', images: [own.src], credit: own.credit }) : card;
+  if (own) return withBetterPhoto(card, { source: own.kind === 'dish' ? 'restaurant' : 'site', images: [own.src], credit: own.credit });
+  // Secours : vraie photo de l'établissement (façade, intérieur, logo), remplacée dès qu'un plat arrive.
+  const fallback = restaurantFallbackPhoto(rec.id);
+  return fallback ? withBetterPhoto(card, { source: 'ambiance', images: [fallback.src], credit: "Photo de l'établissement" }) : card;
 }

@@ -31,8 +31,8 @@ export interface Restaurant {
   /** Régimes déclarés (vegan, végétarien, halal, sans gluten) */
   diets?: Diet[];
   dataSource?: 'mock' | 'google-places' | 'osm';
-  /** 'community' = photo d'un foodie, 'restaurant' = plat envoyé par le restaurateur, 'site' = photo de son site (avec accord), 'google' = photo Google Maps, 'dish' = plat typique ; sinon illustration. */
-  photoSource?: 'community' | 'google' | 'site' | 'restaurant';
+  /** 'community' = photo d'un foodie, 'restaurant' = plat envoyé par le restaurateur, 'site' = photo de son site (avec accord), 'ambiance' = photo de secours de l'établissement (façade, intérieur, logo) remplacée dès qu'un plat arrive, 'google' = photo Google Maps, 'dish' = plat typique ; sinon illustration. */
+  photoSource?: 'community' | 'google' | 'site' | 'restaurant' | 'ambiance';
   /** Auteur de la photo (affiché obligatoirement pour Google et pour les plats typiques) */
   photoCredit?: string;
   /** Licence et page source de la photo de plat typique (Wikimedia Commons) */

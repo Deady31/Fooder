@@ -38,7 +38,7 @@ describe('aucune photo générique sur une carte de restaurant', () => {
     for (const r of list) {
       expect(r.image === '' || r.image === `/restos/${r.id}.webp`, `${r.name} (${r.id}) : ${r.image}`).toBe(true);
       expect(r.image).not.toMatch(GENERIC_SOURCES);
-      expect(r.photoSource === undefined || r.photoSource === 'site' || r.photoSource === 'restaurant').toBe(true);
+      expect(r.photoSource === undefined || r.photoSource === 'site' || r.photoSource === 'restaurant' || r.photoSource === 'ambiance').toBe(true);
     }
   });
 

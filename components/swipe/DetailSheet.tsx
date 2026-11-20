@@ -94,7 +94,7 @@ const ROUND_BTN =
 /** Photo restaurant / site (les photos de la communauté ont leur propre section). */
 function galleryTitle(rest: Restaurant): string {
   if (rest.photoSource === 'restaurant') return 'Le plat du restaurant';
-  if (rest.photoSource === 'site') return 'Le restaurant';
+  if (rest.photoSource === 'site' || rest.photoSource === 'ambiance') return 'Le restaurant';
   return 'Photos des plats';
 }
 
@@ -330,10 +330,10 @@ export function DetailSheet({ rest, onClose, onVerdict }: DetailSheetProps) {
                     </li>
                   ))}
                 </ul>
-                {(shown.photoSource === 'site' || shown.photoSource === 'restaurant') && (
+                {(shown.photoSource === 'site' || shown.photoSource === 'restaurant' || shown.photoSource === 'ambiance') && (
                   <p className='text-xs font-medium text-plum-muted'>
                     {shown.photoCredit || 'Photo du restaurant'}
-                    {shown.photoSource === 'site' ? ' : elle montre le restaurant, pas forcément ton plat.' : '.'}
+                    {shown.photoSource === 'site' || shown.photoSource === 'ambiance' ? ' : elle montre le restaurant, pas forcément ton plat.' : '.'}
                   </p>
                 )}
               </section>

@@ -96,7 +96,7 @@ describe('consentement', () => {
 
 describe('priorité d’affichage', () => {
   it('constante : plat du resto > communauté > site (plus de photo générique)', () => {
-    expect(PHOTO_PRIORITY).toEqual(['restaurant', 'community', 'site']);
+    expect(PHOTO_PRIORITY).toEqual(['restaurant', 'community', 'site', 'ambiance']);
     expect(photoRank('restaurant')).toBeGreaterThan(photoRank('community'));
     expect(photoRank('community')).toBeGreaterThan(photoRank('site'));
     expect(photoRank('site')).toBeGreaterThan(photoRank(undefined));

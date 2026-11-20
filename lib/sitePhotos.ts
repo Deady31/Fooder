@@ -1,6 +1,7 @@
 import consentTable from '../data/photo-consent.json';
 import photoTable from '../data/photos-consented.json';
 import blocklistTable from '../data/photo-blocklist.json';
+import fallbackTable from '../data/photos-fallback.json';
 
 export const RESTAURANT_PHOTO_CREDIT = 'Photo fournie par le restaurant';
 
@@ -55,6 +56,33 @@ export function consentedPhotoFor(
     credit: p.credit || RESTAURANT_PHOTO_CREDIT,
     consentedAt: p.consentedAt ?? '',
   };
+}
+
+export interface FallbackPhoto {
+  /** Chemin servi par l'app, ex. /restos/osm-n123.webp (photo de CET établissement : façade, intérieur ou logo). */
+  src: string;
+  classe: 'facade' | 'interieur' | 'logo';
+}
+
+/**
+ * Photo de secours (niveau « ambiance ») : vraie photo de l'établissement exact mais pas un plat. Seulement si l'accord
+ * général est actif, sans retrait. Remplacée dès qu'une photo de plat arrive (priorité dans lib/photoPriority.ts).
+ */
+export function fallbackPhotoFor(
+  id: string,
+  fallback: Record<string, Partial<FallbackPhoto>>,
+  consent: ConsentFile,
+): FallbackPhoto | null {
+  if (!consent || consent.blanket?.active !== true) return null;
+  if (Array.isArray(consent.revoked) && consent.revoked.includes(id)) return null;
+  const p = fallback?.[id];
+  if (!p || typeof p.src !== 'string' || !p.src) return null;
+  if (p.classe !== 'facade' && p.classe !== 'interieur' && p.classe !== 'logo') return null;
+  return { src: p.src, classe: p.classe };
+}
+
+export function restaurantFallbackPhoto(id: string): FallbackPhoto | null {
+  return fallbackPhotoFor(id, fallbackTable as Record<string, Partial<FallbackPhoto>>, consentTable as ConsentFile);
 }
 
 /** Photo consentie du restaurant `id` (null si pas d'accord, retrait ou blocage qualité). Voir docs/PHOTOS.md. */

@@ -43,10 +43,10 @@ export default function RestoPublicPage({ params }: PageProps) {
         ) : null}
       </div>
       <div className='px-5 pt-5 space-y-5'>
-        {(r.photoSource === 'site' || r.photoSource === 'restaurant') && (
+        {(r.photoSource === 'site' || r.photoSource === 'restaurant' || r.photoSource === 'ambiance') && (
           <p className='text-[11px] font-medium text-slate-500'>
             {r.photoCredit || 'Photo du restaurant'}
-            {r.photoSource === 'site' ? ' : elle montre le restaurant, pas forcément un plat.' : '.'}
+            {r.photoSource === 'site' || r.photoSource === 'ambiance' ? ' : elle montre le restaurant, pas forcément un plat.' : '.'}
           </p>
         )}
         <header className='space-y-1'>
