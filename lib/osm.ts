@@ -1,3 +1,4 @@
+import { verifiedAddress } from './addresses';
 import { isBuffet } from './buffets';
 import { PROTEIN_LABEL } from './categories';
 import { dishPhotoFor } from './dishes';
@@ -107,15 +108,21 @@ export function completeness(rec: OsmRecord): number {
 const INSTITUTIONAL = /sodexo|elior|restauration scolaire|restaurant d['’]entreprise|restaurant universitaire|restaurant d['’]application|toulousaine de restauration|cantine (inrae|enfip)|^b[âa]timent \d|\blyc[ée]e\b|\bcollège\b|\bR\.?I\.?E\b/i;
 
 /**
- * Une fiche est « présentable » quand elle porte assez d'informations utiles
- * (cuisine, horaires, adresse, site, téléphone) : score d'au moins 4.
+ * Critères d'information d'une fiche, sans la barrière d'adresse vérifiée : assez d'informations utiles
+ * (cuisine, horaires, adresse, site, téléphone), score d'au moins 4. Sert aussi aux scripts de vérification des adresses.
  */
-export function isPresentable(rec: OsmRecord): boolean {
+export function isPresentableBase(rec: OsmRecord): boolean {
   if (INSTITUTIONAL.test(rec.n)) return false;
   // Sans cuisine ni horaires lisibles, rien ne prouve que c'est un restaurant ouvert (éditeur de logiciel, bureau…).
   if (!rec.c && !hasHours(rec)) return false;
   return completeness(rec) >= 4;
 }
+
+/**
+ * Fiche servie par l'appli : assez d'informations (voir isPresentableBase) ET une adresse vérifiée (lib/addresses.ts).
+ * Mieux vaut une fiche absente qu'une fiche à l'adresse fausse ou inventée.
+ */
+export const isPresentable = (rec: OsmRecord): boolean => isPresentableBase(rec) && verifiedAddress(rec.id) !== null;
 
 /** Numéro au format international (+33…), ou undefined si illisible. */
 export function normalizePhone(raw: string | undefined): string | undefined {
@@ -153,7 +160,8 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     distanceMeters: dist !== undefined ? Math.round(dist) : undefined,
     cuisine,
     image: '',
-    address: rec.a || (quartier ? `Quartier ${quartier}, Toulouse` : 'Toulouse'),
+    // Adresse vérifiée seulement : jamais l'adresse brute des sources, jamais un repli « Quartier X » présenté comme une adresse.
+    address: verifiedAddress(rec.id) ?? '',
     lat: rec.la,
     lng: rec.ln,
     description: describe(rec, cuisine, quartier, distance),
