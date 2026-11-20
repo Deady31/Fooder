@@ -57,3 +57,7 @@ data/photo-stats.json
 data/photos-local.json
 data/photos-rejetees/
 data/shot-*.png
+
+# Revue des données (audits, caches des API publiques) : générés, jamais dans le dépôt
+data/review/
+data/cache/
