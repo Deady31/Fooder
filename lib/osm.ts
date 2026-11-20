@@ -1,11 +1,10 @@
-import { verifiedAddress } from './addresses';
+import { verifiedAddress, verifiedEntry } from './addresses';
 import { isBuffet } from './buffets';
 import { PROTEIN_LABEL } from './categories';
 import { dishPhotoFor } from './dishes';
 import type { Diet, Restaurant } from '../data/mockRestaurants';
 import { formatMeters, haversine } from './geo';
 import { parseOpeningHours } from './openingHours';
-import { quartierFor } from './quartiers';
 import { withBetterPhoto } from './photoPriority';
 import { safeWebUrl } from './safeUrl';
 import { restaurantPhoto } from './sitePhotos';
@@ -148,7 +147,8 @@ function describe(rec: OsmRecord, cuisine: string, quartier: string | null, dist
 export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: number }): Restaurant {
   const dist = origin ? haversine(origin.lat, origin.lng, rec.la, rec.ln) : undefined;
   const cuisine = cuisineLabel(rec);
-  const quartier = quartierFor(rec.la, rec.ln);
+  // Quartier calculé à la construction des données (point-dans-polygone, scripts/verify-addresses.mjs) : jamais deviné à l'affichage.
+  const quartier = verifiedEntry(rec.id)?.q ?? null;
   const distance = dist !== undefined ? formatMeters(dist) : undefined;
   const dish = dishPhotoFor(cuisine, rec.n, rec.id);
   const card: Restaurant = {
@@ -169,6 +169,7 @@ export function osmToRestaurant(rec: OsmRecord, origin?: { lat: number; lng: num
     phone: normalizePhone(rec.t),
     hours: parseOpeningHours(rec.h),
     dataSource: 'osm',
+    ...(quartier ? { quartier } : {}),
     ...(rec.dt?.length ? { diets: [...rec.dt] } : {}),
     ...(isBuffet(rec.id) ? { buffet: true } : {}),
   };

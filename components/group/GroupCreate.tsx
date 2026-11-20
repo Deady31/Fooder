@@ -5,7 +5,6 @@ import { Restaurant } from '../../data/mockRestaurants';
 import { Sticker } from '../ui/Sticker';
 import { stickerFor } from '../../lib/stickers';
 import { readJson } from '../../lib/store';
-import { quartierFor } from '../../lib/quartiers';
 import { GROUP_LIMITS, GroupResto } from '../../lib/social/group';
 
 interface GroupCreateProps {
@@ -17,7 +16,7 @@ const toGroupResto = (r: Restaurant): GroupResto => ({
   id: r.id,
   name: r.name,
   cuisine: r.cuisine,
-  quartier: r.lat !== undefined && r.lng !== undefined ? quartierFor(r.lat, r.lng) ?? undefined : undefined,
+  quartier: r.quartier,
 });
 
 /** Prépare la sélection : tes coups de cœur d'abord, complétés par des restos proches. */

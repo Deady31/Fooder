@@ -15,7 +15,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTs } from './lib/loadTs.mjs';
-import { clusterByName, nameKey, sameVenue } from './lib/addressAudit.mjs';
+import { clusterByName, fold, nameKey, sameVenue } from './lib/addressAudit.mjs';
 import {
   SIRENE_ACTIVITIES, banKey, banResultFrom, checkBan, decideAddress, extractAddressesFromHtml, flattenSirene, parseCsv, pickSirene, toCsv,
 } from './lib/addressVerify.mjs';
@@ -36,6 +36,7 @@ const writeJson = async (p, v, indent) => { await fs.mkdir(path.dirname(p), { re
 
 // ── Données ────────────────────────────────────────────────────────────────────────────────────────────
 const { isPresentableBase, completeness } = await loadTs('lib/osm.ts');
+const { quartierAt } = await loadTs('lib/quartiersGeo.ts');
 const places = await readJson(rel('data', 'toulouse-places.json'), []);
 const osmRaw = new Map((await readJson(rel('data', 'raw', 'osm.json'), [])).map(r => [r.id, r.a ?? '']));
 const ovtRaw = await readJson(rel('data', 'raw', 'overture.json'), []);
@@ -259,7 +260,10 @@ async function decidePhase() {
   for (const r of fiches) {
     const cands = candidatesFor(r);
     const d = decideAddress(r, cands);
-    overlay[r.id] = d.av === 'ok' ? { a: d.a, q: null, av: 'ok', src: d.src, p: d.p } : { a: null, q: null, av: 'none', src: d.src };
+    // Quartier officiel par point-dans-polygone (contours de la Mairie de Toulouse) ; null hors de Toulouse.
+    // Pas de quartier de Toulouse pour une adresse vérifiée dans une autre commune (fiche en limite de polygone, ex. Colomiers).
+    const q = d.av === 'ok' && fold((d.a ?? '').split(',').pop() ?? '').trim() !== 'toulouse' ? null : quartierAt(r.la, r.ln);
+    overlay[r.id] = d.av === 'ok' ? { a: d.a, q, av: 'ok', src: d.src, p: d.p } : { a: null, q, av: 'none', src: d.src };
     if (d.av === 'ok') {
       srcCount[d.src] = (srcCount[d.src] ?? 0) + 1;
       precision[d.p ?? 'sirene'] = (precision[d.p ?? 'sirene'] ?? 0) + 1;

@@ -1,39 +1,74 @@
-import { haversine } from './geo';
-
-interface Quartier {
+/**
+ * Quartiers de Toulouse : les 60 « grands quartiers » officiels (Mairie de Toulouse, Licence Ouverte v2.0, voir docs/QUARTIERS.md).
+ * Liste légère, sûre côté navigateur. Les contours (point-dans-polygone) sont dans lib/quartiersGeo.ts, réservé au serveur et aux scripts :
+ * le quartier d'une fiche est calculé à la construction des données et servi avec elle (Restaurant.quartier).
+ * Un test vérifie que cette liste est identique aux contours (tests/quartiers.test.ts).
+ */
+export interface Quartier {
   name: string;
-  lat: number;
-  lng: number;
 }
 
-// Centres approximatifs des quartiers toulousains (rayon d'attribution : 1,3 km).
-export const QUARTIERS: Quartier[] = [
-  { name: 'Capitole', lat: 43.6045, lng: 1.4442 },
-  { name: 'Carmes', lat: 43.5995, lng: 1.4455 },
-  { name: 'Saint-Étienne', lat: 43.6, lng: 1.451 },
-  { name: 'Saint-Cyprien', lat: 43.599, lng: 1.433 },
-  { name: 'Jean-Jaurès', lat: 43.6064, lng: 1.449 },
-  { name: 'Wilson', lat: 43.6068, lng: 1.4535 },
-  { name: 'Compans', lat: 43.614, lng: 1.435 },
-  { name: 'Arnaud Bernard', lat: 43.609, lng: 1.439 },
-  { name: 'Minimes', lat: 43.623, lng: 1.44 },
-  { name: 'Saint-Aubin', lat: 43.596, lng: 1.459 },
-  { name: 'Saint-Michel', lat: 43.59, lng: 1.448 },
-  { name: 'Busca', lat: 43.587, lng: 1.457 },
-  { name: "Patte d'Oie", lat: 43.588, lng: 1.414 },
-  { name: 'Purpan', lat: 43.606, lng: 1.398 },
-  { name: 'Bonnefoy', lat: 43.619, lng: 1.462 },
-  { name: 'Rangueil', lat: 43.561, lng: 1.465 },
-  { name: 'Empalot', lat: 43.578, lng: 1.441 },
-  { name: 'Les Chalets', lat: 43.611, lng: 1.45 },
+export const QUARTIER_NAMES: readonly string[] = [
+  'Amidonniers',
+  'Arènes',
+  'Arnaud Bernard',
+  'Bagatelle',
+  'Barrière-de-Paris',
+  'Basso-Cambo',
+  'Bellefontaine',
+  'Bonnefoy',
+  'Capitole',
+  'Carmes',
+  'Casselardit',
+  "Château-de-l'Hers",
+  'Compans',
+  'Côte Pavée',
+  'Croix-Daurade',
+  'Croix-de-Pierre',
+  'Empalot',
+  'Faourette',
+  'Fer-à-Cheval',
+  'Fontaine-Lestang',
+  'Ginestous',
+  'Gramont',
+  'Guilhémery',
+  'Jules Julien',
+  'Juncasse - Argoulets',
+  'La Cépière',
+  'La Fourguette',
+  'La Terrasse',
+  'Lalande',
+  'Lardenne',
+  'Le Busca',
+  'Les Chalets',
+  'Les Izards',
+  'Les Pradettes',
+  'Marengo - Jolimont',
+  'Matabiau',
+  'Minimes',
+  'Mirail-Université',
+  'Montaudran - Lespinet',
+  'Papus',
+  "Patte d'Oie",
+  'Pont-des-Demoiselles',
+  'Pouvourville',
+  'Purpan',
+  'Ramier',
+  'Rangueil - CHR - Facultés',
+  'Reynerie',
+  'Roseraie',
+  'Saint-Agne',
+  'Saint-Aubin - Dupuy',
+  'Saint-Cyprien',
+  'Saint-Étienne',
+  'Saint-Georges',
+  'Saint-Martin-du-Touch',
+  'Saint-Michel',
+  'Saint-Simon',
+  'Sauzelong - Rangueil',
+  'Sept Deniers',
+  'Soupetard',
+  "Zones d'activités Sud",
 ];
 
-/** Quartier le plus proche, ou null si le point est trop loin d'un centre connu. */
-export function quartierFor(lat: number, lng: number): string | null {
-  let best: { name: string; d: number } | null = null;
-  for (const q of QUARTIERS) {
-    const d = haversine(lat, lng, q.lat, q.lng);
-    if (!best || d < best.d) best = { name: q.name, d };
-  }
-  return best && best.d <= 1300 ? best.name : null;
-}
+export const QUARTIERS: Quartier[] = QUARTIER_NAMES.map(name => ({ name }));

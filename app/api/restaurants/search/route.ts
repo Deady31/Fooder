@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import records from '../../../../data/toulouse-places.json';
 import { cuisineLabel, OsmRecord } from '../../../../lib/osm';
 import { verifiedAddress } from '../../../../lib/addresses';
-import { quartierFor } from '../../../../lib/quartiers';
+import { quartierAt } from '../../../../lib/quartiersGeo';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,7 @@ export function GET(req: NextRequest) {
   const hits = INDEX.filter(x => x.key.includes(q))
     .sort((a, b) => Number(b.key.startsWith(q)) - Number(a.key.startsWith(q)) || a.key.length - b.key.length)
     .map(({ r }) => {
-      const place = quartierFor(r.la, r.ln);
+      const place = quartierAt(r.la, r.ln);
       return { id: r.id, name: r.n, cuisine: `${cuisineLabel(r)}${place ? ` · ${place}` : ''}`, address: verifiedAddress(r.id) ?? '', dedupe: `${fold(r.n)}|${place ?? r.id}` };
     })
     .filter(h => (seen.has(h.dedupe) ? false : (seen.add(h.dedupe), true)))

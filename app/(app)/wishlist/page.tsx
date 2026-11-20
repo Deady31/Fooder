@@ -106,10 +106,10 @@ export default function WishlistPage() {
         const c = checkins.find(x => x.restId === id);
         if (!c) return;
         window.history.replaceState(null, '', '/wishlist');
-        setCheckin({ target: { restId: c.restId, name: c.name, cuisine: c.cuisine, lat: c.lat, lng: c.lng }, mode: 'ask' });
+        setCheckin({ target: { restId: c.restId, name: c.name, cuisine: c.cuisine, lat: c.lat, lng: c.lng, quartier: c.quartier }, mode: 'ask' });
     }, [checkins]);
 
-    const toVisit = (r: Restaurant): VisitInput => ({ restId: r.id, name: r.name, cuisine: r.cuisine, lat: r.lat, lng: r.lng });
+    const toVisit = (r: Restaurant): VisitInput => ({ restId: r.id, name: r.name, cuisine: r.cuisine, lat: r.lat, lng: r.lng, quartier: r.quartier });
     const picks = weekend ? weekendPicks(likes, visits) : [];
 
     const [toast, setToast] = useState<ActionToastState | null>(null);

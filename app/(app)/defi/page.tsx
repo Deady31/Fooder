@@ -114,7 +114,7 @@ export default function DefiPage() {
 
       <DefiComposer isOpen={composer} onClose={() => setComposer(false)} onToast={toast.show} />
       <CheckinSheet
-        target={visiting ? { restId: visiting.restId, name: visiting.name, cuisine: visiting.cuisine, lat: visiting.lat, lng: visiting.lng } : null}
+        target={visiting ? { restId: visiting.restId, name: visiting.name, cuisine: visiting.cuisine, lat: visiting.lat, lng: visiting.lng, quartier: visiting.quartier || null } : null}
         mode='confirm'
         onClose={() => setVisiting(null)}
         onVisited={() => {
