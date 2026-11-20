@@ -1,5 +1,7 @@
 # Prompt pour la session locale (PC de Riyan) : fiabilité des données (adresses, quartiers, photos de plats)
 
+> **Étapes 0 à 5 faites (20 novembre 2026).** Suite : `docs/PROMPT_LOCAL_SUITE.md`.
+
 > Usage : ouvrir une session Claude Code dans le dossier du dépôt sur le PC, puis coller :
 > « `git fetch`, puis lis `docs/PROMPT_LOCAL_FIABILITE_DONNEES.md` (branche `main-ade7nq` si le fichier n'est pas encore dans `main`) et exécute-le. Commence par l'étape 0 et le plan, ne code rien avant mon accord. »
 
