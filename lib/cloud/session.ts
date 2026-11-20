@@ -1,5 +1,5 @@
 import type { Session, SupabaseClient } from '@supabase/supabase-js';
-import { cloud } from './client';
+import { loadCloud } from './client';
 
 /**
  * Session cloud à la demande : un compte anonyme est créé au premier besoin (ami, groupe, photo),
@@ -78,7 +78,7 @@ type AuthClient = Pick<SupabaseClient['auth'], 'getSession' | 'signInAnonymously
  * - si les connexions anonymes sont désactivées côté Supabase (ou captcha exigé), on le retient pour cette visite
  *   et on laisse l'appli en mode local, sans réessayer à chaque action.
  */
-export function createSessionEnsurer(getClient: () => { auth: AuthClient } | null) {
+export function createSessionEnsurer(getClient: () => { auth: AuthClient } | null | Promise<{ auth: AuthClient } | null>) {
   let inflight: Promise<EnsureResult> | null = null;
   let blocked: EnsureResult | null = null;
 
@@ -86,7 +86,7 @@ export function createSessionEnsurer(getClient: () => { auth: AuthClient } | nul
   const okResult = (session: Session): EnsureResult => ({ ok: true, uid: session.user.id, anonymous: session.user.is_anonymous === true, session });
 
   return async function ensureSession(opts?: { captchaToken?: string }): Promise<EnsureResult> {
-    const sb = getClient();
+    const sb = await getClient();
     if (!sb) return fail('cloud_off');
     try {
       const { data } = await sb.auth.getSession();
@@ -118,4 +118,4 @@ export function createSessionEnsurer(getClient: () => { auth: AuthClient } | nul
 }
 
 /** Crée (ou réutilise) la session cloud. À appeler au premier besoin cloud : ami, groupe, photo. */
-export const ensureCloudSession = createSessionEnsurer(cloud);
+export const ensureCloudSession = createSessionEnsurer(loadCloud);

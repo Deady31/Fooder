@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, animate, m, useMotionValue, useReducedMotion } from 'framer-motion';
 import type { XpBubble } from '../../lib/celebrations';
 
 interface XpFloatProps {
@@ -60,14 +60,14 @@ export function XpFloat({ bubble, onDone, duration = XP_FLOAT_MS }: XpFloatProps
     <div className='pointer-events-none fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+150px)] z-[200] flex justify-center' aria-hidden='true'>
       <AnimatePresence>
         {bubble && (
-          <motion.div
+          <m.div
             key={bubble.id}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.6, rotate: -6 }}
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: -40, scale: 1, rotate: -3 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -72, scale: 0.9 }}
             transition={{ type: 'spring', stiffness: 420, damping: 20 }}
           >
-            <motion.span
+            <m.span
               key={bubble.amount}
               className='chip bg-fooder-secondary text-plum font-display !text-xl !px-4 !py-1.5 shadow-hard'
               initial={reduce ? false : { scale: 1.25 }}
@@ -75,8 +75,8 @@ export function XpFloat({ bubble, onDone, duration = XP_FLOAT_MS }: XpFloatProps
               transition={{ type: 'spring', stiffness: 500, damping: 18 }}
             >
               +<Counter from={bubble.from} to={bubble.amount} /> XP
-            </motion.span>
-          </motion.div>
+            </m.span>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

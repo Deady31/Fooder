@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { LocateFixed, Search } from 'lucide-react';
 import type { Restaurant } from '../../data/mockRestaurants';
 import type { LocateFailure, LocateResult, MapStatus, MapViewHandle } from './MapView';
@@ -13,6 +13,7 @@ import { Sticker } from '../ui/Sticker';
 import { DetailSheet } from '../swipe/DetailSheet';
 import { readReported, subscribeReports } from '../../lib/reports';
 import { readLikes, subscribeLikes, toggleLike } from '../../lib/likes';
+import { FamilyId, filterByFamily, familyLabel } from '../../lib/favoriteTypes';
 
 // MapLibre (~800 Ko) ne part qu'avec cet écran, et après son premier rendu.
 const MapView = dynamic(() => import('./MapView').then(m => m.MapView), { ssr: false });
@@ -34,7 +35,7 @@ const NOTICE_MS = 4000;
 type FetchState = 'idle' | 'loading' | 'error';
 
 /** Carte des envies : les coups de cœur (et, au choix, tous les restos autour) sur la carte. Vit dans Favoris. */
-export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) {
+export function MapScreen({ initialScope = 'liked', family = null }: { initialScope?: Scope; family?: FamilyId | null }) {
   const handleRef = useRef<MapViewHandle | null>(null);
   const [likes, setLikes] = useState<Restaurant[]>([]);
   const [fetched, setFetched] = useState<Restaurant[]>([]);
@@ -96,7 +97,8 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
   const [reported, setReported] = useState<Set<string>>(() => new Set());
   useEffect(() => { const sync = () => setReported(readReported()); sync(); return subscribeReports(sync); }, []);
   const places = useMemo(() => mergePlaces(likes, fetched.filter(r => !reported.has(r.id))), [likes, fetched, reported]);
-  const shown = useMemo(() => scopePlaces(places, scope, likedIds), [places, scope, likedIds]);
+  // Filtre par type : il s'applique aux repères affichés (coups de cœur et, en vue « Tous », restos autour).
+  const shown = useMemo(() => filterByFamily(scopePlaces(places, scope, likedIds), family), [places, scope, likedIds, family]);
   const selected = useMemo(() => shown.find(r => r.id === selectedId) ?? null, [shown, selectedId]);
 
   const handleToggleLike = (rest: Restaurant) => {
@@ -134,7 +136,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
           places={shown}
           likedIds={likedIds}
           selectedId={selected?.id ?? null}
-          fitKey={scope}
+          fitKey={`${scope}:${family ?? ''}`}
           onSelect={setSelectedId}
           onStatus={setMapStatus}
           onMoveEnd={handleMoveEnd}
@@ -152,7 +154,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
                 className={`relative z-10 px-3 min-[360px]:px-4 min-h-[40px] rounded-full text-xs font-bold whitespace-nowrap transition-colors ${scope === s.id ? 'text-plum' : 'text-slate-muted'}`}
               >
                 {scope === s.id && (
-                  <motion.span
+                  <m.span
                     layoutId='map-scope-pill'
                     className='absolute inset-0 rounded-full bg-fooder-secondary -z-10'
                     transition={{ type: 'spring', stiffness: 420, damping: 34 }}
@@ -200,7 +202,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
 
         <AnimatePresence>
           {mapStatus === 'loading' && (
-            <motion.div
+            <m.div
               key='map-loading'
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -209,7 +211,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
             >
               <Sticker name='plate' size={72} rotate={-6} className='bob' />
               <p className='font-display text-xl text-plum'>Chargement de la carte…</p>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 
@@ -223,7 +225,7 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
 
         <AnimatePresence>
           {showEmptyLiked && mapStatus === 'ready' && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}
@@ -234,9 +236,11 @@ export function MapScreen({ initialScope = 'liked' }: { initialScope?: Scope }) 
               <p className='text-slate-muted text-sm font-medium'>
                 {noLikes
                   ? 'Swipe à droite pour voir tes restos s’afficher ici.'
-                  : 'Tes favoris n’ont pas de coordonnées : ils restent dans ta liste de Favoris.'}
+                  : family
+                    ? `Aucun coup de cœur « ${familyLabel(family)} » n’a de coordonnées : ils restent dans ta liste de Favoris.`
+                    : 'Tes favoris n’ont pas de coordonnées : ils restent dans ta liste de Favoris.'}
               </p>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

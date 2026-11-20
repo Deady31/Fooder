@@ -1,4 +1,4 @@
-import { cloud } from './client';
+import { loadCloud } from './client';
 import { SYNC_KEYS, SyncData, mergeAll } from './merge';
 import { STORE_EVENT } from '../store';
 import { buildMySnapshot } from '../social/friends';
@@ -51,7 +51,7 @@ function onboardedPseudo(): string | null {
 
 /** Aligne l'identité locale sur le compte (id = id du compte, pseudo et code d'ami du profil). */
 async function alignIdentity(uid: string): Promise<void> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return;
   const { data } = await sb.from('profiles').select('name, friend_code').eq('id', uid).single();
   if (!data) return;
@@ -62,7 +62,7 @@ async function alignIdentity(uid: string): Promise<void> {
 }
 
 export async function pushNow(uid: string): Promise<boolean> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return false;
   const data = readLocal();
   const snap = buildMySnapshot();
@@ -82,7 +82,7 @@ export async function pushNow(uid: string): Promise<boolean> {
 }
 
 export async function pullAndMerge(uid: string): Promise<void> {
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb) return;
   await alignIdentity(uid);
   const { data, error } = await sb.from('user_state').select('data').eq('user_id', uid).maybeSingle();

@@ -90,7 +90,7 @@ export function MyCard({ snapshot, title, onToast }: MyCardProps) {
               <Pencil className='w-3.5 h-3.5 text-plum/50 shrink-0' strokeWidth={3} />
             </button>
           )}
-          <p className='text-xs font-bold text-plum/60 truncate'>{title} · niv. {snapshot.level} · {snapshot.archetype}</p>
+          <p className='text-xs font-bold text-plum/60 leading-snug'>{title} · niv. {snapshot.level} · {snapshot.archetype}</p>
         </div>
       </div>
 

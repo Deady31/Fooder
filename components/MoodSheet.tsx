@@ -13,6 +13,8 @@ const MOODS: { id: string; label: string; sticker: StickerName; tint: string }[]
   { id: 'gros', label: "J'ai VRAIMENT faim", sticker: 'burger', tint: 'bg-fooder-secondary' },
   { id: 'special', label: 'Soirée spéciale', sticker: 'cupcake', tint: 'bg-bubblegum' },
   { id: 'brunch', label: 'Slow morning', sticker: 'coffee', tint: 'bg-fooder-orange' },
+  // Dernière envie, seule sur sa ligne : le libellé entier tient sur une ligne.
+  { id: 'buffet', label: 'Buffet à volonté', sticker: 'paella', tint: 'bg-lemon' },
 ];
 
 interface MoodSheetProps {
@@ -49,7 +51,7 @@ export function MoodSheet({ isOpen, onClose, currentMood, onSelect }: MoodSheetP
                 type='button'
                 aria-pressed={active}
                 onClick={() => { onSelect(mood.id, mood.label); onClose(); }}
-                className={`relative min-w-0 min-h-[56px] flex items-center gap-1.5 pl-1.5 pr-2 py-1.5 rounded-2xl border-[3px] border-plum text-left font-bold text-[clamp(11px,3.4vw,13px)] text-plum transition-all active:translate-y-1 ${
+                className={`${mood.id === 'buffet' ? 'col-span-2 ' : ''}relative min-w-0 min-h-[56px] flex items-center gap-1.5 pl-1.5 pr-2 py-1.5 rounded-2xl border-[3px] border-plum text-left font-bold text-[clamp(11px,3.4vw,13px)] text-plum transition-all active:translate-y-1 ${
                   active ? `${mood.tint} shadow-none translate-y-1` : 'bg-white shadow-hard'
                 }`}
               >

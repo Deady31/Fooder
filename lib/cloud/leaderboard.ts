@@ -1,4 +1,4 @@
-import { cloud } from './client';
+import { loadCloud } from './client';
 import { AVATARS, AVATAR_BACKGROUNDS, AvatarChoice, DEFAULT_AVATAR } from '../avatars';
 import type { Friend } from '../social/friends';
 import type { FriendSnapshot } from '../social/snapshot';
@@ -174,9 +174,9 @@ const withTimeout = <T,>(p: PromiseLike<T>): Promise<T> =>
   Promise.race([Promise.resolve(p), new Promise<never>((_, rej) => setTimeout(() => rej(new Error('timeout')), TIMEOUT_MS))]);
 
 /** Fabrique les appels (client injecté pour les tests). */
-export function createLeaderboardApi(getClient: () => RpcClient | null) {
+export function createLeaderboardApi(getClient: () => RpcClient | null | Promise<RpcClient | null>) {
   async function call(fn: string, args: Record<string, unknown>): Promise<{ reason?: Unavailable; data?: unknown; uid?: string }> {
-    const sb = getClient();
+    const sb = await getClient();
     if (!sb) return { reason: 'cloud_off' };
     if (typeof navigator !== 'undefined' && navigator.onLine === false) return { reason: 'offline' };
     try {
@@ -204,7 +204,7 @@ export function createLeaderboardApi(getClient: () => RpcClient | null) {
   };
 }
 
-const api = createLeaderboardApi(() => cloud() as unknown as RpcClient | null);
+const api = createLeaderboardApi(() => loadCloud() as unknown as Promise<RpcClient | null>);
 
 export const fetchLeaderboard = (period: Period): Promise<BoardResult> => api.fetchLeaderboard(period);
 export const fetchMyRank = (period: Period): Promise<RankResult> => api.fetchMyRank(period);

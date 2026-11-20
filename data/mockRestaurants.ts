@@ -40,6 +40,8 @@ export interface Restaurant {
   photoPage?: string;
   updatedAt?: string;
   sponsored?: boolean;
+  /** Formule à volonté confirmée (voir data/buffets.json) : alimente l'envie « Buffet à volonté ». */
+  buffet?: boolean;
   sponsorLabel?: string;
 }
 

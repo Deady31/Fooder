@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Share2, UserPlus } from 'lucide-react';
 import { Avatar } from '../../../../components/profile/Avatar';
 import { MatchBadge } from '../../../../components/social/MatchBadge';
@@ -104,7 +104,7 @@ export default function AddFriendPage() {
 
   return (
     <div className='h-full scroll-y px-4 py-6 space-y-4'>
-      <motion.section
+      <m.section
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className='bg-white rounded-[32px] panel p-5 flex flex-col items-center text-center gap-3'
@@ -136,7 +136,7 @@ export default function AddFriendPage() {
             )}
           </>
         )}
-      </motion.section>
+      </m.section>
 
       {status === 'update' && (
         <button onClick={add} className='w-full duo-button bg-fooder-secondary text-plum py-4 text-lg'>
@@ -156,7 +156,7 @@ export default function AddFriendPage() {
       )}
 
       {(status === 'added' || status === 'updated') && (
-        <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className='space-y-3'>
+        <m.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className='space-y-3'>
           <p className='text-center font-display text-2xl text-plum'>
             {status === 'added' ? `${friend.name} est ton ami !` : `Carte de ${friend.name} mise à jour`}
           </p>
@@ -174,7 +174,7 @@ export default function AddFriendPage() {
               </p>
             </>
           )}
-        </motion.div>
+        </m.div>
       )}
 
       <div className='grid grid-cols-2 gap-3'>

@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { Sticker } from '../ui/Sticker';
 import { Logo } from '../ui/Logo';
@@ -24,27 +24,27 @@ export function WelcomeStep({ onNext }: { onNext: () => void }) {
         </span>
       ))}
       <div className='relative z-10 text-center space-y-6 flex flex-col items-center'>
-        <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }}
+        <m.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }}
           transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.1 }}>
           <h1><Logo className='w-[min(78vw,320px)]' /></h1>
-        </motion.div>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+        </m.div>
+        <m.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
           className='font-display text-4xl text-plum leading-tight'>
           Swipe.<br />Mange.<br />Répète.
-        </motion.p>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
+        </m.p>
+        <m.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}
           className='text-slate-500 font-medium text-base max-w-xs leading-relaxed'>
           Dis-nous qui tu es en 30 secondes, on s&apos;occupe de ton assiette. Tes goûts, on les apprend à chaque swipe.
-        </motion.p>
-        <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+        </m.p>
+        <m.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
           onClick={onNext}
           className='w-full max-w-xs duo-button bg-fooder-primary border-fooder-primary text-white text-xl py-5 flex items-center justify-center gap-2'>
           Créer mon profil <ChevronRight className='w-6 h-6' />
-        </motion.button>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+        </m.button>
+        <m.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
           className='text-slate-400 text-xs font-medium'>
           Gratuit · 30 secondes chrono
-        </motion.p>
+        </m.p>
       </div>
     </div>
   );

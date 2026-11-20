@@ -49,7 +49,8 @@ export function canFinishOnboarding(termsChecked: boolean): boolean {
 }
 
 /** Fenêtre d'acceptation : utilisateur inscrit, version à jour manquante, et pas sur une page légale. */
-export function shouldShowTermsGate(input: { pathname: string | null | undefined; onboardingDone: boolean; acceptance: unknown; current?: string }): boolean {
-  if (!input.onboardingDone || isLegalPath(input.pathname)) return false;
+export function shouldShowTermsGate(input: { pathname: string | null | undefined; onboardingDone: boolean; acceptance: unknown; current?: string; demo?: boolean }): boolean {
+  // Démo : visite sans compte, rien n'est publié ni synchronisé, donc aucune acceptation à demander.
+  if (input.demo || !input.onboardingDone || isLegalPath(input.pathname)) return false;
   return needsTermsAcceptance(input.acceptance, input.current);
 }

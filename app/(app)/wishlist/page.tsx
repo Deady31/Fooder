@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Check, List, Map as MapIcon, Navigation, Share2, Star, Trash2, Users } from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -22,6 +22,8 @@ import { LAST_POSITION_KEY, MANUAL_POSITION_KEY, initialPosition, parseStoredMan
 import { readJson } from '../../../lib/store';
 import { VisitInput } from '../../../lib/visits';
 import { isWeekendWindow, weekendPicks } from '../../../lib/rituals';
+import { FamilyId, countFamilies, filterByFamily, parseFamily } from '../../../lib/favoriteTypes';
+import { FamilyChips } from '../../../components/favorites/FamilyChips';
 
 // La carte (MapLibre) ne part qu'avec la vue « Carte ».
 const MapScreen = dynamic(() => import('../../../components/map/MapScreen').then(m => m.MapScreen), { ssr: false });
@@ -54,6 +56,7 @@ export default function WishlistPage() {
     const [here, setHere] = useState<{ lat: number; lng: number } | null>(null);
     const [activeTab, setActiveTab] = useState<ListId>('likes');
     const [view, setView] = useState<ViewId>('liste');
+    const [family, setFamily] = useState<FamilyId | null>(null);
     const [selectedRest, setSelectedRest] = useState<Restaurant | null>(null);
     const [checkin, setCheckin] = useState<{ target: VisitInput; mode: CheckinMode } | null>(null);
     const [weekend, setWeekend] = useState(false);
@@ -73,13 +76,27 @@ export default function WishlistPage() {
         return subscribeLikes(sync);
     }, []);
 
-    // Lien /wishlist?vue=carte (ancien onglet Carte) : on ouvre directement la vue carte.
+    // Liens /wishlist?vue=carte (ancien onglet Carte) et /wishlist?type=asie : vue et filtre repris de l'adresse.
     useEffect(() => {
-        if (new URLSearchParams(window.location.search).get('vue') === 'carte') setView('carte');
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('vue') === 'carte') setView('carte');
+        setFamily(parseFamily(params.get('type')));
     }, []);
+    // Vue et filtre vivent dans l'adresse : ils se gardent au rechargement et d'une vue à l'autre.
+    const syncUrl = (nextView: ViewId, nextFamily: FamilyId | null) => {
+        const params = new URLSearchParams();
+        if (nextView === 'carte') params.set('vue', 'carte');
+        if (nextFamily) params.set('type', nextFamily);
+        const qs = params.toString();
+        window.history.replaceState(null, '', qs ? `/wishlist?${qs}` : '/wishlist');
+    };
     const chooseView = (next: ViewId) => {
         setView(next);
-        window.history.replaceState(null, '', next === 'carte' ? '/wishlist?vue=carte' : '/wishlist');
+        syncUrl(next, family);
+    };
+    const chooseFamily = (next: FamilyId | null) => {
+        setFamily(next);
+        syncUrl(view, next);
     };
 
     // Arrivée depuis la notification « Alors, ce resto ? »
@@ -134,7 +151,11 @@ export default function WishlistPage() {
     // « Les plus proches » demande une position connue ; sans elle, on retombe sur « Récents » (le choix reste mémorisé).
     const effectiveSort: LikeSort = sort === 'proche' && !here ? 'recent' : sort;
     const sortedLikes = useMemo(() => sortLikes(likes, effectiveSort, here), [likes, effectiveSort, here]);
-    const activeList: SavedRestaurant[] = activeTab === 'likes' ? sortedLikes : dislikes;
+    // Types : seulement ceux présents dans les favoris ; un filtre sur un type disparu (dernier resto retiré) est ignoré.
+    const familyCounts = useMemo(() => countFamilies(likes), [likes]);
+    const activeFamily = family !== null && familyCounts.some(c => c.family.id === family) ? family : null;
+    const filteredLikes = useMemo(() => filterByFamily(sortedLikes, activeFamily), [sortedLikes, activeFamily]);
+    const activeList: SavedRestaurant[] = activeTab === 'likes' ? filteredLikes : dislikes;
     const chooseSort = (next: LikeSort) => {
         setSort(next);
         writeLikeSort(next);
@@ -166,9 +187,12 @@ export default function WishlistPage() {
             </div>
 
             {view === 'carte' ? (
-                <div className='flex-1 min-h-0 mt-3 border-t-2 border-plum'>
-                    <MapScreen initialScope='liked' />
-                </div>
+                <>
+                    <FamilyChips counts={familyCounts} total={likes.length} value={activeFamily} onChange={chooseFamily} className='pt-3 -mb-1' />
+                    <div className='flex-1 min-h-0 mt-3 border-t-2 border-plum'>
+                        <MapScreen initialScope='liked' family={activeFamily} />
+                    </div>
+                </>
             ) : (
             <div id='wishlist-panel' role='tabpanel' aria-labelledby={`wishlist-tab-${activeTab}`} className='flex-1 overflow-y-auto px-4 pt-4 pb-6'>
                 <div role='tablist' aria-label='Mes listes' className='relative grid grid-cols-2 bg-white p-1.5 rounded-full border-[3px] border-plum mb-5'>
@@ -183,7 +207,7 @@ export default function WishlistPage() {
                             className={`relative z-10 min-h-[44px] py-2.5 rounded-full text-sm font-bold transition-colors ${activeTab === tab.id ? 'text-plum' : 'text-slate-muted'}`}
                         >
                             {activeTab === tab.id && (
-                                <motion.span
+                                <m.span
                                     layoutId='wishlist-pill'
                                     className='absolute inset-0 rounded-full bg-bubblegum -z-10'
                                     transition={{ type: 'spring', stiffness: 420, damping: 34 }}
@@ -254,14 +278,16 @@ export default function WishlistPage() {
                                 « Les plus proches » demande ta position : autorise la localisation depuis Découvrir.
                             </p>
                         )}
+                        <FamilyChips counts={familyCounts} total={likes.length} value={activeFamily} onChange={chooseFamily} className='-mx-4 mt-2.5' />
                     </div>
                 )}
 
                 <AnimatePresence mode='popLayout' initial={false}>
                     {activeList.map((rest, index) => (
-                        <motion.div
+                        <m.div
                             layout
                             key={`${activeTab}-${rest.id}`}
+                            data-tour={index === 0 ? 'fav-first' : undefined}
                             initial={{ opacity: 0, y: 24, scale: 0.96 }}
                             animate={{ opacity: 1, y: 0, scale: 1, transition: { delay: Math.min(index, 6) * 0.05, type: 'spring', stiffness: 300, damping: 26 } }}
                             exit={{ opacity: 0, x: -90, scale: 0.92, transition: { duration: 0.22 } }}
@@ -341,12 +367,12 @@ export default function WishlistPage() {
                                     </button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </m.div>
                     ))}
                 </AnimatePresence>
 
                 {activeList.length === 0 && (
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0, scale: 0.94 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className='py-14 text-center space-y-4 flex flex-col items-center'
@@ -359,7 +385,7 @@ export default function WishlistPage() {
                         <Link href='/swipe' className='inline-block duo-button bg-fooder-primary text-white px-8'>
                             Aller swiper
                         </Link>
-                    </motion.div>
+                    </m.div>
                 )}
             </div>
             )}

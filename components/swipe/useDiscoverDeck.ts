@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { mockRestaurants, type Restaurant } from '../../data/mockRestaurants';
+import { BUFFET_MOOD } from '../../lib/buffets';
 import { fetchRestaurantPhotoDetails } from '../../lib/cloud/social';
 import {
   fetchApiPage,
@@ -87,7 +88,7 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
   /** Page API depuis l'origine courante, fusionnée sous les cartes visibles. */
   const fetchFirstPage = async (origin: Coords) => {
     page.current = { offset: 0, total: Infinity, loading: true, origin };
-    const res = await fetchApiPage(origin, 0);
+    const res = await fetchApiPage(origin, 0, null, moodId === BUFFET_MOOD);
     page.current.loading = false;
     if (!res) {
       setIsLoading(false);
@@ -166,7 +167,7 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
     if (pg.loading || pg.offset >= pg.total) return;
     pg.loading = true;
     try {
-      const res = await fetchApiPage(pg.origin, pg.offset);
+      const res = await fetchApiPage(pg.origin, pg.offset, null, moodId === BUFFET_MOOD);
       if (!res) return;
       pg.offset += res.items.length;
       pg.total = res.total;
@@ -204,9 +205,28 @@ export function useDiscoverDeck(position: PositionState, moodId: string, ready: 
 
   const selectMood = useCallback((nextMood: string) => {
     const pos = posRef.current;
-    const pool = moodPool(orderDeck(all.current, pos.coords), nextMood);
-    setPinned(new Set());
-    setDeckState({ list: [...pool].reverse(), index: pool.length - 1 });
+    const build = () => {
+      const pool = moodPool(orderDeck(all.current, pos.coords), nextMood);
+      setPinned(new Set());
+      setDeckState({ list: [...pool].reverse(), index: pool.length - 1 });
+    };
+    if (nextMood !== BUFFET_MOOD) {
+      build();
+      return;
+    }
+    // Les buffets sont rares : loin dans les pages triées par distance. On les demande directement à l'API.
+    setIsLoading(true);
+    fetchApiPage(pos.coords, 0, null, true)
+      .then(res => {
+        if (res) {
+          const have = new Set(all.current.map(r => r.id));
+          const seen = seenIds();
+          const fresh = withLocalCommunity(withDistances(res.items.filter(r => !have.has(r.id) && !seen.has(r.id)), pos.coords, pos.source));
+          all.current = [...all.current, ...fresh];
+        }
+        build();
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const unpin = useCallback(() => setPinned(new Set()), []);

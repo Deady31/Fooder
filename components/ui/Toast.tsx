@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { X } from 'lucide-react';
 
 /** Petit message temporaire en bas d'écran. */
@@ -15,7 +15,7 @@ export function useToast(duration = 2400) {
   const node = (
     <AnimatePresence>
       {msg && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
@@ -34,7 +34,7 @@ export function useToast(duration = 2400) {
               <X className='w-4 h-4' strokeWidth={3} aria-hidden='true' />
             </button>
           </span>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

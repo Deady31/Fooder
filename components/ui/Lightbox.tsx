@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Point,
@@ -270,7 +270,7 @@ export function Lightbox({ images, index, alt, credit, onIndexChange, onClose }:
   const fade = zoom === 1 && drag.y > 0 ? Math.max(0.35, 1 - drag.y / 400) : 1;
 
   return createPortal(
-    <motion.div
+    <m.div
       ref={rootRef}
       role='dialog'
       aria-modal='true'
@@ -351,7 +351,7 @@ export function Lightbox({ images, index, alt, credit, onIndexChange, onClose }:
           {credit}
         </p>
       )}
-    </motion.div>,
+    </m.div>,
     document.body,
   );
 }

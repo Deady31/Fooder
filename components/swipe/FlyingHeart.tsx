@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 
 interface FlyingHeartProps {
   /** Change à chaque like : relance l'animation. */
@@ -27,7 +27,7 @@ export function FlyingHeart({ burstId, onDone }: FlyingHeartProps) {
   if (reduced || !to) return null;
   return (
     <div className='pointer-events-none fixed left-1/2 z-[121]' style={{ top: '55%' }} aria-hidden='true'>
-      <motion.span
+      <m.span
         key={burstId}
         className='absolute -ml-5 -mt-5 text-4xl leading-none'
         initial={{ x: 0, y: 0, scale: 0.4, opacity: 1 }}
@@ -35,7 +35,7 @@ export function FlyingHeart({ burstId, onDone }: FlyingHeartProps) {
         transition={{ duration: 0.7, ease: [0.5, 0, 0.3, 1] }}
       >
         ❤️
-      </motion.span>
+      </m.span>
     </div>
   );
 }

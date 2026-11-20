@@ -11,6 +11,7 @@ import { roundCoord, type Coords, type PositionSource } from './geo/position';
 import { type CommunityPhoto, mergeCommunityPhotos, withBetterPhoto } from './photoPriority';
 import { rankRichFirst } from './ranking';
 import type { Deck } from './deckStore';
+import { BUFFET_MOOD } from './buffets';
 
 /** L'API renvoie toute la métropole triée par distance ; le rayon choisi filtre côté client. */
 export const API_RADIUS_M = 20_000;
@@ -28,6 +29,7 @@ export const MOOD_FILTERS: Record<string, RegExp | null> = {
 };
 
 export function matchesMood(r: Restaurant, moodId: string): boolean {
+  if (moodId === BUFFET_MOOD) return r.buffet === true;
   const re = MOOD_FILTERS[moodId];
   if (!re) return true;
   return re.test(`${r.cuisine} ${r.name} ${r.description}`);
@@ -36,7 +38,8 @@ export function matchesMood(r: Restaurant, moodId: string): boolean {
 /** Restos de l'humeur ; s'il n'y en a aucun, toute la liste (jamais de pile vide par l'humeur seule). */
 export function moodPool(list: readonly Restaurant[], moodId: string): Restaurant[] {
   const matched = list.filter(r => matchesMood(r, moodId));
-  return matched.length > 0 ? matched : [...list];
+  // Buffet à volonté : jamais de repli sur d'autres restos, ce ne serait plus des buffets.
+  return matched.length > 0 || moodId === BUFFET_MOOD ? matched : [...list];
 }
 
 /** Ids déjà likés ou écartés, à partir des listes brutes du stockage (lecture défensive). */
@@ -53,9 +56,10 @@ export function seenIdsFrom(lists: readonly unknown[]): Set<string> {
 }
 
 /** Paramètres de /api/restaurants : coordonnées arrondies à 3 décimales (~100 m) au plus. */
-export function buildApiQuery(origin: Coords | null, offset: number, cuisine?: string | null): string {
+export function buildApiQuery(origin: Coords | null, offset: number, cuisine?: string | null, buffetOnly = false): string {
   const qs = new URLSearchParams({ limit: String(PAGE_SIZE), radius: String(API_RADIUS_M), offset: String(offset) });
   if (cuisine) qs.set('cuisine', cuisine);
+  if (buffetOnly) qs.set('buffet', '1');
   if (origin) {
     qs.set('lat', String(roundCoord(origin.lat, 3)));
     qs.set('lng', String(roundCoord(origin.lng, 3)));
@@ -71,9 +75,9 @@ export function parseApiPage(json: unknown): { items: Restaurant[]; total: numbe
   return { items: j.data as Restaurant[], total };
 }
 
-export async function fetchApiPage(origin: Coords | null, offset: number, cuisine?: string | null): Promise<{ items: Restaurant[]; total: number } | null> {
+export async function fetchApiPage(origin: Coords | null, offset: number, cuisine?: string | null, buffetOnly = false): Promise<{ items: Restaurant[]; total: number } | null> {
   try {
-    const res = await fetch(`/api/restaurants?${buildApiQuery(origin, offset, cuisine)}`);
+    const res = await fetch(`/api/restaurants?${buildApiQuery(origin, offset, cuisine, buffetOnly)}`);
     return parseApiPage(await res.json());
   } catch {
     return null;

@@ -11,7 +11,7 @@ import { quartierFor } from '../../lib/quartiers';
 import { Defi, MAX_HINT } from '../../lib/social/defi';
 import { encodePayload } from '../../lib/social/codec';
 import { outcomeLabel, shareLink } from '../../lib/share';
-import { XP, awardXp } from '../../lib/rewards';
+import { payDefiXp } from '../../lib/rewards';
 import { track } from '../../lib/analytics';
 
 interface DefiComposerProps {
@@ -67,7 +67,7 @@ export function DefiComposer({ isOpen, friendName, onClose, onToast }: DefiCompo
       url,
     });
     if (outcome === 'shared' || outcome === 'copied') {
-      awardXp(XP.defiSent);
+      payDefiXp('sent', defi.id);
       track('defi_sent', { outcome });
       onClose();
     }

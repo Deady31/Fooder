@@ -15,7 +15,9 @@ import { FlyingHeart } from '../../../components/swipe/FlyingHeart';
 import { DetailSheet } from '../../../components/swipe/DetailSheet';
 import { FilterSheet, type FilterValues } from '../../../components/swipe/FilterSheet';
 import { DiscoverHeader, FilterChips, PositionRow } from '../../../components/swipe/DiscoverHeader';
-import { DeckDesert, DeckEnd, DeckLoader, DeckNoMatch } from '../../../components/swipe/DeckStates';
+import { DeckDesert, DeckEnd, DeckLoader, DeckNoBuffet, DeckNoMatch } from '../../../components/swipe/DeckStates';
+import { BUFFET_MOOD } from '../../../lib/buffets';
+import { emitTour } from '../../../lib/tour';
 import { useDeckFilters } from '../../../components/swipe/useDeckFilters';
 import { useDiscoverDeck } from '../../../components/swipe/useDiscoverDeck';
 import { useSwipeActions } from '../../../components/swipe/useSwipeActions';
@@ -128,6 +130,7 @@ export default function SwipePage() {
     writeJson(PREFS_KEY, { ...readJson<Record<string, unknown>>(PREFS_KEY, {}), craving: id, cravingLabel: label });
     selectMood(id);
     actions.resetUndo();
+    emitTour({ type: 'mood' });
   };
 
   const widen = (r: Radius) => filters.setRadius(r);
@@ -169,11 +172,17 @@ export default function SwipePage() {
           />
         )}
 
-        <main className='deck-area flex-1 min-h-0 relative flex items-center justify-center pt-3'>
+        <main data-tour='deck' className='deck-area flex-1 min-h-0 relative flex items-center justify-center pt-3'>
           {isLoading ? (
             <DeckLoader />
           ) : isDeckEmpty ? (
-            <DeckEnd radius={filters.radius} onMood={() => setSheet('mood')} {...stateActions} />
+            <DeckEnd
+              radius={filters.radius}
+              onMood={() => setSheet('mood')}
+              tally={actions.tally}
+              onOpen={openDetails}
+              {...stateActions}
+            />
           ) : noMatch ? (
             <DeckNoMatch
               reason={blockingFilter(rem, opts)}
@@ -187,6 +196,8 @@ export default function SwipePage() {
             <div className={`w-full h-full flex justify-center ${showHint ? 'card-wobble' : ''}`} style={showHint ? { animationIterationCount: 2 } : undefined}>
               <SwipeDeck ref={deckRef} cards={deckCards} onSwipe={onSwipe} onOpen={openDetails} />
             </div>
+          ) : moodId === BUFFET_MOOD ? (
+            <DeckNoBuffet onMood={() => setSheet('mood')} />
           ) : (
             <DeckDesert />
           )}
@@ -213,10 +224,15 @@ export default function SwipePage() {
       <DetailSheet
         rest={selectedRest}
         onClose={() => setSelectedRest(null)}
-        onVerdict={dir => {
-          setSelectedRest(null);
-          deckRef.current?.swipe(dir === 'right' ? 'right' : 'left');
-        }}
+        // Fiche ouverte depuis le récap de fin de paquet : plus aucune carte à swiper, le verdict s'enregistre directement.
+        onVerdict={
+          isDeckEmpty
+            ? undefined
+            : dir => {
+                setSelectedRest(null);
+                deckRef.current?.swipe(dir === 'right' ? 'right' : 'left');
+              }
+        }
       />
 
       <FilterSheet

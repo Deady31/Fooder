@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { ChevronDown, Target, UserMinus } from 'lucide-react';
 import { Avatar } from '../profile/Avatar';
 import { MatchBadge } from './MatchBadge';
@@ -35,7 +35,7 @@ export function FriendRow({ friend, me, onDefi, onRemove }: FriendRowProps) {
 
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className='overflow-hidden'>
+          <m.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className='overflow-hidden'>
             <div className='px-4 pb-4 pt-1 space-y-3 border-t-2 border-dashed border-plum/20'>
               <p className='font-display text-lg text-plum pt-2'>{match.verdict}</p>
               {match.common.length > 0 ? (
@@ -81,7 +81,7 @@ export function FriendRow({ friend, me, onDefi, onRemove }: FriendRowProps) {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </li>

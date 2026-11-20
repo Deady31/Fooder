@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useId, useMemo, useRef, type KeyboardEvent } from 'react';
-import { animate, motion, useMotionValue, useReducedMotion } from 'framer-motion';
+import { animate, m, useMotionValue, useReducedMotion } from 'framer-motion';
 import type { LevelEvent } from '../../lib/celebrations';
 import { AVATARS, DEFAULT_AVATAR } from '../../lib/avatars';
 import { PERKS } from '../../lib/rituals';
@@ -104,7 +104,7 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
   const plural = event.gained > 1;
 
   return (
-    <motion.div
+    <m.div
       role='dialog'
       aria-modal='true'
       aria-labelledby={titleId}
@@ -119,7 +119,7 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
     >
       {/* Rayons tournants très lents : de la profondeur sans bruit visuel. */}
       {!reduce && (
-        <motion.div
+        <m.div
           aria-hidden='true'
           className='pointer-events-none absolute left-1/2 top-1/2 h-[160vmax] w-[160vmax] -translate-x-1/2 -translate-y-1/2 opacity-[0.12]'
           style={{ background: 'repeating-conic-gradient(from 0deg, #FFD83D 0deg 10deg, transparent 10deg 30deg)' }}
@@ -130,7 +130,7 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
       )}
 
       {!reduce && confetti.map((c, i) => (
-        <motion.div
+        <m.div
           key={i}
           aria-hidden='true'
           className='pointer-events-none absolute left-1/2 top-[42%]'
@@ -140,10 +140,10 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
           transition={{ duration: 2.2, delay: c.delay, ease: [0.16, 1, 0.3, 1], times: [0, 0.35, 1] }}
         >
           <Sticker name={c.name} size={c.size} />
-        </motion.div>
+        </m.div>
       ))}
 
-      <motion.div
+      <m.div
         className='relative z-10 flex w-full max-w-sm flex-col items-center text-center'
         initial={reduce ? { opacity: 0 } : { scale: 0.4, rotate: -10, opacity: 0 }}
         animate={reduce ? { opacity: 1 } : { scale: 1, rotate: 0, opacity: 1 }}
@@ -155,7 +155,7 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
         </p>
 
         <div className='relative mt-4'>
-          <motion.div
+          <m.div
             className='flex h-40 w-40 flex-col items-center justify-center rounded-full bg-fooder-secondary panel'
             initial={reduce ? false : { rotate: -8 }}
             animate={reduce ? undefined : { rotate: [-8, 4, -2] }}
@@ -166,7 +166,7 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
               <span className='sr-only'>Niveau </span>
               <LevelNumber from={event.from} to={event.level} />
             </h2>
-          </motion.div>
+          </m.div>
           <span className='absolute -right-3 -top-2' aria-hidden='true'>
             <Sticker name='sparkle' size={44} rotate={14} />
           </span>
@@ -179,17 +179,17 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
                 {mascots.length > 1 ? 'Nouvelles mascottes' : 'Nouvelle mascotte'}
               </p>
               <div className='mt-2 flex items-center justify-center gap-3'>
-                {mascots.slice(0, 3).map((m, i) => (
-                  <motion.div
-                    key={m.id}
+                {mascots.slice(0, 3).map((mascot, i) => (
+                  <m.div
+                    key={mascot.id}
                     className='flex flex-col items-center gap-1'
                     initial={reduce ? false : { y: 24, scale: 0.5, opacity: 0 }}
                     animate={{ y: 0, scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 420, damping: 15, delay: 0.45 + i * 0.1 }}
                   >
-                    <Avatar avatar={{ id: m.id, bg: BG_CYCLE[i % BG_CYCLE.length] }} size={56} />
-                    <span className='text-xs font-bold text-plum'>{m.label}</span>
-                  </motion.div>
+                    <Avatar avatar={{ id: mascot.id, bg: BG_CYCLE[i % BG_CYCLE.length] }} size={56} />
+                    <span className='text-xs font-bold text-plum'>{mascot.label}</span>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -222,7 +222,7 @@ export function LevelUp({ event, onDone }: LevelUpProps) {
         >
           Continuer
         </button>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

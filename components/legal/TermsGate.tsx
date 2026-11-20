@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Sheet } from '../ui/Sheet';
 import { hasCompletedOnboarding, readTermsAcceptance, recordTermsAcceptance } from '../../lib/profile';
 import { shouldShowTermsGate } from '../../lib/legal';
+import { isDemo } from '../../lib/demoFlag';
 
 interface Snapshot {
   onboardingDone: boolean;
@@ -27,7 +28,7 @@ export function TermsGate() {
   // Relu à chaque changement de page : au retour d'une page légale, la fenêtre revient tant que rien n'est accepté.
   useEffect(() => setSnapshot(readSnapshot()), [pathname]);
 
-  const open = snapshot !== null && shouldShowTermsGate({ pathname, ...snapshot });
+  const open = snapshot !== null && shouldShowTermsGate({ pathname, ...snapshot, demo: isDemo() });
 
   const accept = () => {
     recordTermsAcceptance();

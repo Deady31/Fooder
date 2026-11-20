@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef, type MouseEvent } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Sticker } from './ui/Sticker';
 import { FOOD_STICKERS } from '../lib/stickers';
 import { feedback } from '../lib/feedback';
@@ -61,7 +61,7 @@ export function CasinoOverlay({ visible, restaurant, onDone, onOpen, onGo }: Pro
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -72,7 +72,7 @@ export function CasinoOverlay({ visible, restaurant, onDone, onOpen, onGo }: Pro
           aria-label={`Jackpot : ${restaurant}`}
         >
           {!reduce && particles.map((p, i) => (
-            <motion.div
+            <m.div
               key={i}
               className='absolute pointer-events-none'
               style={{ top: '50%', left: '50%', marginLeft: -32, marginTop: -32 }}
@@ -81,10 +81,10 @@ export function CasinoOverlay({ visible, restaurant, onDone, onOpen, onGo }: Pro
               transition={{ duration: 1.4, delay: p.delay, ease: [0.16, 1, 0.3, 1] }}
             >
               <Sticker name={p.name} size={64} />
-            </motion.div>
+            </m.div>
           ))}
 
-          <motion.div
+          <m.div
             initial={reduce ? { opacity: 0 } : { scale: 0.3, rotate: -14 }}
             animate={reduce ? { opacity: 1 } : { scale: [0.3, 1.18, 1], rotate: [-14, 6, -2] }}
             transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
@@ -110,8 +110,8 @@ export function CasinoOverlay({ visible, restaurant, onDone, onOpen, onGo }: Pro
               </div>
             )}
             <p className='text-white/80 text-xs font-semibold'>Tape pour continuer</p>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

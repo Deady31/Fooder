@@ -6,10 +6,12 @@ import type { Deck } from '../../lib/deckStore';
 import { swipeIndex, undoIndex } from '../../lib/deckStore';
 import { DISLIKES_KEY, readDislikes, readLikes, removeDislike, toggleLike } from '../../lib/likes';
 import { writeJson } from '../../lib/store';
+import { emitTour } from '../../lib/tour';
 import { swipeProps } from '../../lib/usageProps';
 import { CHECKINS_KEY, queueCheckin, readCheckins } from '../../lib/visits';
 import { createRewardLedger } from './rewardLedger';
 import type { SwipeDir } from './SwipeDeck';
+import { EMPTY_TALLY, SwipeTally, addSwipe, undoSwipe } from './swipeTally';
 import { LastSwipe, removePendingCheckin } from './undo';
 
 const EXIT_ANIM_MS = 550;
@@ -46,6 +48,7 @@ export function useSwipeActions(deck: Deck, setDeck: (u: (d: Deck) => Deck) => v
   const [exiting, setExiting] = useState(false);
   const [burst, setBurst] = useState({ id: 0, active: false });
   const [casinoRest, setCasinoRest] = useState<string | null>(null);
+  const [tally, setTally] = useState<SwipeTally>(EMPTY_TALLY);
   const ledger = useRef(createRewardLedger());
   const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (exitTimer.current) clearTimeout(exitTimer.current); }, []);
@@ -61,11 +64,13 @@ export function useSwipeActions(deck: Deck, setDeck: (u: (d: Deck) => Deck) => v
       wasInWishlist: before.some(r => r.id === restaurant.id),
       hadCheckin: readCheckins().some(c => c.restId === restaurant.id),
     });
+    setTally(t => addSwipe(t, direction, restaurant));
     setExiting(true);
     if (exitTimer.current) clearTimeout(exitTimer.current);
     exitTimer.current = setTimeout(() => setExiting(false), EXIT_ANIM_MS);
 
     track('swipe', { direction });
+    emitTour({ type: 'swipe', dir: direction });
     if (firstSwipe) track(direction === 'right' ? 'swipe_like' : 'swipe_pass', swipeProps(restaurant));
     const nextIndex = swipeIndex(deck, restaurant.id, deckIndex);
     setDeck(d => ({ ...d, index: swipeIndex(d, restaurant.id, deckIndex) }));
@@ -109,6 +114,7 @@ export function useSwipeActions(deck: Deck, setDeck: (u: (d: Deck) => Deck) => v
     const last = lastSwipe;
     if (!last || exiting) return;
     setLastSwipe(null);
+    setTally(t => undoSwipe(t, last.dir, last.rest.id));
     const index = undoIndex(deck, last.rest.id);
     if (index === null) return;
     const id = last.rest.id;
@@ -126,5 +132,5 @@ export function useSwipeActions(deck: Deck, setDeck: (u: (d: Deck) => Deck) => v
   const endCasino = useCallback(() => setCasinoRest(null), []);
   const resetUndo = useCallback(() => setLastSwipe(null), []);
 
-  return { swiped, undoLast, lastSwipe, exiting, burst, endBurst, casinoRest, endCasino, resetUndo };
+  return { swiped, undoLast, lastSwipe, exiting, burst, endBurst, casinoRest, endCasino, resetUndo, tally };
 }

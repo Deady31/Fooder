@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { ArrowLeft, Check, Eye, MapPin } from 'lucide-react';
 import { PageHeader } from '../../../components/nav/PageHeader';
 import { DefiComposer } from '../../../components/social/DefiComposer';
@@ -12,7 +12,7 @@ import { useSocial } from '../../../hooks/useSocial';
 import { decodePayload, readHashParam } from '../../../lib/social/codec';
 import { StoredDefi, parseDefi, saveDefi, updateDefi } from '../../../lib/social/defi';
 import { stickerFor } from '../../../lib/stickers';
-import { XP, awardXp, unlockAchievement } from '../../../lib/rewards';
+import { payDefiXp, unlockAchievement } from '../../../lib/rewards';
 import { timeAgo } from '../../../lib/feed';
 import { track } from '../../../lib/analytics';
 
@@ -75,7 +75,7 @@ export default function DefiPage() {
           <ul className='space-y-3'>
             <AnimatePresence initial={false}>
               {defis.map(d => (
-                <motion.li key={d.id} layout className={`rounded-[28px] border-[3px] border-plum shadow-hard p-4 space-y-3 ${d.done ? 'bg-white/70' : 'bg-white'}`}>
+                <m.li key={d.id} layout className={`rounded-[28px] border-[3px] border-plum shadow-hard p-4 space-y-3 ${d.done ? 'bg-white/70' : 'bg-white'}`}>
                   <div className='flex items-start gap-3'>
                     <Sticker name={d.revealed ? stickerFor(d.cuisine, d.restId, d.name) : 'b_dice'} size={56} rotate={-8} className='shrink-0' />
                     <div className='min-w-0 flex-1'>
@@ -105,7 +105,7 @@ export default function DefiPage() {
                       </button>
                     )
                   )}
-                </motion.li>
+                </m.li>
               ))}
             </AnimatePresence>
           </ul>
@@ -120,7 +120,7 @@ export default function DefiPage() {
         onVisited={() => {
           if (!visiting) return;
           updateDefi(visiting.id, { done: true });
-          awardXp(XP.defiDone);
+          payDefiXp('done', visiting.id);
           unlockAchievement('defi_1');
         }}
       />

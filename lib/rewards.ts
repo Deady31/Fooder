@@ -1,6 +1,7 @@
 import { pushNotification } from './notifications';
 import { readJson, writeJson } from './store';
 import { XpReason, emitCelebration } from './celebrations';
+import { DefiKind, SOCIAL_XP_KEY, claimDefiXp, normalizeSocialXp } from './socialXp';
 import {
   PHOTOGRAPHER_TARGET, PHOTO_XP_KEY, PhotoRewardReason, computePhotoReward, normalizePhotoXp, photoRewardMessage,
 } from './photoXp';
@@ -96,6 +97,19 @@ export function awardXp(amount: number, reason: XpReason = 'other'): number | nu
   if (lvAfter >= 5) unlockAchievement('level_5');
   if (lvAfter >= 10) unlockAchievement('level_10');
   return lvAfter;
+}
+
+/**
+ * XP d'un défi (envoyé ou relevé) : plafonné par jour et jamais deux fois pour le même défi (voir lib/socialXp).
+ * Retourne l'XP accordée (0 si plafond atteint ou défi déjà payé).
+ */
+export function payDefiXp(kind: DefiKind, defiId: string, now: number = Date.now()): number {
+  const claim = claimDefiXp(normalizeSocialXp(readJson<unknown>(SOCIAL_XP_KEY, null)), kind, defiId, now);
+  writeJson(SOCIAL_XP_KEY, claim.state);
+  if (!claim.paid) return 0;
+  const amount = kind === 'sent' ? XP.defiSent : XP.defiDone;
+  awardXp(amount, 'other');
+  return amount;
 }
 
 /** Débloque un succès (une seule fois), prévient via la cloche et émet `achievement`. Retourne true s'il est nouveau. */

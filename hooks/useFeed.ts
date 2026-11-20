@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '../components/auth/AuthProvider';
-import { cloud } from '../lib/cloud/client';
+import { loadCloud } from '../lib/cloud/client';
 import { deleteCloudPost, fetchCloudPosts, setCloudPostLike } from '../lib/cloud/social';
 import { runWithSession } from '../lib/cloud/gate';
 import { communityPhotosFor } from '../lib/communityPhotos';
@@ -72,7 +72,7 @@ function readFriendIds(): Set<string> {
 /** Auteur de chaque post en ligne (lecture seule, même table que le fil). Échec : on renvoie une table vide, sans erreur. */
 async function fetchAuthorIds(postIds: string[]): Promise<Map<string, string>> {
   const out = new Map<string, string>();
-  const sb = cloud();
+  const sb = await loadCloud();
   if (!sb || postIds.length === 0) return out;
   const { data } = await sb.from('posts').select('id, user_id').in('id', postIds.slice(0, 100));
   for (const row of (data ?? []) as { id: string; user_id: string }[]) {

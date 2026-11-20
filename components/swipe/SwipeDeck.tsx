@@ -1,6 +1,6 @@
 'use client';
-import { forwardRef, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
-import { AnimatePresence, animate, motion, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { AnimatePresence, animate, m, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
 import { Restaurant } from '../../data/mockRestaurants';
 import { RestaurantCard } from './RestaurantCard';
 import { MOVE_TOLERANCE, shouldOpenOnRelease } from './tapIntent';
@@ -73,8 +73,19 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
   const rotate = useTransform(x, [-220, 0, 220], [-14, 0, 14]);
   const likeOpacity = useTransform(x, [30, 130], [0, 1]);
   const nopeOpacity = useTransform(x, [-130, -30], [1, 0]);
-  const likeScale = useTransform(x, [30, 130], [0.6, 1.08]);
-  const nopeScale = useTransform(x, [-130, -30], [1.08, 0.6]);
+  // Le tampon grossit avec le doigt puis « claque » (surcroît de taille) une fois le seuil de validation franchi.
+  const likeScale = useTransform(x, [30, COMMIT_OFFSET, COMMIT_OFFSET + 40], [0.6, 1.08, 1.3]);
+  const nopeScale = useTransform(x, [-COMMIT_OFFSET - 40, -COMMIT_OFFSET, -30], [1.3, 1.08, 0.6]);
+  const armed = useRef(false);
+  useEffect(
+    () =>
+      x.on('change', v => {
+        const past = Math.abs(v) >= COMMIT_OFFSET;
+        if (past && !armed.current) buzz(12); // tic : si tu relâches maintenant, c'est validé
+        armed.current = past;
+      }),
+    [x]
+  );
 
   const dip = useMotionValue(0);
   const pressScale = useTransform(dip, d => 1 - 0.015 * d);
@@ -132,7 +143,7 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
   const from = stackTarget(depth + 1, false);
 
   return (
-    <motion.div
+    <m.div
       className={`absolute inset-0 select-none ${isTop ? 'cursor-grab active:cursor-grabbing touch-pan-y' : 'pointer-events-none'}`}
       style={{ x, rotate, zIndex: 30 - depth, WebkitTouchCallout: 'none' }}
       drag={isTop ? 'x' : false}
@@ -147,16 +158,16 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
       variants={cardVariants}
       exit='exit'
     >
-      <motion.div
+      <m.div
         className='w-full h-full'
         initial={entering ? { ...from, opacity: 0 } : false}
         animate={{ ...target, opacity: 1 }}
         transition={{ ...STACK_SPRING, opacity: { duration: 0.25 } }}
       >
-        <motion.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
+        <m.div className='w-full h-full' style={{ scale: isTop ? pressScale : 1 }}>
           <RestaurantCard rest={rest} />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       {isTop && (
         <>
@@ -169,21 +180,21 @@ function DeckCard({ rest, depth, entering, peeking, onCommit, onOpen, onPeek, ta
           >
             Voir la fiche de {rest.name}
           </button>
-          <motion.div
+          <m.div
             className='absolute top-8 left-5 z-20 pointer-events-none'
             style={{ opacity: likeOpacity, scale: likeScale, rotate: -14 }}
           >
             <div className='stamp text-[#12B76A]'>MIAM !</div>
-          </motion.div>
-          <motion.div
+          </m.div>
+          <m.div
             className='absolute top-8 right-5 z-20 pointer-events-none'
             style={{ opacity: nopeOpacity, scale: nopeScale, rotate: 14 }}
           >
             <div className='stamp text-fooder-red'>BOF</div>
-          </motion.div>
+          </m.div>
         </>
       )}
-    </motion.div>
+    </m.div>
   );
 }
 

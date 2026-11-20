@@ -1,8 +1,9 @@
 'use client';
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion, useDragControls, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
+import { AnimatePresence, m, useDragControls, useReducedMotion, type PanInfo, type Transition } from 'framer-motion';
 import { DUR, SPRING, reducedMotion } from '../../lib/motion';
+import { inertOutside } from '../../lib/inert';
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Logique pure (exportée pour les tests, aucune dépendance au DOM).
@@ -245,6 +246,8 @@ export function Sheet({
   const id = useId();
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  /** Portail de la feuille : le seul enfant de <body> laissé actif pendant qu'elle est ouverte. */
+  const rootRef = useRef<HTMLDivElement>(null);
   const guardRef = useRef<HistoryGuard | null>(null);
   const activeRef = useRef(false);
   const onCloseRef = useRef(onClose);
@@ -266,6 +269,8 @@ export function Sheet({
     openStack.push(id);
     scrollLock ??= createScrollLock(document.body);
     const unlock = scrollLock();
+    // Le deck et la barre d'onglets ne sont ni cliquables ni annoncés tant que la feuille est ouverte.
+    const restoreInert = inertOutside(rootRef.current);
 
     const panel = panelRef.current;
     const items = () => Array.from(panel?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []);
@@ -292,6 +297,7 @@ export function Sheet({
       const at = openStack.lastIndexOf(id);
       if (at >= 0) openStack.splice(at, 1);
       unlock();
+      restoreInert();
       guard.dispose();
       guardRef.current = null;
       previous?.focus?.();
@@ -312,14 +318,19 @@ export function Sheet({
 
   if (!mounted) return null;
 
-  const m = sheetMotion(variant, reduced);
+  const motionProps = sheetMotion(variant, reduced);
   const canDrag = draggable && variant === 'bottom' && !reduced;
 
   return createPortal(
     <AnimatePresence>
       {open && (
-        <motion.div key='sheet' className={`fixed inset-0 flex ${CONTAINER[variant]}`} style={{ zIndex }}>
-          <motion.div
+        <m.div
+          key='sheet'
+          ref={rootRef}
+          className={`fixed inset-0 flex ${CONTAINER[variant]}`}
+          style={{ zIndex }}
+        >
+          <m.div
             aria-hidden='true'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -330,17 +341,17 @@ export function Sheet({
             }}
             className='absolute inset-0 bg-plum/60 backdrop-blur-sm'
           />
-          <motion.div
+          <m.div
             ref={panelRef}
             role='dialog'
             aria-modal='true'
             aria-labelledby={labelledBy}
             aria-describedby={describedBy}
             tabIndex={-1}
-            initial={m.initial}
-            animate={m.animate}
-            exit={m.exit}
-            transition={m.transition}
+            initial={motionProps.initial}
+            animate={motionProps.animate}
+            exit={motionProps.exit}
+            transition={motionProps.transition}
             drag={canDrag ? 'y' : false}
             dragControls={dragControls}
             dragListener={false}
@@ -361,8 +372,8 @@ export function Sheet({
               </div>
             )}
             {children}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>,
     document.body,
