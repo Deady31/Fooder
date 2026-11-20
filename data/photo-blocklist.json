@@ -1,75 +1,560 @@
 {
  "version": 1,
  "blocked": {
-  "osm-n29681754": {
-   "reason": "nom « header »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10036074997": {
+   "reason": "vision : logo (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n259419396": {
-   "reason": "ratio extrême, nom « exterieur »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10068236192": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n343622288": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10079492600": {
+   "reason": "vision : autre (40 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n356783375": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10083341955": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n644841655": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10089619900": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n636914896": {
-   "reason": "ratio extrême, nom « header »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10225619436": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n803725007": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10247338283": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n868727687": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10315814444": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n866644054": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10608534925": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n1128667128": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n10715715830": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n1077268740": {
    "reason": "nom « menus »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n1349563367": {
+  "osm-n10790696954": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10795289283": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10834281577": {
+   "reason": "nom « exterior »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n10931176322": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n10931213143": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n10936426904": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n10971060889": {
+   "reason": "graphique png, poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11013865933": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11068041875": {
+   "reason": "vision : personnes (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11212895687": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1128667128": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11351955227": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11379222569": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11429057191": {
+   "reason": "vision : menu (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11449239536": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n11459319200": {
+   "reason": "vision : plat (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11482251438": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11494072666": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n11578388727": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11586545769": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11613789871": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11634641516": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11704657457": {
+   "reason": "vision : menu (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11736516720": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11773561686": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1179397860": {
+   "reason": "vision : plat (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11795259130": {
+   "reason": "vision : logo (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11853270387": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n11988991631": {
+   "reason": "vision : carte (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12007633354": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12040120093": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12100786900": {
+   "reason": "vision : plat (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12115148779": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12130829247": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12137922156": {
+   "reason": "vision : personnes (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1215767134": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1215767137": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1215767140": {
+   "reason": "vision : plat (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12183637872": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12211555645": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12309699789": {
+   "reason": "vision : autre (99 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12324336372": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12376308318": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12394725014": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12492193721": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12500927604": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n12514902747": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12516784501": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12522794491": {
+   "reason": "vision : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1259663318": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1261011968": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12617843058": {
+   "reason": "vision : facade (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12628742886": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12802084801": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12828437770": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1284060339": {
+   "reason": "vision : logo (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1285015953": {
+   "reason": "vision : menu (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12886004804": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12896793401": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12948951394": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12980301597": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n12994571150": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1300702679": {
+   "reason": "vision : menu (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13137613155": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13142496428": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13204487648": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13264505010": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13308179731": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13388749380": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13450341475": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13507791525": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13513020526": {
+   "reason": "vision : carte (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1352295783": {
+   "reason": "vision : autre (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1352295794": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13527130114": {
+   "reason": "vision : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13565672825": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13619802846": {
+   "reason": "vision stricte : autre (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13622107571": {
+   "reason": "ratio extrême, peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n13626368620": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13626704360": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13671507087": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1371907506": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1373605035": {
+   "reason": "ratio extrême, graphique png, nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n1376674273": {
+   "reason": "vision stricte : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13769818412": {
+   "reason": "vision stricte : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n1377508768": {
    "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n1373605035": {
-   "reason": "ratio extrême, graphique png, nom « capture »",
+  "osm-n13873681600": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13891524106": {
+   "reason": "vision : logo (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13901434721": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n13943632227": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n14061002867": {
+   "reason": "vision stricte : autre (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n14098888269": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n14108104967": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1411595857": {
+   "reason": "vision : personnes (99 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1414801645": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n14230445152": {
+   "reason": "nom « devanture »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n14258150729": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1432189802": {
+   "reason": "vision : interieur (40 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n14335986083": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1450492062": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n1458196914": {
    "reason": "ratio extrême",
@@ -81,75 +566,330 @@
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n1532506322": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n1532525832": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n1534348558": {
    "reason": "nom « flyer »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n1544903747": {
+   "reason": "vision : plat (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1577822745": {
+   "reason": "vision : personnes (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1660615320": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n1666191502": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n1667118809": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n1667118812": {
+   "reason": "vision stricte : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1667118846": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1668955924": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n1724031895": {
    "reason": "nom « carte »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n1771321029": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n1724055724": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1751451484": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1773479146": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1773480422": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1801500970": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1802117519": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1816479902": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n1857067690": {
    "reason": "ratio extrême, nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n1873090630": {
+   "reason": "vision : menu (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1875049781": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1943319543": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1943319548": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1969604151": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1972155352": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n1976765814": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n1976765821": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n2054159590": {
-   "reason": "peu de couleurs",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n2001291179": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2010420223": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2010420241": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2054262988": {
+   "reason": "vision stricte : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2081650657": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2121457812": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2170803967": {
    "reason": "peu de couleurs, graphique png",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n2172317285": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2185109449": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2192288533": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2246315729": {
+   "reason": "vision stricte : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2278391917": {
+   "reason": "vision stricte : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2296504345": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n2306635292": {
    "reason": "nom « exterieur »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n2330455415": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2338325953": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2371653332": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2439030955": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2444345525": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2444345546": {
+   "reason": "vision : menu (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2444345567": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2444345656": {
    "reason": "nom « casino »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n2444345706": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2445153711": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2445585717": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2447064482": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2447719385": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2447719410": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2447719430": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2447719438": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n2450406605": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n2450406636": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2450406648": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n2450406655": {
    "reason": "graphique png",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n2457312513": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2457312595": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2457312617": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2457312671": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2457312718": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2457772016": {
    "reason": "ratio extrême",
@@ -157,46 +897,216 @@
    "at": "2026-11-13"
   },
   "osm-n2457772044": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2457772065": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2457772078": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2458144440": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2458144579": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2458144835": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2459884569": {
+   "reason": "vision : facade (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2459884617": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2459884741": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2459884791": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2459885026": {
    "reason": "nom « casino »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n2463356564": {
-   "reason": "nom « banniere »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n2459885366": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n2465993964": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n2459885495": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n2465994066": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n2460954162": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2464788537": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2464788588": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2464788593": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2465993971": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2465994034": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2465994174": {
+   "reason": "vision : menu (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2478393276": {
    "reason": "ratio extrême, nom « banniere »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n2478393302": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2478393365": {
+   "reason": "vision : facade (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2478393527": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n2478393553": {
    "reason": "nom « header »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n2496079565": {
+   "reason": "vision : plat (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n250665866": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2525414093": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2525414102": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2534829582": {
+   "reason": "vision stricte : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2554000383": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2578303612": {
+   "reason": "vision : personnes (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2592840712": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2638335529": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2655593858": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2661134945": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2670561095": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2736345424": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2741581611": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2742267394": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2799416140": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n2813140206": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n2820152912": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
@@ -206,120 +1116,880 @@
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n2820152912": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n29047143": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2905209642": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2966633017": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n2969315016": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n2982574483": {
    "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n2993590527": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3044160133": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n306128879": {
+   "reason": "vision : logo (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3084650955": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3113079885": {
+   "reason": "vision : personnes (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n3125457117": {
    "reason": "nom « screenshot »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n3440754923": {
-   "reason": "poids faible, nom « menu »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n313982682": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n3440754930": {
+  "osm-n313983528": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3379477784": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3389502088": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n343622288": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n3440754919": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3440754930": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3492012044": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3493129050": {
+   "reason": "vision : plat (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3542862499": {
+   "reason": "vision : carte (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n354676791": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n359193883": {
+   "reason": "vision : facade (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3669185806": {
+   "reason": "vision : menu (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n3693450320": {
    "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n3705469511": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n3749146303": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n4413138394": {
-   "reason": "nom « menu »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n3749511642": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3752239652": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3753343385": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3760244344": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3919124733": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3955224806": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n3961678097": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4030220689": {
+   "reason": "vision : personnes (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4071364969": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4078169210": {
+   "reason": "vision : logo (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4143595903": {
+   "reason": "vision : personnes (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4241777239": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4255203480": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4285279180": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n4285279591": {
    "reason": "nom « menus »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n4314907757": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4329279134": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4329279618": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4391765186": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4418074223": {
+   "reason": "vision stricte : personnes (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4418074237": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4418075038": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n443209272": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4485665928": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n450161415": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n450165917": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n450531283": {
+   "reason": "vision : logo (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n450534500": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n450625102": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n450635517": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n455444973": {
+   "reason": "vision : logo (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4593927910": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n460338227": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4612661190": {
+   "reason": "vision : interieur (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4644365690": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4703955392": {
+   "reason": "vision : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n471533084": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4730448041": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n485305477": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4921117322": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4921988022": {
+   "reason": "vision : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n4934203722": {
    "reason": "peu de couleurs, nom « menu »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n4953587105": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4955048658": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n4994562467": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5000752521": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n500292557": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5050467093": {
+   "reason": "vision stricte : personnes (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5124543439": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5140225073": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5191825353": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n520124628": {
+   "reason": "vision : personnes (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n5265893756": {
    "reason": "nom « exterieur »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n5268535021": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5271938526": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5526097102": {
+   "reason": "vision : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5540078316": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n5550674368": {
    "reason": "peu de couleurs",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n5050467093": {
-   "reason": "poids faible",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n5582651972": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5592180378": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5614820521": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5615079694": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n563700603": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5639320721": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5673025275": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5695040461": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5727590721": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5806362689": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n5929157657": {
    "reason": "peu de couleurs, poids faible",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n5954090092": {
+   "reason": "vision stricte : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5963250085": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5981082884": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n5981295336": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6032272329": {
+   "reason": "vision : personnes (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6036473876": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6119042511": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n615204677": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n616433576": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6263888458": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6267692539": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6295898285": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6297802789": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n632704752": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n636914874": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n636914896": {
+   "reason": "ratio extrême, nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-n637945273": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6402665987": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n644841655": {
+   "reason": "vision stricte : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6462478792": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6465299490": {
+   "reason": "vision : plat (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6465299726": {
+   "reason": "vision : interieur (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n6480859561": {
    "reason": "nom « header »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n6499796885": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6557493819": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6579962302": {
+   "reason": "vision stricte : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n6612621225": {
    "reason": "graphique png, nom « map »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n6637178324": {
+   "reason": "vision stricte : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6679522413": {
+   "reason": "vision : carte (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n674058208": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6855499235": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n6915495563": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n6928688591": {
    "reason": "nom « map »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n6968813837": {
+   "reason": "vision : logo (98 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n6983362229": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n6985432424": {
+   "reason": "vision : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7004696028": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7042261555": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n704776681": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7147293808": {
+   "reason": "vision stricte : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7148688367": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n730717579": {
+   "reason": "vision : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n7319238113": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "osm-n7434970641": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n7331192092": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n7678080739": {
-   "reason": "poids faible",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-n7369021463": {
+   "reason": "vision stricte : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7369021466": {
+   "reason": "vision stricte : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7369021467": {
+   "reason": "vision : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7383272442": {
+   "reason": "vision stricte : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7383274386": {
+   "reason": "vision : facade (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7392342887": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7416692883": {
+   "reason": "vision stricte : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7460784291": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7464957550": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7468452177": {
+   "reason": "vision stricte : menu (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7468452178": {
+   "reason": "vision stricte : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7468452182": {
+   "reason": "vision stricte : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7468652039": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7623293212": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7639743090": {
+   "reason": "vision : logo (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7663433185": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7667921856": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7678077824": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n7678077870": {
    "reason": "peu de couleurs, graphique png",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n7678080743": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7700436658": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n7707397504": {
    "reason": "nom « capture »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n7722307087": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7724315051": {
+   "reason": "vision : carte (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772601828": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772602036": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772602076": {
+   "reason": "vision : plat (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772607974": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772675883": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772727737": {
+   "reason": "vision stricte : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n772899311": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n775287913": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7757149066": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n775985755": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n776623621": {
+   "reason": "vision stricte : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n7785156363": {
    "reason": "nom « header »",
@@ -331,223 +2001,288 @@
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n7809245642": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n785505727": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7869615413": {
+   "reason": "vision : menu (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7887218958": {
+   "reason": "vision : menu (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n792684426": {
+   "reason": "vision stricte : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7962626873": {
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n7968621467": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n8017003985": {
-   "reason": "nom « header »",
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n803366820": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n803403794": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n803404335": {
+   "reason": "vision stricte : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8152094832": {
+   "reason": "vision : carte (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8176308448": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n818865411": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8221678215": {
+   "reason": "vision : carte (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8225151141": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8277290843": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n835557277": {
+   "reason": "vision stricte : personnes (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n843097459": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8454152563": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8523398283": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8556484379": {
+   "reason": "vision : personnes (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8621185039": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n866644054": {
+   "reason": "nom « carte »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "osm-n868727675": {
+   "reason": "vision stricte : personnes (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n868727687": {
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-n8721954349": {
    "reason": "peu de couleurs",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "osm-n8722382209": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n886603040": {
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8887615960": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n889227387": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n8928398861": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n894533411": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n894533413": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n894566527": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9062901217": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9082405127": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n914709609": {
+   "reason": "vision stricte : carte (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n917433312": {
+   "reason": "vision stricte : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9218705875": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9315355134": {
+   "reason": "vision stricte : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9590453617": {
+   "reason": "vision stricte : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9609050633": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9654343217": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n972419780": {
+   "reason": "vision stricte : autre (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9732736365": {
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9740841888": {
+   "reason": "vision : menu (98 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9823779107": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9836338738": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9891593217": {
+   "reason": "vision : menu (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9893335091": {
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-n9987000280": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "osm-n9988440195": {
-   "reason": "nom « screenshot »",
-   "source": "auto",
-   "at": "2026-11-13"
+   "reason": "vision stricte : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "osm-n10575101048": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n10795289283": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n10790696954": {
-   "reason": "nom « menu »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n10834281577": {
-   "reason": "nom « exterior »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n10971060889": {
-   "reason": "graphique png, poids faible",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n11395668590": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n11449239536": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n11524546268": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n11494072666": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n12391543631": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n12500927604": {
-   "reason": "peu de couleurs",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n12628125955": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n12696454498": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13133064807": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13137613155": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13565672825": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13460285489": {
-   "reason": "ratio extrême, nom « banniere »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13622107571": {
-   "reason": "ratio extrême, peu de couleurs, graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13650166170": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n13997379076": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n14230445152": {
-   "reason": "nom « devanture »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n14258150729": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-n14061002867": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w64404131": {
-   "reason": "ratio extrême, nom « header »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w64109979": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w67893691": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w67895858": {
-   "reason": "nom « header »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w70495554": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w84380436": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w123577250": {
-   "reason": "nom « map »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w342543230": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w386510826": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w667141263": {
-   "reason": "nom « menus »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w827375332": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w646704721": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w827375333": {
-   "reason": "nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "osm-w846677303": {
-   "reason": "nom « menu »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w1007478963": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-w1028802619": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+   "reason": "vision stricte : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-w1159629715": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "osm-w1165136278": {
    "reason": "peu de couleurs",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-27515bab-ceac-408e": {
-   "reason": "nom « header »",
    "source": "auto",
    "at": "2026-11-13"
   },
@@ -556,253 +2291,428 @@
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-4be50bac-11fe-44f9": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w1185655522": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-4510279f-8984-4f77": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w1492736147": {
+   "reason": "vision : carte (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-3920e9e9-6ba5-45ce": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w1493601110": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-e9e449d4-b1f0-4fc1": {
+  "osm-w1493601112": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w231992755": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w244339692": {
+   "reason": "vision stricte : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w260639188": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w289127993": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w313165558": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w342543230": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-d265e70f-918e-4594": {
+  "osm-w386510805": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w386510811": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w386510826": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-fdc861b1-c791-421b": {
+  "osm-w435648224": {
+   "reason": "vision : personnes (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w54411368": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w598070298": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w61832927": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w64183692": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w64411902": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w64416261": {
+   "reason": "vision : logo (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w64424129": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w64499152": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w64501657": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w667141263": {
+   "reason": "nom « menus »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w67893209": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w67895858": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w71203082": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w73847448": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w74301628": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w74574866": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w74785588": {
+   "reason": "vision : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w74799184": {
+   "reason": "vision : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w76299596": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w827365092": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "osm-w827375333": {
+   "reason": "nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "osm-w84380436": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-9652fe19-4ac6-439c": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w844724378": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-6cbdfe15-940f-4a4a": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w85789098": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-bdd43b5b-5901-47d4": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "osm-w921058477": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-c4a83173-51b2-46e1": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-3e8deead-0a41-4ff2": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-bfe6d811-bf7b-447e": {
-   "reason": "peu de couleurs, graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-6460970d-c67f-47d7": {
-   "reason": "ratio extrême, nom « bandeau »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-0d880542-36dc-4cf7": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-f548312c-626d-41c7": {
-   "reason": "peu de couleurs, graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-e8f81789-e2d7-480b": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-001f6db9-6c67-4f03": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "ovt-00860adf-fdb9-44be": {
    "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-82bde069-e578-4f08": {
-   "reason": "ratio extrême, poids faible",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-0119c5ab-e2c1-4781": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-ab56ae68-2c45-46de": {
-   "reason": "nom « capture »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-0149466c-5c5d-4964": {
+   "reason": "vision : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-2a4e222c-b056-4639": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-02741d3b-e455-4c5c": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-14ef35dc-ad69-492d": {
-   "reason": "nom « exterior »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-030390a0-37cf-493d": {
+   "reason": "vision : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-fb677443-a312-4843": {
-   "reason": "ratio extrême, nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-036c9675-e517-417f": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-da74d6fe-ef4c-4d12": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-03b6a2d1-15ef-4f33": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-b896e438-a179-43ba": {
-   "reason": "nom « header »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-726a67af-9b50-4116": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-6aabe895-a637-41d7": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-d96e13a9-0429-475f": {
-   "reason": "ratio extrême, nom « banniere »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-847287e2-26dc-4c52": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-8ac6cec8-bdd2-43fc": {
-   "reason": "nom « casino »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-85460e4c-d441-4c1a": {
-   "reason": "nom « casino »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-d567405e-ac52-4b02": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-403a3908-5280-4ae6": {
-   "reason": "ratio extrême, nom « banniere »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-f3653a2d-0f34-4a49": {
-   "reason": "peu de couleurs",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-a8c82411-9654-46af": {
-   "reason": "nom « carte »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-8e68fb3a-652b-4fa5": {
-   "reason": "nom « menu »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-843f3d50-da5d-485d": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-8b38ec48-68ed-4f41": {
-   "reason": "nom « capture »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-13a686aa-2edb-4c7e": {
-   "reason": "ratio extrême, nom « header »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-1dfa42af-e1ff-446d": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-bf01a608-7f19-4eab": {
-   "reason": "graphique png",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-043a3d61-c8a1-4a0d": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "ovt-04db5129-30ca-41d0": {
    "reason": "graphique png",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-2c3edb40-e36d-4d39": {
+  "ovt-05f618e3-a848-4ccb": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-06dc1cee-f7d8-4025": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-072fdaca-00a1-4f31": {
+   "reason": "vision : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-079fbe7d-0e83-4171": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-07c0138d-2b24-421b": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-08ca8dfa-a54d-40b5": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-095da5fd-1bc3-4770": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-09614c37-05d5-4fb8": {
+   "reason": "vision : logo (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-09656680-a533-459d": {
+   "reason": "vision : autre (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-09930dc6-6111-4c6e": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-0a306a3d-dcf5-4f8e": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-8fa1f5a1-c4e9-4cab": {
-   "reason": "ratio extrême, nom « banner »",
+  "ovt-0c1cf70f-e934-47c7": {
+   "reason": "vision : carte (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-0d221c4f-cde4-4c75": {
+   "reason": "vision stricte : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-0d880542-36dc-4cf7": {
+   "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-a9ad98a6-7b19-4f97": {
-   "reason": "ratio extrême, nom « banner »",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-0db8b0c0-ccf1-48dd": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-6f11778b-6ace-4cdd": {
-   "reason": "peu de couleurs",
-   "source": "auto",
-   "at": "2026-11-13"
+  "ovt-0e636704-5dfa-4e9e": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
-  "ovt-2e7f7c63-fedc-4879": {
+  "ovt-0e64d723-1fe4-4c97": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-10ff6092-33ef-461b": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1180c9f4-5386-4a6f": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-12ba7922-c5b7-4978": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-13287bcf-5cc8-4e1c": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-13a686aa-2edb-4c7e": {
    "reason": "ratio extrême, nom « header »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-abbbc101-ec4c-488e": {
+  "ovt-14dfc750-e272-448a": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-14ef35dc-ad69-492d": {
+   "reason": "nom « exterior »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-16331e81-6ad5-487f": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-176522c0-baf6-4e66": {
+   "reason": "vision : plat (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-17afd178-8e51-4dbd": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1852c19c-4065-4b47": {
+   "reason": "vision : facade (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1978f22e-359b-40e5": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-19b0602a-0653-4cb2": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1c04951a-bc4c-40b9": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1c8fc861-9a32-4882": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1d50aaee-f243-40ca": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1d724628-74e4-4f4d": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1df74964-90e6-43eb": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1dfa42af-e1ff-446d": {
    "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-effe6fcc-da02-41e4": {
-   "reason": "nom « banniere »",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-eef3f45a-5d13-4e58": {
-   "reason": "ratio extrême",
-   "source": "auto",
-   "at": "2026-11-13"
-  },
-  "ovt-a6a77054-03b1-436f": {
-   "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
@@ -811,58 +2721,1238 @@
    "source": "auto",
    "at": "2026-11-13"
   },
+  "ovt-1eb6ac91-6bcd-4301": {
+   "reason": "vision : personnes (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1efecbba-803c-4031": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-1fa13bd8-ee8f-4050": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-20b99a3c-f4a3-4b91": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-20c841a0-749b-430b": {
+   "reason": "vision : personnes (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-20ff2929-0079-4f42": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2691d328-1df7-43c8": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "ovt-269b4a74-4327-4031": {
    "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-91e10eec-49b2-4545": {
-   "reason": "nom « capture »",
+  "ovt-27515bab-ceac-408e": {
+   "reason": "nom « header »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-d2fca2d3-de31-4da4": {
-   "reason": "nom « bandeau »",
+  "ovt-28c71b90-8cb5-45b6": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2a43b88a-2ac0-4bad": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2a4e222c-b056-4639": {
+   "reason": "nom « carte »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-f42fcc8a-7bc8-4e8e": {
-   "reason": "nom « capture »",
+  "ovt-2aaf32b8-e272-4bf8": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2bace6b0-475e-404f": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2c3edb40-e36d-4d39": {
+   "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-ec63b505-a1c4-460a": {
-   "reason": "peu de couleurs, graphique png",
+  "ovt-2c4bfb66-7363-4de6": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2d96c8a2-887c-4826": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2dc94063-4424-402e": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2dd8cc64-45a8-4024": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2e1925b8-81f8-414a": {
+   "reason": "vision : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2e7f7c63-fedc-4879": {
+   "reason": "ratio extrême, nom « header »",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "ovt-2ed44267-1310-42e2": {
+   "reason": "vision stricte : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2f16b8ad-a41b-445f": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-2f585413-e8fd-4519": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3091ae20-9ab5-48e2": {
+   "reason": "vision : plat (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-318329de-8155-4dd9": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-324dc723-bb0f-4a2a": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3314a0a6-78f8-4728": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-333a168e-20cc-4154": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-35175772-8855-473e": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-368d6e14-df3c-4ebd": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-36c54e22-b738-4dab": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3920e9e9-6ba5-45ce": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-3a1050f2-0b13-466e": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3a37e492-7ee9-44ad": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3b45610c-5854-4280": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3bd4a06b-c180-4166": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3d1390b5-e53e-428d": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3dbe4e6e-6c78-41f9": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3ecb5409-63fe-4a31": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-3f17dba1-35bc-4bb7": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-403a3908-5280-4ae6": {
+   "reason": "ratio extrême, nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-406d4bd7-fbb6-40a8": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-410fa6de-9426-43b8": {
+   "reason": "vision : facade (75 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-42365f53-cb17-47a1": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-430bc800-570e-41b6": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-442361cf-53ce-4184": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-44d85f17-01de-4eee": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-44d97a45-2347-490e": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4501f06b-0f84-462d": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4510279f-8984-4f77": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-46952a6c-6b41-4dd0": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4af90682-c04b-4d2b": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4afbb98d-e874-4be5": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4be50bac-11fe-44f9": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-4cfd3122-c34b-4d8d": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4d54d0cb-2d14-4e6d": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4db32d44-bccc-446e": {
+   "reason": "vision : facade (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4e725360-0b5f-4936": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-4fc32222-654f-45ac": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-508f3735-9610-40ea": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-50e53a99-1502-46a9": {
+   "reason": "vision : plat (98 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-5107604e-2320-4c90": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-52bd21b1-c593-4266": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-53e91d39-0b37-4cb4": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-544d82d9-13f1-4220": {
+   "reason": "vision : plat (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-549b8dc1-4c3b-4398": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-54ce03ce-cd14-4d8c": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-55b56647-9ea8-4cd7": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-564257f3-474e-4194": {
+   "reason": "vision : facade (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-568e299a-99ed-4e44": {
+   "reason": "vision stricte : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-5805837f-121d-42b0": {
+   "reason": "vision : logo (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-58b5bf71-d4bd-44be": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-59df7f68-5c50-4e2c": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-59fd3736-bc4e-42f3": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-5a297e3b-cf8e-4c2b": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-5a7d7abc-d314-4a8f": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "ovt-5d0b3a1a-fc73-4fae": {
    "reason": "poids faible",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-0a306a3d-dcf5-4f8e": {
+  "ovt-5e23ed1e-cf66-492c": {
+   "reason": "vision : autre (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-5f08cf72-e764-460e": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-60e47862-60fe-4460": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-63ad96ca-dd07-4c06": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-64037e12-f3e0-4d3e": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-6460970d-c67f-47d7": {
+   "reason": "ratio extrême, nom « bandeau »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6a4f6179-326f-47c5": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-6aabe895-a637-41d7": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "ovt-6be72bb7-b2f1-4f99": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-6c27439c-92d2-4a73": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-6c45100e-c0ad-4778": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-6cbdfe15-940f-4a4a": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-6d67b9f4-0117-40f9": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "ovt-6e0fb9cb-41e6-4bce": {
    "reason": "nom « menu »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-e25d294f-52da-4cfc": {
+  "ovt-726a67af-9b50-4116": {
    "reason": "graphique png",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "ovt-736834bf-5896-438f": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-76f65d6e-2e60-470b": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-76f8a496-2097-4c0f": {
+   "reason": "vision : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-78e5090e-ef15-4f43": {
+   "reason": "vision stricte : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-799adfaa-c294-48ce": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-799e0da9-ab71-40c4": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-79d262c7-f621-4e11": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7a955211-77fa-4c81": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7ab95f43-d8ab-4630": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7b068f47-adaf-4f13": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7c082b00-a7a1-436b": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7d2bd16d-6a9c-46df": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7d9b2cad-2203-42ca": {
+   "reason": "vision : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7e5cda5a-bc77-4d33": {
+   "reason": "vision : plat (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7e8e0a17-ac8c-4f9a": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-7f4d0f26-b516-41b4": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "ovt-7f51cf61-5d70-4611": {
    "reason": "nom « banner »",
    "source": "auto",
    "at": "2026-11-13"
   },
+  "ovt-803c7a0e-7bc8-4fe1": {
+   "reason": "vision : facade (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-80acf697-e1bd-4a6a": {
+   "reason": "vision : personnes (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-80c9bb60-7745-48de": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-81d1d862-a3e8-4f3c": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-82bde069-e578-4f08": {
+   "reason": "ratio extrême, poids faible",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-830be255-a622-42f0": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-83437344-89bd-4623": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-83ca9f43-d87d-4e64": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-843f3d50-da5d-485d": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-849ee666-7f93-4ddc": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-85460e4c-d441-4c1a": {
+   "reason": "nom « casino »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-856a43fe-ea68-4828": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-860152e4-4676-404c": {
+   "reason": "vision : plat (75 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8773d01d-d02b-41c6": {
+   "reason": "vision : carte (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8824d2ed-117d-4f58": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8874721a-b65c-4c19": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-88844a4a-b965-452d": {
+   "reason": "vision : facade (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8a008e61-8742-4c75": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8ac6cec8-bdd2-43fc": {
+   "reason": "vision stricte : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8af041c9-1010-45fe": {
+   "reason": "vision : menu (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8b1c8ec2-4f0f-451b": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8b313553-4dee-4d10": {
+   "reason": "vision : personnes (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8b38ec48-68ed-4f41": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8b42990a-d605-4d58": {
+   "reason": "vision : personnes (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8c387c20-3249-43e1": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8dcad828-8240-429e": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8e68fb3a-652b-4fa5": {
+   "reason": "nom « menu »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8e7e0d56-2a94-45d7": {
+   "reason": "vision stricte : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8ea998ff-97be-4f70": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8ed0b37f-b6cb-4361": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8f1f5a02-777a-403b": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8f2ed66d-9932-4000": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-8fa1f5a1-c4e9-4cab": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-8faba18d-eb57-4b99": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-904eff93-9ca1-4514": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-90585487-20e2-40ac": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-90b80b09-500d-473c": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-90d0789e-8b50-443e": {
+   "reason": "vision stricte : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-90d6f887-f625-4376": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-91d2b586-e097-455f": {
+   "reason": "vision : plat (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-91e10eec-49b2-4545": {
+   "reason": "vision stricte : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9652fe19-4ac6-439c": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-96e894d5-f3f0-46f2": {
+   "reason": "vision stricte : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-978c747a-f0f8-41b1": {
+   "reason": "vision : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-97c89590-c55a-4530": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-9948bdc8-4148-46ca": {
+   "reason": "vision stricte : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-99e57b48-c253-4278": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9a234bc3-7219-475f": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9b4be127-c011-4813": {
+   "reason": "vision : menu (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9bca9579-0da5-4732": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9c5e2ee1-2f2a-4778": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9d25d6b0-658f-4ed6": {
+   "reason": "vision : facade (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9d39161e-a977-43c4": {
+   "reason": "vision stricte : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9e274b52-72dd-490e": {
+   "reason": "vision stricte : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9e59ace7-74f0-4474": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9e619899-13f0-4c06": {
+   "reason": "vision : logo (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9f049052-4b7c-4512": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9f1c4164-a50e-46a0": {
+   "reason": "vision stricte : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9f5deb21-8f4d-4fef": {
+   "reason": "vision stricte : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-9ff7ce52-794d-4a3c": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a03d29ce-bb45-45bb": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
   "ovt-a238e04e-29d9-464d": {
+   "reason": "vision stricte : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a24426a7-8b49-4b88": {
+   "reason": "vision stricte : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a2537dff-75bc-4af1": {
+   "reason": "vision : personnes (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a34c690c-ed14-41e7": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a52c744d-9338-450a": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a615f11c-b7f0-4bca": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a6470f38-7213-4226": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a6579abc-361c-496e": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a6927d11-77ab-4203": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a6a77054-03b1-436f": {
+   "reason": "vision stricte : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a894587f-82e0-4b20": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a8bb163a-06d2-46af": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a8c82411-9654-46af": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-a9ad98a6-7b19-4f97": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-a9eb8816-f520-4b6d": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-a9f93d60-e0b8-4cf5": {
+   "reason": "vision : personnes (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ab56ae68-2c45-46de": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-abbbc101-ec4c-488e": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-ac9fc7d0-9ba3-418e": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-aca02d4d-1df1-4f3f": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-acab927c-0ff1-4cac": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-acbaf863-e7d4-42e3": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ae4786a7-ac50-4653": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-aea5d71e-e944-4c8a": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-af32f735-506e-4612": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b2ec14aa-1182-4c5e": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b3fc4571-b66b-4fdc": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b582efac-3a7b-44af": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b5b3ddb9-be4e-4913": {
+   "reason": "vision : plat (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b6ad43fe-628a-4d9e": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b6d611fe-1fb6-4a95": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b7815c7c-2eb0-43ff": {
+   "reason": "vision : personnes (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-b896e438-a179-43ba": {
+   "reason": "nom « header »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-ba7561da-93e4-47d5": {
+   "reason": "vision : logo (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-bb8c5182-7ecb-4265": {
+   "reason": "vision : autre (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-bdd43b5b-5901-47d4": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-be40c63d-d3ca-4f52": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-be47778e-596e-4e6e": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-be66b9f4-6ce5-43fd": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-be93384b-9210-4ff7": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-bef099cb-42ea-4460": {
+   "reason": "vision stricte : plat (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-bf01a608-7f19-4eab": {
+   "reason": "graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-bfe6d811-bf7b-447e": {
    "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-c070cc53-04e5-4355": {
+   "reason": "vision : interieur (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c07c9116-e80e-4139": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c14cafee-7a26-4f9b": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c15822f1-7175-4de3": {
+   "reason": "vision : plat (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c15f8659-11f1-4437": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c1768fb6-89f3-4f38": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c19e1132-4bae-4fe0": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c1f4d37c-583d-471e": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c2a1bc73-17a4-4f51": {
+   "reason": "vision : plat (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c2f310cb-1fac-4da6": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c3776b6b-caf7-47e2": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c4a83173-51b2-46e1": {
+   "reason": "nom « carte »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-c4dc6885-1b93-4c24": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c5c453c4-f286-4446": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c64baf8e-6bce-4b62": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c72f0622-855a-48fc": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c9814748-aa70-4e9f": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-c9bb8848-322b-4119": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ca178fe8-da29-4794": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ca2a6342-b376-4113": {
+   "reason": "vision : carte (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-cb0ed271-647a-40ee": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-cb87edb3-5576-477a": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-cdd4312e-e32e-4248": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ce5bc6fe-258a-4413": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-cf6041cf-8675-406b": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d119cb69-97f6-46f1": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d161b603-d1db-4a25": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d1a0302b-60a4-4ee5": {
+   "reason": "vision : facade (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d265e70f-918e-4594": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-d3e65902-d457-40c3": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d4aebdd6-225c-42b2": {
+   "reason": "vision stricte : plat (65 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d5089903-d3f1-4f6d": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d567405e-ac52-4b02": {
+   "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
   },
@@ -871,30 +3961,365 @@
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-ec1d63ee-b1d7-4280": {
-   "reason": "nom « flyer »",
+  "ovt-d6638555-6d4f-41cf": {
+   "reason": "vision : plat (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d6b3cffa-a94a-4de8": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d736acde-5f96-46e1": {
+   "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "ovt-d7481f66-2c67-46c7": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d79bdf32-0e8e-444d": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d8397cb7-2277-4a58": {
+   "reason": "vision : interieur (55 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d87dd278-8282-4b77": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d89ea371-153f-4f55": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-d96e13a9-0429-475f": {
+   "reason": "ratio extrême, nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-da0528c4-9e72-4907": {
+   "reason": "vision : personnes (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-da74d6fe-ef4c-4d12": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-db4de5be-ed0b-48eb": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   },
   "ovt-dba74eb8-a8b1-41be": {
    "reason": "poids faible, nom « icons »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-4024b573-1ba5-420c": {
-   "reason": "nom « screenshot »",
+  "ovt-dca6510e-af86-43e7": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-dce91aaf-c3ae-45a4": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-de5a22c4-1b68-4a57": {
+   "reason": "vision stricte : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-de6b4de9-0941-42ce": {
+   "reason": "vision : interieur (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-df36b1d0-0905-4736": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-dffc279f-5cef-463f": {
+   "reason": "vision : logo (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e1e3792b-2a4a-4434": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e59f27e3-053b-4364": {
+   "reason": "vision : facade (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e5d98e60-a513-46d0": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e6c73eb7-4ba8-4547": {
+   "reason": "vision stricte : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e6e222b9-1478-40a4": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e745011c-cd81-4483": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e7609795-8820-4ff7": {
+   "reason": "vision : personnes (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e8f81789-e2d7-480b": {
+   "reason": "nom « carte »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-97c89590-c55a-4530": {
-   "reason": "nom « header »",
+  "ovt-e96f4d0e-46c0-4d8d": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-e9989180-9405-4b9c": {
+   "reason": "vision : facade (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-eb4aed07-d062-4fb0": {
+   "reason": "vision : personnes (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-eb9e679f-8d41-4acd": {
+   "reason": "vision : menu (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ebf8aebe-71ea-446b": {
+   "reason": "vision : plat (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ec1a3d33-d78d-4db8": {
+   "reason": "vision : interieur (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ec1d63ee-b1d7-4280": {
+   "reason": "nom « flyer »",
    "source": "auto",
    "at": "2026-11-13"
   },
-  "ovt-d736acde-5f96-46e1": {
+  "ovt-ec63b505-a1c4-460a": {
+   "reason": "peu de couleurs, graphique png",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-ed31df32-1853-4462": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-ed63e9dc-a180-4509": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-edb6b3d8-9b2e-4f92": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-eef0cdbd-8c04-4455": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-eef3f45a-5d13-4e58": {
    "reason": "ratio extrême",
    "source": "auto",
    "at": "2026-11-13"
+  },
+  "ovt-ef773cc0-f73b-4dda": {
+   "reason": "vision : interieur (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-effe6fcc-da02-41e4": {
+   "reason": "nom « banniere »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-f0192eb9-0922-47e5": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f0515051-0651-456a": {
+   "reason": "vision : autre (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f151f851-91ad-445d": {
+   "reason": "vision : interieur (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f1f53830-9e4d-42e0": {
+   "reason": "vision : facade (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f2021e29-3cc9-4583": {
+   "reason": "vision : autre (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f2801ca1-143b-4928": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f310b07b-e9c5-4804": {
+   "reason": "vision stricte : interieur (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f35f4ed3-eb61-425f": {
+   "reason": "vision stricte : autre (70 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f3653a2d-0f34-4a49": {
+   "reason": "peu de couleurs",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-f3a73975-6e74-4ed4": {
+   "reason": "vision : carte (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f3d23e6e-aeb0-4d97": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f41f6ce0-0e81-4a74": {
+   "reason": "vision : autre (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f42fcc8a-7bc8-4e8e": {
+   "reason": "nom « capture »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-f44f1589-7462-4121": {
+   "reason": "vision : menu (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f4a64397-0f80-4b02": {
+   "reason": "vision : personnes (90 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f4efa171-fd10-43f8": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f518d820-82cb-4fcf": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f5c82452-7bd0-4fc9": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f6b6a8dd-6d3f-4f70": {
+   "reason": "vision : plat (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f733b28e-964e-4715": {
+   "reason": "vision : autre (50 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f8290de4-0f98-4250": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f8542ba3-d8bb-42cd": {
+   "reason": "vision : personnes (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-f986ea5f-fe1d-4f0c": {
+   "reason": "vision : autre (97 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-fa31ac54-ce19-4ee1": {
+   "reason": "vision : autre (85 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-fb677443-a312-4843": {
+   "reason": "ratio extrême, nom « banner »",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-fc123b97-38a3-4321": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-fc1e070f-777d-4e27": {
+   "reason": "vision : facade (60 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-fd2ff0e3-07cc-468c": {
+   "reason": "vision : interieur (80 %)",
+   "source": "vision",
+   "at": "2026-11-20"
+  },
+  "ovt-fdc861b1-c791-421b": {
+   "reason": "ratio extrême",
+   "source": "auto",
+   "at": "2026-11-13"
+  },
+  "ovt-fe1c62c4-1346-4e7d": {
+   "reason": "vision : autre (95 %)",
+   "source": "vision",
+   "at": "2026-11-20"
   }
  }
 }

@@ -143,3 +143,6 @@ Redimensionnement : `sharp` s'il est installé, sinon `ffmpeg`. Une photo `plat`
 
 plat du restaurant > photo d'un foodie > photo du site (consentie) > plat typique (Wikimedia) > illustration.
 Google n'apparaît jamais sur la carte.
+
+## Tri par vision (20/11/2026)
+Depuis l'étape « fiabilité des données », une photo n'est servie que si un modèle de vision la classe « plat » (voir `docs/DATA_QUALITY.md` pour la chaîne `scripts/photos-*.mjs`). `build-consented-photos.mjs` (heuristiques sur les noms de fichiers) reste utilisable mais ne remplace plus ce tri : ne pas le relancer sans repasser `photos-select.mjs`, il ne connaît pas le registre `data/photo-vision.json`.
