@@ -173,3 +173,34 @@ describe('anciens providers d’images génériques neutralisés', () => {
     expect([...PHOTO_PRIORITY]).not.toContain('dish');
   });
 });
+
+describe('coût zéro : Google éteint par défaut', () => {
+  afterEach(() => { vi.unstubAllGlobals(); vi.resetModules(); delete process.env.GOOGLE_PLACES_API_KEY; delete process.env.GOOGLE_PHOTOS_ENABLED; });
+
+  const call = async () => {
+    const { GET } = await import('../app/api/place-photos/route');
+    const { NextRequest } = await import('next/server');
+    const res = await GET(new NextRequest('http://localhost/api/place-photos?name=KFC&lat=43.6&lng=1.44', { headers: { 'x-forwarded-for': '10.1.1.1' } }));
+    return res.json() as Promise<{ data: unknown[]; reason?: string }>;
+  };
+
+  it('clé présente mais interrupteur absent : aucun appel réseau, aucune photo', async () => {
+    process.env.GOOGLE_PLACES_API_KEY = 'clé-de-test';
+    const spy = vi.fn();
+    vi.stubGlobal('fetch', spy);
+    vi.resetModules();
+    const json = await call();
+    expect(json.data).toEqual([]);
+    expect(json.reason).toBe('disabled');
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('interrupteur sans clé : toujours éteint', async () => {
+    process.env.GOOGLE_PHOTOS_ENABLED = '1';
+    const spy = vi.fn();
+    vi.stubGlobal('fetch', spy);
+    vi.resetModules();
+    expect((await call()).reason).toBe('disabled');
+    expect(spy).not.toHaveBeenCalled();
+  });
+});

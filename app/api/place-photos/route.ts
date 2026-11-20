@@ -6,6 +6,9 @@ import { PLACE_ID_RE } from '../../../lib/google/placeIdCache';
 export const dynamic = 'force-dynamic';
 
 const KEY = process.env.GOOGLE_PLACES_API_KEY ?? '';
+// Interrupteur de coût : Google reste ÉTEINT tant que GOOGLE_PHOTOS_ENABLED n'est pas égal à « 1 », même si la clé existe.
+// Aucun appel Google (donc aucune facture possible) sans ce choix explicite.
+const ENABLED = process.env.GOOGLE_PHOTOS_ENABLED === '1';
 // Plafond d'appels payants (média) par jour de Paris. Compteur en mémoire de l'instance : approximatif en serverless
 // multi-instances ; le vrai plafond sûr est le quota journalier de la console Google.
 const counter = createDailyCounter(parseDailyCap(process.env.GOOGLE_PHOTOS_DAILY_CAP));
@@ -33,7 +36,7 @@ const num = (v: string | null, min: number, max: number): number | null => {
 const NO_STORE = { 'Cache-Control': 'no-store' };
 
 export async function GET(req: NextRequest) {
-  if (!KEY) return NextResponse.json({ success: true, data: [], reason: 'disabled' }, { headers: NO_STORE });
+  if (!KEY || !ENABLED) return NextResponse.json({ success: true, data: [], reason: 'disabled' }, { headers: NO_STORE });
 
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'local';
   if (limited(ip)) return NextResponse.json({ success: false, error: 'Trop de requêtes' }, { status: 429 });

@@ -1,6 +1,6 @@
 # Vraie photo des restaurants (Google Places API (New))
 
-Base : `docs/GOOGLE_PLACES_TERMS_COUT.md` (recherche du 2026-11-13). Sans clé, l'appli fonctionne comme avant (photos vérifiées / illustration). Avec la clé, la **fiche** d'un resto (jamais la carte) affiche UNE photo Google Maps dans une section distincte « Le lieu · Google Maps ».
+Base : `docs/GOOGLE_PLACES_TERMS_COUT.md` (recherche du 2026-11-13). **Éteint par défaut (coût zéro)** : aucun appel Google tant que `GOOGLE_PHOTOS_ENABLED` n'est pas `1`, même si `GOOGLE_PLACES_API_KEY` existe. Sans clé ou sans l'interrupteur, l'appli fonctionne comme avant (photos vérifiées / illustration). Avec la clé, la **fiche** d'un resto (jamais la carte) affiche UNE photo Google Maps dans une section distincte « Le lieu · Google Maps ».
 
 ## Rôle (décision produit)
 - La carte qui se swipe montre un plat qui donne envie, jamais une façade. Priorité de la carte : photo du restaurant ou communautaire > illustration (plus de plat typique). **Google n'est jamais l'image principale de la carte.**
